@@ -258,6 +258,11 @@
     <div class="nav-item" onclick="showTab('monitor', this)">
       <span class="icon">📡</span> Monitor
     </div>
+    <div class="nav-item" onclick="showTab('evolucao', this)">
+      <span class="icon">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </span> Evolução
+    </div>
     <div class="nav-item" onclick="showTab('regras', this)">
       <span class="icon">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
@@ -758,6 +763,51 @@
       </div>
 
       <!-- TAB REGRAS -->
+      <!-- ABA: EVOLUÇÃO -->
+      <div id="tab-evolucao" class="tab-pane">
+        <div class="section" style="margin-bottom:18px;">
+          <div class="sec-title">Evolução por Jogo — Consistência dos Gestores</div>
+          <p style="font-size:12px;color:rgba(255,255,255,0.4);margin:0 0 16px;">Palpites disponíveis e enviados em cada jogo. Verde = melhorou · Vermelho = regrediu · Igual = manteve.</p>
+          <div style="overflow-x:auto;">
+            <table id="tabelaEvolucao" style="width:100%;border-collapse:collapse;font-size:13px;">
+              <thead>
+                <tr style="color:rgba(255,255,255,0.4);font-size:10px;letter-spacing:1px;text-transform:uppercase;">
+                  <th style="text-align:left;padding:8px 10px;border-bottom:1px solid rgba(255,255,255,0.08);">Gestor</th>
+                  <th style="text-align:center;padding:8px 10px;border-bottom:1px solid rgba(255,255,255,0.08);">Loja</th>
+                  <th style="text-align:center;padding:8px 4px;border-bottom:1px solid rgba(255,255,255,0.08);color:#aaa;">J1 · Esc×Bra<br><span style="font-size:9px;color:rgba(255,255,255,0.3);">24/Jun</span></th>
+                  <th style="text-align:center;padding:8px 4px;border-bottom:1px solid rgba(255,255,255,0.08);color:var(--amarelo);">J2 · Bra×Jap<br><span style="font-size:9px;color:rgba(255,255,255,0.3);">29/Jun</span></th>
+                  <th style="text-align:center;padding:8px 10px;border-bottom:1px solid rgba(255,255,255,0.08);">Tendência</th>
+                  <th style="text-align:center;padding:8px 10px;border-bottom:1px solid rgba(255,255,255,0.08);">Enviou J1</th>
+                  <th style="text-align:center;padding:8px 10px;border-bottom:1px solid rgba(255,255,255,0.08);">Enviou J2</th>
+                  <th style="text-align:center;padding:8px 10px;border-bottom:1px solid rgba(255,255,255,0.08);">Palpite J1</th>
+                  <th style="text-align:center;padding:8px 10px;border-bottom:1px solid rgba(255,255,255,0.08);">Palpite J2</th>
+                </tr>
+              </thead>
+              <tbody id="corpoEvolucao"><tr><td colspan="9" class="empty">Carregando...</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Cards de consistência -->
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:4px;">
+          <div class="section" style="border-color:rgba(77,255,138,0.25);text-align:center;">
+            <div style="font-size:11px;color:rgba(255,255,255,0.4);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;">Melhoraram</div>
+            <div id="evolMelhoraram" style="font-family:'Bebas Neue',sans-serif;font-size:48px;color:#4dff8a;">—</div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.3);">mais palpites</div>
+          </div>
+          <div class="section" style="border-color:rgba(255,255,255,0.1);text-align:center;">
+            <div style="font-size:11px;color:rgba(255,255,255,0.4);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;">Mantiveram</div>
+            <div id="evolMantiveram" style="font-family:'Bebas Neue',sans-serif;font-size:48px;color:#fff;">—</div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.3);">mesma base</div>
+          </div>
+          <div class="section" style="border-color:rgba(255,80,80,0.25);text-align:center;">
+            <div style="font-size:11px;color:rgba(255,255,255,0.4);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;">Regrediram</div>
+            <div id="evolRegrediram" style="font-family:'Bebas Neue',sans-serif;font-size:48px;color:#ff7a7a;">—</div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.3);">menos palpites</div>
+          </div>
+        </div>
+      </div>
+
       <div id="tab-regras" class="tab-pane">
         <div style="max-width:680px;margin:0 auto;">
 
@@ -1002,6 +1052,66 @@ const diretorias = [
   { nome:'DIR 6',  gr:'A definir',    regional:'—',   lojas:null, sss:null, otd:null, nps:null, sd:null, meta:null, lm:null, pgf:null, fid:null },
 ];
 
+function renderEvolucao() {
+  const tbody = document.getElementById('corpoEvolucao');
+  if (!tbody) return;
+
+  // palpites disponíveis no J1 (snapshot26) e J2 (kpiLojas atual)
+  const rows = LOJAS_PA2.map(loja => {
+    const snap1 = kpiSnapshot26[loja] || {};
+    const snap2 = kpiLojas[loja] || {};
+    const g = gerentes[loja] || {};
+    const palp1 = [snap1.sss,snap1.otd,snap1.nps,snap1.sd,snap1.meta,snap1.lm,snap1.pgf,snap1.fid].filter(Boolean).length;
+    const palp2 = snap2.palpites || 0;
+    const delta = palp2 - palp1;
+
+    // verificar se enviou em cada jogo
+    const envJ1 = dados.find(d => d.loja === loja && d.palpite_g3);
+    const envJ2 = dados.find(d => d.loja === loja && d.palpite_g4);
+
+    return { loja, nome: g.nome || loja, palp1, palp2, delta, envJ1, envJ2 };
+  }).sort((a,b) => b.palp2 - a.palp2 || b.delta - a.delta);
+
+  // contadores
+  const melh = rows.filter(r => r.delta > 0).length;
+  const mant = rows.filter(r => r.delta === 0).length;
+  const regr = rows.filter(r => r.delta < 0).length;
+  document.getElementById('evolMelhoraram').textContent = melh;
+  document.getElementById('evolMantiveram').textContent = mant;
+  document.getElementById('evolRegrediram').textContent = regr;
+
+  const tendSVG = delta => {
+    if (delta > 0) return `<span style="color:#4dff8a;font-weight:700;font-size:16px;">▲ +${delta}</span>`;
+    if (delta < 0) return `<span style="color:#ff7a7a;font-weight:700;font-size:16px;">▼ ${delta}</span>`;
+    return `<span style="color:rgba(255,255,255,0.4);font-size:16px;">— 0</span>`;
+  };
+  const badge = (palp, dim) => {
+    const cores = {0:'#ff4444',1:'#ff7a7a',2:'#ffaa55',3:'#7ab4ff',4:'#4dff8a',5:'#fff',6:'#ff69b4',7:'#c084fc',8:'#ffd700'};
+    const c = cores[palp] || '#fff';
+    const op = dim ? 'opacity:0.5;' : '';
+    return `<span style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:${c};${op}">${palp}<span style="font-size:11px;color:rgba(255,255,255,0.3);">/8</span></span>`;
+  };
+  const enviouCell = (env, palpite) => {
+    if (!env) return `<span style="color:rgba(255,255,255,0.25);font-size:12px;">—</span>`;
+    return `<span style="color:#4dff8a;font-size:12px;font-weight:700;">${palpite||'✓'}</span>`;
+  };
+
+  tbody.innerHTML = rows.map(r => {
+    const rowBg = r.delta > 0 ? 'rgba(77,255,138,0.03)' : r.delta < 0 ? 'rgba(255,80,80,0.03)' : '';
+    return `<tr style="border-bottom:1px solid rgba(255,255,255,0.05);background:${rowBg};">
+      <td style="padding:10px 10px;font-weight:600;">${r.nome.split(' ')[0]}</td>
+      <td style="text-align:center;font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--amarelo);">${r.loja}</td>
+      <td style="text-align:center;">${badge(r.palp1, true)}</td>
+      <td style="text-align:center;">${badge(r.palp2, false)}</td>
+      <td style="text-align:center;">${tendSVG(r.delta)}</td>
+      <td style="text-align:center;">${enviouCell(r.envJ1, r.envJ1?.palpite_g3)}</td>
+      <td style="text-align:center;">${enviouCell(r.envJ2, r.envJ2?.palpite_g4)}</td>
+      <td style="text-align:center;font-size:13px;color:rgba(255,255,255,0.6);">${r.envJ1?.palpite_g3||'—'}</td>
+      <td style="text-align:center;font-size:13px;color:rgba(255,255,255,0.6);">${r.envJ2?.palpite_g4||'—'}</td>
+    </tr>`;
+  }).join('');
+}
+
 function renderDiretoria() {
   const dirs = diretorias;
 
@@ -1112,6 +1222,7 @@ async function carregar() {
     renderMonitor();
     renderTime();
     renderDiretoria();
+    renderEvolucao();
   } catch(e) {
     document.getElementById('tabelaPalpites1').innerHTML = `<tr><td colspan="6" class="empty">Erro: ${e.message}</td></tr>`;
   }
