@@ -1662,12 +1662,34 @@ const PLACARES_OFICIAIS = {
 };
 
 function calcPontos(palpite, golA, golB) {
-  const parts = palpite ? palpite.split('x').map(s => parseInt(s.trim())) : [];
-  if (parts.length !== 2 || isNaN(parts[0]) || isNaN(parts[1])) return 0;
-  const [pe, pb] = parts;
-  if (pe === golA && pb === golB) return 4;
-  if (Math.sign(pb - pe) === Math.sign(golB - golA)) return 1;
-  return 0;
+  if (!palpite) return 0;
+  // suporta múltiplos palpites separados por " | " — retorna o melhor
+  const candidatos = palpite.split('|').map(s => s.trim()).filter(Boolean);
+  let melhor = 0;
+  for (const c of candidatos) {
+    const parts = c.split('x').map(s => parseInt(s.trim()));
+    if (parts.length !== 2 || isNaN(parts[0]) || isNaN(parts[1])) continue;
+    const [pe, pb] = parts;
+    if (pe === golA && pb === golB) return 4; // exato — já é o máximo
+    if (Math.sign(pb - pe) === Math.sign(golB - golA)) melhor = Math.max(melhor, 1);
+  }
+  return melhor;
+}
+
+function melhorPalpite(palpite, golA, golB) {
+  if (!palpite) return null;
+  const candidatos = palpite.split('|').map(s => s.trim()).filter(Boolean);
+  let best = null, bestPts = -1;
+  for (const c of candidatos) {
+    const parts = c.split('x').map(s => parseInt(s.trim()));
+    if (parts.length !== 2 || isNaN(parts[0]) || isNaN(parts[1])) continue;
+    const [pe, pb] = parts;
+    let pts = 0;
+    if (pe === golA && pb === golB) pts = 4;
+    else if (Math.sign(pb - pe) === Math.sign(golB - golA)) pts = 1;
+    if (pts > bestPts) { bestPts = pts; best = c; }
+  }
+  return best || candidatos[0] || null;
 }
 
 function ptsTotais(d) {
@@ -1793,7 +1815,7 @@ function renderRanking() {
       <td style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:${cor};text-align:center;">${posLabel}</td>
       <td style="font-weight:600;">${d.nome||'—'}</td>
       <td><span style="font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--amarelo);">${d.loja}</span></td>
-      <td><span class="placar-cell" style="color:${cor};">${d.palpite_g4||'—'}</span></td>
+      <td><span class="placar-cell" style="color:${cor};">${melhorPalpite(d.palpite_g4,escGol,braGol)||d.palpite_g4||'—'}</span></td>
       <td style="font-family:'Bebas Neue',sans-serif;font-size:24px;color:${cor};">${d.pts}</td>
     </tr>`;
   }).join('');
