@@ -355,6 +355,11 @@
         Narrador — Copiar para WhatsApp
       </button>
 
+      <button id="btnMsgTop3" onclick="copiarMsgTop3()" style="margin-bottom:18px;margin-left:10px;display:inline-flex;align-items:center;gap:8px;background:rgba(255,220,0,0.10);color:var(--amarelo);border:1px solid rgba(255,220,0,0.3);border-radius:12px;padding:10px 18px;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;font-size:13px;font-weight:600;cursor:pointer;letter-spacing:-.1px;transition:opacity .15s;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.532 5.85L0 24l6.306-1.511A11.956 11.956 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.007-1.372l-.36-.213-3.724.892.924-3.618-.234-.373A9.818 9.818 0 1112 21.818z"/></svg>
+        🏆 Mensagem Top 3 — WhatsApp
+      </button>
+
       <!-- linha 1: placar + líder + adesão -->
       <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-bottom:14px;">
 
@@ -2255,6 +2260,77 @@ function abrirCartao(loja) {
     </div>`;
 
   document.getElementById('overlayCartao').classList.add('open');
+}
+
+function copiarMsgTop3() {
+  // Monta ranking acumulado por loja (mesma lógica do renderInicio)
+  const LOJAS_EXCLUIR_MSG = new Set();
+  const mapaMsg = {};
+  dados.forEach(d => {
+    const nome = (gerentes[d.loja] && gerentes[d.loja].nome) ? gerentes[d.loja].nome : d.nome;
+    const chave = d.loja;
+    const j1 = calcPontos(d.palpite_g3, PLACARES_OFICIAIS.g3.a, PLACARES_OFICIAIS.g3.b);
+    const j2 = calcPontos(d.palpite_g4, PLACARES_OFICIAIS.g4.a, PLACARES_OFICIAIS.g4.b);
+    if (!mapaMsg[chave]) mapaMsg[chave] = { nome, loja: d.loja, j1: 0, j2: 0 };
+    if (j1 > mapaMsg[chave].j1) mapaMsg[chave].j1 = j1;
+    if (j2 > mapaMsg[chave].j2) mapaMsg[chave].j2 = j2;
+  });
+  Object.values(mapaMsg).forEach(p => { p.total = p.j1 + p.j2; });
+  const ranked = Object.values(mapaMsg).sort((a,b) => b.total - a.total || b.j2 - a.j2 || b.j1 - a.j1);
+  const top3 = ranked.slice(0,3);
+
+  const medalhas = ['🥇','🥈','🥉'];
+  const pontoLabel = pts => pts === 4 ? '4pts ✅ (placar exato!)' : pts === 1 ? '1pt (vencedor certo)' : '0pt';
+  const evolLabel = (j1, j2) => {
+    if (j1 === 4 && j2 === 4) return '⚡ Ganhou J1 e J2 — consistência total!';
+    if (j1 === 4 && j2 === 0) return '✅ Ganhou J1 · Não pontuou J2';
+    if (j1 === 0 && j2 === 4) return '✅ Zerou J1 · Acertou J2 — virada!';
+    if (j1 >= 1 && j2 >= 1) return '✅ Pontuou em ambos os jogos';
+    if (j1 >= 1) return '📌 Pontuou só no J1';
+    if (j2 >= 1) return '📌 Pontuou só no J2';
+    return '—';
+  };
+
+  const dataHoje = new Date().toLocaleDateString('pt-BR');
+  let msg = `⚽ *BOLÃO COPA 2026 · PA2 — RANKING ACUMULADO*\n`;
+  msg += `📅 Atualizado em ${dataHoje}\n`;
+  msg += `📊 J1: Escócia 0×3 Brasil · J2: Brasil 2×1 Japão\n\n`;
+  msg += `*🏆 TOP 3 — PONTUAÇÃO GERAL (J1+J2)*\n`;
+  msg += `━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+
+  top3.forEach((p, i) => {
+    msg += `${medalhas[i]} *${p.nome.split(' ')[0].toUpperCase()}* — Loja ${p.loja}\n`;
+    msg += `   ⚽ J1: ${pontoLabel(p.j1)}\n`;
+    msg += `   ⚽ J2: ${pontoLabel(p.j2)}\n`;
+    msg += `   ${evolLabel(p.j1, p.j2)}\n`;
+    msg += `   🔢 *TOTAL: ${p.total} pts*\n\n`;
+  });
+
+  msg += `━━━━━━━━━━━━━━━━━━━━━━\n`;
+  // demais posições resumidas
+  if (ranked.length > 3) {
+    msg += `\n*Demais gestores:*\n`;
+    ranked.slice(3).forEach((p, i) => {
+      msg += `${i+4}º ${p.nome.split(' ')[0]} (Loja ${p.loja}) · J1:${p.j1}pt J2:${p.j2}pt → *${p.total}pts*\n`;
+    });
+    msg += `\n`;
+  }
+
+  msg += `💪 Continue na luta — próximo jogo vem aí!\n`;
+  msg += `_Gestora Regional Andréa · Bolão Copa 2026_`;
+
+  navigator.clipboard.writeText(msg).then(() => {
+    const btn = document.getElementById('btnMsgTop3');
+    const orig = btn.childNodes[btn.childNodes.length-1].textContent;
+    btn.childNodes[btn.childNodes.length-1].textContent = ' ✅ Copiado!';
+    btn.style.background = 'rgba(77,255,138,0.15)';
+    btn.style.color = '#4dff8a';
+    setTimeout(() => {
+      btn.childNodes[btn.childNodes.length-1].textContent = orig;
+      btn.style.background = 'rgba(255,220,0,0.10)';
+      btn.style.color = 'var(--amarelo)';
+    }, 2500);
+  });
 }
 
 function fecharCartao() {
