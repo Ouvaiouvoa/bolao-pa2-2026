@@ -776,9 +776,12 @@
                   <th style="text-align:center;padding:8px 10px;border-bottom:1px solid rgba(255,255,255,0.08);">Enviou J2</th>
                   <th style="text-align:center;padding:8px 10px;border-bottom:1px solid rgba(255,255,255,0.08);">Palpite J1</th>
                   <th style="text-align:center;padding:8px 10px;border-bottom:1px solid rgba(255,255,255,0.08);">Palpite J2</th>
+                  <th style="text-align:center;padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.08);color:#aaa;">Pts<br><span style="font-size:9px;">J1</span></th>
+                  <th style="text-align:center;padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.08);color:var(--amarelo);">Pts<br><span style="font-size:9px;">J2</span></th>
+                  <th style="text-align:center;padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.08);color:#4dff8a;white-space:nowrap;">⚽ Total</th>
                 </tr>
               </thead>
-              <tbody id="corpoEvolucao"><tr><td colspan="9" class="empty">Carregando...</td></tr></tbody>
+              <tbody id="corpoEvolucao"><tr><td colspan="12" class="empty">Carregando...</td></tr></tbody>
             </table>
           </div>
         </div>
@@ -1064,8 +1067,15 @@ function renderEvolucao() {
     const envJ1 = dados.find(d => d.loja === loja && d.palpite_g3);
     const envJ2 = dados.find(d => d.loja === loja && d.palpite_g4);
 
-    return { loja, nome: g.nome || loja, palp1, palp2, delta, envJ1, envJ2 };
-  }).sort((a,b) => b.palp2 - a.palp2 || b.delta - a.delta);
+    // pontos acumulados por loja
+    const todosJ1 = dados.filter(d => d.loja === loja && d.palpite_g3);
+    const todosJ2 = dados.filter(d => d.loja === loja && d.palpite_g4);
+    const ptsJ1 = todosJ1.reduce((best, d) => Math.max(best, calcPontos(d.palpite_g3, PLACARES_OFICIAIS.g3.a, PLACARES_OFICIAIS.g3.b)), 0);
+    const ptsJ2 = todosJ2.reduce((best, d) => Math.max(best, calcPontos(d.palpite_g4, PLACARES_OFICIAIS.g4.a, PLACARES_OFICIAIS.g4.b)), 0);
+    const ptsTotal = ptsJ1 + ptsJ2;
+
+    return { loja, nome: g.nome || loja, palp1, palp2, delta, envJ1, envJ2, ptsJ1, ptsJ2, ptsTotal };
+  }).sort((a,b) => b.ptsTotal - a.ptsTotal || b.palp2 - a.palp2);
 
   // contadores
   const melh = rows.filter(r => r.delta > 0).length;
@@ -1103,6 +1113,9 @@ function renderEvolucao() {
       <td style="text-align:center;">${enviouCell(r.envJ2, r.envJ2?.palpite_g4)}</td>
       <td style="text-align:center;font-size:13px;color:rgba(255,255,255,0.6);">${r.envJ1?.palpite_g3||'—'}</td>
       <td style="text-align:center;font-size:13px;color:rgba(255,255,255,0.6);">${r.envJ2?.palpite_g4||'—'}</td>
+      <td style="text-align:center;font-family:'Bebas Neue',sans-serif;font-size:20px;color:${r.ptsJ1===4?'#4dff8a':r.ptsJ1>0?'var(--amarelo)':'rgba(255,255,255,0.2)'};">${r.ptsJ1}</td>
+      <td style="text-align:center;font-family:'Bebas Neue',sans-serif;font-size:20px;color:${r.ptsJ2===4?'#4dff8a':r.ptsJ2>0?'var(--amarelo)':'rgba(255,255,255,0.2)'};">${r.ptsJ2}</td>
+      <td style="text-align:center;font-family:'Bebas Neue',sans-serif;font-size:24px;font-weight:700;color:${r.ptsTotal>=7?'#4dff8a':r.ptsTotal>=4?'var(--amarelo)':r.ptsTotal>0?'#ffaa55':'rgba(255,255,255,0.2)'};">${r.ptsTotal}</td>
     </tr>`;
   }).join('');
 }
