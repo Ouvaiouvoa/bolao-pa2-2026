@@ -424,7 +424,25 @@
         </div>
       </div>
 
-      <!-- linha 3: lojas que faltam palpitar -->
+      <!-- linha 3: todos os gestores acumulado -->
+      <div class="section" style="border-color:rgba(255,220,0,0.15); margin-bottom:14px;">
+        <div class="sec-title">📊 Todos os Gestores · Pontuação Acumulada J1+J2</div>
+        <div style="overflow-x:auto;">
+          <table style="font-size:13px;">
+            <thead><tr>
+              <th style="width:40px; text-align:center;">Pos</th>
+              <th>Gestor</th>
+              <th style="text-align:center;">Loja</th>
+              <th style="text-align:center;">J1</th>
+              <th style="text-align:center;">J2</th>
+              <th style="text-align:center; font-size:15px; color:var(--amarelo);">Total</th>
+            </tr></thead>
+            <tbody id="homeRankingAcum"><tr><td colspan="6" class="empty">Carregando...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- linha 4: lojas que faltam palpitar -->
       <div class="section" style="border-color:rgba(200,0,0,0.2);">
         <div class="sec-title" style="color:#ffaa55;">Lojas que ainda não palpitaram (jogo atual)</div>
         <div id="homeFaltando" style="display:flex; flex-wrap:wrap; gap:8px;">
@@ -1967,6 +1985,27 @@ function renderInicio() {
   document.getElementById('homeFaltando').innerHTML = faltando.length === 0
     ? '<span style="color:#4dff8a;font-size:13px;font-weight:700;">Todas com direito já palpitaram!</span>'
     : faltando.map(l => `<span class="loja-chip">${l}</span>`).join('');
+
+  // tabela todos os gestores acumulado
+  const coresPts = { 8:'#4dff8a', 7:'#4dff8a', 6:'#4dff8a', 5:'#7ab4ff', 4:'var(--amarelo)', 3:'#ffaa55', 2:'#ffaa55', 1:'#ff7a7a', 0:'rgba(255,255,255,0.2)' };
+  const medalPos = ['🥇','🥈','🥉'];
+  document.getElementById('homeRankingAcum').innerHTML = rankedAcum.map((p, i) => {
+    const cor = coresPts[p.total] || 'rgba(255,255,255,0.2)';
+    const pos = i < 3 ? medalPos[i] : `${i+1}º`;
+    const ger = g(p.nome);
+    const iniciais = p.nome.split(' ').map(n=>n[0]).filter((_,j)=>j===0||j===p.nome.split(' ').length-1).join('');
+    const avatarHtml = ger && ger.foto
+      ? `<img src="${ger.foto}" style="width:24px;height:24px;object-fit:cover;border-radius:50%;vertical-align:middle;margin-right:7px;" onerror="this.style.display='none'">`
+      : `<span style="display:inline-flex;width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,0.08);align-items:center;justify-content:center;font-size:9px;font-family:'Bebas Neue',sans-serif;color:rgba(255,255,255,0.5);margin-right:7px;">${iniciais}</span>`;
+    return `<tr style="${i===0?'background:rgba(255,220,0,0.05);':''}">
+      <td style="text-align:center;font-size:${i<3?'15px':'13px'};color:rgba(255,255,255,0.4);">${pos}</td>
+      <td><div style="display:flex;align-items:center;">${avatarHtml}<span style="font-weight:${i<3?'700':'400'};color:${i===0?'var(--amarelo)':'rgba(255,255,255,0.85)'};">${p.nome.split(' ')[0]}</span></div></td>
+      <td style="text-align:center;color:rgba(255,255,255,0.4);">${p.loja}</td>
+      <td style="text-align:center;color:${p.j1===4?'#4dff8a':p.j1>0?'var(--amarelo)':'rgba(255,255,255,0.25)'};">${p.j1}</td>
+      <td style="text-align:center;color:${p.j2===4?'#4dff8a':p.j2>0?'var(--amarelo)':'rgba(255,255,255,0.25)'};">${p.j2}</td>
+      <td style="text-align:center;font-family:'Bebas Neue',sans-serif;font-size:20px;color:${cor};">${p.total}</td>
+    </tr>`;
+  }).join('') || '<tr><td colspan="6" class="empty">Nenhum palpite registrado</td></tr>';
 
   renderDeltaCard();
 }
