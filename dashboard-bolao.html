@@ -390,56 +390,26 @@
         </div>
       </div>
 
-      <!-- linha 2: fechamento + top 5 indicadores -->
-      <div style="display:grid; grid-template-columns:1fr 2fr; gap:14px; margin-bottom:14px;">
+      <!-- OVERALL CARD -->
+      <div id="homeOverall" style="margin-bottom:14px;"></div>
 
-        <!-- ranking acumulado -->
-        <div class="section" style="border-color:rgba(255,220,0,0.25);">
-          <div class="sec-title">⚽ Ranking Acumulado · J1+J2</div>
-          <div style="display:flex; flex-direction:column; gap:10px;" id="homeFechamentoPodio">
-            <!-- preenchido pelo JS -->
-          </div>
-          <div style="margin-top:14px; padding-top:12px; border-top:1px solid rgba(255,255,255,0.06); text-align:center;">
-            <button class="btn btn-secondary" style="font-size:13px; padding:7px 16px;" onclick="document.querySelector('[onclick*=fechamento]').click()">Ver card completo →</button>
-          </div>
-        </div>
-
-        <!-- top 5 indicadores -->
-        <div class="section">
-          <div class="sec-title">Top 5 · Indicadores KPI</div>
-          <table style="font-size:13px;">
-            <thead><tr>
-              <th style="width:36px;">#</th>
-              <th>Loja</th>
-              <th style="text-align:center;">SSS</th>
-              <th style="text-align:center;">OTD</th>
-              <th style="text-align:center;">NPS</th>
-              <th style="text-align:center;">SD</th>
-              <th style="text-align:center;">META</th>
-              <th style="text-align:center;">LM%</th>
-              <th style="text-align:center;">KPIs</th>
-            </tr></thead>
-            <tbody id="homeTopKpi"><tr><td colspan="9" class="empty">Carregando...</td></tr></tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- linha 3: todos os gestores acumulado -->
-      <div class="section" style="border-color:rgba(255,220,0,0.15); margin-bottom:14px;">
-        <div class="sec-title">📊 Todos os Gestores · Pontuação Acumulada J1+J2</div>
-        <div style="overflow-x:auto;">
-          <table style="font-size:13px;">
-            <thead><tr>
-              <th style="width:40px; text-align:center;">Pos</th>
-              <th>Gestor</th>
-              <th style="text-align:center;">Loja</th>
-              <th style="text-align:center;">J1</th>
-              <th style="text-align:center;">J2</th>
-              <th style="text-align:center; font-size:15px; color:var(--amarelo);">Total</th>
-            </tr></thead>
-            <tbody id="homeRankingAcum"><tr><td colspan="6" class="empty">Carregando...</td></tr></tbody>
-          </table>
-        </div>
+      <!-- top 5 indicadores -->
+      <div class="section" style="margin-bottom:14px;">
+        <div class="sec-title">Top 5 · Indicadores KPI</div>
+        <table style="font-size:13px;">
+          <thead><tr>
+            <th style="width:36px;">#</th>
+            <th>Loja</th>
+            <th style="text-align:center;">SSS</th>
+            <th style="text-align:center;">OTD</th>
+            <th style="text-align:center;">NPS</th>
+            <th style="text-align:center;">SD</th>
+            <th style="text-align:center;">META</th>
+            <th style="text-align:center;">LM%</th>
+            <th style="text-align:center;">KPIs</th>
+          </tr></thead>
+          <tbody id="homeTopKpi"><tr><td colspan="9" class="empty">Carregando...</td></tr></tbody>
+        </table>
       </div>
 
       <!-- linha 4: lojas que faltam palpitar -->
@@ -1932,26 +1902,80 @@ function renderInicio() {
     }
   });
   const rankedAcum = Object.values(mapaAcum).sort((a, b) => b.total - a.total || b.j2 - a.j2);
-  const podioAcum = rankedAcum.slice(0, 3);
   const g = nome => gerentes[Object.keys(gerentes).find(k => gerentes[k].nome === nome)] || null;
-  document.getElementById('homeFechamentoPodio').innerHTML = podioAcum.length === 0
-    ? '<span style="color:rgba(255,255,255,0.3);font-size:13px;">Aguardando palpites...</span>'
-    : podioAcum.map((p, i) => {
-    const cor = medalhasCores[i];
-    const iniciais = p.nome.split(' ').map(n=>n[0]).filter((_,j)=>j===0||j===p.nome.split(' ').length-1).join('');
+  const maxPts = rankedAcum.length ? rankedAcum[0].total || 1 : 8;
+
+  // OVERALL CARD
+  const corPodio = ['var(--amarelo)','#C0C0C0','#CD7F32'];
+  const alturaPodio = ['110px','85px','65px'];
+  const labelPodio = ['🥇 1º','🥈 2º','🥉 3º'];
+  const top3 = rankedAcum.slice(0,3);
+  const ordemVisual = top3.length >= 3 ? [top3[1], top3[0], top3[2]] : top3;
+  const ordemIdx    = top3.length >= 3 ? [1, 0, 2] : [0,1,2];
+
+  function avatarOverall(p, size, cor) {
     const ger = g(p.nome);
-    const avatarHtml = ger && ger.foto
-      ? `<img src="${ger.foto}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" onerror="this.parentNode.innerHTML='<span style=\\'font-family:Bebas Neue,sans-serif;font-size:13px;color:${cor};\\''>${iniciais}</span>'">`
-      : `<span style="font-family:'Bebas Neue',sans-serif;font-size:13px;color:${cor};">${iniciais}</span>`;
-    return `<div style="display:flex;align-items:center;gap:10px;padding:9px 12px;background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.07);border-radius:10px;">
-      <div style="width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.06);border:2px solid ${cor};display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;">${avatarHtml}</div>
+    const ini = p.nome.split(' ').map(n=>n[0]).filter((_,j)=>j===0||j===p.nome.split(' ').length-1).join('');
+    if (ger && ger.foto) return `<img src="${ger.foto}" style="width:${size}px;height:${size}px;object-fit:cover;border-radius:50%;border:3px solid ${cor};" onerror="this.outerHTML='<div style=\\'width:${size}px;height:${size}px;border-radius:50%;border:3px solid ${cor};background:rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:center;font-family:Bebas Neue,sans-serif;font-size:${Math.round(size*0.38)}px;color:${cor};\\'>${ini}</div>'">`;
+    return `<div style="width:${size}px;height:${size}px;border-radius:50%;border:3px solid ${cor};background:rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:${Math.round(size*0.38)}px;color:${cor};">${ini}</div>`;
+  }
+
+  const podioHtml = top3.length === 0
+    ? '<p style="color:rgba(255,255,255,0.3);text-align:center;padding:20px;">Aguardando palpites...</p>'
+    : `<div style="display:flex;align-items:flex-end;justify-content:center;gap:0;margin-bottom:0;">
+        ${ordemVisual.map((p, vi) => {
+          const realIdx = ordemIdx[vi];
+          const cor = corPodio[realIdx];
+          const h = alturaPodio[realIdx];
+          const lbl = labelPodio[realIdx];
+          const sz = realIdx===0 ? 68 : 52;
+          return `<div style="display:flex;flex-direction:column;align-items:center;flex:1;">
+            <div style="margin-bottom:8px;">${avatarOverall(p, sz, cor)}</div>
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:${realIdx===0?'36px':'26px'};color:${cor};line-height:1;">${p.total}</div>
+            <div style="font-size:10px;color:${cor};opacity:0.7;margin-bottom:4px;">pts</div>
+            <div style="font-size:${realIdx===0?'13px':'11px'};font-weight:700;color:${cor};text-align:center;">${p.nome.split(' ')[0].toUpperCase()}</div>
+            <div style="font-size:9px;color:rgba(255,255,255,0.3);margin-bottom:8px;">Loja ${p.loja}</div>
+            <div style="width:100%;height:${h};background:${cor};opacity:${realIdx===0?'0.18':'0.1'};border-radius:6px 6px 0 0;display:flex;align-items:flex-start;justify-content:center;padding-top:8px;">
+              <span style="font-size:11px;color:${cor};opacity:0.9;font-weight:700;">${lbl}</span>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>`;
+
+  const rankHtml = rankedAcum.map((p, i) => {
+    const cor = i===0?'var(--amarelo)':i===1?'#C0C0C0':i===2?'#CD7F32':'rgba(255,255,255,0.7)';
+    const bgPct = Math.round((p.total / maxPts) * 100);
+    const ini = p.nome.split(' ').map(n=>n[0]).filter((_,j)=>j===0||j===p.nome.split(' ').length-1).join('');
+    const ger = g(p.nome);
+    const av = ger && ger.foto
+      ? `<img src="${ger.foto}" style="width:32px;height:32px;object-fit:cover;border-radius:50%;border:2px solid ${cor};flex-shrink:0;" onerror="this.outerHTML='<div style=\\'width:32px;height:32px;border-radius:50%;border:2px solid ${cor};background:rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:center;font-family:Bebas Neue,sans-serif;font-size:11px;color:${cor};flex-shrink:0;\\'>${ini}</div>'">`
+      : `<div style="width:32px;height:32px;border-radius:50%;border:2px solid ${cor};background:rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:11px;color:${cor};flex-shrink:0;">${ini}</div>`;
+    return `<div style="display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.04);">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:16px;color:rgba(255,255,255,0.2);width:22px;text-align:right;flex-shrink:0;">${i+1}</div>
+      ${av}
       <div style="flex:1;min-width:0;">
-        <div style="font-size:12px;font-weight:700;color:${cor};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${medalhasLabel[i]} ${p.nome.split(' ')[0]}</div>
-        <div style="font-size:10px;color:rgba(255,255,255,0.35);">Loja ${p.loja} · J1: ${p.j1}pts · J2: ${p.j2}pts</div>
+        <div style="font-size:12px;font-weight:700;color:${cor};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${p.nome.split(' ')[0]}</div>
+        <div style="position:relative;height:4px;background:rgba(255,255,255,0.06);border-radius:2px;margin-top:4px;">
+          <div style="position:absolute;left:0;top:0;height:4px;width:${bgPct}%;background:${cor};border-radius:2px;opacity:0.7;transition:width 0.5s;"></div>
+        </div>
       </div>
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:24px;color:${cor};">${p.total}<span style="font-size:11px;margin-left:1px;">pts</span></div>
+      <div style="display:flex;gap:6px;align-items:center;flex-shrink:0;">
+        <span style="font-size:10px;color:rgba(255,255,255,0.3);">J1·<b style="color:${p.j1===4?'#4dff8a':p.j1>0?'#ffaa55':'rgba(255,255,255,0.2)'};">${p.j1}</b></span>
+        <span style="font-size:10px;color:rgba(255,255,255,0.3);">J2·<b style="color:${p.j2===4?'#4dff8a':p.j2>0?'#ffaa55':'rgba(255,255,255,0.2)'};">${p.j2}</b></span>
+        <span style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:${cor};min-width:28px;text-align:right;">${p.total}</span>
+      </div>
     </div>`;
   }).join('');
+
+  document.getElementById('homeOverall').innerHTML = `
+    <div style="background:linear-gradient(135deg,rgba(255,220,0,0.05) 0%,rgba(8,15,46,0.6) 60%);border:1px solid rgba(255,220,0,0.2);border-radius:16px;overflow:hidden;">
+      <div style="padding:16px 20px 0;">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:11px;letter-spacing:3px;color:rgba(255,220,0,0.5);margin-bottom:2px;">BOLÃO COPA 2026 · PA2</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--amarelo);letter-spacing:1px;">⚽ OVERALL · RANKING ACUMULADO J1 + J2</div>
+      </div>
+      <div style="padding:16px 20px 0;">${podioHtml}</div>
+      <div style="padding:4px 20px 16px;">${rankHtml}</div>
+    </div>`;
 
   // top 5 KPI
   const topKpi = LOJAS_PA2
@@ -1985,27 +2009,6 @@ function renderInicio() {
   document.getElementById('homeFaltando').innerHTML = faltando.length === 0
     ? '<span style="color:#4dff8a;font-size:13px;font-weight:700;">Todas com direito já palpitaram!</span>'
     : faltando.map(l => `<span class="loja-chip">${l}</span>`).join('');
-
-  // tabela todos os gestores acumulado
-  const coresPts = { 8:'#4dff8a', 7:'#4dff8a', 6:'#4dff8a', 5:'#7ab4ff', 4:'var(--amarelo)', 3:'#ffaa55', 2:'#ffaa55', 1:'#ff7a7a', 0:'rgba(255,255,255,0.2)' };
-  const medalPos = ['🥇','🥈','🥉'];
-  document.getElementById('homeRankingAcum').innerHTML = rankedAcum.map((p, i) => {
-    const cor = coresPts[p.total] || 'rgba(255,255,255,0.2)';
-    const pos = i < 3 ? medalPos[i] : `${i+1}º`;
-    const ger = g(p.nome);
-    const iniciais = p.nome.split(' ').map(n=>n[0]).filter((_,j)=>j===0||j===p.nome.split(' ').length-1).join('');
-    const avatarHtml = ger && ger.foto
-      ? `<img src="${ger.foto}" style="width:24px;height:24px;object-fit:cover;border-radius:50%;vertical-align:middle;margin-right:7px;" onerror="this.style.display='none'">`
-      : `<span style="display:inline-flex;width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,0.08);align-items:center;justify-content:center;font-size:9px;font-family:'Bebas Neue',sans-serif;color:rgba(255,255,255,0.5);margin-right:7px;">${iniciais}</span>`;
-    return `<tr style="${i===0?'background:rgba(255,220,0,0.05);':''}">
-      <td style="text-align:center;font-size:${i<3?'15px':'13px'};color:rgba(255,255,255,0.4);">${pos}</td>
-      <td><div style="display:flex;align-items:center;">${avatarHtml}<span style="font-weight:${i<3?'700':'400'};color:${i===0?'var(--amarelo)':'rgba(255,255,255,0.85)'};">${p.nome.split(' ')[0]}</span></div></td>
-      <td style="text-align:center;color:rgba(255,255,255,0.4);">${p.loja}</td>
-      <td style="text-align:center;color:${p.j1===4?'#4dff8a':p.j1>0?'var(--amarelo)':'rgba(255,255,255,0.25)'};">${p.j1}</td>
-      <td style="text-align:center;color:${p.j2===4?'#4dff8a':p.j2>0?'var(--amarelo)':'rgba(255,255,255,0.25)'};">${p.j2}</td>
-      <td style="text-align:center;font-family:'Bebas Neue',sans-serif;font-size:20px;color:${cor};">${p.total}</td>
-    </tr>`;
-  }).join('') || '<tr><td colspan="6" class="empty">Nenhum palpite registrado</td></tr>';
 
   renderDeltaCard();
 }
