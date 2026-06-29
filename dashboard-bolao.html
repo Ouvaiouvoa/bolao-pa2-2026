@@ -1822,10 +1822,11 @@ function renderRanking() {
   const escGol = parseInt(document.getElementById('inputEsc').value) || 0;
   const braGol = parseInt(document.getElementById('inputBra').value) || 0;
 
-  // Agrupa por pessoa (nome+loja), pega o melhor palpite
+  // Agrupa por LOJA, usa nome canônico do gerentes[]
   const mapa = {};
   dados.forEach(d => {
-    const chave = `${d.nome}||${d.loja}`;
+    if (gerentes[d.loja] && gerentes[d.loja].nome) d.nome = gerentes[d.loja].nome;
+    const chave = d.loja;
     const pts = calcPontos(d.palpite_g4, escGol, braGol);
     if (!mapa[chave] || pts > mapa[chave].pts) {
       mapa[chave] = { ...d, pts };
