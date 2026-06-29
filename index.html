@@ -761,17 +761,23 @@
 </div>
 
 <script>
-  // TRAVAMENTO: verifica se já passou das 19h do dia do jogo
+  // TRAVAMENTO: horário limite por jogo (horário de Brasília -03:00)
   const jogosDatas = {
     g1: '2026-06-13', g2: '2026-06-19', g3: '2026-06-24',
     g4: '2026-06-29', g5: '2026-07-05', g6: '2026-07-11',
     g7: '2026-07-15', g8: '2026-07-19'
   };
+  const jogosHorarios = {
+    g1: '19:00', g2: '19:00', g3: '19:00',
+    g4: '14:00', // Brasil x Japão — 14h Brasília
+    g5: '19:00', g6: '19:00', g7: '19:00', g8: '19:00'
+  };
 
   function jogoTravado(jogoId) {
     const dataJogo = jogosDatas[jogoId];
     if (!dataJogo) return false;
-    const limite = new Date(dataJogo + 'T19:00:00-03:00');
+    const hora = jogosHorarios[jogoId] || '19:00';
+    const limite = new Date(dataJogo + 'T' + hora + ':00-03:00');
     return new Date() >= limite;
   }
 
@@ -789,7 +795,7 @@
         <div style="font-size:72px; margin-bottom:20px;">🔒</div>
         <div style="font-family:'Bebas Neue',sans-serif; font-size:52px; color:var(--amarelo); margin-bottom:12px;">PALPITES ENCERRADOS</div>
         <p style="font-size:16px; color:rgba(255,255,255,0.65); max-width:340px; margin:0 auto; line-height:1.6;">
-          Os palpites para o jogo de hoje fecharam às <strong style="color:#fff;">19h</strong>.<br/>
+          Os palpites para o jogo de hoje fecharam às <strong style="color:#fff;">14h</strong>.<br/>
           Boa sorte a todos que participaram!<br/><br/>
           <span style="font-size:28px;">⚽ 🇧🇷</span>
         </p>
