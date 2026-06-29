@@ -216,6 +216,41 @@
       .main { padding: 16px 12px 60px; }
       .pj-grid { grid-template-columns: 1fr !important; }
     }
+
+    /* ===== FLOAT ANIMATIONS — pódio ===== */
+    @keyframes podio-float-1 {
+      0%, 100% { transform: translateY(0px); filter: drop-shadow(0 0 8px rgba(255,220,0,0.5)); }
+      50%       { transform: translateY(-10px); filter: drop-shadow(0 0 18px rgba(255,220,0,0.85)); }
+    }
+    @keyframes podio-float-2 {
+      0%, 100% { transform: translateY(0px); filter: drop-shadow(0 0 4px rgba(192,192,192,0.35)); }
+      50%       { transform: translateY(-6px);  filter: drop-shadow(0 0 12px rgba(192,192,192,0.65)); }
+    }
+    @keyframes podio-float-3 {
+      0%, 100% { transform: translateY(0px); filter: drop-shadow(0 0 4px rgba(205,127,50,0.35)); }
+      50%       { transform: translateY(-5px);  filter: drop-shadow(0 0 12px rgba(205,127,50,0.65)); }
+    }
+    @keyframes podio-pulse-border {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(255,220,0,0.55), 0 0 16px rgba(255,220,0,0.2); }
+      50%       { box-shadow: 0 0 0 5px rgba(255,220,0,0),  0 0 28px rgba(255,220,0,0.45); }
+    }
+    @keyframes podio-pulse-silver {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(192,192,192,0.4); }
+      50%       { box-shadow: 0 0 0 4px rgba(192,192,192,0); }
+    }
+    @keyframes podio-pulse-bronze {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(205,127,50,0.4); }
+      50%       { box-shadow: 0 0 0 4px rgba(205,127,50,0); }
+    }
+    .podio-1 {
+      animation: podio-float-1 2.8s ease-in-out infinite, podio-pulse-border 2.8s ease-in-out infinite;
+    }
+    .podio-2 {
+      animation: podio-float-2 3.2s ease-in-out infinite 0.4s, podio-pulse-silver 3.2s ease-in-out infinite 0.4s;
+    }
+    .podio-3 {
+      animation: podio-float-3 3.6s ease-in-out infinite 0.8s, podio-pulse-bronze 3.6s ease-in-out infinite 0.8s;
+    }
     .mobile-nav {
       display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 99;
       background: var(--sidebar); border-top: 1px solid rgba(255,220,0,0.15);
@@ -631,7 +666,7 @@
               <!-- 2º lugar -->
               <div style="text-align:center;">
                 <div style="position:relative; display:inline-block;">
-                  <div id="j1avatar2" style="width:70px; height:70px; border-radius:50%; background:rgba(192,192,192,0.15); border:3px solid #C0C0C0; margin:0 auto; overflow:hidden; display:flex; align-items:center; justify-content:center; font-family:'Bebas Neue',sans-serif; font-size:24px; color:#C0C0C0;">MS</div>
+                  <div id="j1avatar2" class="podio-2" style="width:70px; height:70px; border-radius:50%; background:rgba(192,192,192,0.15); border:3px solid #C0C0C0; margin:0 auto; overflow:hidden; display:flex; align-items:center; justify-content:center; font-family:'Bebas Neue',sans-serif; font-size:24px; color:#C0C0C0;">MS</div>
                   <div style="position:absolute; top:-8px; right:-8px; width:24px; height:24px; border-radius:50%; background:#C0C0C0; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:900; color:#000;">2</div>
                 </div>
                 <div style="margin-top:8px; font-size:11px; font-weight:700; color:#C0C0C0; text-transform:uppercase; line-height:1.3;">Marcel<br>Silva Santos</div>
@@ -645,7 +680,7 @@
               <!-- 1º lugar -->
               <div style="text-align:center;">
                 <div style="position:relative; display:inline-block;">
-                  <div id="j1avatar1" style="width:84px; height:84px; border-radius:50%; background:rgba(255,223,0,0.15); border:3px solid var(--amarelo); margin:0 auto; overflow:hidden; display:flex; align-items:center; justify-content:center; font-family:'Bebas Neue',sans-serif; font-size:28px; color:var(--amarelo);">RC</div>
+                  <div id="j1avatar1" class="podio-1" style="width:84px; height:84px; border-radius:50%; background:rgba(255,223,0,0.15); border:3px solid var(--amarelo); margin:0 auto; overflow:hidden; display:flex; align-items:center; justify-content:center; font-family:'Bebas Neue',sans-serif; font-size:28px; color:var(--amarelo);">RC</div>
                   <div style="position:absolute; top:-8px; right:-8px; width:26px; height:26px; border-radius:50%; background:var(--amarelo); display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:900; color:var(--azul);">1</div>
                 </div>
                 <div style="margin-top:8px; font-size:12px; font-weight:700; color:var(--amarelo); text-transform:uppercase; line-height:1.3;">Ravenna<br>Coelho</div>
@@ -659,7 +694,7 @@
               <!-- 3º lugar -->
               <div style="text-align:center;">
                 <div style="position:relative; display:inline-block;">
-                  <div id="j1avatar3" style="width:70px; height:70px; border-radius:50%; background:rgba(205,127,50,0.15); border:3px solid #CD7F32; margin:0 auto; overflow:hidden; display:flex; align-items:center; justify-content:center; font-family:'Bebas Neue',sans-serif; font-size:24px; color:#CD7F32;">AR</div>
+                  <div id="j1avatar3" class="podio-3" style="width:70px; height:70px; border-radius:50%; background:rgba(205,127,50,0.15); border:3px solid #CD7F32; margin:0 auto; overflow:hidden; display:flex; align-items:center; justify-content:center; font-family:'Bebas Neue',sans-serif; font-size:24px; color:#CD7F32;">AR</div>
                   <div style="position:absolute; top:-8px; right:-8px; width:24px; height:24px; border-radius:50%; background:#CD7F32; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:900; color:#fff;">3</div>
                 </div>
                 <div style="margin-top:8px; font-size:11px; font-weight:700; color:#CD7F32; text-transform:uppercase; line-height:1.3;">Antônio<br>Raul Farias</div>
@@ -2076,11 +2111,12 @@ function renderInicio() {
   const ordemVisual = top3.length >= 3 ? [top3[1], top3[0], top3[2]] : top3;
   const ordemIdx    = top3.length >= 3 ? [1, 0, 2] : [0,1,2];
 
-  function avatarOverall(p, size, cor, loja) {
+  function avatarOverall(p, size, cor, loja, posReal) {
     const ger = g(p.nome, loja);
     const ini = p.nome.split(' ').map(n=>n[0]).filter((_,j)=>j===0||j===p.nome.split(' ').length-1).join('');
-    if (ger && ger.foto) return `<img src="${ger.foto}" style="width:${size}px;height:${size}px;object-fit:cover;border-radius:50%;border:3px solid ${cor};" onerror="this.outerHTML='<div style=\\'width:${size}px;height:${size}px;border-radius:50%;border:3px solid ${cor};background:rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:center;font-family:Bebas Neue,sans-serif;font-size:${Math.round(size*0.38)}px;color:${cor};\\'>${ini}</div>'">`;
-    return `<div style="width:${size}px;height:${size}px;border-radius:50%;border:3px solid ${cor};background:rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:${Math.round(size*0.38)}px;color:${cor};">${ini}</div>`;
+    const floatCls = posReal === 0 ? 'podio-1' : posReal === 1 ? 'podio-2' : posReal === 2 ? 'podio-3' : '';
+    if (ger && ger.foto) return `<img src="${ger.foto}" class="${floatCls}" style="width:${size}px;height:${size}px;object-fit:cover;border-radius:50%;border:3px solid ${cor};" onerror="this.outerHTML='<div class=\\'${floatCls}\\' style=\\'width:${size}px;height:${size}px;border-radius:50%;border:3px solid ${cor};background:rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:center;font-family:Bebas Neue,sans-serif;font-size:${Math.round(size*0.38)}px;color:${cor};\\'>${ini}</div>'">`;
+    return `<div class="${floatCls}" style="width:${size}px;height:${size}px;border-radius:50%;border:3px solid ${cor};background:rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:${Math.round(size*0.38)}px;color:${cor};">${ini}</div>`;
   }
 
   const podioHtml = top3.length === 0
@@ -2093,7 +2129,7 @@ function renderInicio() {
           const lbl = labelPodio[realIdx];
           const sz = realIdx===0 ? 68 : 52;
           return `<div style="display:flex;flex-direction:column;align-items:center;flex:1;">
-            <div style="margin-bottom:8px;">${avatarOverall(p, sz, cor, p.loja)}</div>
+            <div style="margin-bottom:8px;">${avatarOverall(p, sz, cor, p.loja, realIdx)}</div>
             <div style="font-family:'Bebas Neue',sans-serif;font-size:${realIdx===0?'36px':'26px'};color:${cor};line-height:1;">${p.total}</div>
             <div style="font-size:10px;color:${cor};opacity:0.7;margin-bottom:4px;">pts</div>
             <div style="font-size:${realIdx===0?'13px':'11px'};font-weight:700;color:${cor};text-align:center;">${p.nome.split(' ')[0].toUpperCase()}</div>
