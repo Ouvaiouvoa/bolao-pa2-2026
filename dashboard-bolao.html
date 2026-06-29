@@ -1219,6 +1219,7 @@ function renderDiretoria() {
 function showTab(tab, el, isMobile) {
   document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
   document.getElementById('tab-' + tab).classList.add('active');
+  window.scrollTo(0, 0);
 
   if (isMobile) {
     document.querySelectorAll('.mobile-nav button').forEach(b => b.classList.remove('active'));
