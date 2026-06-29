@@ -1902,7 +1902,7 @@ function renderInicio() {
     }
   });
   const rankedAcum = Object.values(mapaAcum).sort((a, b) => b.total - a.total || b.j2 - a.j2);
-  const g = nome => gerentes[Object.keys(gerentes).find(k => gerentes[k].nome === nome)] || null;
+  const g = (nome, loja) => gerentes[loja] || gerentes[Object.keys(gerentes).find(k => gerentes[k].nome === nome)] || null;
   const maxPts = rankedAcum.length ? rankedAcum[0].total || 1 : 8;
 
   // OVERALL CARD
@@ -1913,8 +1913,8 @@ function renderInicio() {
   const ordemVisual = top3.length >= 3 ? [top3[1], top3[0], top3[2]] : top3;
   const ordemIdx    = top3.length >= 3 ? [1, 0, 2] : [0,1,2];
 
-  function avatarOverall(p, size, cor) {
-    const ger = g(p.nome);
+  function avatarOverall(p, size, cor, loja) {
+    const ger = g(p.nome, loja);
     const ini = p.nome.split(' ').map(n=>n[0]).filter((_,j)=>j===0||j===p.nome.split(' ').length-1).join('');
     if (ger && ger.foto) return `<img src="${ger.foto}" style="width:${size}px;height:${size}px;object-fit:cover;border-radius:50%;border:3px solid ${cor};" onerror="this.outerHTML='<div style=\\'width:${size}px;height:${size}px;border-radius:50%;border:3px solid ${cor};background:rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:center;font-family:Bebas Neue,sans-serif;font-size:${Math.round(size*0.38)}px;color:${cor};\\'>${ini}</div>'">`;
     return `<div style="width:${size}px;height:${size}px;border-radius:50%;border:3px solid ${cor};background:rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:${Math.round(size*0.38)}px;color:${cor};">${ini}</div>`;
@@ -1930,7 +1930,7 @@ function renderInicio() {
           const lbl = labelPodio[realIdx];
           const sz = realIdx===0 ? 68 : 52;
           return `<div style="display:flex;flex-direction:column;align-items:center;flex:1;">
-            <div style="margin-bottom:8px;">${avatarOverall(p, sz, cor)}</div>
+            <div style="margin-bottom:8px;">${avatarOverall(p, sz, cor, p.loja)}</div>
             <div style="font-family:'Bebas Neue',sans-serif;font-size:${realIdx===0?'36px':'26px'};color:${cor};line-height:1;">${p.total}</div>
             <div style="font-size:10px;color:${cor};opacity:0.7;margin-bottom:4px;">pts</div>
             <div style="font-size:${realIdx===0?'13px':'11px'};font-weight:700;color:${cor};text-align:center;">${p.nome.split(' ')[0].toUpperCase()}</div>
@@ -1946,7 +1946,7 @@ function renderInicio() {
     const cor = i===0?'var(--amarelo)':i===1?'#C0C0C0':i===2?'#CD7F32':'rgba(255,255,255,0.7)';
     const bgPct = Math.round((p.total / maxPts) * 100);
     const ini = p.nome.split(' ').map(n=>n[0]).filter((_,j)=>j===0||j===p.nome.split(' ').length-1).join('');
-    const ger = g(p.nome);
+    const ger = g(p.nome, p.loja);
     const av = ger && ger.foto
       ? `<img src="${ger.foto}" style="width:32px;height:32px;object-fit:cover;border-radius:50%;border:2px solid ${cor};flex-shrink:0;" onerror="this.outerHTML='<div style=\\'width:32px;height:32px;border-radius:50%;border:2px solid ${cor};background:rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:center;font-family:Bebas Neue,sans-serif;font-size:11px;color:${cor};flex-shrink:0;\\'>${ini}</div>'">`
       : `<div style="width:32px;height:32px;border-radius:50%;border:2px solid ${cor};background:rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:11px;color:${cor};flex-shrink:0;">${ini}</div>`;
