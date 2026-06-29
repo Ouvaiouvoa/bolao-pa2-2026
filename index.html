@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bolão Copa 2026 · Regional Margem na Veia · PA2</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --verde:   #009C3B;
+      --amarelo: #FFDF00;
+      --azul:    #002776;
+      --branco:  #FFFFFF;
+      --verde-escuro: #006828;
+      --campo:   #1a5c2a;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--campo);
+      color: var(--branco);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /*  CAMPO DE FUTEBOL BACKGROUND  */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 60px,
+          rgba(0,0,0,0.06) 60px,
+          rgba(0,0,0,0.06) 61px
+        ),
+        repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 60px,
+          rgba(0,0,0,0.04) 60px,
+          rgba(0,0,0,0.04) 61px
+        ),
+        linear-gradient(
+          160deg,
+          #1a6b30 0%,
+          #1d7534 25%,
+          #166028 50%,
+          #1d7534 75%,
+          #1a6b30 100%
+        );
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* listras do campo */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        180deg,
+        rgba(255,255,255,0.03) 0px,
+        rgba(255,255,255,0.03) 80px,
+        transparent 80px,
+        transparent 160px
+      );
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .wrapper {
+      position: relative;
+      z-index: 1;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 20px 60px;
+    }
+
+    /*  HERO  */
+    .hero {
+      text-align: center;
+      padding: 40px 0 32px;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: var(--amarelo);
+      color: var(--azul);
+      font-weight: 900;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+    }
+
+    .hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(52px, 12vw, 84px);
+      line-height: 0.92;
+      letter-spacing: 2px;
+      color: var(--amarelo);
+      text-shadow:
+        0 4px 0 var(--verde-escuro),
+        0 6px 20px rgba(0,0,0,0.5);
+    }
+
+    .hero h1 span {
+      display: block;
+      color: var(--branco);
+      font-size: clamp(28px, 6vw, 44px);
+    }
+
+    .hero-sub {
+      margin-top: 14px;
+      font-size: 15px;
+      color: rgba(255,255,255,0.75);
+      font-weight: 400;
+    }
+
+    /*  BOLA DECORATIVA  */
+    .ball {
+      font-size: 56px;
+      display: block;
+      margin: 0 auto 12px;
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.4));
+      animation: bounce 2.4s ease-in-out infinite;
+    }
+    @keyframes bounce {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(-10px); }
+    }
+
+    /*  SEÇÃO  */
+    .section {
+      background: rgba(0,0,0,0.35);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 28px 24px;
+      margin-bottom: 20px;
+      backdrop-filter: blur(6px);
+    }
+
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22px;
+      letter-spacing: 1.5px;
+      color: var(--amarelo);
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(255,220,0,0.25);
+    }
+
+    /*  CAMPOS DO FORMULÁRIO  */
+    .field {
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 6px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    select {
+      width: 100%;
+      background: rgba(255,255,255,0.08);
+      border: 1.5px solid rgba(255,255,255,0.15);
+      border-radius: 10px;
+      color: var(--branco);
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      padding: 12px 16px;
+      outline: none;
+      transition: border-color .2s, background .2s;
+      -webkit-appearance: none;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    select:focus {
+      border-color: var(--amarelo);
+      background: rgba(255,220,0,0.06);
+    }
+
+    select option {
+      background: #1a3d2b;
+      color: #fff;
+    }
+
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    /*  CARD DE JOGO  */
+    .game-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 16px 18px;
+      margin-bottom: 14px;
+    }
+
+    .game-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .game-date {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--amarelo);
+    }
+
+    .game-local {
+      font-size: 11px;
+      color: rgba(255,255,255,0.45);
+    }
+
+    .game-matchup {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .team {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      flex: 1;
+    }
+
+    .team-flag {
+      font-size: 32px;
+    }
+
+    .team-name {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.8);
+      text-align: center;
+    }
+
+    .vs {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 20px;
+      color: rgba(255,255,255,0.3);
+      padding: 0 4px;
+    }
+
+    .score-inputs {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .score-input {
+      width: 56px;
+      text-align: center;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px;
+      padding: 8px 4px;
+      border-radius: 8px;
+    }
+
+    .score-sep {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 24px;
+      color: rgba(255,255,255,0.4);
+    }
+
+    /*  KPIs  */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+
+    .kpi-card {
+      background: rgba(0,156,59,0.15);
+      border: 1px solid rgba(0,156,59,0.35);
+      border-radius: 10px;
+      padding: 14px 12px;
+      text-align: center;
+    }
+
+    .kpi-icon {
+      font-size: 22px;
+      margin-bottom: 4px;
+    }
+
+    .kpi-label {
+      font-size: 11px;
+      color: rgba(255,255,255,0.55);
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      margin-bottom: 2px;
+    }
+
+    .kpi-value {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 20px;
+      color: var(--amarelo);
+    }
+
+    .kpi-note {
+      font-size: 11px;
+      color: rgba(255,255,255,0.4);
+      text-align: center;
+      margin-top: 6px;
+      line-height: 1.4;
+    }
+
+    /*  CHECKBOX CUSTOMIZADO  */
+    .checkbox-label {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      cursor: pointer;
+      font-size: 13px;
+      color: rgba(255,255,255,0.75);
+      line-height: 1.4;
+      text-transform: none;
+      letter-spacing: 0;
+      margin-bottom: 0;
+      font-weight: 400;
+    }
+
+    .checkbox-label input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      accent-color: var(--verde);
+      margin-top: 1px;
+      cursor: pointer;
+    }
+
+    /*  BOTÃO  */
+    .btn-submit {
+      width: 100%;
+      background: linear-gradient(135deg, var(--amarelo), #ffc400);
+      color: var(--azul);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 24px;
+      letter-spacing: 2px;
+      border: none;
+      border-radius: 14px;
+      padding: 18px;
+      cursor: pointer;
+      box-shadow: 0 6px 24px rgba(255,220,0,0.35);
+      transition: transform .15s, box-shadow .15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 32px rgba(255,220,0,0.5);
+    }
+
+    .btn-submit:active {
+      transform: translateY(0);
+    }
+
+    /*  MENSAGEM DE SUCESSO  */
+    .success-screen {
+      display: none;
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    .success-screen.visible {
+      display: block;
+    }
+
+    .success-icon {
+      font-size: 72px;
+      margin-bottom: 20px;
+      animation: pop .4s cubic-bezier(.17,.67,.44,1.6);
+    }
+
+    @keyframes pop {
+      from { transform: scale(0.5); opacity: 0; }
+      to   { transform: scale(1);   opacity: 1; }
+    }
+
+    .success-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 48px;
+      color: var(--amarelo);
+      margin-bottom: 10px;
+    }
+
+    .success-sub {
+      font-size: 15px;
+      color: rgba(255,255,255,0.65);
+      max-width: 320px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /*  FOOTER  */
+    .footer {
+      text-align: center;
+      margin-top: 32px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.3);
+      line-height: 1.6;
+    }
+
+    /*  DIVISOR COM DIAMANTE  */
+    .diamond-divider {
+      text-align: center;
+      color: rgba(255,220,0,0.4);
+      font-size: 12px;
+      letter-spacing: 8px;
+      margin: 4px 0 18px;
+    }
+
+    /*  RESULTADO SUMMARY  */
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      color: rgba(255,255,255,0.75);
+    }
+
+    .summary-row strong {
+      color: var(--amarelo);
+    }
+
+    @media (max-width: 420px) {
+      .field-row { grid-template-columns: 1fr; }
+      .kpi-grid  { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!--  HERO  -->
+  <div class="hero">
+    <span class="ball"></span>
+    <span class="hero-badge">Regional Margem na Veia · PA2</span>
+    <h1>
+      BOLÃO
+      <span>COPA 2026</span>
+    </h1>
+    <p class="hero-sub">Registre seu palpite · Bata as metas · Concorra ao prêmio</p>
+  </div>
+
+  <!--  FORMULÁRIO  -->
+  <form id="bolaoForm" name="bolao-palpites" netlify data-netlify="true">
+    <input type="hidden" name="form-name" value="bolao-palpites" />
+
+    <!-- DADOS DO GESTOR -->
+    <div class="section">
+      <div class="section-title"> Seus Dados</div>
+
+      <div class="field">
+        <label>Nome completo</label>
+        <input type="text" id="nome" name="nome" placeholder="Ex: Maria Silva" required />
+      </div>
+
+      <div class="field">
+        <label>Numero da loja</label>
+        <input type="text" id="loja" name="loja" placeholder="Ex: 7020" required oninput="verificarLoja(this.value)" inputmode="numeric"/>
+        <div id="loja-status" style="margin-top:10px; display:none;"></div>
+      </div>
+
+      <div class="field">
+        <label>Cargo</label>
+        <select id="cargo" name="cargo" required>
+          <option value="">Selecione</option>
+          <option>Gerente de Loja</option>
+          <option>Gerente Adjunto</option>
+          <option>Supervisor</option>
+          <option>Gestor Regional</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>E-mail</label>
+        <input type="email" id="email" name="email" placeholder="seu@email.com" required />
+      </div>
+    </div>
+
+    <!-- REGRA DO BOLÃO -->
+    <div class="section">
+      <div class="section-title"> Regra de Ouro</div>
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-icon"></div>
+          <div class="kpi-label">SSS</div>
+          <div class="kpi-value">23%</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon"></div>
+          <div class="kpi-label">OTD Sep.</div>
+          <div class="kpi-value">90%</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon"></div>
+          <div class="kpi-label">NPS</div>
+          <div class="kpi-value">90%</div>
+        </div>
+      </div>
+      <p class="kpi-note">Seu palpite vale pontos <strong style="color:var(--amarelo)">duplos</strong> no dia que a loja bater as 3 metas acima.<br/>Não bateu? Pontua metade. Simples assim.</p>
+    </div>
+
+    <!-- PALPITES  FASE DE GRUPOS -->
+    <div class="section">
+      <div class="section-title"> Fase de Grupos</div>
+      <!-- JOGO ATIVO: 24/JUN -->
+      <div class="game-card" style="border-color: rgba(255,220,0,0.35); background: rgba(255,220,0,0.04);">
+        <div class="game-meta">
+          <span class="game-date">24 Jun · Quarta · 19h30</span>
+          <span class="game-local">Miami · Hard Rock Stadium</span>
+        </div>
+        <p style="font-size:11px; color:rgba(255,220,0,0.8); font-weight:700; letter-spacing:1px; text-transform:uppercase; margin-bottom:12px;">Palpites encerram as 19h · KPI MTD ate 23/Jun</p>
+        <div class="game-matchup">
+          <div class="team"><span class="team-name">Escocia</span></div>
+          <span class="vs">VS</span>
+          <div class="team"><span class="team-name">Brasil</span></div>
+        </div>
+        <!-- slots dinâmicos por loja -->
+        <div id="palpiteSlotsWrap" style="margin-top:14px;">
+          <div style="font-size:12px;color:rgba(255,255,255,0.3);text-align:center;padding:16px;border:1px dashed rgba(255,255,255,0.1);border-radius:10px;">
+            Digite o número da sua loja acima para ver seus palpites disponíveis.
+          </div>
+        </div>
+      </div>
+
+      <!-- PROXIMOS JOGOS - bloqueados -->
+      <div style="margin-top: 20px;">
+        <p style="font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:rgba(255,255,255,0.3); margin-bottom:12px;">Proximos jogos · palpites em breve</p>
+
+        <!-- 29/JUN -->
+        <div class="game-card" style="opacity:0.45; pointer-events:none;">
+          <div class="game-meta">
+            <span class="game-date">29 Jun · Rodada de 32</span>
+            <span class="game-local">A definir</span>
+          </div>
+          <p style="font-size:10px; color:rgba(255,255,255,0.4); margin-bottom:10px;">KPI MTD ate 28/Jun</p>
+          <div class="game-matchup">
+            <div class="team"><span class="team-name">Brasil</span></div>
+            <span class="vs">VS</span>
+            <div class="team"><span class="team-name">Adversario</span></div>
+          </div>
+          <div class="score-inputs">
+            <input type="text" class="score-input" placeholder="--" disabled style="opacity:0.4;"/>
+            <span class="score-sep">x</span>
+            <input type="text" class="score-input" placeholder="--" disabled style="opacity:0.4;"/>
+          </div>
+        </div>
+
+        <!-- 05/JUL -->
+        <div class="game-card" style="opacity:0.45; pointer-events:none; margin-top:10px;">
+          <div class="game-meta">
+            <span class="game-date">05 Jul · Oitavas de Final</span>
+            <span class="game-local">A definir</span>
+          </div>
+          <p style="font-size:10px; color:rgba(255,255,255,0.4); margin-bottom:10px;">KPI MTD ate 04/Jul</p>
+          <div class="game-matchup">
+            <div class="team"><span class="team-name">Brasil</span></div>
+            <span class="vs">VS</span>
+            <div class="team"><span class="team-name">Adversario</span></div>
+          </div>
+          <div class="score-inputs">
+            <input type="text" class="score-input" placeholder="--" disabled style="opacity:0.4;"/>
+            <span class="score-sep">x</span>
+            <input type="text" class="score-input" placeholder="--" disabled style="opacity:0.4;"/>
+          </div>
+        </div>
+
+        <!-- 11-12/JUL -->
+        <div class="game-card" style="opacity:0.45; pointer-events:none; margin-top:10px;">
+          <div class="game-meta">
+            <span class="game-date">11-12 Jul · Quartas de Final</span>
+            <span class="game-local">A definir</span>
+          </div>
+          <p style="font-size:10px; color:rgba(255,255,255,0.4); margin-bottom:10px;">KPI MTD ate dia anterior</p>
+          <div class="game-matchup">
+            <div class="team"><span class="team-name">Brasil</span></div>
+            <span class="vs">VS</span>
+            <div class="team"><span class="team-name">Adversario</span></div>
+          </div>
+          <div class="score-inputs">
+            <input type="text" class="score-input" placeholder="--" disabled style="opacity:0.4;"/>
+            <span class="score-sep">x</span>
+            <input type="text" class="score-input" placeholder="--" disabled style="opacity:0.4;"/>
+          </div>
+        </div>
+
+        <!-- 15-16/JUL -->
+        <div class="game-card" style="opacity:0.45; pointer-events:none; margin-top:10px;">
+          <div class="game-meta">
+            <span class="game-date">15-16 Jul · Semifinal</span>
+            <span class="game-local">A definir</span>
+          </div>
+          <p style="font-size:10px; color:rgba(255,255,255,0.4); margin-bottom:10px;">KPI MTD ate dia anterior</p>
+          <div class="game-matchup">
+            <div class="team"><span class="team-name">Brasil</span></div>
+            <span class="vs">VS</span>
+            <div class="team"><span class="team-name">Adversario</span></div>
+          </div>
+          <div class="score-inputs">
+            <input type="text" class="score-input" placeholder="--" disabled style="opacity:0.4;"/>
+            <span class="score-sep">x</span>
+            <input type="text" class="score-input" placeholder="--" disabled style="opacity:0.4;"/>
+          </div>
+        </div>
+
+        <!-- 19/JUL FINAL -->
+        <div class="game-card" style="opacity:0.45; pointer-events:none; margin-top:10px; border-color:rgba(255,220,0,0.2);">
+          <div class="game-meta">
+            <span class="game-date">19 Jul · FINAL</span>
+            <span class="game-local">Nova York</span>
+          </div>
+          <p style="font-size:10px; color:rgba(255,255,255,0.4); margin-bottom:10px;">KPI MTD ate dia anterior</p>
+          <div class="game-matchup">
+            <div class="team"><span class="team-name">Brasil</span></div>
+            <span class="vs">VS</span>
+            <div class="team"><span class="team-name">Adversario</span></div>
+          </div>
+          <div class="score-inputs">
+            <input type="text" class="score-input" placeholder="--" disabled style="opacity:0.4;"/>
+            <span class="score-sep">x</span>
+            <input type="text" class="score-input" placeholder="--" disabled style="opacity:0.4;"/>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CAMPEÃO -->
+    <div class="section">
+      <div class="section-title"> Quem vence a Copa?</div>
+      <div class="field">
+        <label>Sua aposta de campeão</label>
+        <select id="campeao" name="campeao" required>
+          <option value="">Selecione a seleção</option>
+          <option> Brasil</option>
+          <option> Argentina</option>
+          <option> França</option>
+          <option>󠁧󠁢󠁥󠁮󠁧󠁿 Inglaterra</option>
+          <option> Portugal</option>
+          <option> Alemanha</option>
+          <option> Espanha</option>
+          <option> Holanda</option>
+          <option> Marrocos</option>
+          <option> Estados Unidos</option>
+          <option>Outra seleção</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- ACEITE -->
+    <div class="section">
+      <div class="section-title">Confirmacao</div>
+
+      <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:18px;">
+
+        <div style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:14px 16px;">
+          <p style="font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:rgba(255,220,0,0.8); margin-bottom:6px;">Regra 1 · Acumulado MTD</p>
+          <p style="font-size:13px; color:rgba(255,255,255,0.75); line-height:1.6;">Seus palpites sao definidos pelo acumulado do mes (MTD) de cada KPI ate o dia anterior ao jogo.</p>
+        </div>
+
+        <div style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:14px 16px;">
+          <p style="font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:rgba(255,220,0,0.8); margin-bottom:10px;">Regra 2 · Os 3 KPIs</p>
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; font-size:13px;">
+              <span style="color:rgba(255,255,255,0.75);">SSS acumulado MTD</span>
+              <span style="font-weight:700; color:#4dff8a;">meta 23%</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; font-size:13px;">
+              <span style="color:rgba(255,255,255,0.75);">OTD Separacao MTD</span>
+              <span style="font-weight:700; color:#4dff8a;">meta 90%</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; font-size:13px;">
+              <span style="color:rgba(255,255,255,0.75);">NPS / Atendometro MTD</span>
+              <span style="font-weight:700; color:#4dff8a;">meta 90%</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:14px 16px;">
+          <p style="font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:rgba(255,220,0,0.8); margin-bottom:6px;">Regra 3 · Palpites por KPI</p>
+          <p style="font-size:13px; color:rgba(255,255,255,0.75); line-height:1.6;">Cada KPI verde no MTD = 1 palpite valido. Entregou os 3? Voce tem 3 palpites. Nao entregou um KPI? Perde aquele palpite.</p>
+        </div>
+
+        <div style="background:rgba(200,0,0,0.1); border:1px solid rgba(200,0,0,0.25); border-radius:12px; padding:14px 16px;">
+          <p style="font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:#ff7a7a; margin-bottom:6px;">Regra 4 · Horario de corte</p>
+          <p style="font-size:13px; color:rgba(255,255,255,0.75); line-height:1.6;">Palpites encerram as <strong style="color:#fff;">19h do dia do jogo</strong>. Apos esse horario nao e possivel registrar.</p>
+        </div>
+
+      </div>
+
+      <div class="field">
+        <label class="checkbox-label">
+          <input type="checkbox" id="aceite" required />
+          Li e concordo com todas as regras. Entendo que a avaliacao e feita pelo acumulado MTD ate o dia anterior ao jogo.
+        </label>
+      </div>
+    </div>
+
+    <!-- BOTÃO -->
+    <button type="submit" class="btn-submit">
+       ENVIAR MEU PALPITE
+    </button>
+
+  </form>
+
+  <!--  TELA DE SUCESSO  -->
+  <div class="success-screen" id="successScreen">
+    <div class="success-icon"></div>
+    <div class="success-title">Palpite registrado!</div>
+    <p class="success-sub">Agora é só bater as metas e torcer pelo HEXA. Boa sorte, campeão!</p>
+    <br/>
+    <div id="resumoPalpite" style="text-align:left; margin-top:20px;"></div>
+  </div>
+
+  <div class="footer">
+    Bolão Copa 2026 · Regional Margem na Veia · PA2<br/>
+    Gerente Regional Andréa<br/>
+    Cada gol começa na gôndola.
+  </div>
+
+</div>
+
+<script>
+  // TRAVAMENTO: verifica se já passou das 19h do dia do jogo
+  const jogosDatas = {
+    g1: '2026-06-13', g2: '2026-06-19', g3: '2026-06-24',
+    g4: '2026-06-29', g5: '2026-07-05', g6: '2026-07-11',
+    g7: '2026-07-15', g8: '2026-07-19'
+  };
+
+  function jogoTravado(jogoId) {
+    const dataJogo = jogosDatas[jogoId];
+    if (!dataJogo) return false;
+    const limite = new Date(dataJogo + 'T19:00:00-03:00');
+    return new Date() >= limite;
+  }
+
+  function aplicarTravamento() {
+    // Verifica se tem jogo hoje e se já passou das 19h
+    const hoje = new Date().toISOString().slice(0,10);
+    const jogoHoje = Object.entries(jogosDatas).find(([,d]) => d === hoje);
+    if (jogoHoje && jogoTravado(jogoHoje[0])) {
+      // Esconde tudo e mostra tela de encerrado
+      document.getElementById('bolaoForm').style.display = 'none';
+      document.getElementById('successScreen').style.display = 'none';
+      const tela = document.createElement('div');
+      tela.style.cssText = 'text-align:center; padding: 60px 20px;';
+      tela.innerHTML = `
+        <div style="font-size:72px; margin-bottom:20px;">🔒</div>
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:52px; color:var(--amarelo); margin-bottom:12px;">PALPITES ENCERRADOS</div>
+        <p style="font-size:16px; color:rgba(255,255,255,0.65); max-width:340px; margin:0 auto; line-height:1.6;">
+          Os palpites para o jogo de hoje fecharam às <strong style="color:#fff;">19h</strong>.<br/>
+          Boa sorte a todos que participaram!<br/><br/>
+          <span style="font-size:28px;">⚽ 🇧🇷</span>
+        </p>
+        <p style="margin-top:28px; font-size:13px; color:rgba(255,255,255,0.3);">Bolão Copa 2026 · Regional Margem na Veia · PA2</p>
+      `;
+      document.querySelector('.wrapper').appendChild(tela);
+      return;
+    }
+
+    // Trava campos de jogos passados
+    Object.keys(jogosDatas).forEach(id => {
+      if (jogoTravado(id)) {
+        const a = document.getElementById(id + 'a');
+        const b = document.getElementById(id + 'b');
+        if (a) { a.disabled = true; a.placeholder = 'Encerrado'; a.style.opacity = '0.4'; }
+        if (b) { b.disabled = true; b.placeholder = 'Encerrado'; b.style.opacity = '0.4'; }
+      }
+    });
+  }
+
+  aplicarTravamento();
+
+  // Score inputs: só números (event delegation para pegar inputs dinâmicos)
+  document.addEventListener('input', function(e) {
+    if (e.target.classList.contains('score-input')) {
+      e.target.value = e.target.value.replace(/[^0-9]/g, '').slice(0, 2);
+    }
+  });
+
+  const jogos = [
+    { id: 'g1', label: 'Brasil × Marrocos (13/Jun)' },
+    { id: 'g2', label: 'Brasil × Haiti (19/Jun)' },
+    { id: 'g3', label: 'Escócia × Brasil (24/Jun)' },
+    { id: 'g4', label: 'Oitavas/32 (29/Jun)' },
+    { id: 'g5', label: 'Oitavas de Final (05/Jul)' },
+    { id: 'g6', label: 'Quartas de Final (11-12/Jul)' },
+    { id: 'g7', label: 'Semifinal (15-16/Jul)' },
+    { id: 'g8', label: 'FINAL (19/Jul)' },
+  ];
+
+  document.getElementById('bolaoForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const nome    = document.getElementById('nome').value.trim();
+    const loja    = document.getElementById('loja').value.trim();
+    const cargo   = document.getElementById('cargo').value;
+    const email   = document.getElementById('email').value.trim();
+    const campeao = document.getElementById('campeao').value;
+
+    // Coleta todos os slots dinâmicos
+    const d = kpiLojas[loja];
+    const totalSlots = d ? d.palpites : 0;
+    const palpitesArr = [];
+    for (let i = 1; i <= totalSlots; i++) {
+      const a = document.getElementById('p'+i+'a')?.value || '?';
+      const b = document.getElementById('p'+i+'b')?.value || '?';
+      palpitesArr.push(a+'x'+b);
+    }
+    const palpitesStr = palpitesArr.join(' | ');
+
+    // Monta resumo completo (após coletar palpites)
+    let html = '';
+    html += '<div class="summary-row"><span>Nome</span><strong>'+nome+'</strong></div>';
+    html += '<div class="summary-row"><span>Loja</span><strong>'+loja+'</strong></div>';
+    html += '<div class="summary-row"><span>Cargo</span><strong>'+cargo+'</strong></div>';
+    html += '<div class="summary-row"><span>E-mail</span><strong>'+email+'</strong></div>';
+    html += '<div class="summary-row"><span>Campeão</span><strong>'+campeao+'</strong></div>';
+    for (let i = 0; i < palpitesArr.length; i++) {
+      const parts = palpitesArr[i].split('x');
+      html += '<div class="summary-row"><span>Palpite '+(i+1)+'/'+totalSlots+'</span><strong>Brasil '+parts[0]+' × '+parts[1]+' Japão</strong></div>';
+    }
+    document.getElementById('resumoPalpite').innerHTML = html;
+
+    // Envia para Formsubmit (e-mail)
+    fetch('https://formsubmit.co/ajax/andrea.a.ss@hotmail.com', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        nome, loja, cargo, email, campeao,
+        palpites: palpitesStr,
+        _subject: `Palpite Bolão Copa 2026 · Loja ${loja} · ${nome}`,
+        _captcha: 'false', _template: 'table'
+      })
+    }).catch(()=>{});
+
+    // Salva no Supabase para o dashboard
+    fetch('https://qfcmxnuibzjeajtkpiov.supabase.co/rest/v1/bolao_palpites', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': 'sb_publishable_BjefhHOOsxRB5kGSyrHqAg_QF7DKZ_s',
+        'Authorization': 'Bearer sb_publishable_BjefhHOOsxRB5kGSyrHqAg_QF7DKZ_s',
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify({ nome, loja, cargo, email, campeao, palpite_g4: palpitesStr })
+    }).catch(()=>{});
+
+    // Esconde form, mostra sucesso
+    document.getElementById('bolaoForm').style.display = 'none';
+    const sc = document.getElementById('successScreen');
+    sc.classList.add('visible');
+    sc.scrollIntoView({ behavior: 'smooth' });
+  });
+
+  // DADOS KPI ATUALIZADOS — 8 KPIs · máx 8 palpites
+  const kpiLojas = {
+    // KPIs MTD 29/Jun — atualizados Power BI
+    '93':   {sv:22.01, ov:92.42, nv:91.9, sdv:113.7, mv:95.79, lmv:-4.70, pgfv:64.83, fidv:81.48, sss:false,otd:true, nps:true, sd:true, meta:false,lm:false,pgf:false,fid:false},
+    '7122': {sv:7.40,  ov:94.71, nv:91.3, sdv:201.9, mv:97.19, lmv:-0.81, pgfv:72.62, fidv:81.82, sss:false,otd:true, nps:true, sd:true, meta:false,lm:false,pgf:false,fid:false},
+    '7080': {sv:15.98, ov:96.27, nv:90.8, sdv:166.9, mv:99.55, lmv:-0.22, pgfv:48.33, fidv:70.37, sss:false,otd:true, nps:true, sd:true, meta:false,lm:false,pgf:false,fid:false},
+    '7115': {sv:12.11, ov:96.05, nv:90.9, sdv:111.0, mv:99.58, lmv:-3.93, pgfv:97.18, fidv:92.59, sss:false,otd:true, nps:true, sd:true, meta:false,lm:false,pgf:false,fid:false},
+    '7491': {sv:5.41,  ov:97.59, nv:96.1, sdv:50.7,  mv:97.86, lmv:-8.51, pgfv:80.95, fidv:88.89, sss:false,otd:true, nps:true, sd:false,meta:false,lm:false,pgf:false,fid:false},
+    '7403': {sv:-11.63,ov:95.06, nv:94.7, sdv:104.7, mv:99.66, lmv:0.15,  pgfv:83.60, fidv:96.30, sss:false,otd:true, nps:true, sd:true, meta:false,lm:true, pgf:false,fid:false},
+    '7011': {sv:-14.53,ov:92.23, nv:94.4, sdv:56.5,  mv:95.99, lmv:-8.84, pgfv:100.0, fidv:97.44, sss:false,otd:true, nps:true, sd:false,meta:false,lm:false,pgf:true, fid:false},
+    '7178': {sv:5.64,  ov:91.30, nv:90.9, sdv:67.4,  mv:102.51,lmv:2.96,  pgfv:67.55, fidv:66.67, sss:false,otd:true, nps:true, sd:false,meta:true, lm:true, pgf:false,fid:false},
+    '7027': {sv:29.41, ov:88.73, nv:90.7, sdv:76.4,  mv:96.84, lmv:-5.07, pgfv:58.16, fidv:64.29, sss:true, otd:false,nps:true, sd:false,meta:false,lm:false,pgf:false,fid:false},
+    '1166': {sv:2.29,  ov:100.0, nv:73.7, sdv:165.8, mv:103.89,lmv:2.10,  pgfv:92.67, fidv:91.67, sss:false,otd:true, nps:false,sd:true, meta:true, lm:true, pgf:false,fid:false},
+    '7062': {sv:-0.57, ov:0,     nv:90.8, sdv:194.6, mv:99.28, lmv:-1.60, pgfv:100.0, fidv:100.0, sss:false,otd:false,nps:true, sd:true, meta:false,lm:false,pgf:true, fid:true},
+    '7447': {sv:1.43,  ov:88.08, nv:90.9, sdv:151.0, mv:99.58, lmv:-1.08, pgfv:48.41, fidv:66.67, sss:false,otd:false,nps:true, sd:true, meta:false,lm:false,pgf:false,fid:false},
+    '7116': {sv:8.23,  ov:87.25, nv:91.6, sdv:163.1, mv:101.91,lmv:2.78,  pgfv:63.94, fidv:85.71, sss:false,otd:false,nps:true, sd:true, meta:true, lm:true, pgf:false,fid:false},
+    '7121': {sv:9.76,  ov:93.44, nv:86.2, sdv:98.3,  mv:99.36, lmv:-1.37, pgfv:90.62, fidv:90.00, sss:false,otd:true, nps:false,sd:false,meta:false,lm:false,pgf:false,fid:false},
+    '1212': {sv:9.84,  ov:94.82, nv:76.5, sdv:116.0, mv:102.45,lmv:0.98,  pgfv:91.01, fidv:93.94, sss:false,otd:true, nps:false,sd:true, meta:true, lm:true, pgf:false,fid:false},
+    '7035': {sv:-8.89, ov:90.65, nv:77.3, sdv:75.0,  mv:96.52, lmv:-3.44, pgfv:95.77, fidv:93.94, sss:false,otd:true, nps:false,sd:false,meta:false,lm:false,pgf:false,fid:false},
+    '201':  {sv:-9.88, ov:89.67, nv:89.8, sdv:60.7,  mv:96.02, lmv:-3.04, pgfv:100.0, fidv:100.0, sss:false,otd:false,nps:false,sd:false,meta:false,lm:false,pgf:true, fid:true},
+    '7020': {sv:12.52, ov:90.76, nv:91.6, sdv:117.5, mv:103.56,lmv:-6.62, pgfv:69.64, fidv:66.67, sss:false,otd:true, nps:true, sd:true, meta:true, lm:false,pgf:false,fid:false},
+    '7014': {sv:12.08, ov:88.62, nv:80.6, sdv:125.3, mv:99.71, lmv:0.14,  pgfv:28.90, fidv:59.09, sss:false,otd:false,nps:false,sd:true, meta:false,lm:true, pgf:false,fid:false},
+    '7092': {sv:3.91,  ov:88.63, nv:89.1, sdv:84.6,  mv:92.76, lmv:-6.41, pgfv:42.59, fidv:63.89, sss:false,otd:false,nps:false,sd:false,meta:false,lm:false,pgf:false,fid:false},
+    '1105': {sv:-14.27,ov:88.06, nv:89.8, sdv:40.1,  mv:89.62, lmv:-4.87, pgfv:80.00, fidv:92.59, sss:false,otd:false,nps:false,sd:false,meta:false,lm:false,pgf:false,fid:false},
+    '7077': {sv:8.52,  ov:0,     nv:66.8, sdv:87.9,  mv:101.76,lmv:-1.75, pgfv:80.95, fidv:90.91, sss:false,otd:false,nps:false,sd:false,meta:true, lm:false,pgf:false,fid:false},
+  };
+  // Calcula palpites automaticamente dos booleans
+  Object.keys(kpiLojas).forEach(l => {
+    const k = kpiLojas[l];
+    k.palpites = [k.sss,k.otd,k.nps,k.sd,k.meta,k.lm,k.pgf,k.fid].filter(Boolean).length;
+  });
+
+  const palCores = {0:'#666',1:'#ff7a7a',2:'#ffaa55',3:'#7ab4ff',4:'#4dff8a',5:'#fff',6:'#ff69b4',7:'#c084fc',8:'#ffd700'};
+
+  function verificarLoja(val) {
+    const el = document.getElementById('loja-status');
+    const wrap = document.getElementById('palpiteSlotsWrap');
+    const loja = val.trim();
+
+    if (!loja || loja.length < 2) {
+      el.style.display = 'none';
+      wrap.innerHTML = '<div style="font-size:12px;color:rgba(255,255,255,0.3);text-align:center;padding:16px;border:1px dashed rgba(255,255,255,0.1);border-radius:10px;">Digite o número da sua loja acima para ver seus palpites disponíveis.</div>';
+      return;
+    }
+
+    const d = kpiLojas[loja];
+    if (!d) {
+      el.style.display = 'block';
+      el.innerHTML = '<div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:12px 14px;font-size:13px;color:rgba(255,255,255,0.4);">Loja não encontrada na regional. Verifique o número.</div>';
+      wrap.innerHTML = '';
+      return;
+    }
+
+    const p = d.palpites;
+    const cor = palCores[p] || '#FFDF00';
+    const kpis = [
+      {label:'SSS',   val:d.sv.toFixed(1)+'%',  ok:d.sss,  meta:'≥23%'},
+      {label:'OTD',   val:d.ov.toFixed(1)+'%',  ok:d.otd,  meta:'≥90%'},
+      {label:'NPS',   val:d.nv.toFixed(1)+'%',  ok:d.nps,  meta:'≥90%'},
+      {label:'SD',    val:d.sdv.toFixed(1)+'%', ok:d.sd,   meta:'≥100%'},
+      {label:'META',  val:d.mv.toFixed(1)+'%',  ok:d.meta, meta:'≥100%'},
+      {label:'LM%',   val:(d.lmv>0?'+':'')+d.lmv.toFixed(1)+'%', ok:d.lm, meta:'>0%'},
+      {label:'PGF',   val:d.pgfv.toFixed(1)+'%',ok:d.pgf,  meta:'≥100%'},
+      {label:'FID',   val:d.fidv.toFixed(1)+'%',ok:d.fid,  meta:'≥100%'},
+    ];
+
+    // Card de status da loja
+    el.style.display = 'block';
+    el.innerHTML = `
+      <div style="background:rgba(0,0,0,0.3);border:1px solid ${cor}44;border-radius:12px;padding:14px 16px;margin-bottom:4px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+          <span style="font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.5);">Loja ${loja} · KPIs MTD</span>
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:${cor};">${p} palpite${p!==1?'s':''} / 8</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+          ${kpis.map(k=>`
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:5px 8px;border-radius:7px;background:${k.ok?'rgba(0,156,59,0.12)':'rgba(180,0,0,0.1)'};border:1px solid ${k.ok?'rgba(0,156,59,0.3)':'rgba(180,0,0,0.2)'};">
+              <span style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.7);">${k.label} <span style="font-weight:400;color:rgba(255,255,255,0.3);font-size:10px;">${k.meta}</span></span>
+              <span style="font-size:11px;font-weight:700;color:${k.ok?'#4dff8a':'#ff7a7a'};">${k.val}</span>
+            </div>
+          `).join('')}
+        </div>
+        ${p===0?'<p style="font-size:12px;color:#ff7a7a;font-weight:700;margin-top:10px;text-align:center;">Nenhum KPI batido — sem direito de palpite neste jogo.</p>':''}
+      </div>`;
+
+    // Gera os N slots de palpite
+    if (p === 0) { wrap.innerHTML = ''; return; }
+
+    wrap.innerHTML = `
+      <div style="margin-bottom:10px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:${cor};margin-bottom:12px;">
+          Seus ${p} palpite${p!==1?'s':''} — Brasil × Japão · 29/Jun · 14h
+        </div>
+        ${Array.from({length:p}, (_,i) => `
+          <div style="margin-bottom:12px;">
+            <div style="font-size:11px;color:rgba(255,255,255,0.4);letter-spacing:1px;margin-bottom:8px;">
+              PALPITE ${i+1}/${p}
+            </div>
+            <div class="score-inputs">
+              <input type="text" class="score-input" id="p${i+1}a" name="palpite_${i+1}_a" placeholder="0" maxlength="2" inputmode="numeric" required />
+              <span class="score-sep">×</span>
+              <input type="text" class="score-input" id="p${i+1}b" name="palpite_${i+1}_b" placeholder="0" maxlength="2" inputmode="numeric" required />
+            </div>
+          </div>
+        `).join('')}
+      </div>`;
+  }
+</script>
+</body>
+</html>

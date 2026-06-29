@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Top 3 Parcial · Bolão Copa 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet"/>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #071c0c;
+    display: flex; justify-content: center; align-items: center;
+    min-height: 100vh;
+  }
+  .card {
+    width: 480px;
+    background: linear-gradient(160deg, #0a2e14 0%, #071c0c 60%, #081a0f 100%);
+    border: 1px solid rgba(255,220,0,0.12);
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+  }
+  /* campo listras fundo */
+  .card::before {
+    content:''; position:absolute; inset:0; pointer-events:none; z-index:0;
+    background: repeating-linear-gradient(180deg,
+      rgba(255,255,255,0.012) 0px, rgba(255,255,255,0.012) 70px,
+      transparent 70px, transparent 140px);
+  }
+  .inner { position:relative; z-index:1; padding: 28px 24px 24px; }
+
+  /* BADGE TOPO */
+  .badge-topo {
+    display: flex; justify-content: center; margin-bottom: 10px;
+  }
+  .badge-topo span {
+    background: #FFDF00; color: #002776;
+    font-family: 'Inter', sans-serif; font-weight: 900; font-size: 10px;
+    letter-spacing: 2px; text-transform: uppercase;
+    padding: 4px 16px; border-radius: 20px;
+  }
+
+  /* TÍTULO */
+  .titulo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 72px; color: #FFDF00;
+    text-align: center; line-height: 1;
+    text-shadow: 0 4px 24px rgba(255,220,0,0.3);
+    letter-spacing: 2px;
+  }
+  .subtitulo {
+    text-align: center; font-size: 11px; letter-spacing: 3px;
+    color: rgba(255,255,255,0.4); text-transform: uppercase;
+    margin-top: 4px; margin-bottom: 16px;
+  }
+
+  /* PLACAR */
+  .placar-box {
+    background: rgba(0,0,0,0.45);
+    border: 1px solid rgba(255,220,0,0.25);
+    border-radius: 12px;
+    padding: 12px 20px;
+    display: flex; align-items: center; justify-content: center;
+    gap: 10px; margin-bottom: 6px;
+  }
+  .placar-time { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 13px; color: rgba(255,255,255,0.6); letter-spacing: 2px; text-transform: uppercase; }
+  .placar-score { font-family: 'Bebas Neue', sans-serif; font-size: 44px; color: #fff; letter-spacing: 4px; }
+  .placar-score .brasil-score { color: #4dff8a; }
+  .placar-detalhe { text-align: center; font-size: 10px; color: rgba(255,220,0,0.6); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 20px; }
+
+  /* PÓDIO */
+  .podio { display: flex; align-items: flex-end; justify-content: center; gap: 12px; margin-bottom: 18px; }
+
+  .medalha {
+    display: flex; flex-direction: column; align-items: center;
+    position: relative; flex: 1;
+  }
+  .medalha.primeiro { order: 2; }
+  .medalha.segundo  { order: 1; }
+  .medalha.terceiro { order: 3; }
+
+  .rank-badge {
+    width: 28px; height: 28px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Bebas Neue', sans-serif; font-size: 16px;
+    font-weight: 700; position: absolute; top: -6px; right: 2px; z-index: 2;
+    border: 2px solid rgba(0,0,0,0.4);
+  }
+  .primeiro .rank-badge { background: #FFDF00; color: #002776; }
+  .segundo  .rank-badge { background: #b0b8c1; color: #1a1a1a; }
+  .terceiro .rank-badge { background: #cd7f32; color: #fff; }
+
+  .foto-wrap {
+    width: 88px; height: 88px; border-radius: 50%;
+    overflow: hidden; position: relative;
+    border: 3px solid rgba(255,255,255,0.1);
+    margin-bottom: 8px;
+  }
+  .primeiro .foto-wrap { width: 104px; height: 104px; border-color: #FFDF00; border-width: 3px; }
+  .terceiro .foto-wrap { border-color: #cd7f32; }
+  .segundo  .foto-wrap { border-color: #b0b8c1; }
+
+  .foto-wrap img { width: 100%; height: 100%; object-fit: cover; }
+  .foto-iniciais {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Bebas Neue', sans-serif; font-size: 28px;
+    background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.4);
+  }
+  .primeiro .foto-iniciais { font-size: 34px; }
+
+  .medalha-nome {
+    font-family: 'Bebas Neue', sans-serif; font-size: 14px;
+    color: #fff; text-align: center; line-height: 1.1;
+    margin-bottom: 4px;
+  }
+  .primeiro .medalha-nome { font-size: 16px; color: #FFDF00; }
+
+  .medalha-loja {
+    font-size: 10px; font-weight: 700; letter-spacing: 1px;
+    padding: 2px 10px; border-radius: 20px; margin-bottom: 4px;
+    text-align: center;
+  }
+  .primeiro .medalha-loja { background: #FFDF00; color: #002776; }
+  .segundo  .medalha-loja { background: rgba(176,184,193,0.2); color: #b0b8c1; border: 1px solid rgba(176,184,193,0.4); }
+  .terceiro .medalha-loja { background: rgba(205,127,50,0.2); color: #cd7f32; border: 1px solid rgba(205,127,50,0.4); }
+
+  .medalha-info { font-size: 9px; color: rgba(255,255,255,0.35); text-align: center; margin-bottom: 8px; letter-spacing:.5px; }
+
+  .pts-box {
+    width: 100%; padding: 10px 0;
+    border-radius: 10px; text-align: center;
+    font-family: 'Bebas Neue', sans-serif; font-size: 32px;
+  }
+  .pts-box .pts-num { font-size: 38px; }
+  .pts-box .pts-label { font-size: 16px; margin-left: 2px; }
+  .primeiro .pts-box { background: #FFDF00; color: #002776; }
+  .segundo  .pts-box { background: rgba(176,184,193,0.15); color: #b0b8c1; border: 1px solid rgba(176,184,193,0.25); }
+  .terceiro .pts-box { background: rgba(205,127,50,0.15); color: #cd7f32; border: 1px solid rgba(205,127,50,0.25); }
+
+  /* TABELA DESEMPATE */
+  .desempate {
+    background: rgba(0,0,0,0.35); border: 1px solid rgba(255,220,0,0.1);
+    border-radius: 12px; padding: 12px 14px; margin-bottom: 14px;
+  }
+  .desempate-title {
+    font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase;
+    color: rgba(255,220,0,0.5); text-align: center; margin-bottom: 10px;
+  }
+  .desempate table { width: 100%; border-collapse: collapse; font-size: 11px; }
+  .desempate thead th {
+    color: rgba(255,220,0,0.7); font-size: 9px; letter-spacing: 1.5px;
+    text-transform: uppercase; padding: 4px 6px; text-align: center;
+    border-bottom: 1px solid rgba(255,220,0,0.1);
+  }
+  .desempate thead th:first-child { text-align: left; }
+  .desempate tbody td { padding: 6px 6px; text-align: center; }
+  .desempate tbody td:first-child { text-align: left; font-weight: 700; font-size: 11px; }
+  .desempate tbody tr:not(:last-child) td { border-bottom: 1px solid rgba(255,255,255,0.04); }
+  .kv-ok  { color: #4dff8a; font-weight: 700; }
+  .kv-no  { color: #ff7a7a; }
+  .destaque-row td { color: #FFDF00 !important; }
+
+  .desempate-obs {
+    margin-top: 8px; font-size: 10px; color: rgba(255,255,255,0.4);
+    text-align: center; line-height: 1.5;
+  }
+  .desempate-obs strong { color: #FFDF00; }
+
+  /* PRÓXIMO JOGO */
+  .proximo {
+    background: rgba(0,0,0,0.3); border: 1px solid rgba(255,220,0,0.08);
+    border-radius: 12px; padding: 12px 16px; margin-bottom: 16px;
+    text-align: center;
+  }
+  .proximo-label { font-size: 9px; letter-spacing: 2px; color: rgba(255,220,0,0.5); text-transform: uppercase; margin-bottom: 4px; }
+  .proximo-jogo { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: #fff; letter-spacing: 1px; }
+  .proximo-info { font-size: 10px; color: rgba(255,255,255,0.35); margin-top: 3px; letter-spacing: 1px; }
+
+  /* RODAPÉ */
+  .rodape { display: flex; justify-content: space-between; align-items: center; }
+  .rodape-esq { font-family: 'Bebas Neue', sans-serif; }
+  .rodape-esq .r1 { font-size: 16px; color: #FFDF00; letter-spacing: 1px; }
+  .rodape-esq .r2 { font-size: 11px; color: rgba(255,255,255,0.3); }
+  .participantes {
+    background: #002776; border: 1px solid rgba(255,220,0,0.2);
+    border-radius: 10px; padding: 8px 14px; text-align: center;
+  }
+  .participantes .p1 { font-size: 9px; color: rgba(255,255,255,0.5); letter-spacing: 1px; text-transform: uppercase; }
+  .participantes .p2 { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: #FFDF00; line-height: 1; }
+  .participantes .p2 span { font-size: 13px; color: rgba(255,255,255,0.4); }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="inner">
+
+    <!-- BADGE TOPO -->
+    <div class="badge-topo">
+      <span>Bolão Copa 2026 · Margem na Veia PA2</span>
+    </div>
+
+    <!-- TÍTULO -->
+    <div class="titulo">TOP 3</div>
+    <div class="titulo" style="font-size:48px;color:#fff;margin-top:-8px;">PARCIAL</div>
+    <div class="subtitulo">Jogo 1 · Escócia x Brasil · 24/Jun</div>
+
+    <!-- PLACAR -->
+    <div class="placar-box">
+      <span class="placar-time">Escócia</span>
+      <span class="placar-score">0 x <span class="brasil-score">3</span></span>
+      <span class="placar-time">Brasil</span>
+    </div>
+    <div class="placar-detalhe">Placar exato · 3pts + 1pt vencedor = 4pts cada</div>
+
+    <!-- PÓDIO -->
+    <div class="podio">
+
+      <!-- 2º MARCEL -->
+      <div class="medalha segundo">
+        <div style="position:relative;display:inline-block;">
+          <div class="rank-badge">2</div>
+          <div class="foto-wrap">
+            <div class="foto-iniciais">MS</div>
+          </div>
+        </div>
+        <div class="medalha-nome">MARCEL<br>SILVA SANTOS</div>
+        <div class="medalha-loja">LOJA 7020</div>
+        <div class="medalha-info">Palpite: 0 x 3<br>1 palpite</div>
+        <div class="pts-box"><span class="pts-num">4</span><span class="pts-label"> PTS</span></div>
+      </div>
+
+      <!-- 1º RAVENNA -->
+      <div class="medalha primeiro">
+        <div style="position:relative;display:inline-block;">
+          <div class="rank-badge">1</div>
+          <div class="foto-wrap">
+            <div class="foto-iniciais">RC</div>
+          </div>
+        </div>
+        <div class="medalha-nome">RAVENNA<br>COELHO</div>
+        <div class="medalha-loja">LOJA 7115</div>
+        <div class="medalha-info">Palpite: 0 x 3<br>3 palpites</div>
+        <div class="pts-box"><span class="pts-num">4</span><span class="pts-label"> PTS</span></div>
+      </div>
+
+      <!-- 3º ANTÔNIO -->
+      <div class="medalha terceiro">
+        <div style="position:relative;display:inline-block;">
+          <div class="rank-badge">3</div>
+          <div class="foto-wrap">
+            <div class="foto-iniciais">AR</div>
+          </div>
+        </div>
+        <div class="medalha-nome">ANTÔNIO<br>RAUL FARIAS</div>
+        <div class="medalha-loja">LOJA 1166</div>
+        <div class="medalha-info">Palpite: 0 x 3<br>1 palpite</div>
+        <div class="pts-box"><span class="pts-num">4</span><span class="pts-label"> PTS</span></div>
+      </div>
+
+    </div>
+
+    <!-- TABELA DESEMPATE -->
+    <div class="desempate">
+      <div class="desempate-title">Critério de Desempate · KPIs MTD até 23/Jun</div>
+      <table>
+        <thead><tr>
+          <th>Nome</th><th>SSS</th><th>OTD</th><th>NPS</th>
+        </tr></thead>
+        <tbody>
+          <tr class="destaque-row">
+            <td>Ravenna 7115</td>
+            <td class="kv-ok">+24,6%</td>
+            <td class="kv-ok">95,2%</td>
+            <td class="kv-ok">90,6%</td>
+          </tr>
+          <tr>
+            <td>Marcel 7020</td>
+            <td class="kv-ok">+15,7%</td>
+            <td class="kv-no">89,3%</td>
+            <td class="kv-ok">91,2%</td>
+          </tr>
+          <tr>
+            <td>Antônio 1166</td>
+            <td class="kv-no">+5,2%</td>
+            <td class="kv-ok">100%</td>
+            <td class="kv-no">73,5%</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="desempate-obs">
+        Os três acertaram o placar exato 0x3 e somaram <strong>4 pts</strong>.<br>
+        Desempate pelos KPIs MTD — <strong>Ravenna lidera</strong> com 3 KPIs verdes.<br>
+        Marcel vence Antônio com 2 de 3 KPIs.
+      </div>
+    </div>
+
+    <!-- PRÓXIMO JOGO -->
+    <div class="proximo">
+      <div class="proximo-label">Próximo Jogo do Brasil</div>
+      <div class="proximo-jogo">Brasil x Adversário · Rodada 32</div>
+      <div class="proximo-info">29 Jun · MTD reavaliado · Novos palpites em breve</div>
+    </div>
+
+    <!-- RODAPÉ -->
+    <div class="rodape">
+      <div class="rodape-esq">
+        <div class="r1">Bolão Copa 2026</div>
+        <div class="r2">Cada gol começa na gôndola.</div>
+      </div>
+      <div class="participantes">
+        <div class="p1">Participantes</div>
+        <div class="p2">13 <span>de 22</span></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Painel de Controle · Bolão Copa 2026 · PA2</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --verde: #009C3B; --amarelo: #FFDF00; --azul: #002776;
+      --campo: #0a2e14; --card: rgba(0,0,0,0.45); --borda: rgba(255,255,255,0.09);
+      --vermelho: #cc2200;
+    }
+    body { font-family: 'Inter', sans-serif; background: var(--campo); color: #fff; min-height: 100vh; padding-bottom: 60px; }
+    body::before {
+      content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background: repeating-linear-gradient(180deg, rgba(255,255,255,0.015) 0px, rgba(255,255,255,0.015) 80px, transparent 80px, transparent 160px);
+    }
+    .wrapper { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; padding: 0 16px 40px; }
+
+    /* HERO */
+    .hero { text-align: center; padding: 30px 0 24px; border-bottom: 1px solid rgba(255,220,0,0.15); margin-bottom: 28px; }
+    .hero-badge { display: inline-block; background: var(--amarelo); color: var(--azul); font-weight: 900; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; padding: 4px 14px; border-radius: 20px; margin-bottom: 10px; }
+    .hero h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(32px,8vw,56px); color: var(--amarelo); line-height: 1; text-shadow: 0 3px 0 #006828; }
+    .hero h1 span { color: #fff; font-size: 50%; display: block; }
+
+    /* TABS */
+    .tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+    .tab {
+      padding: 9px 18px; border-radius: 10px; font-size: 13px; font-weight: 700;
+      cursor: pointer; border: 1.5px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.5);
+      transition: all .2s;
+    }
+    .tab.active { background: var(--amarelo); color: var(--azul); border-color: var(--amarelo); }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* SECTION */
+    .section { background: var(--card); border: 1px solid var(--borda); border-radius: 14px; padding: 22px 18px; margin-bottom: 18px; }
+    .sec-title { font-family: 'Bebas Neue', sans-serif; font-size: 17px; letter-spacing: 1.5px; color: var(--amarelo); margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+    .sec-title::after { content: ''; flex:1; height:1px; background: rgba(255,220,0,0.15); }
+
+    /* JOGO SELECTOR */
+    .jogo-select { width: 100%; background: rgba(255,255,255,0.07); border: 1.5px solid rgba(255,255,255,0.15); border-radius: 10px; color: #fff; font-family: 'Inter', sans-serif; font-size: 14px; padding: 11px 14px; outline: none; margin-bottom: 16px; }
+    .jogo-select:focus { border-color: var(--amarelo); }
+    .jogo-select option { background: #0a2e14; }
+
+    /* KPI TABLE */
+    .kpi-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .kpi-table thead th { background: rgba(255,220,0,0.08); color: var(--amarelo); font-size: 11px; letter-spacing: 1px; text-transform: uppercase; padding: 9px 10px; text-align: center; border-bottom: 1px solid rgba(255,220,0,0.15); }
+    .kpi-table thead th:first-child { text-align: left; }
+    .kpi-table tbody td { padding: 8px 10px; border-bottom: 1px solid rgba(255,255,255,0.05); text-align: center; vertical-align: middle; }
+    .kpi-table tbody td:first-child { text-align: left; font-weight: 600; }
+    .kpi-table tbody tr:last-child td { border-bottom: none; }
+    .kpi-table tbody tr:hover td { background: rgba(255,255,255,0.03); }
+
+    input.kpi-val {
+      width: 64px; background: rgba(255,255,255,0.07); border: 1.5px solid rgba(255,255,255,0.12);
+      border-radius: 8px; color: #fff; font-family: 'Inter', sans-serif; font-size: 13px;
+      padding: 6px 8px; text-align: center; outline: none; transition: border-color .2s;
+    }
+    input.kpi-val:focus { border-color: var(--amarelo); }
+
+    .badge-ok  { display:inline-block; background:rgba(0,156,59,0.25); color:#4dff8a; border:1px solid rgba(0,156,59,0.4); border-radius:20px; font-size:11px; font-weight:700; padding:3px 10px; }
+    .badge-nok { display:inline-block; background:rgba(200,0,0,0.2); color:#ff7a7a; border:1px solid rgba(200,0,0,0.3); border-radius:20px; font-size:11px; font-weight:700; padding:3px 10px; }
+    .badge-nd  { display:inline-block; background:rgba(255,255,255,0.07); color:rgba(255,255,255,0.4); border:1px solid rgba(255,255,255,0.1); border-radius:20px; font-size:11px; font-weight:700; padding:3px 10px; }
+    .palpites-num { font-family:'Bebas Neue',sans-serif; font-size:22px; }
+    .p3 { color: var(--amarelo); }
+    .p2 { color: #7aadff; }
+    .p1 { color: #ffaa55; }
+    .p0 { color: rgba(255,255,255,0.3); }
+
+    /* PLACAR */
+    .placar-row { display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin-bottom:12px; }
+    .placar-label { font-size:13px; color:rgba(255,255,255,0.6); min-width:100px; }
+    input.placar-inp {
+      width:56px; background:rgba(255,255,255,0.07); border:1.5px solid rgba(255,255,255,0.15);
+      border-radius:8px; color:#fff; font-family:'Bebas Neue',sans-serif; font-size:26px;
+      padding:7px 6px; text-align:center; outline:none; transition:border-color .2s;
+    }
+    input.placar-inp:focus { border-color:var(--amarelo); }
+    .placar-sep { font-family:'Bebas Neue',sans-serif; font-size:22px; color:rgba(255,255,255,0.3); }
+
+    /* BTN */
+    .btn { display:inline-flex; align-items:center; gap:8px; padding:12px 22px; border-radius:10px; font-family:'Bebas Neue',sans-serif; font-size:17px; letter-spacing:1px; cursor:pointer; border:none; transition:all .2s; }
+    .btn-primary { background:var(--amarelo); color:var(--azul); box-shadow:0 4px 16px rgba(255,220,0,0.3); }
+    .btn-primary:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(255,220,0,0.45); }
+    .btn-secondary { background:rgba(255,255,255,0.08); color:#fff; border:1px solid rgba(255,255,255,0.15); }
+    .btn-secondary:hover { background:rgba(255,255,255,0.13); }
+    .btn-row { display:flex; gap:10px; flex-wrap:wrap; margin-top:14px; }
+
+    /* RANKING */
+    .rank-table { width:100%; border-collapse:collapse; font-size:13px; }
+    .rank-table thead th { background:rgba(255,220,0,0.08); color:var(--amarelo); font-size:11px; letter-spacing:1px; text-transform:uppercase; padding:9px 10px; text-align:center; border-bottom:1px solid rgba(255,220,0,0.15); }
+    .rank-table thead th:nth-child(2) { text-align:left; }
+    .rank-table tbody td { padding:9px 10px; border-bottom:1px solid rgba(255,255,255,0.05); text-align:center; vertical-align:middle; }
+    .rank-table tbody td:nth-child(2) { text-align:left; font-weight:600; }
+    .rank-table tbody tr:first-child td { background:rgba(255,220,0,0.06); }
+    .rank-pos { font-family:'Bebas Neue',sans-serif; font-size:20px; }
+    .rank-pts { font-family:'Bebas Neue',sans-serif; font-size:22px; color:var(--amarelo); }
+
+    /* EXPORT */
+    .export-box { background:rgba(0,156,59,0.1); border:1px solid rgba(0,156,59,0.25); border-radius:12px; padding:16px 18px; margin-top:14px; }
+    .export-box p { font-size:13px; color:rgba(255,255,255,0.65); margin-bottom:10px; line-height:1.5; }
+
+    @media(max-width:480px) {
+      .kpi-table { font-size:12px; }
+      input.kpi-val { width:52px; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrapper">
+
+  <div class="hero">
+    <div class="hero-badge">Painel Exclusivo · Gestora Regional</div>
+    <h1>CONTROLE DO BOLÃO<span>Margem na Veia · PA2</span></h1>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <div class="tab active" onclick="showTab('kpis')"> Lançar KPIs</div>
+    <div class="tab" onclick="showTab('placar')"> Lançar Placar</div>
+    <div class="tab" onclick="showTab('ranking')"> Ranking</div>
+  </div>
+
+  <!--  ABA 1: LANÇAR KPIs  -->
+  <div class="tab-panel active" id="tab-kpis">
+    <div class="section">
+      <div class="sec-title">KPIs MTD · 24/Jun · Escocia x Brasil</div>
+      <p style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:14px;">Acumulado MTD ate 23/Jun &nbsp;|&nbsp; SSS &ge;23%LY &nbsp;|&nbsp; OTD Sep &ge;90% &nbsp;|&nbsp; NPS &ge;90%</p>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:18px;">
+        <div style="background:rgba(255,220,0,0.1);border:1px solid rgba(255,220,0,0.25);border-radius:10px;padding:12px;text-align:center;"><div style="font-family:'Bebas Neue',sans-serif;font-size:30px;color:var(--amarelo);">1</div><div style="font-size:11px;color:rgba(255,255,255,0.45);">3 palpites</div></div>
+        <div style="background:rgba(0,100,200,0.15);border:1px solid rgba(0,100,200,0.3);border-radius:10px;padding:12px;text-align:center;"><div style="font-family:'Bebas Neue',sans-serif;font-size:30px;color:#7ab4ff;">9</div><div style="font-size:11px;color:rgba(255,255,255,0.45);">2 palpites</div></div>
+        <div style="background:rgba(255,140,0,0.12);border:1px solid rgba(255,140,0,0.25);border-radius:10px;padding:12px;text-align:center;"><div style="font-family:'Bebas Neue',sans-serif;font-size:30px;color:#ffaa55;">8</div><div style="font-size:11px;color:rgba(255,255,255,0.45);">1 palpite</div></div>
+        <div style="background:rgba(200,0,0,0.12);border:1px solid rgba(200,0,0,0.25);border-radius:10px;padding:12px;text-align:center;"><div style="font-family:'Bebas Neue',sans-serif;font-size:30px;color:#ff7a7a;">4</div><div style="font-size:11px;color:rgba(255,255,255,0.45);">sem palpite</div></div>
+      </div>
+      <div style="overflow-x:auto;">
+        <table class="kpi-table">
+          <thead><tr>
+            <th style="text-align:left;">Loja</th>
+            <th>SSS %LY<br/><span style="color:rgba(255,255,255,0.3);font-size:10px;">meta 23%</span></th>
+            <th>OTD %<br/><span style="color:rgba(255,255,255,0.3);font-size:10px;">meta 90%</span></th>
+            <th>NPS %<br/><span style="color:rgba(255,255,255,0.3);font-size:10px;">meta 90%</span></th>
+            <th>SSS</th><th>OTD</th><th>NPS</th><th>Palpites</th>
+          </tr></thead>
+          <tbody><tr><td style="text-align:left;font-weight:700;">Loja 7115</td><td style="color:#4dff8a;font-weight:700;">24.65%</td><td style="color:#4dff8a;font-weight:700;">95.24%</td><td style="color:#4dff8a;font-weight:700;">90.6%</td><td><span class="badge-ok">SIM</span></td><td><span class="badge-ok">SIM</span></td><td><span class="badge-ok">SIM</span></td><td><span class="palpites-num p3">3</span></td></tr>
+<tr><td style="text-align:left;font-weight:700;">Loja 7491</td><td style="color:#ff7a7a;font-weight:700;">10.48%</td><td style="color:#4dff8a;font-weight:700;">97.01%</td><td style="color:#4dff8a;font-weight:700;">95.9%</td><td><span class="badge-nok">NAO</span></td><td><span class="badge-ok">SIM</span></td><td><span class="badge-ok">SIM</span></td><td><span class="palpites-num p2">2</span></td></tr>
+<tr><td style="text-align:left;font-weight:700;">Loja 7403</td><td style="color:#ff7a7a;font-weight:700;">-7.76%</td><td style="color:#4dff8a;font-weight:700;">95.11%</td><td style="color:#4dff8a;font-weight:700;">94.4%</td><td><span class="badge-nok">NAO</span></td><td><span class="badge-ok">SIM</span></td><td><span class="badge-ok">SIM</span></td><td><span class="palpites-num p2">2</span></td></tr>
+<tr><td style="text-align:left;font-weight:700;">Loja 7011</td><td style="color:#ff7a7a;font-weight:700;">-9.07%</td><td style="color:#4dff8a;font-weight:700;">90.48%</td><td style="color:#4dff8a;font-weight:700;">94.3%</td><td><span class="badge-nok">NAO</span></td><td><span class="badge-ok">SIM</span></td><td><span class="badge-ok">SIM</span></td><td><span class="palpites-num p2">2</span></td></tr>
+<tr><td style="text-align:left;font-weight:700;">Loja 93</td><td style="color:#ff7a7a;font-weight:700;">22.01%</td><td style="color:#4dff8a;font-weight:700;">92.45%</td><td style="color:#4dff8a;font-weight:700;">92.4%</td><td><span class="badge-nok">NAO</span></td><td><span class="badge-ok">SIM</span></td><td><span class="badge-ok">SIM</span></td><td><span class="palpites-num p2">2</span></td></tr>
+<tr><td style="text-align:left;font-weight:700;">Loja 7178</td><td style="color:#ff7a7a;font-weight:700;">6.12%</td><td style="color:#4dff8a;font-weight:700;">90.72%</td><td style="color:#4dff8a;font-weight:700;">91.7%</td><td><span class="badge-nok">NAO</span></td><td><span class="badge-ok">SIM</span></td><td><span class="badge-ok">SIM</span></td><td><span class="palpites-num p2">2</span></td></tr>
+<tr><td style="text-align:left;font-weight:700;">Loja 7122</td><td style="color:#ff7a7a;font-weight:700;">10.65%</td><td style="color:#4dff8a;font-weight:700;">95.48%</td><td style="color:#4dff8a;font-weight:700;">91.4%</td><td><span class="badge-nok">NAO</span></td><td><span class="badge-ok">SIM</span></td><td><span class="badge-ok">SIM</span></td><td><span class="palpites-num p2">2</span></td></tr>
+<tr><td style="text-align:left;font-weight:700;">Loja 7080</td><td style="color:#ff7a7a;font-weight:700;">15.81%</td><td style="color:#4dff8a;font-weight:700;">96.75%</td><td style="color:#4dff8a;font-weight:700;">90.9%</td><td><span class="badge-nok">NAO</span></td><td><span class="badge-ok">SIM</span></td><td><span class="badge-ok">SIM</span></td><td><span class="palpites-num p2">2</span></td></tr>
+<tr><td style="text-align:left;font-weight:700;">Loja 7027</td><td style="color:#4dff8a;font-weight:700;">38.27%</td><td style="color:#ff7a7a;font-weight:700;">88.51%</td><td style="color:#4dff8a;font-weight:700;">90.8%</td><td><span class="badge-ok">SIM</span></td><td><span class="badge-nok">NAO</span></td><td><span class="badge-ok">SIM</span></td><td><span class="palpites-num p2">2</span></td></tr>
+<tr><td style="text-align:left;font-weight:700;">Loja 201</td><td style="color:#ff7a7a;font-weight:700;">-9.98%</td><td style="color:#4dff8a;font-weight:700;">90.67%</td><td style="color:#4dff8a;font-weight:700;">90.1%</td><td><span class="badge-nok">NAO</span></td><td><span class="badge-ok">SIM</span></td><td><span class="badge-ok">SIM</span></td><td><span class="palpites-num p2">2</span></td></tr>
+<tr><td style="text-align:left;font-weight:700;">Loja 7116</td><td style="color:#ff7a7a;font-weight:700;">18.05%</td><td style="color:#ff7a7a;font-weight:700;">85.56%</td><td style="color:#4dff8a;font-weight:700;">91.7%</td><td><span class="badge-nok">NAO</span></td><td><span class="badge-nok">NAO</span></td><td><span class="badge-ok">SIM</span></td><td><span class="palpites-num p1">1</span></td></tr>
+<tr><td style="text-align:left;font-weight:700;">Loja 7020</td><td style="color:#ff7a7a;font-weight:700;">15.73%</td><td style="color:#ff7a7a;font-weight:700;">89.33%</td><td style="color:#4dff8a;font-weight:700;">91.2%</td><td><span class="badge-nok">NAO</span></td><td><span class="badge-nok">NAO</span></td><td><span class="badge-ok">SIM</span></td><td><span class="palpites-num p1">1</span></td></tr>
+<tr><td style="text-align:left;font-weight:700;">Loja 7062</td><td style="color:#ff7a7a;font-weight:700;">4.17%</td><td style="color:#ff7a7a;font-weight:700;">0.00%</td><td style="color:#4dff8a;font-weight:700;">90.9%</td><td><span class="badge-nok">NAO</span></td><td><span class="badge-nok">NAO</span></td><td><span class="badge-ok">SIM</span></td><td><span class="palpites-num p1">1</span></td></tr>
+<tr><td style="text-align:left;font-weight:700;">Loja 7447</td><td style="color:#ff7a7a;font-weight:700;">11.66%</td><td style="color:#ff7a7a;font-weight:700;">87.18%</td><td style="color:#4dff8a;font-weight:700;">90.2%</td><td><span class="badge-nok">NAO</span></td><td><span class="badge-nok">NAO</span></td><td><span class="badge-ok">SIM</span></td><td><span class="palpites-num p1">1</span></td></tr>
+<tr><td style="text-align:left;font-weight:700;">Loja 7121</td><td style="color:#ff7a7a;font-weight:700;">14.45%</td><td style="color:#4dff8a;font-weight:700;">92.73%</td><td style="color:#ff7a7a;font-weight:700;">86.0%</td><td><span class="badge-nok">NAO</span></td><td><span class="badge-ok">SIM</span></td><td><span class="badge-nok">NAO</span></td><td><span class="palpites-num p1">1</span></td></tr>
+<tr><td style="text-align:left;font-weight:700;">Loja 1212</td><td style="color:#ff7a7a;font-weight:700;">11.98%</td><td style="color:#4dff8a;font-weight:700;">94.64%</td><td style="color:#ff7a7a;font-weight:700;">76.4%</td><td><span class="badge-nok">NAO</span></td><td><span class="badge-ok">SIM</span></td><td><span class="badge-nok">NAO</span></td><td><span class="palpites-num p1">1</span></td></tr>
+<tr><td style="text-align:left;font-weight:700;">Loja 7035</td><td style="color:#ff7a7a;font-weight:700;">-3.83%</td><td style="color:#4dff8a;font-weight:700;">90.32%</td><td style="color:#ff7a7a;font-weight:700;">76.3%</td><td><span class="badge-nok">NAO</span></td><td><span class="badge-ok">SIM</span></td><td><span class="badge-nok">NAO</span></td><td><span class="palpites-num p1">1</span></td></tr>
+<tr><td style="text-align:left;font-weight:700;">Loja 1166</td><td style="color:#ff7a7a;font-weight:700;">5.17%</td><td style="color:#4dff8a;font-weight:700;">100.00%</td><td style="color:#ff7a7a;font-weight:700;">73.5%</td><td><span class="badge-nok">NAO</span></td><td><span class="badge-ok">SIM</span></td><td><span class="badge-nok">NAO</span></td><td><span class="palpites-num p1">1</span></td></tr>
+<tr><td style="text-align:left;font-weight:700;">Loja 7092</td><td style="color:#ff7a7a;font-weight:700;">4.89%</td><td style="color:#ff7a7a;font-weight:700;">88.69%</td><td style="color:#ff7a7a;font-weight:700;">89.5%</td><td><span class="badge-nok">NAO</span></td><td><span class="badge-nok">NAO</span></td><td><span class="badge-nok">NAO</span></td><td><span class="palpites-num p0">0</span></td></tr>
+<tr><td style="text-align:left;font-weight:700;">Loja 1105</td><td style="color:#ff7a7a;font-weight:700;">-9.71%</td><td style="color:#ff7a7a;font-weight:700;">88.89%</td><td style="color:#ff7a7a;font-weight:700;">89.3%</td><td><span class="badge-nok">NAO</span></td><td><span class="badge-nok">NAO</span></td><td><span class="badge-nok">NAO</span></td><td><span class="palpites-num p0">0</span></td></tr>
+<tr><td style="text-align:left;font-weight:700;">Loja 7014</td><td style="color:#ff7a7a;font-weight:700;">16.15%</td><td style="color:#ff7a7a;font-weight:700;">88.18%</td><td style="color:#ff7a7a;font-weight:700;">82.6%</td><td><span class="badge-nok">NAO</span></td><td><span class="badge-nok">NAO</span></td><td><span class="badge-nok">NAO</span></td><td><span class="palpites-num p0">0</span></td></tr>
+<tr><td style="text-align:left;font-weight:700;">Loja 7077</td><td style="color:#ff7a7a;font-weight:700;">11.67%</td><td style="color:#ff7a7a;font-weight:700;">0.00%</td><td style="color:#ff7a7a;font-weight:700;">63.6%</td><td><span class="badge-nok">NAO</span></td><td><span class="badge-nok">NAO</span></td><td><span class="badge-nok">NAO</span></td><td><span class="palpites-num p0">0</span></td></tr>
+</tbody>
+        </table>
+      </div>
+      <div class="btn-row" style="margin-top:16px;">
+        <button class="btn btn-primary" onclick="exportKpisFixos()">Exportar CSV</button>
+      </div>
+    </div>
+  </div>
+
+  <!--  ABA 2: LANÇAR PLACAR  -->
+  <div class="tab-panel" id="tab-placar">
+    <div class="section">
+      <div class="sec-title"> Resultado Real do Jogo</div>
+      <select class="jogo-select" id="jogoSelectPlacar">
+        <option value="">— Escolha o jogo —</option>
+        <option value="0">Jogo 1 · 13/Jun · Brasil × Marrocos</option>
+        <option value="1">Jogo 2 · 19/Jun · Brasil × Haiti</option>
+        <option value="2">Jogo 3 · 24/Jun · Escócia × Brasil  HOJE</option>
+        <option value="3">Jogo 4 · 29/Jun · Rodada 32</option>
+        <option value="4">Jogo 5 · 05/Jul · Oitavas</option>
+        <option value="5">Jogo 6 · 11-12/Jul · Quartas</option>
+        <option value="6">Jogo 7 · 15-16/Jul · Semifinal</option>
+        <option value="7">Jogo 8 · 19/Jul · FINAL </option>
+      </select>
+
+      <div class="placar-row">
+        <span class="placar-label"> Brasil</span>
+        <input class="placar-inp" id="golsBrasil" type="text" placeholder="0" maxlength="2" inputmode="numeric"/>
+        <span class="placar-sep">×</span>
+        <input class="placar-inp" id="golsAdv" type="text" placeholder="0" maxlength="2" inputmode="numeric"/>
+        <span class="placar-label" id="advLabel">Adversário</span>
+      </div>
+
+      <p style="font-size:12px; color:rgba(255,255,255,0.4); margin-bottom:14px;">
+        Após lançar, o sistema compara com os palpites registrados e calcula os pontos de cada loja automaticamente.
+      </p>
+
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="calcPlacar()"> Calcular Pontos</button>
+      </div>
+
+      <div id="placarResult" style="margin-top:18px; display:none;"></div>
+    </div>
+  </div>
+
+  <!--  ABA 3: RANKING  -->
+  <div class="tab-panel" id="tab-ranking">
+    <div class="section">
+      <div class="sec-title"> Ranking Geral</div>
+      <div style="overflow-x:auto;">
+        <table class="rank-table" id="rankTable">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th style="text-align:left">Loja</th>
+              <th>Palpites válidos</th>
+              <th>Acertos exatos</th>
+              <th>Vencedores</th>
+              <th>Pontos</th>
+            </tr>
+          </thead>
+          <tbody id="rankBody">
+            <tr><td colspan="6" style="padding:24px; color:rgba(255,255,255,0.3); text-align:center;">Lance os KPIs e placares para gerar o ranking.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="export-box">
+        <p> Exporte o ranking para compartilhar no grupo de gestores ou imprimir.</p>
+        <div class="btn-row">
+          <button class="btn btn-primary" onclick="exportRanking()"> Exportar Ranking CSV</button>
+          <button class="btn btn-secondary" onclick="copyRankingText()"> Copiar para WhatsApp</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+//  DADOS BASE 
+const lojas = [
+  '1105','1166','1212','201','7011','7014','7020','7027',
+  '7035','7062','7077','7080','7092','7115','7116','7121',
+  '7122','7178','7403','7447','7491','93'
+];
+
+const jogosInfo = [
+  { label:'Brasil × Marrocos', adv:'Marrocos' },
+  { label:'Brasil × Haiti',    adv:'Haiti' },
+  { label:'Escócia × Brasil',  adv:'Escócia' },
+  { label:'Brasil × Rodada32', adv:'A definir' },
+  { label:'Brasil × Oitavas',  adv:'A definir' },
+  { label:'Brasil × Quartas',  adv:'A definir' },
+  { label:'Brasil × Semifinal',adv:'A definir' },
+  { label:'Brasil × FINAL',    adv:'A definir' },
+];
+
+// Storage em memória
+const kpiData   = {}; // kpiData[jogoIdx][loja] = {sss, otd, nps, palpites}
+const palpites  = {}; // palpites[loja][jogoIdx] = {a, b}  (simulado/demo)
+const resultados= {}; // resultados[jogoIdx] = {brasil, adv}
+const pontos    = {}; // pontos[loja] = {total, exatos, vencedores, validos}
+lojas.forEach(l => { pontos[l] = {total:0, exatos:0, vencedores:0, validos:0}; });
+
+
+// DADOS REAIS MTD 23/Jun - Jogo 24/Jun
+const dadosReaisJogo2 = {
+  '1105': {sss:-9.71, otd:88.89, nps:89.3,  ok_sss:false, ok_otd:false, ok_nps:false, palpites:0},
+  '1166': {sss:5.17,  otd:100.0, nps:73.5,  ok_sss:false, ok_otd:true,  ok_nps:false, palpites:1},
+  '1212': {sss:11.98, otd:94.64, nps:76.4,  ok_sss:false, ok_otd:true,  ok_nps:false, palpites:1},
+  '201':  {sss:-9.98, otd:90.67, nps:90.1,  ok_sss:false, ok_otd:true,  ok_nps:true,  palpites:2},
+  '7011': {sss:-9.07, otd:90.48, nps:94.3,  ok_sss:false, ok_otd:true,  ok_nps:true,  palpites:2},
+  '7014': {sss:16.15, otd:88.18, nps:82.6,  ok_sss:false, ok_otd:false, ok_nps:false, palpites:0},
+  '7020': {sss:15.73, otd:89.33, nps:91.2,  ok_sss:false, ok_otd:false, ok_nps:true,  palpites:1},
+  '7027': {sss:38.27, otd:88.51, nps:90.8,  ok_sss:true,  ok_otd:false, ok_nps:true,  palpites:2},
+  '7035': {sss:-3.83, otd:90.32, nps:76.3,  ok_sss:false, ok_otd:true,  ok_nps:false, palpites:1},
+  '7062': {sss:4.17,  otd:0,     nps:90.9,  ok_sss:false, ok_otd:false, ok_nps:true,  palpites:1},
+  '7077': {sss:11.67, otd:0,     nps:63.6,  ok_sss:false, ok_otd:false, ok_nps:false, palpites:0},
+  '7080': {sss:15.81, otd:96.75, nps:90.9,  ok_sss:false, ok_otd:true,  ok_nps:true,  palpites:2},
+  '7092': {sss:4.89,  otd:88.69, nps:89.5,  ok_sss:false, ok_otd:false, ok_nps:false, palpites:0},
+  '7115': {sss:24.65, otd:95.24, nps:90.6,  ok_sss:true,  ok_otd:true,  ok_nps:true,  palpites:3},
+  '7116': {sss:18.05, otd:85.56, nps:91.7,  ok_sss:false, ok_otd:false, ok_nps:true,  palpites:1},
+  '7121': {sss:14.45, otd:92.73, nps:86.0,  ok_sss:false, ok_otd:true,  ok_nps:false, palpites:1},
+  '7122': {sss:10.65, otd:95.48, nps:91.4,  ok_sss:false, ok_otd:true,  ok_nps:true,  palpites:2},
+  '7178': {sss:6.12,  otd:90.72, nps:91.7,  ok_sss:false, ok_otd:true,  ok_nps:true,  palpites:2},
+  '7403': {sss:-7.76, otd:95.11, nps:94.4,  ok_sss:false, ok_otd:true,  ok_nps:true,  palpites:2},
+  '7447': {sss:11.66, otd:87.18, nps:90.2,  ok_sss:false, ok_otd:false, ok_nps:true,  palpites:1},
+  '7491': {sss:10.48, otd:97.01, nps:95.9,  ok_sss:false, ok_otd:true,  ok_nps:true,  palpites:2},
+  '93':   {sss:22.01, otd:92.45, nps:92.4,  ok_sss:false, ok_otd:true,  ok_nps:true,  palpites:2},
+};
+
+// Pré-carrega KPIs do jogo 2 (índice 2 = 24/Jun) com dados reais
+kpiData['2'] = {};
+Object.entries(dadosReaisJogo2).forEach(([loja, d]) => {
+  kpiData['2'][loja] = d;
+});
+
+  // Pré-popula palpites demo (0 a 3 gols aleatórios por loja/jogo)
+lojas.forEach(l => {
+  palpites[l] = {};
+  for(let j=0;j<8;j++){
+    palpites[l][j] = { a: Math.floor(Math.random()*4), b: Math.floor(Math.random()*3) };
+  }
+});
+
+//  TABS 
+function showTab(name){
+  document.querySelectorAll('.tab').forEach((t,i)=>{
+    const names=['kpis','placar','ranking'];
+    t.classList.toggle('active', names[i]===name);
+  });
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  if(name==='ranking') renderRanking();
+}
+
+//  ABA KPIs 
+function renderKpiTable(){
+  const ji = document.getElementById('jogoSelect').value;
+  const wrap = document.getElementById('kpiTableWrap');
+  if(ji===''){wrap.style.display='none'; return;}
+  wrap.style.display='block';
+  const tbody = document.getElementById('kpiBody');
+  tbody.innerHTML = '';
+  lojas.forEach(l=>{
+    const saved = (kpiData[ji]||{})[l] || {};
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${l}</td>
+      <td><input class="kpi-val" id="sss_${l}" value="${saved.sss||''}" placeholder="--" inputmode="decimal"/></td>
+      <td><input class="kpi-val" id="otd_${l}" value="${saved.otd||''}" placeholder="--" inputmode="decimal"/></td>
+      <td><input class="kpi-val" id="nps_${l}" value="${saved.nps||''}" placeholder="--" inputmode="decimal"/></td>
+      <td id="badge_sss_${l}"><span class="badge-nd">—</span></td>
+      <td id="badge_otd_${l}"><span class="badge-nd">—</span></td>
+      <td id="badge_nps_${l}"><span class="badge-nd">—</span></td>
+      <td id="palp_${l}"><span class="palpites-num p0">—</span></td>
+    `;
+    tbody.appendChild(row);
+  });
+  // se já havia calculado, mostra
+  if(kpiData[ji]) calcKpis(true);
+}
+
+function calcKpis(silent){
+  const ji = document.getElementById('jogoSelect').value;
+  if(ji==='') return;
+  if(!kpiData[ji]) kpiData[ji]={};
+  lojas.forEach(l=>{
+    const sss = parseFloat(document.getElementById('sss_'+l)?.value)||0;
+    const otd = parseFloat(document.getElementById('otd_'+l)?.value)||0;
+    const nps = parseFloat(document.getElementById('nps_'+l)?.value)||0;
+    const okSSS = sss >= 23;
+    const okOTD = otd >= 90;
+    const okNPS = nps >= 90;
+    const total = (okSSS?1:0)+(okOTD?1:0)+(okNPS?1:0);
+    kpiData[ji][l] = {sss,otd,nps,palpites:total,okSSS,okOTD,okNPS};
+    const badge = v => v ? '<span class="badge-ok"></span>' : '<span class="badge-nok"></span>';
+    const cls   = ['p0','p1','p2','p3'][total];
+    document.getElementById('badge_sss_'+l).innerHTML = badge(okSSS);
+    document.getElementById('badge_otd_'+l).innerHTML = badge(okOTD);
+    document.getElementById('badge_nps_'+l).innerHTML = badge(okNPS);
+    document.getElementById('palp_'+l).innerHTML = `<span class="palpites-num ${cls}">${total}</span>`;
+  });
+}
+
+function exportKpis(){
+  const ji = document.getElementById('jogoSelect').value;
+  if(ji===''||!kpiData[ji]){alert('Calcule os KPIs primeiro.'); return;}
+  let csv = 'Loja,SSS%,OTD%,NPS%,SSS OK,OTD OK,NPS OK,Palpites Válidos\n';
+  lojas.forEach(l=>{
+    const d = kpiData[ji][l]||{};
+    csv += `${l},${d.sss||''},${d.otd||''},${d.nps||''},${d.okSSS?'SIM':'NÃO'},${d.okOTD?'SIM':'NÃO'},${d.okNPS?'SIM':'NÃO'},${d.palpites||0}\n`;
+  });
+  download(csv, `kpis-jogo${parseInt(ji)+1}.csv`);
+}
+
+//  ABA PLACAR 
+function calcPlacar(){
+  const ji = document.getElementById('jogoSelectPlacar').value;
+  const gB = parseInt(document.getElementById('golsBrasil').value);
+  const gA = parseInt(document.getElementById('golsAdv').value);
+
+  if(ji===''||isNaN(gB)||isNaN(gA)){
+    alert('Selecione o jogo e informe o placar.'); return;
+  }
+
+  resultados[ji] = {brasil:gB, adv:gA};
+  const kpis = kpiData[ji]||{};
+  let rows = '';
+
+  lojas.forEach(l=>{
+    const lkpi  = kpis[l] || {palpites:0, okSSS:false, okOTD:false, okNPS:false};
+    const palp  = palpites[l]?.[ji] || {a:0,b:0};
+    const pA = palp.a, pB = palp.b;
+
+    // Pontua cada palpite válido (por KPI) separadamente com mesma lógica
+    let ptTotal = 0;
+    let exato = false, vencedor = false;
+
+    // Determina resultado real
+    const rBrasil = gB > gA ? 'B' : gB < gA ? 'A' : 'E';
+    const rPalp   = pA > pB ? 'B' : pA < pB ? 'A' : 'E';
+    const acertouPlacar   = pA===gB && pB===gA;
+    const acertouVencedor = !acertouPlacar && rBrasil===rPalp;
+
+    const pts = acertouPlacar ? 3 : acertouVencedor ? 1 : 0;
+
+    // Multiplica pelos palpites válidos
+    ptTotal = pts * lkpi.palpites;
+    if(pts===3) exato=true;
+    if(pts===1) vencedor=true;
+
+    pontos[l].total      += ptTotal;
+    pontos[l].validos    += lkpi.palpites;
+    if(acertouPlacar && lkpi.palpites>0)   pontos[l].exatos++;
+    if(acertouVencedor && lkpi.palpites>0) pontos[l].vencedores++;
+
+    const resultIcon = acertouPlacar?'' : acertouVencedor?'' : pts===0&&lkpi.palpites>0?'':'';
+    rows += `<tr>
+      <td style="text-align:left;font-weight:600">${l}</td>
+      <td>${pA} × ${pB}</td>
+      <td>${lkpi.palpites} palpite${lkpi.palpites!==1?'s':''}</td>
+      <td>${resultIcon}</td>
+      <td style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--amarelo)">${ptTotal}</td>
+    </tr>`;
+  });
+
+  document.getElementById('placarResult').style.display='block';
+  document.getElementById('placarResult').innerHTML = `
+    <div style="background:rgba(0,156,59,0.12);border:1px solid rgba(0,156,59,0.3);border-radius:12px;padding:14px 16px;margin-bottom:14px;">
+      <p style="font-size:13px;color:rgba(255,255,255,0.6);margin-bottom:4px;">Resultado oficial</p>
+      <p style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--amarelo)"> Brasil ${gB} × ${gA} ${jogosInfo[ji]?.adv||'Adversário'}</p>
+    </div>
+    <div style="overflow-x:auto;">
+    <table class="rank-table">
+      <thead><tr><th style="text-align:left">Loja</th><th>Palpite</th><th>Palpites válidos</th><th>Resultado</th><th>Pontos</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+    </div>
+    <div class="btn-row" style="margin-top:14px;">
+      <button class="btn btn-primary" onclick="exportPlacar(${ji})"> Exportar Resultado</button>
+      <button class="btn btn-secondary" onclick="showTab('ranking')"> Ver Ranking</button>
+    </div>
+  `;
+}
+
+function exportPlacar(ji){
+  let csv = 'Loja,Palpite,Palpites Válidos,Pontos\n';
+  const kpis = kpiData[ji]||{};
+  lojas.forEach(l=>{
+    const lkpi = kpis[l]||{palpites:0};
+    const palp = palpites[l]?.[ji]||{a:0,b:0};
+    csv += `${l},${palp.a}x${palp.b},${lkpi.palpites},${pontos[l].total}\n`;
+  });
+  download(csv, `resultado-jogo${parseInt(ji)+1}.csv`);
+}
+
+//  RANKING 
+function renderRanking(){
+  const sorted = [...lojas].sort((a,b)=> pontos[b].total - pontos[a].total);
+  const tbody  = document.getElementById('rankBody');
+  tbody.innerHTML = '';
+  sorted.forEach((l,i)=>{
+    const p = pontos[l];
+    const pos = i===0?'':i===1?'':i===2?'':`${i+1}º`;
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><span class="rank-pos">${pos}</span></td>
+      <td>${l}</td>
+      <td>${p.validos}</td>
+      <td>${p.exatos}</td>
+      <td>${p.vencedores}</td>
+      <td><span class="rank-pts">${p.total}</span></td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function exportRanking(){
+  const sorted = [...lojas].sort((a,b)=> pontos[b].total - pontos[a].total);
+  let csv = 'Posição,Loja,Palpites Válidos,Acertos Exatos,Vencedores Certos,Pontos Totais\n';
+  sorted.forEach((l,i)=>{
+    const p = pontos[l];
+    csv += `${i+1},${l},${p.validos},${p.exatos},${p.vencedores},${p.total}\n`;
+  });
+  download(csv, 'ranking-bolao-copa2026.csv');
+}
+
+function copyRankingText(){
+  const sorted = [...lojas].sort((a,b)=>pontos[b].total-pontos[a].total);
+  const medals = ['','',''];
+  let txt = ' *BOLÃO COPA 2026 · MARGEM NA VEIA PA2*\n\n';
+  sorted.slice(0,10).forEach((l,i)=>{
+    const p = pontos[l];
+    txt += `${medals[i]||`${i+1}º`} ${l} — *${p.total} pts*\n`;
+  });
+  txt += '\n_Atualizado após o jogo · _';
+  navigator.clipboard.writeText(txt).then(()=>alert('Ranking copiado! Cole no WhatsApp.')).catch(()=>alert('Copie manualmente:\n\n'+txt));
+}
+
+//  UTILS 
+function download(content, filename){
+  const a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,'+encodeURIComponent('\uFEFF'+content);
+  a.download = filename;
+  a.click();
+}
+
+// Placar inputs — só números
+['golsBrasil','golsAdv'].forEach(id=>{
+  document.getElementById(id)?.addEventListener('input', e=>{
+    e.target.value = e.target.value.replace(/[^0-9]/g,'').slice(0,2);
+  });
+});
+
+// Update adv label
+document.getElementById('jogoSelectPlacar').addEventListener('change', function(){
+  const ji = this.value;
+  document.getElementById('advLabel').textContent = ji!==''?(jogosInfo[ji]?.adv||'Adversário'):'Adversário';
+});
+
+  function exportKpisFixos(){
+    const rows = document.querySelectorAll('.kpi-table tbody tr');
+    let csv = 'Loja,SSS %LY,OTD %,NPS %,SSS OK,OTD OK,NPS OK,Palpites\n';
+    rows.forEach(r => {
+      const cells = r.querySelectorAll('td');
+      const loja  = cells[0].textContent.replace('Loja ','').trim();
+      const sss   = cells[1].textContent.trim();
+      const otd   = cells[2].textContent.trim();
+      const nps   = cells[3].textContent.trim();
+      const okSSS = cells[4].textContent.trim();
+      const okOTD = cells[5].textContent.trim();
+      const okNPS = cells[6].textContent.trim();
+      const palp  = cells[7].textContent.trim();
+      csv += `${loja},${sss},${otd},${nps},${okSSS},${okOTD},${okNPS},${palp}\n`;
+    });
+    download(csv, 'kpis-jogo3-24jun.csv');
+  }
+</script>
+</body>
+</html>
