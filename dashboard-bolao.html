@@ -214,6 +214,7 @@
       .sidebar { display: none; }
       .mobile-nav { display: flex; }
       .main { padding: 16px 12px 60px; }
+      .pj-grid { grid-template-columns: 1fr !important; }
     }
     .mobile-nav {
       display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 99;
@@ -254,6 +255,10 @@
     </div>
     <div class="nav-item" onclick="showTab('fechamento', this)">
       <span class="icon">🎯</span> Fechamento
+    </div>
+    <div class="nav-item" onclick="showTab('proximojogo', this)" style="position:relative;">
+      <span class="icon">🔜</span> Próximo Jogo
+      <span id="badgeProximo" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:#ff4444;color:#fff;font-size:9px;font-weight:900;padding:2px 6px;border-radius:10px;letter-spacing:.5px;display:none;">HOJE</span>
     </div>
     <div class="nav-item" onclick="showTab('monitor', this)">
       <span class="icon">📡</span> Monitor
@@ -950,6 +955,98 @@
         <div id="diretoriaContent"></div>
       </div>
 
+      <!-- ABA PRÓXIMO JOGO -->
+      <div id="tab-proximojogo" class="tab-pane">
+
+        <!-- HERO COUNTDOWN -->
+        <div style="background:linear-gradient(135deg,#0a2a0a 0%,#0d1a3a 50%,#0a2a0a 100%);border:1px solid rgba(255,220,0,0.25);border-radius:20px;padding:28px 24px 24px;margin-bottom:20px;position:relative;overflow:hidden;">
+          <div style="position:absolute;top:-40px;right:-40px;width:200px;height:200px;background:radial-gradient(circle,rgba(255,220,0,0.08) 0%,transparent 70%);pointer-events:none;"></div>
+          <div style="text-align:center;margin-bottom:6px;">
+            <span style="background:rgba(255,220,0,0.12);border:1px solid rgba(255,220,0,0.3);border-radius:20px;padding:4px 16px;font-size:10px;letter-spacing:2px;color:var(--amarelo);font-weight:700;" id="pjLabel">JOGO 3</span>
+          </div>
+          <div style="text-align:center;font-family:'Bebas Neue',sans-serif;font-size:clamp(22px,4vw,34px);color:#fff;letter-spacing:3px;margin:8px 0 4px;" id="pjTimes">Brasil × Canadá</div>
+          <div style="text-align:center;font-size:12px;color:rgba(255,255,255,0.4);letter-spacing:1px;margin-bottom:22px;" id="pjDataStr">—</div>
+
+          <!-- CONTADOR REGRESSIVO -->
+          <div style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap;" id="pjCountdown">
+            <div style="text-align:center;min-width:64px;">
+              <div style="font-family:'Bebas Neue',sans-serif;font-size:52px;line-height:1;color:var(--amarelo);" id="cdDias">--</div>
+              <div style="font-size:9px;letter-spacing:2px;color:rgba(255,255,255,0.35);text-transform:uppercase;">dias</div>
+            </div>
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:44px;color:rgba(255,220,0,0.3);line-height:1.1;">:</div>
+            <div style="text-align:center;min-width:64px;">
+              <div style="font-family:'Bebas Neue',sans-serif;font-size:52px;line-height:1;color:var(--amarelo);" id="cdHoras">--</div>
+              <div style="font-size:9px;letter-spacing:2px;color:rgba(255,255,255,0.35);text-transform:uppercase;">horas</div>
+            </div>
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:44px;color:rgba(255,220,0,0.3);line-height:1.1;">:</div>
+            <div style="text-align:center;min-width:64px;">
+              <div style="font-family:'Bebas Neue',sans-serif;font-size:52px;line-height:1;color:var(--amarelo);" id="cdMinutos">--</div>
+              <div style="font-size:9px;letter-spacing:2px;color:rgba(255,255,255,0.35);text-transform:uppercase;">minutos</div>
+            </div>
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:44px;color:rgba(255,220,0,0.3);line-height:1.1;">:</div>
+            <div style="text-align:center;min-width:64px;">
+              <div style="font-family:'Bebas Neue',sans-serif;font-size:52px;line-height:1;color:#4dff8a;" id="cdSegundos">--</div>
+              <div style="font-size:9px;letter-spacing:2px;color:rgba(255,255,255,0.35);text-transform:uppercase;">segundos</div>
+            </div>
+          </div>
+
+          <!-- BARRA DE PROGRESSO TEMPORAL -->
+          <div style="margin-top:20px;">
+            <div style="display:flex;justify-content:space-between;font-size:10px;color:rgba(255,255,255,0.3);margin-bottom:6px;">
+              <span>Início do bolão</span><span id="pjPctLabel">—% do tempo restante</span>
+            </div>
+            <div style="background:rgba(255,255,255,0.08);border-radius:6px;height:6px;overflow:hidden;">
+              <div id="pjProgressBar" style="height:100%;background:linear-gradient(90deg,#4dff8a,var(--amarelo));border-radius:6px;width:0%;transition:width .5s;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DOIS BLOCOS: RANKING + PALPITES -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;" class="pj-grid">
+
+          <!-- BLOCO RANKING ACUMULADO -->
+          <div class="section" style="border-color:rgba(255,220,0,0.2);">
+            <div class="sec-title" style="color:var(--amarelo);">Ranking Acumulado J1+J2</div>
+            <div id="pjRanking" style="display:flex;flex-direction:column;gap:6px;margin-top:12px;">
+              <span style="color:rgba(255,255,255,0.3);font-size:12px;">Carregando...</span>
+            </div>
+          </div>
+
+          <!-- BLOCO PALPITES POR GESTOR -->
+          <div class="section" style="border-color:rgba(77,255,138,0.2);">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+              <div class="sec-title" style="color:#4dff8a;margin:0;">Palpites no Jogo 3</div>
+              <div style="font-size:10px;color:rgba(255,255,255,0.3);">máx 8/loja</div>
+            </div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.35);margin-bottom:10px;">Baseado nos KPIs MTD apurados</div>
+            <div id="pjPalpites" style="display:flex;flex-direction:column;gap:5px;">
+              <span style="color:rgba(255,255,255,0.3);font-size:12px;">Carregando...</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOCO QUEM FALTA MELHORAR -->
+        <div class="section" style="border-color:rgba(255,80,80,0.2);margin-bottom:20px;">
+          <div class="sec-title" style="color:#ff7a7a;">Quem Ainda Pode Melhorar KPIs</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.3);margin-bottom:12px;">Gestores com menos de 8 palpites — há KPIs em aberto que podem ser virados até o fechamento</div>
+          <div id="pjMelhorar" style="display:flex;flex-wrap:wrap;gap:8px;"></div>
+        </div>
+
+        <!-- BOTÕES WHATSAPP -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:8px;" class="pj-grid">
+          <button onclick="copiarMsgProximoJogo('geral')" style="display:flex;align-items:center;justify-content:center;gap:8px;background:rgba(37,211,102,0.12);color:#25D366;border:1px solid rgba(37,211,102,0.35);border-radius:12px;padding:14px 18px;font-size:13px;font-weight:700;cursor:pointer;font-family:-apple-system,sans-serif;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.532 5.85L0 24l6.306-1.511A11.956 11.956 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.007-1.372l-.36-.213-3.724.892.924-3.618-.234-.373A9.818 9.818 0 1112 21.818z"/></svg>
+            📣 Mensagem do Dia — Todos
+          </button>
+          <button onclick="copiarMsgProximoJogo('urgente')" style="display:flex;align-items:center;justify-content:center;gap:8px;background:rgba(255,80,80,0.1);color:#ff7a7a;border:1px solid rgba(255,80,80,0.3);border-radius:12px;padding:14px 18px;font-size:13px;font-weight:700;cursor:pointer;font-family:-apple-system,sans-serif;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            ⚠️ Urgente — Quem Pode Melhorar
+          </button>
+        </div>
+        <div id="pjCopiadoFeedback" style="text-align:center;font-size:12px;color:#4dff8a;height:20px;"></div>
+
+      </div>
+
   </main>
 </div>
 
@@ -960,6 +1057,7 @@
   <button onclick="showTab('palpites',this,true)"><span>📋</span>Palpites</button>
   <button class="active" onclick="showTab('lojas',this,true)"><span>🏪</span>Lojas</button>
   <button onclick="showTab('fechamento',this,true)"><span>🎯</span>Fechamento</button>
+  <button onclick="showTab('proximojogo',this,true)"><span>🔜</span>Próx.Jogo</button>
   <button onclick="showTab('monitor',this,true)"><span>📡</span>Monitor</button>
 </nav>
 
@@ -1250,6 +1348,7 @@ async function carregar() {
     renderEvolucao();
     renderFechamentoJ2();
     preencherFotosJ1();
+    renderProximoJogo();
   } catch(e) {
     document.getElementById('tabelaPalpites1').innerHTML = `<tr><td colspan="6" class="empty">Erro: ${e.message}</td></tr>`;
   }
@@ -2699,6 +2798,279 @@ function renderTabelaPrint() {
 
   document.getElementById('tabelaPrintGrid').innerHTML =
     `<div>${buildTable(col1)}</div><div>${buildTable(col2)}</div>`;
+}
+
+// ============================================================
+// PRÓXIMO JOGO — config, countdown, render, WhatsApp
+// ============================================================
+const PROXIMO_JOGO = {
+  numero: 3,
+  label: 'JOGO 3',
+  times: 'Brasil × Canadá',
+  // Altere a data/hora aqui quando souber o próximo jogo:
+  data: new Date('2026-07-03T14:00:00-03:00'),
+  dataStr: '03/Jul às 14h00',
+  // Data de início do período de apuração de KPIs para o J3
+  inicio: new Date('2026-06-29T00:00:00-03:00'),
+};
+
+let _countdownTimer = null;
+
+function iniciarCountdown() {
+  if (_countdownTimer) clearInterval(_countdownTimer);
+  const alvo = PROXIMO_JOGO.data.getTime();
+  const inicio = PROXIMO_JOGO.inicio.getTime();
+  const total = alvo - inicio;
+
+  function tick() {
+    const agora = Date.now();
+    const diff = alvo - agora;
+
+    if (diff <= 0) {
+      document.getElementById('cdDias').textContent    = '00';
+      document.getElementById('cdHoras').textContent   = '00';
+      document.getElementById('cdMinutos').textContent = '00';
+      document.getElementById('cdSegundos').textContent= '00';
+      document.getElementById('pjPctLabel').textContent = 'É HOJE!';
+      document.getElementById('pjProgressBar').style.width = '100%';
+      document.getElementById('badgeProximo').style.display = 'inline';
+      clearInterval(_countdownTimer);
+      return;
+    }
+
+    const dias  = Math.floor(diff / 86400000);
+    const horas = Math.floor((diff % 86400000) / 3600000);
+    const mins  = Math.floor((diff % 3600000) / 60000);
+    const segs  = Math.floor((diff % 60000) / 1000);
+
+    document.getElementById('cdDias').textContent    = String(dias).padStart(2,'0');
+    document.getElementById('cdHoras').textContent   = String(horas).padStart(2,'0');
+    document.getElementById('cdMinutos').textContent = String(mins).padStart(2,'0');
+    document.getElementById('cdSegundos').textContent= String(segs).padStart(2,'0');
+
+    const decorrido = Math.max(0, agora - inicio);
+    const pct = Math.min(100, Math.round((decorrido / total) * 100));
+    document.getElementById('pjPctLabel').textContent = `${pct}% do tempo passou`;
+    document.getElementById('pjProgressBar').style.width = pct + '%';
+
+    if (dias === 0) document.getElementById('badgeProximo').style.display = 'inline';
+  }
+
+  tick();
+  _countdownTimer = setInterval(tick, 1000);
+}
+
+function renderProximoJogo() {
+  // Preenche cabeçalho
+  document.getElementById('pjLabel').textContent   = PROXIMO_JOGO.label;
+  document.getElementById('pjTimes').textContent   = PROXIMO_JOGO.times;
+  document.getElementById('pjDataStr').textContent = PROXIMO_JOGO.dataStr;
+
+  iniciarCountdown();
+
+  // --- RANKING ACUMULADO J1+J2 ---
+  const g3 = PLACARES_OFICIAIS.g3, g4 = PLACARES_OFICIAIS.g4;
+  const mapa = {};
+  dados.forEach(d => {
+    if (gerentes[d.loja]?.nome) d.nome = gerentes[d.loja].nome;
+    const chave = d.loja;
+    const j1 = calcPontos(d.palpite_g3, g3.a, g3.b);
+    const j2 = calcPontos(d.palpite_g4, g4.a, g4.b);
+    if (!mapa[chave]) mapa[chave] = { nome: d.nome, loja: d.loja, j1: 0, j2: 0 };
+    if (j1 > mapa[chave].j1) mapa[chave].j1 = j1;
+    if (j2 > mapa[chave].j2) mapa[chave].j2 = j2;
+  });
+  const ranking = Object.values(mapa)
+    .map(p => ({ ...p, total: p.j1 + p.j2 }))
+    .filter(p => p.loja !== '7403' || gerentes['7403']?.nome)
+    .sort((a, b) => b.total - a.total || b.j2 - a.j2 || b.j1 - a.j1);
+
+  const medalhas = ['🥇','🥈','🥉'];
+  const coresPos = ['var(--amarelo)','#C0C0C0','#CD7F32'];
+
+  const rankHTML = ranking.slice(0,10).map((p, i) => {
+    const foto = gerentes[p.loja]?.foto;
+    const cor = coresPos[i] || 'rgba(255,255,255,0.5)';
+    const fotoEl = foto
+      ? `<img src="${foto}" style="width:28px;height:28px;border-radius:50%;object-fit:cover;border:2px solid ${cor};">`
+      : `<div style="width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,0.06);border:2px solid ${cor};display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;color:${cor};">${(p.nome||'?')[0]}</div>`;
+    return `<div style="display:flex;align-items:center;gap:8px;padding:5px 8px;border-radius:8px;background:${i<3?'rgba(255,220,0,0.04)':'transparent'};">
+      <span style="font-family:'Bebas Neue',sans-serif;font-size:15px;color:${cor};width:18px;text-align:right;">${medalhas[i]||i+1+'º'}</span>
+      ${fotoEl}
+      <div style="flex:1;min-width:0;">
+        <div style="font-size:12px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${p.nome||p.loja}</div>
+        <div style="font-size:10px;color:rgba(255,255,255,0.35);">Loja ${p.loja}</div>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:${cor};">${p.total}</div>
+        <div style="font-size:9px;color:rgba(255,255,255,0.3);">J1·${p.j1} J2·${p.j2}</div>
+      </div>
+    </div>`;
+  }).join('');
+  document.getElementById('pjRanking').innerHTML = rankHTML || '<span style="color:rgba(255,255,255,0.3);font-size:12px;">Sem dados</span>';
+
+  // --- PALPITES POR GESTOR ---
+  const sorted = [...LOJAS_PA2].sort((a,b) => (kpiLojas[b]?.palpites||0) - (kpiLojas[a]?.palpites||0));
+  const barraMax = 8;
+  const coresPalp = { 8:'#4dff8a', 7:'#4dff8a', 6:'#7ab4ff', 5:'#7ab4ff', 4:'var(--amarelo)', 3:'var(--amarelo)', 2:'#ffaa55', 1:'#ffaa55', 0:'#ff7a7a' };
+
+  const palHTML = sorted.map(loja => {
+    const k = kpiLojas[loja] || {};
+    const p = k.palpites || 0;
+    const g = gerentes[loja] || {};
+    const nome = g.nome || `Loja ${loja}`;
+    const cor = coresPalp[p] || '#ffaa55';
+    const pct = Math.round((p / barraMax) * 100);
+    const kpiIcons = [
+      k.sss?'SSS':'',k.otd?'OTD':'',k.nps?'NPS':'',k.sd?'SD':'',
+      k.meta?'META':'',k.lm?'LM%':'',k.pgf?'PGF':'',k.fid?'FID':''
+    ].filter(Boolean).join('·');
+    return `<div style="display:flex;align-items:center;gap:8px;padding:4px 0;">
+      <div style="font-size:11px;font-weight:700;color:${cor};width:18px;text-align:center;font-family:'Bebas Neue',sans-serif;font-size:16px;">${p}</div>
+      <div style="flex:1;min-width:0;">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:3px;">
+          <span style="font-size:11px;font-weight:600;color:${p>0?'#fff':'rgba(255,255,255,0.4)'};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:110px;">${nome.split(' ')[0]}</span>
+          <span style="font-size:9px;color:rgba(255,255,255,0.3);white-space:nowrap;margin-left:4px;">${kpiIcons||'—'}</span>
+        </div>
+        <div style="background:rgba(255,255,255,0.07);border-radius:4px;height:5px;overflow:hidden;">
+          <div style="height:100%;background:${cor};border-radius:4px;width:${pct}%;"></div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  document.getElementById('pjPalpites').innerHTML = palHTML;
+
+  // --- QUEM PODE MELHORAR ---
+  const podeMelhorar = LOJAS_PA2.filter(l => {
+    const k = kpiLojas[l];
+    return k && k.palpites > 0 && k.palpites < 8;
+  });
+  const melhorHTML = podeMelhorar.map(loja => {
+    const k = kpiLojas[loja];
+    const g = gerentes[loja] || {};
+    const nome = (g.nome || `Loja ${loja}`).split(' ')[0];
+    const faltam = 8 - k.palpites;
+    const kpisFaltando = [
+      !k.sss?'SSS':'',!k.otd?'OTD':'',!k.nps?'NPS':'',!k.sd?'SD':'',
+      !k.meta?'META':'',!k.lm?'LM%':'',!k.pgf?'PGF':'',!k.fid?'FID':''
+    ].filter(Boolean).slice(0, faltam);
+    return `<div style="background:rgba(0,0,0,0.3);border:1px solid rgba(255,120,80,0.2);border-radius:10px;padding:8px 12px;min-width:120px;">
+      <div style="font-size:12px;font-weight:700;color:#fff;">${nome}</div>
+      <div style="font-size:10px;color:rgba(255,255,255,0.35);">Loja ${loja}</div>
+      <div style="margin-top:4px;font-family:'Bebas Neue',sans-serif;font-size:14px;color:#ffaa55;">${k.palpites} → <span style="color:#4dff8a;">8</span></div>
+      <div style="font-size:9px;color:#ff7a7a;margin-top:2px;">Falta: ${kpisFaltando.join(' · ')||'—'}</div>
+    </div>`;
+  }).join('');
+  document.getElementById('pjMelhorar').innerHTML = melhorHTML || '<span style="color:rgba(255,255,255,0.3);font-size:12px;">Todos com potencial máximo!</span>';
+}
+
+function copiarMsgProximoJogo(tipo) {
+  const alvo = PROXIMO_JOGO.data.getTime();
+  const diff = alvo - Date.now();
+  const dias  = Math.max(0, Math.floor(diff / 86400000));
+  const horas = Math.max(0, Math.floor((diff % 86400000) / 3600000));
+
+  // Ranking
+  const g3 = PLACARES_OFICIAIS.g3, g4 = PLACARES_OFICIAIS.g4;
+  const mapa = {};
+  dados.forEach(d => {
+    if (gerentes[d.loja]?.nome) d.nome = gerentes[d.loja].nome;
+    const j1 = calcPontos(d.palpite_g3, g3.a, g3.b);
+    const j2 = calcPontos(d.palpite_g4, g4.a, g4.b);
+    if (!mapa[d.loja]) mapa[d.loja] = { nome: d.nome, loja: d.loja, j1: 0, j2: 0 };
+    if (j1 > mapa[d.loja].j1) mapa[d.loja].j1 = j1;
+    if (j2 > mapa[d.loja].j2) mapa[d.loja].j2 = j2;
+  });
+  const ranking = Object.values(mapa)
+    .map(p => ({ ...p, total: p.j1 + p.j2 }))
+    .sort((a, b) => b.total - a.total || b.j2 - a.j2);
+
+  // Situação de palpites
+  const sorted = [...LOJAS_PA2]
+    .filter(l => kpiLojas[l])
+    .sort((a,b) => (kpiLojas[b].palpites||0) - (kpiLojas[a].palpites||0));
+  const comDir = sorted.filter(l => (kpiLojas[l]?.palpites||0) > 0);
+  const semDir = sorted.filter(l => (kpiLojas[l]?.palpites||0) === 0);
+  const podeMelhorar = sorted.filter(l => { const k=kpiLojas[l]; return k && k.palpites>0 && k.palpites<8; });
+
+  const tempoStr = dias > 0 ? `*${dias} dia${dias>1?'s':''} e ${horas}h*` : `*${horas}h restantes!*`;
+  const urgencia = dias === 0 ? '🔴 HOJE É O DIA!' : dias === 1 ? '🟡 AMANHÃ É O JOGO!' : `🟢 Faltam ${dias} dias`;
+
+  let msg = '';
+
+  if (tipo === 'geral') {
+    const top5 = ranking.slice(0, 5);
+    const emos = ['🥇','🥈','🥉','4️⃣','5️⃣'];
+    const rankTxt = top5.map((p,i) => `${emos[i]} ${(p.nome||p.loja).split(' ')[0]} (${p.loja}) — *${p.total}pts* _(J1:${p.j1} J2:${p.j2})_`).join('\n');
+
+    const palTxt = comDir.map(l => {
+      const k = kpiLojas[l];
+      const g = gerentes[l] || {};
+      const nome = (g.nome || `Loja ${l}`).split(' ')[0];
+      const bar = '█'.repeat(k.palpites) + '░'.repeat(8 - k.palpites);
+      return `  ${bar} ${k.palpites}✔ ${nome}`;
+    }).join('\n');
+
+    const semTxt = semDir.length > 0
+      ? `\n⚠️ *SEM palpites ainda:* ${semDir.map(l => (gerentes[l]?.nome||`L${l}`).split(' ')[0]).join(', ')}`
+      : '';
+
+    msg = `⚽ *BOLÃO COPA 2026 · PA2 · Margem na Veia*
+━━━━━━━━━━━━━━━━━━━━
+${urgencia}
+📅 *${PROXIMO_JOGO.label} · ${PROXIMO_JOGO.times}*
+🕑 ${PROXIMO_JOGO.dataStr} · Faltam ${tempoStr}
+
+🏆 *RANKING PARCIAL (J1+J2)*
+${rankTxt}
+
+🎯 *PALPITES GARANTIDOS — ${PROXIMO_JOGO.label}*
+${palTxt}${semTxt}
+
+💪 *Bata seus KPIs e garanta mais palpites!*
+SSS ≥23% | OTD ≥90% | NPS ≥90%
+SD ≥100% | META ≥100% | LM >0%
+PGF ≥100% | FID ≥100%
+📊 Cada KPI batido = 1 palpite · Máx 8
+
+_GR Andrea Silva · PA2_`;
+
+  } else {
+    // Mensagem urgente para quem pode melhorar
+    const listaMelhorar = podeMelhorar.map(l => {
+      const k = kpiLojas[l];
+      const g = gerentes[l] || {};
+      const nome = (g.nome || `Loja ${l}`).split(' ')[0];
+      const faltam = 8 - k.palpites;
+      const kpisFalt = [
+        !k.sss?'SSS':'',!k.otd?'OTD':'',!k.nps?'NPS':'',!k.sd?'SD':'',
+        !k.meta?'META':'',!k.lm?'LM%':'',!k.pgf?'PGF':'',!k.fid?'FID':''
+      ].filter(Boolean).slice(0, faltam).join(' · ');
+      return `  🔸 *${nome}* (${l}) — ${k.palpites} palpites · falta: ${kpisFalt||'—'}`;
+    }).join('\n');
+
+    msg = `⚠️ *ATENÇÃO — BOLÃO COPA 2026 · PA2*
+━━━━━━━━━━━━━━━━━━━━
+${urgencia}
+📅 *${PROXIMO_JOGO.label} · ${PROXIMO_JOGO.times}* — ${PROXIMO_JOGO.dataStr}
+⏰ Faltam ${tempoStr} para o jogo
+
+💡 *Ainda dá tempo de garantir mais palpites!*
+Os gestores abaixo têm KPIs em aberto que podem ser virados até o fechamento:
+
+${listaMelhorar}
+
+👆 Cada KPI batido = +1 palpite extra!
+Mais palpites = mais chances de ganhar o Bolão.
+
+_GR Andrea Silva · PA2_`;
+  }
+
+  navigator.clipboard.writeText(msg).then(() => {
+    const el = document.getElementById('pjCopiadoFeedback');
+    el.textContent = '✅ Mensagem copiada! Cole no WhatsApp.';
+    setTimeout(() => el.textContent = '', 3500);
+  });
 }
 </script>
 
