@@ -772,7 +772,13 @@
       <!-- ABA: EVOLUÇÃO -->
       <div id="tab-evolucao" class="tab-pane">
         <div class="section" style="margin-bottom:18px;">
-          <div class="sec-title">Evolução por Jogo — Consistência dos Gestores</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:4px;">
+            <div class="sec-title" style="margin:0;">Evolução por Jogo — Consistência dos Gestores</div>
+            <button id="btnEngajamento" onclick="copiarMsgEngajamento()" style="display:flex;align-items:center;gap:7px;background:rgba(37,211,102,0.10);color:#25D366;border:1px solid rgba(37,211,102,0.3);border-radius:10px;padding:8px 16px;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;font-size:12px;font-weight:600;cursor:pointer;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.532 5.85L0 24l6.306-1.511A11.956 11.956 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.007-1.372l-.36-.213-3.724.892.924-3.618-.234-.373A9.818 9.818 0 1112 21.818z"/></svg>
+              📣 Engajar Próximo Jogo — WhatsApp
+            </button>
+          </div>
           <p style="font-size:12px;color:rgba(255,255,255,0.4);margin:0 0 16px;">Palpites disponíveis e enviados em cada jogo. Verde = melhorou · Vermelho = regrediu · Igual = manteve.</p>
           <div style="overflow-x:auto;">
             <table id="tabelaEvolucao" style="width:100%;border-collapse:collapse;font-size:13px;">
@@ -2290,6 +2296,77 @@ function abrirCartao(loja) {
     </div>`;
 
   document.getElementById('overlayCartao').classList.add('open');
+}
+
+function copiarMsgEngajamento() {
+  // ranking acumulado atual
+  const mapaE = {};
+  dados.forEach(d => {
+    if (gerentes[d.loja]?.nome) d.nome = gerentes[d.loja].nome;
+    const chave = d.loja;
+    const j1 = calcPontos(d.palpite_g3, PLACARES_OFICIAIS.g3.a, PLACARES_OFICIAIS.g3.b);
+    const j2 = calcPontos(d.palpite_g4, PLACARES_OFICIAIS.g4.a, PLACARES_OFICIAIS.g4.b);
+    if (!mapaE[chave]) mapaE[chave] = { nome: d.nome, loja: d.loja, j1: 0, j2: 0 };
+    if (j1 > mapaE[chave].j1) mapaE[chave].j1 = j1;
+    if (j2 > mapaE[chave].j2) mapaE[chave].j2 = j2;
+  });
+  Object.values(mapaE).forEach(p => { p.total = p.j1 + p.j2; });
+  const ranked = Object.values(mapaE).sort((a,b) => b.total - a.total || b.j2 - a.j2);
+  const lider = ranked[0];
+  const top3nomes = ranked.slice(0,3).map((p,i)=>`${['🥇','🥈','🥉'][i]} ${p.nome.split(' ')[0]} (${p.total}pts)`).join(' · ');
+
+  const hoje = new Date().toLocaleDateString('pt-BR');
+  let msg = `⚽ *BOLÃO COPA 2026 · PA2 — MARGEM NA VEIA*\n`;
+  msg += `📅 ${hoje} · Atualização pós Jogo 2\n\n`;
+
+  msg += `━━━━━━━━━━━━━━━━━━━━━━\n`;
+  msg += `🏆 *PLACAR ACUMULADO (J1+J2)*\n\n`;
+  ranked.slice(0,5).forEach((p,i) => {
+    const bar = '█'.repeat(p.total) + '░'.repeat(Math.max(0,8-p.total));
+    const medal = i<3?['🥇','🥈','🥉'][i]:`${i+1}º`;
+    msg += `${medal} *${p.nome.split(' ')[0]}* · Loja ${p.loja}\n`;
+    msg += `   ${bar} *${p.total}pts* (J1:${p.j1} J2:${p.j2})\n\n`;
+  });
+  if (ranked.length > 5) {
+    msg += `_...e mais ${ranked.length - 5} gestores na disputa_\n\n`;
+  }
+
+  msg += `━━━━━━━━━━━━━━━━━━━━━━\n`;
+  msg += `🎯 *PRÓXIMO JOGO — VALE MUITO!*\n\n`;
+  msg += `O campeonato ainda está em aberto!\n`;
+  msg += `*${lider?.nome?.split(' ')[0] || 'O líder'}* lidera com *${lider?.total || 0} pts*, mas qualquer um pode virar com um placar exato.\n\n`;
+
+  msg += `📋 *LEMBRE DAS REGRAS:*\n`;
+  msg += `✅ Acertou o placar EXATO → *4 pontos*\n`;
+  msg += `✅ Acertou só o vencedor → *1 ponto*\n`;
+  msg += `❌ Errou → *0 pontos*\n\n`;
+
+  msg += `🎟️ *SEUS PALPITES DISPONÍVEIS:*\n`;
+  msg += `Cada KPI verde = 1 palpite (máx 8)\n`;
+  msg += `• SSS ≥ 23% · OTD ≥ 90% · NPS ≥ 90%\n`;
+  msg += `• SD ≥ 100% · META ≥ 100% · LM% > 0%\n`;
+  msg += `• Pagueflix 100% · Fidelizar 100%\n\n`;
+
+  msg += `💡 *Dica:* Use todos os seus palpites!\n`;
+  msg += `Com mais palpites, mais chances de acertar o placar exato.\n\n`;
+
+  msg += `━━━━━━━━━━━━━━━━━━━━━━\n`;
+  msg += `_Gestora Regional Andréa · Bolão Copa 2026 · PA2_`;
+
+  navigator.clipboard.writeText(msg).then(() => {
+    const btn = document.getElementById('btnEngajamento');
+    const orig = btn.childNodes[btn.childNodes.length-1].textContent;
+    btn.childNodes[btn.childNodes.length-1].textContent = ' ✅ Copiado!';
+    btn.style.background = 'rgba(77,255,138,0.15)';
+    btn.style.borderColor = '#4dff8a';
+    btn.style.color = '#4dff8a';
+    setTimeout(() => {
+      btn.childNodes[btn.childNodes.length-1].textContent = orig;
+      btn.style.background = 'rgba(37,211,102,0.10)';
+      btn.style.borderColor = 'rgba(37,211,102,0.3)';
+      btn.style.color = '#25D366';
+    }, 2500);
+  });
 }
 
 function preencherFotosJ1() {
