@@ -469,8 +469,19 @@
 
     <!-- ABA: PALPITES -->
     <div id="tab-palpites" class="tab-pane">
+
+      <!-- Seletor de Jogo -->
+      <div style="display:flex;gap:8px;margin-bottom:14px;">
+        <button id="btnJogo1" onclick="selecionarJogo(1)" style="padding:8px 18px;border-radius:10px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.5);font-size:12px;font-weight:700;cursor:pointer;letter-spacing:.5px;">
+          JOGO 1 · Escócia × Brasil · 24/Jun
+        </button>
+        <button id="btnJogo2" onclick="selecionarJogo(2)" style="padding:8px 18px;border-radius:10px;border:1px solid rgba(255,220,0,0.4);background:rgba(255,220,0,0.08);color:#ffdc00;font-size:12px;font-weight:700;cursor:pointer;letter-spacing:.5px;">
+          JOGO 2 · Brasil × Japão · 29/Jun ●
+        </button>
+      </div>
+
       <div class="section">
-        <div class="sec-title">Palpites · Brasil × Japão · 29/Jun</div>
+        <div class="sec-title" id="palpitesTitulo">Palpites · Brasil × Japão · 29/Jun</div>
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;" id="palpitesGrid">
           <div style="overflow-x:auto;">
             <table>
@@ -1108,6 +1119,33 @@ async function carregar() {
   document.getElementById('ultimaAtualizacao').textContent = `Atualizado: ${agora.toLocaleTimeString('pt-BR')}`;
 }
 
+let jogoAtivo = 2; // 1 = Escócia×Brasil | 2 = Brasil×Japão
+
+function selecionarJogo(n) {
+  jogoAtivo = n;
+  const j1 = document.getElementById('btnJogo1');
+  const j2 = document.getElementById('btnJogo2');
+  const titulo = document.getElementById('palpitesTitulo');
+  if (n === 1) {
+    j1.style.borderColor = 'rgba(255,220,0,0.4)';
+    j1.style.background  = 'rgba(255,220,0,0.08)';
+    j1.style.color       = '#ffdc00';
+    j2.style.borderColor = 'rgba(255,255,255,0.15)';
+    j2.style.background  = 'rgba(255,255,255,0.06)';
+    j2.style.color       = 'rgba(255,255,255,0.5)';
+    titulo.textContent   = 'Palpites · Escócia × Brasil · 24/Jun';
+  } else {
+    j2.style.borderColor = 'rgba(255,220,0,0.4)';
+    j2.style.background  = 'rgba(255,220,0,0.08)';
+    j2.style.color       = '#ffdc00';
+    j1.style.borderColor = 'rgba(255,255,255,0.15)';
+    j1.style.background  = 'rgba(255,255,255,0.06)';
+    j1.style.color       = 'rgba(255,255,255,0.5)';
+    titulo.textContent   = 'Palpites · Brasil × Japão · 29/Jun';
+  }
+  renderizar();
+}
+
 function renderizar() {
   const lojasUnicas = [...new Set(dados.map(d => d.loja))];
   const faltando = LOJAS_PA2.filter(l => !lojasUnicas.includes(l));
@@ -1164,7 +1202,7 @@ function renderizar() {
       <td style="color:rgba(255,255,255,0.4);font-size:12px;">${i}</td>
       <td style="font-weight:600;">${primeiroNome}</td>
       <td><span style="font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--amarelo);">${d.loja||'—'}</span></td>
-      <td><span class="placar-cell">${d.palpite_g4||'—'}</span></td>
+      <td><span class="placar-cell">${(jogoAtivo===1 ? d.palpite_g3 : d.palpite_g4)||'—'}</span></td>
       <td>${direitoCell}</td>
       <td class="hora">${hora}</td>
     </tr>`;
