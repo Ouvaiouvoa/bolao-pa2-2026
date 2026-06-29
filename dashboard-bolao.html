@@ -1710,14 +1710,19 @@ function renderFechamentoJ2() {
 
   const { a: golA, b: golB, label } = PLACARES_OFICIAIS.g4;
 
-  // pontos J2 por pessoa (melhor palpite)
+  // mapa por loja — melhor J1 e melhor J2 separados
   const mapa = {};
   dados.forEach(d => {
+    if (gerentes[d.loja] && gerentes[d.loja].nome) d.nome = gerentes[d.loja].nome;
     const chave = d.loja;
-    const pts = calcPontos(d.palpite_g4, golA, golB);
-    if (!mapa[chave] || pts > mapa[chave].pts)
-      mapa[chave] = { ...d, ptsJ2: pts, ptsTotal: ptsTotais(d) };
+    const pj1 = calcPontos(d.palpite_g3, PLACARES_OFICIAIS.g3.a, PLACARES_OFICIAIS.g3.b);
+    const pj2 = calcPontos(d.palpite_g4, golA, golB);
+    if (!mapa[chave]) mapa[chave] = { nome: d.nome, loja: d.loja, palpite_g3: null, palpite_g4: null, ptsJ1: 0, ptsJ2: 0 };
+    if (d.nome && d.nome.length > (mapa[chave].nome||'').length) mapa[chave].nome = d.nome;
+    if (pj1 > mapa[chave].ptsJ1) { mapa[chave].ptsJ1 = pj1; mapa[chave].palpite_g3 = d.palpite_g3; }
+    if (pj2 > mapa[chave].ptsJ2) { mapa[chave].ptsJ2 = pj2; mapa[chave].palpite_g4 = d.palpite_g4; }
   });
+  Object.values(mapa).forEach(d => { d.ptsTotal = d.ptsJ1 + d.ptsJ2; });
 
   const ranked = Object.values(mapa)
     .filter(d => d.ptsJ2 > 0)
@@ -1768,29 +1773,46 @@ function renderFechamentoJ2() {
         }).join('')}
       </div>
       <div style="background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:14px;">
-        <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.3);text-align:center;margin-bottom:10px;">PLACAR COMPLETO · JOGO 2</div>
-        <table style="width:100%;font-size:12px;border-collapse:collapse;">
-          <thead><tr>
-            <th style="text-align:left;color:rgba(255,255,255,0.4);padding:4px 8px;">Gestor</th>
-            <th style="text-align:center;color:rgba(255,255,255,0.4);padding:4px 8px;">Loja</th>
-            <th style="text-align:center;color:rgba(255,255,255,0.4);padding:4px 8px;">Palpite</th>
-            <th style="text-align:center;color:rgba(255,255,255,0.4);padding:4px 8px;">J2</th>
-            <th style="text-align:center;color:var(--amarelo);padding:4px 8px;">Total</th>
-          </tr></thead>
-          <tbody>
-            ${Object.values(mapa).sort((a,b)=>b.ptsTotal-a.ptsTotal||b.ptsJ2-a.ptsJ2).map(d=>{
-              const corPts = d.ptsJ2===4?'#ffdc00':d.ptsJ2===1?'#4dff8a':'rgba(255,255,255,0.25)';
-              const corTot = d.ptsTotal>=5?'#ffd700':d.ptsTotal>=4?'#4dff8a':d.ptsTotal>=1?'#7ab4ff':'rgba(255,255,255,0.3)';
-              return `<tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
-                <td style="padding:6px 8px;font-weight:600;">${(d.nome||d.loja).split(' ')[0]}</td>
-                <td style="text-align:center;font-family:'Bebas Neue',sans-serif;font-size:15px;color:var(--amarelo);">${d.loja}</td>
-                <td style="text-align:center;"><span class="placar-cell" style="color:${corPts};">${d.palpite_g4||'—'}</span></td>
-                <td style="text-align:center;font-family:'Bebas Neue',sans-serif;font-size:20px;color:${corPts};">${d.ptsJ2}</td>
-                <td style="text-align:center;font-family:'Bebas Neue',sans-serif;font-size:22px;color:${corTot};">${d.ptsTotal}</td>
-              </tr>`;
-            }).join('')}
-          </tbody>
-        </table>
+        <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.3);text-align:center;margin-bottom:12px;">PLACAR COMPLETO · J1 + J2</div>
+        ${(() => {
+          const sorted = Object.values(mapa).sort((a,b)=>b.ptsTotal-a.ptsTotal||b.ptsJ2-a.ptsJ2);
+          const mid = Math.ceil(sorted.length / 2);
+          const col1 = sorted.slice(0, mid);
+          const col2 = sorted.slice(mid);
+          const renderTable = rows => `
+            <table style="width:100%;font-size:11px;border-collapse:collapse;">
+              <thead><tr>
+                <th style="text-align:left;color:rgba(255,255,255,0.35);padding:4px 6px;font-size:10px;">Gestor</th>
+                <th style="text-align:center;color:rgba(255,255,255,0.35);padding:4px 4px;font-size:10px;">Loja</th>
+                <th style="text-align:center;color:#aaa;padding:4px 4px;font-size:10px;">Palp J1</th>
+                <th style="text-align:center;color:var(--amarelo);padding:4px 4px;font-size:10px;">Palp J2</th>
+                <th style="text-align:center;color:#aaa;padding:4px 3px;font-size:10px;">J1</th>
+                <th style="text-align:center;color:var(--amarelo);padding:4px 3px;font-size:10px;">J2</th>
+                <th style="text-align:center;color:#4dff8a;padding:4px 4px;font-size:10px;">⚽</th>
+              </tr></thead>
+              <tbody>${rows.map(d => {
+                const cj1 = d.ptsJ1===4?'#4dff8a':d.ptsJ1>0?'var(--amarelo)':'rgba(255,255,255,0.2)';
+                const cj2 = d.ptsJ2===4?'#4dff8a':d.ptsJ2>0?'var(--amarelo)':'rgba(255,255,255,0.2)';
+                const cTot = d.ptsTotal>=7?'#4dff8a':d.ptsTotal>=4?'var(--amarelo)':d.ptsTotal>0?'#ffaa55':'rgba(255,255,255,0.2)';
+                const melhorPalp = (palp, ga, gb) => {
+                  if (!palp) return '—';
+                  const cands = palp.split('|').map(s=>s.trim());
+                  const exato = cands.find(c => { const p=c.split('x').map(Number); return p[0]===ga&&p[1]===gb; });
+                  return exato || cands[0];
+                };
+                return `<tr style="border-bottom:1px solid rgba(255,255,255,0.04);">
+                  <td style="padding:5px 6px;font-weight:600;white-space:nowrap;">${(d.nome||d.loja).split(' ')[0]}</td>
+                  <td style="text-align:center;font-family:'Bebas Neue',sans-serif;font-size:14px;color:var(--amarelo);">${d.loja}</td>
+                  <td style="text-align:center;font-size:11px;color:${cj1};">${melhorPalp(d.palpite_g3, PLACARES_OFICIAIS.g3.a, PLACARES_OFICIAIS.g3.b)}</td>
+                  <td style="text-align:center;font-size:11px;color:${cj2};">${melhorPalp(d.palpite_g4, PLACARES_OFICIAIS.g4.a, PLACARES_OFICIAIS.g4.b)}</td>
+                  <td style="text-align:center;font-family:'Bebas Neue',sans-serif;font-size:17px;color:${cj1};">${d.ptsJ1}</td>
+                  <td style="text-align:center;font-family:'Bebas Neue',sans-serif;font-size:17px;color:${cj2};">${d.ptsJ2}</td>
+                  <td style="text-align:center;font-family:'Bebas Neue',sans-serif;font-size:20px;font-weight:700;color:${cTot};">${d.ptsTotal}</td>
+                </tr>`;
+              }).join('')}</tbody>
+            </table>`;
+          return `<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">${renderTable(col1)}${renderTable(col2)}</div>`;
+        })()}
       </div>
     </div>`;
 }
