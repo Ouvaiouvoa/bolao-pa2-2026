@@ -441,11 +441,11 @@
         <div class="sec-title">Placar Ao Vivo</div>
         <div class="placar-box">
           <div><div class="placar-label">Brasil</div>
-            <input id="inputEsc" type="number" min="0" max="20" value="0" oninput="renderRanking()" class="brasil"/>
+            <input id="inputEsc" type="number" min="0" max="20" value="2" oninput="renderRanking()" class="brasil"/>
           </div>
           <div class="placar-sep">×</div>
           <div><div class="placar-label">Japão</div>
-            <input id="inputBra" type="number" min="0" max="20" value="0" oninput="renderRanking()"/>
+            <input id="inputBra" type="number" min="0" max="20" value="1" oninput="renderRanking()"/>
           </div>
           <div style="font-size:12px; color:rgba(255,255,255,0.3); padding-top:22px;">← altere aqui</div>
         </div>
@@ -590,8 +590,15 @@
 
     <!-- ABA: FECHAMENTO -->
     <div id="tab-fechamento" class="tab-pane">
+
+      <!-- FECHAMENTO J2 — dinâmico -->
       <div class="section" style="border-color:rgba(255,220,0,0.3); margin-bottom:18px;">
-        <div class="sec-title">Fechamento · Jogo 1</div>
+        <div class="sec-title">Fechamento · Jogo 2 · Brasil × Japão · 29/Jun</div>
+        <div id="fechamentoJ2" style="display:flex;justify-content:center;"></div>
+      </div>
+
+      <div class="section" style="border-color:rgba(255,255,255,0.08); margin-bottom:18px;">
+        <div class="sec-title" style="color:rgba(255,255,255,0.4);">Fechamento · Jogo 1 · Escócia × Brasil · 24/Jun</div>
         <div style="display:flex; justify-content:center;">
           <div style="width:480px; max-width:100%; background:linear-gradient(160deg,#0a2e14 0%,#071c0c 100%); border:1px solid rgba(255,220,0,0.2); border-radius:18px; padding:32px 28px; font-family:'Inter',sans-serif;">
 
@@ -1223,6 +1230,7 @@ async function carregar() {
     renderTime();
     renderDiretoria();
     renderEvolucao();
+    renderFechamentoJ2();
   } catch(e) {
     document.getElementById('tabelaPalpites1').innerHTML = `<tr><td colspan="6" class="empty">Erro: ${e.message}</td></tr>`;
   }
@@ -1647,13 +1655,113 @@ _Corre que ainda dá tempo! 🇧🇷_`;
   });
 }
 
-function calcPontos(palpite, escGol, braGol) {
+// Placares oficiais encerrados
+const PLACARES_OFICIAIS = {
+  g3: { a: 0, b: 3, label: 'Escócia 0 × 3 Brasil' },   // J1 — 24/Jun
+  g4: { a: 2, b: 1, label: 'Brasil 2 × 1 Japão' },       // J2 — 29/Jun
+};
+
+function calcPontos(palpite, golA, golB) {
   const parts = palpite ? palpite.split('x').map(s => parseInt(s.trim())) : [];
   if (parts.length !== 2 || isNaN(parts[0]) || isNaN(parts[1])) return 0;
   const [pe, pb] = parts;
-  if (pe === escGol && pb === braGol) return 4; // placar exato: 3pts + 1pt vencedor
-  if (Math.sign(pb - pe) === Math.sign(braGol - escGol)) return 1; // só vencedor certo
+  if (pe === golA && pb === golB) return 4;
+  if (Math.sign(pb - pe) === Math.sign(golB - golA)) return 1;
   return 0;
+}
+
+function ptsTotais(d) {
+  const j1 = calcPontos(d.palpite_g3, PLACARES_OFICIAIS.g3.a, PLACARES_OFICIAIS.g3.b);
+  const j2 = calcPontos(d.palpite_g4, PLACARES_OFICIAIS.g4.a, PLACARES_OFICIAIS.g4.b);
+  return j1 + j2;
+}
+
+function renderFechamentoJ2() {
+  const el = document.getElementById('fechamentoJ2');
+  if (!el || !dados.length) return;
+
+  const { a: golA, b: golB, label } = PLACARES_OFICIAIS.g4;
+
+  // pontos J2 por pessoa (melhor palpite)
+  const mapa = {};
+  dados.forEach(d => {
+    const chave = d.loja;
+    const pts = calcPontos(d.palpite_g4, golA, golB);
+    if (!mapa[chave] || pts > mapa[chave].pts)
+      mapa[chave] = { ...d, ptsJ2: pts, ptsTotal: ptsTotais(d) };
+  });
+
+  const ranked = Object.values(mapa)
+    .filter(d => d.ptsJ2 > 0)
+    .sort((a, b) => b.ptsJ2 - a.ptsJ2 || b.palpites_kpi - a.palpites_kpi);
+
+  if (!ranked.length) { el.innerHTML = '<p style="color:rgba(255,255,255,0.3);text-align:center;padding:20px;">Nenhum palpite enviado ainda.</p>'; return; }
+
+  const cores = ['var(--amarelo)', '#C0C0C0', '#CD7F32'];
+  const medals = ['🥇', '🥈', '🥉'];
+  const top3 = ranked.slice(0, 3);
+
+  el.innerHTML = `
+    <div style="background:linear-gradient(160deg,#0a2e14,#071c0c);border:1px solid rgba(255,220,0,0.2);border-radius:18px;padding:28px 24px;">
+      <div style="text-align:center;margin-bottom:16px;">
+        <span style="background:var(--amarelo);color:#000;font-weight:900;font-size:10px;letter-spacing:2px;padding:4px 14px;border-radius:20px;">BOLÃO COPA 2026 · MARGEM NA VEIA PA2</span>
+      </div>
+      <div style="text-align:center;margin-bottom:16px;">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:52px;color:var(--amarelo);line-height:1;">TOP 3</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:#fff;letter-spacing:4px;">JOGO 2 · BRASIL × JAPÃO</div>
+        <div style="margin:12px 0;background:rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:14px;">
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:38px;color:#fff;letter-spacing:3px;">BRASIL <span style="color:#4dff8a;">2</span> <span style="color:rgba(255,255,255,0.3);">×</span> <span style="color:#ff7a7a;">1</span> JAPÃO</span>
+          <div style="font-size:10px;color:rgba(255,255,255,0.3);margin-top:4px;letter-spacing:1px;">PLACAR EXATO = 4PTS · VENCEDOR CERTO = 1PT</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:${top3.length===1?'1fr':top3.length===2?'1fr 1fr':'1fr 1fr 1fr'};gap:12px;margin-bottom:20px;align-items:end;">
+        ${top3.map((d, i) => {
+          const g = gerentes[d.loja] || {};
+          const nome = (d.nome||g.nome||d.loja).split(' ').slice(0,2).join(' ');
+          const iniciais = nome.split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase();
+          const cor = cores[i];
+          const sz = i===0 ? '84px' : '70px';
+          const fsz = i===0 ? '52px' : '36px';
+          return `<div style="text-align:center;${i===1&&top3.length===3?'order:-1':''}">
+            <div style="position:relative;display:inline-block;">
+              <div style="width:${sz};height:${sz};border-radius:50%;background:rgba(255,255,255,0.06);border:3px solid ${cor};display:flex;align-items:center;justify-content:center;margin:0 auto;font-family:'Bebas Neue',sans-serif;font-size:${i===0?'28px':'22px'};color:${cor};">${iniciais}</div>
+              <div style="position:absolute;top:-8px;right:-8px;width:${i===0?'26px':'22px'};height:${i===0?'26px':'22px'};border-radius:50%;background:${cor};display:flex;align-items:center;justify-content:center;font-size:${i===0?'12px':'10px'};font-weight:900;color:${i===0?'#000':'#fff'};">${i+1}</div>
+            </div>
+            <div style="margin-top:8px;font-size:${i===0?'12px':'11px'};font-weight:700;color:${cor};text-transform:uppercase;line-height:1.3;">${nome}</div>
+            <div style="font-size:10px;color:rgba(255,255,255,0.35);margin-top:2px;">Loja ${d.loja}</div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:3px;">Palpite: ${d.palpite_g4||'—'}</div>
+            <div style="margin-top:8px;background:rgba(255,255,255,0.05);border:1px solid ${cor}55;border-radius:10px;padding:8px;">
+              <span style="font-family:'Bebas Neue',sans-serif;font-size:${fsz};color:${cor};">${d.ptsJ2}</span><span style="font-size:11px;color:${cor};margin-left:2px;">PTS</span>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>
+      <div style="background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:14px;">
+        <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.3);text-align:center;margin-bottom:10px;">PLACAR COMPLETO · JOGO 2</div>
+        <table style="width:100%;font-size:12px;border-collapse:collapse;">
+          <thead><tr>
+            <th style="text-align:left;color:rgba(255,255,255,0.4);padding:4px 8px;">Gestor</th>
+            <th style="text-align:center;color:rgba(255,255,255,0.4);padding:4px 8px;">Loja</th>
+            <th style="text-align:center;color:rgba(255,255,255,0.4);padding:4px 8px;">Palpite</th>
+            <th style="text-align:center;color:rgba(255,255,255,0.4);padding:4px 8px;">J2</th>
+            <th style="text-align:center;color:var(--amarelo);padding:4px 8px;">Total</th>
+          </tr></thead>
+          <tbody>
+            ${Object.values(mapa).sort((a,b)=>b.ptsTotal-a.ptsTotal||b.ptsJ2-a.ptsJ2).map(d=>{
+              const corPts = d.ptsJ2===4?'#ffdc00':d.ptsJ2===1?'#4dff8a':'rgba(255,255,255,0.25)';
+              const corTot = d.ptsTotal>=5?'#ffd700':d.ptsTotal>=4?'#4dff8a':d.ptsTotal>=1?'#7ab4ff':'rgba(255,255,255,0.3)';
+              return `<tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                <td style="padding:6px 8px;font-weight:600;">${(d.nome||d.loja).split(' ')[0]}</td>
+                <td style="text-align:center;font-family:'Bebas Neue',sans-serif;font-size:15px;color:var(--amarelo);">${d.loja}</td>
+                <td style="text-align:center;"><span class="placar-cell" style="color:${corPts};">${d.palpite_g4||'—'}</span></td>
+                <td style="text-align:center;font-family:'Bebas Neue',sans-serif;font-size:20px;color:${corPts};">${d.ptsJ2}</td>
+                <td style="text-align:center;font-family:'Bebas Neue',sans-serif;font-size:22px;color:${corTot};">${d.ptsTotal}</td>
+              </tr>`;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>`;
 }
 
 function renderRanking() {
