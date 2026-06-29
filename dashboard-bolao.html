@@ -584,13 +584,18 @@
     <!-- ABA: FECHAMENTO -->
     <div id="tab-fechamento" class="tab-pane">
 
+      <!-- Seletor de jogos -->
+      <div style="display:flex;gap:10px;margin-bottom:18px;">
+        <button id="btnFechJ1" onclick="mostrarFechamento(1)" style="padding:9px 22px;border-radius:10px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.5);font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:1px;cursor:pointer;">⚽ JOGO 1 · Esc×Bra · 24/Jun</button>
+        <button id="btnFechJ2" onclick="mostrarFechamento(2)" style="padding:9px 22px;border-radius:10px;border:1px solid var(--amarelo);background:rgba(255,220,0,0.1);color:var(--amarelo);font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:1px;cursor:pointer;">⚽ JOGO 2 · Bra×Jap · 29/Jun</button>
+      </div>
+
       <!-- FECHAMENTO J2 — dinâmico -->
-      <div class="section" style="border-color:rgba(255,220,0,0.3); margin-bottom:18px;">
-        <div class="sec-title">Fechamento · Jogo 2 · Brasil × Japão · 29/Jun</div>
+      <div id="painelFechJ2" class="section" style="border-color:rgba(255,220,0,0.3); margin-bottom:18px;">
         <div id="fechamentoJ2" style="display:flex;justify-content:center;"></div>
       </div>
 
-      <div class="section" style="border-color:rgba(255,255,255,0.08); margin-bottom:18px;">
+      <div id="painelFechJ1" class="section" style="border-color:rgba(255,255,255,0.08); margin-bottom:18px; display:none;">
         <div class="sec-title" style="color:rgba(255,255,255,0.4);">Fechamento · Jogo 1 · Escócia × Brasil · 24/Jun</div>
         <div style="display:flex; justify-content:center;">
           <div style="width:480px; max-width:100%; background:linear-gradient(160deg,#0a2e14 0%,#071c0c 100%); border:1px solid rgba(255,220,0,0.2); border-radius:18px; padding:32px 28px; font-family:'Inter',sans-serif;">
@@ -621,7 +626,7 @@
               <!-- 2º lugar -->
               <div style="text-align:center;">
                 <div style="position:relative; display:inline-block;">
-                  <div style="width:70px; height:70px; border-radius:50%; background:rgba(192,192,192,0.15); border:3px solid #C0C0C0; display:flex; align-items:center; justify-content:center; margin:0 auto; font-family:'Bebas Neue',sans-serif; font-size:24px; color:#C0C0C0;">MS</div>
+                  <div id="j1avatar2" style="width:70px; height:70px; border-radius:50%; background:rgba(192,192,192,0.15); border:3px solid #C0C0C0; margin:0 auto; overflow:hidden; display:flex; align-items:center; justify-content:center; font-family:'Bebas Neue',sans-serif; font-size:24px; color:#C0C0C0;">MS</div>
                   <div style="position:absolute; top:-8px; right:-8px; width:24px; height:24px; border-radius:50%; background:#C0C0C0; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:900; color:#000;">2</div>
                 </div>
                 <div style="margin-top:8px; font-size:11px; font-weight:700; color:#C0C0C0; text-transform:uppercase; line-height:1.3;">Marcel<br>Silva Santos</div>
@@ -635,7 +640,7 @@
               <!-- 1º lugar -->
               <div style="text-align:center;">
                 <div style="position:relative; display:inline-block;">
-                  <div style="width:84px; height:84px; border-radius:50%; background:rgba(255,223,0,0.15); border:3px solid var(--amarelo); display:flex; align-items:center; justify-content:center; margin:0 auto; font-family:'Bebas Neue',sans-serif; font-size:28px; color:var(--amarelo);">RC</div>
+                  <div id="j1avatar1" style="width:84px; height:84px; border-radius:50%; background:rgba(255,223,0,0.15); border:3px solid var(--amarelo); margin:0 auto; overflow:hidden; display:flex; align-items:center; justify-content:center; font-family:'Bebas Neue',sans-serif; font-size:28px; color:var(--amarelo);">RC</div>
                   <div style="position:absolute; top:-8px; right:-8px; width:26px; height:26px; border-radius:50%; background:var(--amarelo); display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:900; color:var(--azul);">1</div>
                 </div>
                 <div style="margin-top:8px; font-size:12px; font-weight:700; color:var(--amarelo); text-transform:uppercase; line-height:1.3;">Ravenna<br>Coelho</div>
@@ -649,7 +654,7 @@
               <!-- 3º lugar -->
               <div style="text-align:center;">
                 <div style="position:relative; display:inline-block;">
-                  <div style="width:70px; height:70px; border-radius:50%; background:rgba(205,127,50,0.15); border:3px solid #CD7F32; display:flex; align-items:center; justify-content:center; margin:0 auto; font-family:'Bebas Neue',sans-serif; font-size:24px; color:#CD7F32;">AR</div>
+                  <div id="j1avatar3" style="width:70px; height:70px; border-radius:50%; background:rgba(205,127,50,0.15); border:3px solid #CD7F32; margin:0 auto; overflow:hidden; display:flex; align-items:center; justify-content:center; font-family:'Bebas Neue',sans-serif; font-size:24px; color:#CD7F32;">AR</div>
                   <div style="position:absolute; top:-8px; right:-8px; width:24px; height:24px; border-radius:50%; background:#CD7F32; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:900; color:#fff;">3</div>
                 </div>
                 <div style="margin-top:8px; font-size:11px; font-weight:700; color:#CD7F32; text-transform:uppercase; line-height:1.3;">Antônio<br>Raul Farias</div>
@@ -709,6 +714,7 @@
           </div>
         </div>
       </div>
+      </div><!-- fim painelFechJ1 -->
     </div>
 
       <!-- TAB MONITOR -->
@@ -1237,6 +1243,7 @@ async function carregar() {
     renderDiretoria();
     renderEvolucao();
     renderFechamentoJ2();
+    preencherFotosJ1();
   } catch(e) {
     document.getElementById('tabelaPalpites1').innerHTML = `<tr><td colspan="6" class="empty">Erro: ${e.message}</td></tr>`;
   }
@@ -2283,6 +2290,34 @@ function abrirCartao(loja) {
     </div>`;
 
   document.getElementById('overlayCartao').classList.add('open');
+}
+
+function preencherFotosJ1() {
+  const avatares = [
+    { id: 'j1avatar1', loja: '7115', ini: 'RC', cor: 'var(--amarelo)', sz: '84px' },
+    { id: 'j1avatar2', loja: '7020', ini: 'MS', cor: '#C0C0C0', sz: '70px' },
+    { id: 'j1avatar3', loja: '1166', ini: 'AR', cor: '#CD7F32', sz: '70px' },
+  ];
+  avatares.forEach(({ id, loja, ini, cor, sz }) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const foto = gerentes[loja]?.foto;
+    if (foto) {
+      el.innerHTML = `<img src="${foto}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" onerror="this.parentNode.innerHTML='<span style=\\'font-family:Bebas Neue,sans-serif;font-size:24px;color:${cor};\\'>'+\`${ini}\`+'</span>'">`;
+    }
+  });
+}
+
+function mostrarFechamento(n) {
+  document.getElementById('painelFechJ1').style.display = n===1 ? '' : 'none';
+  document.getElementById('painelFechJ2').style.display = n===2 ? '' : 'none';
+  const b1 = document.getElementById('btnFechJ1'), b2 = document.getElementById('btnFechJ2');
+  b1.style.background = n===1 ? 'rgba(255,255,255,0.12)' : 'rgba(255,255,255,0.06)';
+  b1.style.color = n===1 ? '#fff' : 'rgba(255,255,255,0.5)';
+  b1.style.borderColor = n===1 ? 'rgba(255,255,255,0.4)' : 'rgba(255,255,255,0.15)';
+  b2.style.background = n===2 ? 'rgba(255,220,0,0.1)' : 'rgba(255,255,255,0.06)';
+  b2.style.color = n===2 ? 'var(--amarelo)' : 'rgba(255,255,255,0.5)';
+  b2.style.borderColor = n===2 ? 'var(--amarelo)' : 'rgba(255,255,255,0.15)';
 }
 
 function copiarMsgTop3() {
