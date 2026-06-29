@@ -1892,10 +1892,12 @@ function renderInicio() {
   const medalhasCores = ['var(--amarelo)','#C0C0C0','#CD7F32'];
   const medalhasLabel = ['🥇 1º','🥈 2º','🥉 3º'];
   // Agrupa por LOJA — pega o melhor J1 e melhor J2 de todos os registros da loja
-  // (gestores submeteram J1 e J2 em entradas separadas, às vezes com nomes ligeiramente diferentes)
-  const LOJAS_EXCLUIR = new Set(['7403']); // Teste Sistema
   const mapaAcum = {};
-  dados.filter(d => !LOJAS_EXCLUIR.has(d.loja)).forEach(d => {
+  dados.forEach(d => {
+    // usa o nome canônico do gerentes[] se disponível (ignora nomes digitados errado no form)
+    if (gerentes[d.loja] && gerentes[d.loja].nome) d.nome = gerentes[d.loja].nome;
+  });
+  dados.forEach(d => {
     const chave = d.loja;
     const j1 = calcPontos(d.palpite_g3, PLACARES_OFICIAIS.g3.a, PLACARES_OFICIAIS.g3.b);
     const j2 = calcPontos(d.palpite_g4, PLACARES_OFICIAIS.g4.a, PLACARES_OFICIAIS.g4.b);
