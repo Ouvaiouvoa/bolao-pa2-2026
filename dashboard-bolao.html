@@ -1744,9 +1744,12 @@ function renderFechamentoJ2() {
           const cor = cores[i];
           const sz = i===0 ? '84px' : '70px';
           const fsz = i===0 ? '52px' : '36px';
+          const fotoHtml = g.foto
+            ? `<img src="${g.foto}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" onerror="this.parentNode.innerHTML='<span style=\\'font-family:Bebas Neue,sans-serif;font-size:${i===0?'28':'22'}px;color:${cor};\\' >${iniciais}</span>'">`
+            : `<span style="font-family:'Bebas Neue',sans-serif;font-size:${i===0?'28px':'22px'};color:${cor};">${iniciais}</span>`;
           return `<div style="text-align:center;${i===1&&top3.length===3?'order:-1':''}">
             <div style="position:relative;display:inline-block;">
-              <div style="width:${sz};height:${sz};border-radius:50%;background:rgba(255,255,255,0.06);border:3px solid ${cor};display:flex;align-items:center;justify-content:center;margin:0 auto;font-family:'Bebas Neue',sans-serif;font-size:${i===0?'28px':'22px'};color:${cor};">${iniciais}</div>
+              <div style="width:${sz};height:${sz};border-radius:50%;background:rgba(255,255,255,0.06);border:3px solid ${cor};display:flex;align-items:center;justify-content:center;margin:0 auto;overflow:hidden;">${fotoHtml}</div>
               <div style="position:absolute;top:-8px;right:-8px;width:${i===0?'26px':'22px'};height:${i===0?'26px':'22px'};border-radius:50%;background:${cor};display:flex;align-items:center;justify-content:center;font-size:${i===0?'12px':'10px'};font-weight:900;color:${i===0?'#000':'#fff'};">${i+1}</div>
             </div>
             <div style="margin-top:8px;font-size:${i===0?'12px':'11px'};font-weight:700;color:${cor};text-transform:uppercase;line-height:1.3;">${nome}</div>
