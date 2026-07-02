@@ -278,9 +278,9 @@
     </div>
 
     <div class="sidebar-section">Período</div>
-    <div style="display:flex;gap:6px;padding:0 16px 12px;">
-      <button class="periodo-btn active" data-p="jul" onclick="setPeriodo('jul')" style="flex:1;padding:6px 4px;border-radius:8px;border:2px solid #286BE6;background:#286BE6;color:#fff;font-size:11px;font-weight:700;cursor:pointer;">MTD Jul</button>
-      <button class="periodo-btn" data-p="jun" onclick="setPeriodo('jun')" style="flex:1;padding:6px 4px;border-radius:8px;border:2px solid #286BE6;background:transparent;color:#286BE6;font-size:11px;font-weight:700;cursor:pointer;">Fech Jun</button>
+    <div style="display:flex;gap:6px;padding:0 16px 12px;" id="periodoBtns">
+      <button class="periodo-btn" data-p="jul" onclick="setPeriodo('jul')" style="flex:1;padding:6px 4px;border-radius:8px;border:2px solid #286BE6;font-size:11px;font-weight:700;cursor:pointer;">MTD Jul</button>
+      <button class="periodo-btn" data-p="jun" onclick="setPeriodo('jun')" style="flex:1;padding:6px 4px;border-radius:8px;border:2px solid #286BE6;font-size:11px;font-weight:700;cursor:pointer;">Fech Jun</button>
     </div>
 
     <div class="sidebar-section">Menu</div>
@@ -1140,7 +1140,9 @@ const gerentes = {
 };
 
 // ─── DATASETS POR PERÍODO ───────────────────────────────────────────────────
-let _periodo = 'jul'; // 'jun' = Fechamento Junho | 'jul' = MTD Julho
+// Período via URL: ?p=jun ou ?p=jul (padrão: jul)
+const _urlP = new URLSearchParams(location.search).get('p');
+let _periodo = (_urlP === 'jun') ? 'jun' : 'jul';
 
 const KPI_DATA = {
   jun: {
@@ -1208,30 +1210,10 @@ _calcPalpitesDataset(KPI_DATA.jul);
 let kpiLojas = KPI_DATA[_periodo];
 
 function setPeriodo(p) {
-  _periodo = p;
-  kpiLojas = KPI_DATA[p];
-  document.querySelectorAll('.periodo-btn').forEach(b => {
-    b.classList.toggle('active', b.dataset.p === p);
-  });
-  // Label do período no cabeçalho
-  const lbl = document.getElementById('periodoLabel');
-  if (lbl) lbl.textContent = p === 'jun' ? 'Fechamento Junho 2026' : 'MTD Julho 2026';
-  // Re-renderiza TODAS as abas que usam kpiLojas
-  renderizar();
-  renderLojas();
-  renderMonitor();
-  renderTime();
-  renderFechamentoJ2();
-  renderProximoJogo();
-  renderRanking();
-  renderBlocoControle();
-  renderInicio();
-  renderEvolucao();
-  renderDiretoria();
-  renderTabelaPrint();
-  // Delta card: só faz sentido em junho
-  const deltaEl = document.getElementById('deltaSection');
-  if (deltaEl) deltaEl.style.display = p === 'jun' ? '' : 'none';
+  // Navega para a URL do período — recarrega a página com o parâmetro certo
+  const url = new URL(location.href);
+  url.searchParams.set('p', p);
+  location.href = url.toString();
 }
 
 // Snapshot KPIs 26/Jun (antes das atualizações do dia 27/Jun)
@@ -3195,6 +3177,18 @@ _GR Andrea Silva · PA2_`;
     setTimeout(() => el.textContent = '', 3500);
   });
 }
+
+// ── Marca botão ativo do período na carga da página ──────────────────────
+(function() {
+  document.querySelectorAll('.periodo-btn').forEach(b => {
+    const ativo = b.dataset.p === _periodo;
+    b.style.background = ativo ? '#286BE6' : 'transparent';
+    b.style.color      = ativo ? '#fff'    : '#286BE6';
+  });
+  // Oculta Delta do Dia em modo julho (dados diferentes)
+  const ds = document.getElementById('deltaSection');
+  if (ds) ds.style.display = _periodo === 'jun' ? '' : 'none';
+})();
 </script>
 
 <!-- MODAL OVERLAY -->
