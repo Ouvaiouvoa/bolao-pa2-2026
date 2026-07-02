@@ -1129,29 +1129,30 @@ const gerentes = {
 };
 
 const kpiLojas = {
-  // SSS≥23% | OTD≥90% | NPS≥90% | SD≥100% | META≥100% | LM>0% | PGF≥100% | FID≥100% — MTD 29/Jun (META/LM/SSS=Power BI)
-  '93':   {sv:22.01, ov:92.42, nv:91.9, sdv:113.7, mv:95.79, lmv:-4.70, pgfv:64.83, fidv:81.48, sss:false, otd:true,  nps:true,  sd:true,  meta:false, lm:false, pgf:false, fid:false, palpites:4},
-  '7122': {sv:7.40,  ov:94.71, nv:91.3, sdv:201.9, mv:97.19, lmv:-0.81, pgfv:72.62, fidv:81.82, sss:false, otd:true,  nps:true,  sd:true,  meta:false, lm:false, pgf:false, fid:false, palpites:4},
-  '7080': {sv:15.98, ov:96.27, nv:90.8, sdv:166.9, mv:99.55, lmv:-0.22, pgfv:48.33, fidv:70.37, sss:false, otd:true,  nps:true,  sd:true,  meta:false, lm:false, pgf:false, fid:false, palpites:4},
-  '7115': {sv:12.11, ov:96.05, nv:90.9, sdv:111.0, mv:99.58, lmv:-3.93, pgfv:97.18, fidv:92.59, sss:false, otd:true,  nps:true,  sd:true,  meta:false, lm:false, pgf:false, fid:false, palpites:3},
-  '7491': {sv:5.41,  ov:97.59, nv:96.1, sdv:50.7,  mv:97.86, lmv:-8.51, pgfv:80.95, fidv:88.89, sss:false, otd:true,  nps:true,  sd:false, meta:false, lm:false, pgf:false, fid:false, palpites:2},
-  '7403': {sv:-11.63,ov:95.06, nv:94.7, sdv:104.7, mv:99.66, lmv:0.15,  pgfv:83.60, fidv:96.30, sss:false, otd:true,  nps:true,  sd:true,  meta:false, lm:true,  pgf:false, fid:false, palpites:5},
-  '7011': {sv:-14.53,ov:92.23, nv:94.4, sdv:56.5,  mv:95.99, lmv:-8.84, pgfv:100.0, fidv:97.44, sss:false, otd:true,  nps:true,  sd:false, meta:false, lm:false, pgf:true,  fid:false, palpites:4},
-  '7178': {sv:5.64,  ov:91.30, nv:90.9, sdv:67.4,  mv:102.51,lmv:2.96,  pgfv:67.55, fidv:66.67, sss:false, otd:true,  nps:true,  sd:false, meta:true,  lm:true,  pgf:false, fid:false, palpites:4},
-  '7027': {sv:29.41, ov:88.73, nv:90.7, sdv:76.4,  mv:96.84, lmv:-5.07, pgfv:58.16, fidv:64.29, sss:true,  otd:false, nps:true,  sd:false, meta:false, lm:false, pgf:false, fid:false, palpites:2},
-  '1166': {sv:2.29,  ov:100.0, nv:73.7, sdv:165.8, mv:103.89,lmv:2.10,  pgfv:92.67, fidv:91.67, sss:false, otd:true,  nps:false, sd:true,  meta:true,  lm:true,  pgf:false, fid:false, palpites:4},
-  '7062': {sv:-0.57, ov:0,     nv:90.8, sdv:194.6, mv:99.28, lmv:-1.60, pgfv:100.0, fidv:100.0, sss:false, otd:false, nps:true,  sd:true,  meta:false, lm:false, pgf:true,  fid:true,  palpites:6},
-  '7447': {sv:1.43,  ov:88.08, nv:90.9, sdv:151.0, mv:99.58, lmv:-1.08, pgfv:48.41, fidv:66.67, sss:false, otd:false, nps:true,  sd:true,  meta:false, lm:false, pgf:false, fid:false, palpites:4},
-  '7116': {sv:8.23,  ov:87.25, nv:91.6, sdv:163.1, mv:101.91,lmv:2.78,  pgfv:63.94, fidv:85.71, sss:false, otd:false, nps:true,  sd:true,  meta:true,  lm:true,  pgf:false, fid:false, palpites:4},
-  '7121': {sv:9.76,  ov:93.44, nv:86.2, sdv:98.3,  mv:99.36, lmv:-1.37, pgfv:90.62, fidv:90.00, sss:false, otd:true,  nps:false, sd:false, meta:false, lm:false, pgf:false, fid:false, palpites:3},
-  '1212': {sv:9.84,  ov:94.82, nv:76.5, sdv:116.0, mv:102.45,lmv:0.98,  pgfv:91.01, fidv:93.94, sss:false, otd:true,  nps:false, sd:true,  meta:true,  lm:true,  pgf:false, fid:false, palpites:4},
-  '7035': {sv:-8.89, ov:90.65, nv:77.3, sdv:75.0,  mv:96.52, lmv:-3.44, pgfv:95.77, fidv:93.94, sss:false, otd:true,  nps:false, sd:false, meta:false, lm:false, pgf:false, fid:false, palpites:1},
-  '201':  {sv:-9.88, ov:89.67, nv:89.8, sdv:60.7,  mv:96.02, lmv:-3.04, pgfv:100.0, fidv:100.0, sss:false, otd:false, nps:false, sd:false, meta:false, lm:false, pgf:true,  fid:true,  palpites:2},
-  '7020': {sv:12.52, ov:90.76, nv:91.6, sdv:117.5, mv:103.56,lmv:-6.62, pgfv:69.64, fidv:66.67, sss:false, otd:true,  nps:true,  sd:true,  meta:true,  lm:false, pgf:false, fid:false, palpites:4},
-  '7014': {sv:12.08, ov:88.62, nv:80.6, sdv:125.3, mv:99.71, lmv:0.14,  pgfv:28.90, fidv:59.09, sss:false, otd:false, nps:false, sd:true,  meta:false, lm:true,  pgf:false, fid:false, palpites:2},
-  '7092': {sv:3.91,  ov:88.63, nv:89.1, sdv:84.6,  mv:92.76, lmv:-6.41, pgfv:42.59, fidv:63.89, sss:false, otd:false, nps:false, sd:false, meta:false, lm:false, pgf:false, fid:false, palpites:0},
-  '1105': {sv:-14.27,ov:88.06, nv:89.8, sdv:40.1,  mv:89.62, lmv:-4.87, pgfv:80.00, fidv:92.59, sss:false, otd:false, nps:false, sd:false, meta:false, lm:false, pgf:false, fid:false, palpites:0},
-  '7077': {sv:8.52,  ov:0,     nv:66.8, sdv:87.9,  mv:101.76,lmv:-1.75, pgfv:80.95, fidv:90.91, sss:false, otd:false, nps:false, sd:false, meta:true,  lm:false, pgf:false, fid:false, palpites:2},
+  // SSS≥23% | OTD≥90% | NPS≥90% | SD≥100% | META≥100% | LM>0% | PGF≥100% | FID≥100%
+  // MTD JULHO 2026 — 01/Jul (SSS/%LY + META + LM = Power BI · OTD/NPS/SD/PGF/FID pendentes)
+  '93':   {sv:8.55,  ov:0,    nv:0,   sdv:0,  mv:111.62, lmv:16.96,  pgfv:0,  fidv:0,  sss:false, otd:false, nps:false, sd:false, meta:true,  lm:true,  pgf:false, fid:false},
+  '7122': {sv:-3.90, ov:0,    nv:0,   sdv:0,  mv:104.75, lmv:-17.41, pgfv:0,  fidv:0,  sss:false, otd:false, nps:false, sd:false, meta:true,  lm:false, pgf:false, fid:false},
+  '7080': {sv:30.65, ov:0,    nv:0,   sdv:0,  mv:114.77, lmv:27.01,  pgfv:0,  fidv:0,  sss:true,  otd:false, nps:false, sd:false, meta:true,  lm:true,  pgf:false, fid:false},
+  '7115': {sv:68.52, ov:0,    nv:0,   sdv:0,  mv:112.73, lmv:-2.04,  pgfv:0,  fidv:0,  sss:true,  otd:false, nps:false, sd:false, meta:true,  lm:false, pgf:false, fid:false},
+  '7491': {sv:49.58, ov:0,    nv:0,   sdv:0,  mv:128.01, lmv:6.10,   pgfv:0,  fidv:0,  sss:true,  otd:false, nps:false, sd:false, meta:true,  lm:true,  pgf:false, fid:false},
+  '7403': {sv:-19.05,ov:0,    nv:0,   sdv:0,  mv:119.95, lmv:-6.93,  pgfv:0,  fidv:0,  sss:false, otd:false, nps:false, sd:false, meta:true,  lm:false, pgf:false, fid:false},
+  '7011': {sv:0.82,  ov:0,    nv:0,   sdv:0,  mv:86.11,  lmv:0.74,   pgfv:0,  fidv:0,  sss:false, otd:false, nps:false, sd:false, meta:false, lm:true,  pgf:false, fid:false},
+  '7178': {sv:34.35, ov:0,    nv:0,   sdv:0,  mv:124.14, lmv:27.58,  pgfv:0,  fidv:0,  sss:true,  otd:false, nps:false, sd:false, meta:true,  lm:true,  pgf:false, fid:false},
+  '7027': {sv:18.59, ov:0,    nv:0,   sdv:0,  mv:109.11, lmv:4.87,   pgfv:0,  fidv:0,  sss:false, otd:false, nps:false, sd:false, meta:true,  lm:true,  pgf:false, fid:false},
+  '1166': {sv:21.30, ov:0,    nv:0,   sdv:0,  mv:101.55, lmv:8.18,   pgfv:0,  fidv:0,  sss:false, otd:false, nps:false, sd:false, meta:true,  lm:true,  pgf:false, fid:false},
+  '7062': {sv:14.22, ov:0,    nv:0,   sdv:0,  mv:104.07, lmv:-8.99,  pgfv:0,  fidv:0,  sss:false, otd:false, nps:false, sd:false, meta:true,  lm:false, pgf:false, fid:false},
+  '7447': {sv:2.62,  ov:0,    nv:0,   sdv:0,  mv:94.73,  lmv:-18.87, pgfv:0,  fidv:0,  sss:false, otd:false, nps:false, sd:false, meta:false, lm:false, pgf:false, fid:false},
+  '7116': {sv:24.71, ov:0,    nv:0,   sdv:0,  mv:120.09, lmv:-4.28,  pgfv:0,  fidv:0,  sss:true,  otd:false, nps:false, sd:false, meta:true,  lm:false, pgf:false, fid:false},
+  '7121': {sv:3.95,  ov:0,    nv:0,   sdv:0,  mv:108.67, lmv:8.21,   pgfv:0,  fidv:0,  sss:false, otd:false, nps:false, sd:false, meta:true,  lm:true,  pgf:false, fid:false},
+  '1212': {sv:3.21,  ov:0,    nv:0,   sdv:0,  mv:93.53,  lmv:50.71,  pgfv:0,  fidv:0,  sss:false, otd:false, nps:false, sd:false, meta:false, lm:true,  pgf:false, fid:false},
+  '7035': {sv:3.28,  ov:0,    nv:0,   sdv:0,  mv:95.15,  lmv:2.55,   pgfv:0,  fidv:0,  sss:false, otd:false, nps:false, sd:false, meta:false, lm:true,  pgf:false, fid:false},
+  '201':  {sv:11.95, ov:0,    nv:0,   sdv:0,  mv:126.07, lmv:-4.08,  pgfv:0,  fidv:0,  sss:false, otd:false, nps:false, sd:false, meta:true,  lm:false, pgf:false, fid:false},
+  '7020': {sv:6.04,  ov:0,    nv:0,   sdv:0,  mv:98.71,  lmv:-1.01,  pgfv:0,  fidv:0,  sss:false, otd:false, nps:false, sd:false, meta:false, lm:false, pgf:false, fid:false},
+  '7014': {sv:0.10,  ov:0,    nv:0,   sdv:0,  mv:141.24, lmv:52.41,  pgfv:0,  fidv:0,  sss:false, otd:false, nps:false, sd:false, meta:true,  lm:true,  pgf:false, fid:false},
+  '7092': {sv:-1.86, ov:0,    nv:0,   sdv:0,  mv:97.42,  lmv:10.93,  pgfv:0,  fidv:0,  sss:false, otd:false, nps:false, sd:false, meta:false, lm:true,  pgf:false, fid:false},
+  '1105': {sv:-17.33,ov:0,    nv:0,   sdv:0,  mv:91.44,  lmv:-6.14,  pgfv:0,  fidv:0,  sss:false, otd:false, nps:false, sd:false, meta:false, lm:false, pgf:false, fid:false},
+  '7077': {sv:34.37, ov:0,    nv:0,   sdv:0,  mv:124.93, lmv:27.58,  pgfv:0,  fidv:0,  sss:true,  otd:false, nps:false, sd:false, meta:true,  lm:true,  pgf:false, fid:false},
 };
 
 // Recalcula palpites automaticamente dos KPI booleans (não precisa editar manualmente)
@@ -2842,8 +2843,7 @@ function renderTabelaPrint() {
 const PROXIMO_JOGO = {
   numero: 3,
   label: 'OITAVAS · J3',
-  times: 'Brasil × Noruega ou Costa do Marfim',
-  // Adversário definido após Costa do Marfim × Noruega em 30/Jun
+  times: 'Brasil × Noruega',
   data: new Date('2026-07-05T17:00:00-03:00'),
   dataStr: '05/Jul · Dom · 17h00 · Nova Jersey',
   // Data de início do período de apuração de KPIs para o J3
@@ -3034,6 +3034,15 @@ function copiarMsgProximoJogo(tipo) {
 
   let msg = '';
 
+  // Data de fechamento = dia anterior ao jogo (23h59 horário local)
+  const fechamento = new Date(PROXIMO_JOGO.data);
+  fechamento.setDate(fechamento.getDate() - 1);
+  const fechDia = fechamento.toLocaleDateString('pt-BR', { day:'2-digit', month:'2-digit' });
+  const diasParaFech = Math.max(0, Math.ceil((fechamento.getTime() - Date.now()) / 86400000));
+  const fechStr = diasParaFech > 0
+    ? `📆 *Fechamento: ${fechDia} (${diasParaFech} dia${diasParaFech>1?'s':''} para melhorar!)*`
+    : `📆 *Fechamento: HOJE às 23h59!*`;
+
   if (tipo === 'geral') {
     const top5 = ranking.slice(0, 5);
     const emos = ['🥇','🥈','🥉','4️⃣','5️⃣'];
@@ -3044,11 +3053,11 @@ function copiarMsgProximoJogo(tipo) {
       const g = gerentes[l] || {};
       const nome = (g.nome || `Loja ${l}`).split(' ')[0];
       const bar = '█'.repeat(k.palpites) + '░'.repeat(8 - k.palpites);
-      return `  ${bar} ${k.palpites}✔ ${nome}`;
+      return `  ${bar} ${k.palpites}/8 ${nome}`;
     }).join('\n');
 
     const semTxt = semDir.length > 0
-      ? `\n⚠️ *SEM palpites ainda:* ${semDir.map(l => (gerentes[l]?.nome||`L${l}`).split(' ')[0]).join(', ')}`
+      ? `\n⚠️ *Sem nenhum KPI ainda:* ${semDir.map(l => (gerentes[l]?.nome||`L${l}`).split(' ')[0]).join(', ')}`
       : '';
 
     msg = `⚽ *BOLÃO COPA 2026 · PA2 · Margem na Veia*
@@ -3056,18 +3065,20 @@ function copiarMsgProximoJogo(tipo) {
 ${urgencia}
 📅 *${PROXIMO_JOGO.label} · ${PROXIMO_JOGO.times}*
 🕑 ${PROXIMO_JOGO.dataStr} · Faltam ${tempoStr}
+${fechStr}
 
 🏆 *RANKING PARCIAL (J1+J2)*
 ${rankTxt}
 
-🎯 *PALPITES GARANTIDOS — ${PROXIMO_JOGO.label}*
+📊 *SITUAÇÃO ATUAL DE PALPITES — MTD de hoje*
+_(Os palpites definitivos serão apurados no fechamento do dia anterior ao jogo)_
 ${palTxt}${semTxt}
 
-💪 *Bata seus KPIs e garanta mais palpites!*
+💪 *Ainda dá tempo! Bata seus KPIs até ${fechDia}:*
 SSS ≥23% | OTD ≥90% | NPS ≥90%
 SD ≥100% | META ≥100% | LM >0%
 PGF ≥100% | FID ≥100%
-📊 Cada KPI batido = 1 palpite · Máx 8
+Cada KPI batido = 1 palpite a mais · Máx 8
 
 _GR Andrea Silva · PA2_`;
 
@@ -3082,22 +3093,25 @@ _GR Andrea Silva · PA2_`;
         !k.sss?'SSS':'',!k.otd?'OTD':'',!k.nps?'NPS':'',!k.sd?'SD':'',
         !k.meta?'META':'',!k.lm?'LM%':'',!k.pgf?'PGF':'',!k.fid?'FID':''
       ].filter(Boolean).slice(0, faltam).join(' · ');
-      return `  🔸 *${nome}* (${l}) — ${k.palpites} palpites · falta: ${kpisFalt||'—'}`;
+      return `  🔸 *${nome}* (${l}) — hoje ${k.palpites}/8 · pode subir virar: ${kpisFalt||'—'}`;
     }).join('\n');
 
     msg = `⚠️ *ATENÇÃO — BOLÃO COPA 2026 · PA2*
 ━━━━━━━━━━━━━━━━━━━━
 ${urgencia}
-📅 *${PROXIMO_JOGO.label} · ${PROXIMO_JOGO.times}* — ${PROXIMO_JOGO.dataStr}
-⏰ Faltam ${tempoStr} para o jogo
+📅 *${PROXIMO_JOGO.label} · ${PROXIMO_JOGO.times}*
+🕑 ${PROXIMO_JOGO.dataStr}
+${fechStr}
 
-💡 *Ainda dá tempo de garantir mais palpites!*
-Os gestores abaixo têm KPIs em aberto que podem ser virados até o fechamento:
+📊 Os palpites são apurados no fechamento de *${fechDia}* (dia anterior ao jogo).
+*Hoje ainda dá tempo de virar KPIs e garantir mais palpites!*
+
+Gestores que podem melhorar até ${fechDia}:
 
 ${listaMelhorar}
 
-👆 Cada KPI batido = +1 palpite extra!
-Mais palpites = mais chances de ganhar o Bolão.
+👆 Cada KPI virado = +1 palpite garantido no J3.
+Quanto mais palpites, maior a chance de ganhar o bolão!
 
 _GR Andrea Silva · PA2_`;
   }
