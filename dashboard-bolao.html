@@ -3171,11 +3171,34 @@ Quanto mais palpites, maior a chance de ganhar o bolão!
 _GR Andrea Silva · PA2_`;
   }
 
-  navigator.clipboard.writeText(msg).then(() => {
+  function _copiar(txt) {
     const el = document.getElementById('pjCopiadoFeedback');
-    el.textContent = '✅ Mensagem copiada! Cole no WhatsApp.';
-    setTimeout(() => el.textContent = '', 3500);
-  });
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(txt).then(() => {
+        el.textContent = '✅ Mensagem copiada! Cole no WhatsApp.';
+        setTimeout(() => el.textContent = '', 3500);
+      }).catch(() => _fallback(txt, el));
+    } else {
+      _fallback(txt, el);
+    }
+  }
+  function _fallback(txt, el) {
+    const ta = document.createElement('textarea');
+    ta.value = txt;
+    ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0;';
+    document.body.appendChild(ta);
+    ta.focus(); ta.select();
+    try {
+      document.execCommand('copy');
+      el.textContent = '✅ Mensagem copiada! Cole no WhatsApp.';
+      setTimeout(() => el.textContent = '', 3500);
+    } catch(e) {
+      el.textContent = '⚠️ Não copiou — selecione o texto abaixo manualmente';
+      setTimeout(() => el.textContent = '', 5000);
+    }
+    document.body.removeChild(ta);
+  }
+  _copiar(msg);
 }
 
 // ── Marca botão ativo do período na carga da página ──────────────────────
