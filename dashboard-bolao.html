@@ -524,13 +524,16 @@
         <button id="btnJogo1" onclick="selecionarJogo(1)" style="padding:8px 18px;border-radius:10px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.5);font-size:12px;font-weight:700;cursor:pointer;letter-spacing:.5px;">
           JOGO 1 · Escócia × Brasil · 24/Jun
         </button>
-        <button id="btnJogo2" onclick="selecionarJogo(2)" style="padding:8px 18px;border-radius:10px;border:1px solid rgba(255,220,0,0.4);background:rgba(255,220,0,0.08);color:#ffdc00;font-size:12px;font-weight:700;cursor:pointer;letter-spacing:.5px;">
-          JOGO 2 · Brasil × Japão · 29/Jun ●
+        <button id="btnJogo2" onclick="selecionarJogo(2)" style="padding:8px 18px;border-radius:10px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.5);font-size:12px;font-weight:700;cursor:pointer;letter-spacing:.5px;">
+          JOGO 2 · Brasil × Japão · 29/Jun
+        </button>
+        <button id="btnJogo3" onclick="selecionarJogo(3)" style="padding:8px 18px;border-radius:10px;border:1px solid rgba(255,220,0,0.4);background:rgba(255,220,0,0.08);color:#ffdc00;font-size:12px;font-weight:700;cursor:pointer;letter-spacing:.5px;">
+          JOGO 3 · Brasil × Noruega · 05/Jul ●
         </button>
       </div>
 
       <div class="section">
-        <div class="sec-title" id="palpitesTitulo">Palpites · Brasil × Japão · 29/Jun</div>
+        <div class="sec-title" id="palpitesTitulo">Palpites · Brasil × Noruega · 05/Jul</div>
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;" id="palpitesGrid">
           <div style="overflow-x:auto;">
             <table>
@@ -638,11 +641,17 @@
       <!-- Seletor de jogos -->
       <div style="display:flex;gap:10px;margin-bottom:18px;">
         <button id="btnFechJ1" onclick="mostrarFechamento(1)" style="padding:9px 22px;border-radius:10px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.5);font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:1px;cursor:pointer;">⚽ JOGO 1 · Esc×Bra · 24/Jun</button>
-        <button id="btnFechJ2" onclick="mostrarFechamento(2)" style="padding:9px 22px;border-radius:10px;border:1px solid var(--amarelo);background:rgba(255,220,0,0.1);color:var(--amarelo);font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:1px;cursor:pointer;">⚽ JOGO 2 · Bra×Jap · 29/Jun</button>
+        <button id="btnFechJ2" onclick="mostrarFechamento(2)" style="padding:9px 22px;border-radius:10px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.5);font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:1px;cursor:pointer;">⚽ JOGO 2 · Bra×Jap · 29/Jun</button>
+        <button id="btnFechJ3" onclick="mostrarFechamento(3)" style="padding:9px 22px;border-radius:10px;border:1px solid var(--amarelo);background:rgba(255,220,0,0.1);color:var(--amarelo);font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:1px;cursor:pointer;">⚽ JOGO 3 · Bra×Nor · 05/Jul</button>
+      </div>
+
+      <!-- FECHAMENTO J3 — dinâmico -->
+      <div id="painelFechJ3" class="section" style="border-color:rgba(255,220,0,0.3); margin-bottom:18px;">
+        <div id="fechamentoJ3" style="display:flex;justify-content:center;"></div>
       </div>
 
       <!-- FECHAMENTO J2 — dinâmico -->
-      <div id="painelFechJ2" class="section" style="border-color:rgba(255,220,0,0.3); margin-bottom:18px;">
+      <div id="painelFechJ2" class="section" style="border-color:rgba(255,220,0,0.3); margin-bottom:18px; display:none;">
         <div id="fechamentoJ2" style="display:flex;justify-content:center;"></div>
       </div>
 
@@ -837,18 +846,22 @@
                   <th style="text-align:left;padding:8px 10px;border-bottom:1px solid rgba(255,255,255,0.08);">Gestor</th>
                   <th style="text-align:center;padding:8px 10px;border-bottom:1px solid rgba(255,255,255,0.08);">Loja</th>
                   <th style="text-align:center;padding:8px 4px;border-bottom:1px solid rgba(255,255,255,0.08);color:#aaa;">J1 · Esc×Bra<br><span style="font-size:9px;color:rgba(255,255,255,0.3);">24/Jun</span></th>
-                  <th style="text-align:center;padding:8px 4px;border-bottom:1px solid rgba(255,255,255,0.08);color:var(--amarelo);">J2 · Bra×Jap<br><span style="font-size:9px;color:rgba(255,255,255,0.3);">29/Jun</span></th>
+                  <th style="text-align:center;padding:8px 4px;border-bottom:1px solid rgba(255,255,255,0.08);color:#aaa;">J2 · Bra×Jap<br><span style="font-size:9px;color:rgba(255,255,255,0.3);">29/Jun</span></th>
+                  <th style="text-align:center;padding:8px 4px;border-bottom:1px solid rgba(255,255,255,0.08);color:var(--amarelo);">J3 · Bra×Nor<br><span style="font-size:9px;color:rgba(255,255,255,0.3);">05/Jul</span></th>
                   <th style="text-align:center;padding:8px 10px;border-bottom:1px solid rgba(255,255,255,0.08);">Tendência</th>
                   <th style="text-align:center;padding:8px 10px;border-bottom:1px solid rgba(255,255,255,0.08);">Enviou J1</th>
                   <th style="text-align:center;padding:8px 10px;border-bottom:1px solid rgba(255,255,255,0.08);">Enviou J2</th>
+                  <th style="text-align:center;padding:8px 10px;border-bottom:1px solid rgba(255,255,255,0.08);">Enviou J3</th>
                   <th style="text-align:center;padding:8px 10px;border-bottom:1px solid rgba(255,255,255,0.08);">Palpite J1</th>
                   <th style="text-align:center;padding:8px 10px;border-bottom:1px solid rgba(255,255,255,0.08);">Palpite J2</th>
+                  <th style="text-align:center;padding:8px 10px;border-bottom:1px solid rgba(255,255,255,0.08);">Palpite J3</th>
                   <th style="text-align:center;padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.08);color:#aaa;">Pts<br><span style="font-size:9px;">J1</span></th>
-                  <th style="text-align:center;padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.08);color:var(--amarelo);">Pts<br><span style="font-size:9px;">J2</span></th>
+                  <th style="text-align:center;padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.08);color:#aaa;">Pts<br><span style="font-size:9px;">J2</span></th>
+                  <th style="text-align:center;padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.08);color:var(--amarelo);">Pts<br><span style="font-size:9px;">J3</span></th>
                   <th style="text-align:center;padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.08);color:#4dff8a;white-space:nowrap;">⚽ Total</th>
                 </tr>
               </thead>
-              <tbody id="corpoEvolucao"><tr><td colspan="12" class="empty">Carregando...</td></tr></tbody>
+              <tbody id="corpoEvolucao"><tr><td colspan="15" class="empty">Carregando...</td></tr></tbody>
             </table>
           </div>
         </div>
@@ -1271,15 +1284,18 @@ function renderEvolucao() {
     // verificar se enviou em cada jogo
     const envJ1 = dados.find(d => d.loja === loja && d.palpite_g3);
     const envJ2 = dados.find(d => d.loja === loja && d.palpite_g4);
+    const envJ3 = dados.find(d => d.loja === loja && d.palpite_g5);
 
     // pontos acumulados por loja
     const todosJ1 = dados.filter(d => d.loja === loja && d.palpite_g3);
     const todosJ2 = dados.filter(d => d.loja === loja && d.palpite_g4);
+    const todosJ3 = dados.filter(d => d.loja === loja && d.palpite_g5);
     const ptsJ1 = todosJ1.reduce((best, d) => Math.max(best, calcPontos(d.palpite_g3, PLACARES_OFICIAIS.g3.a, PLACARES_OFICIAIS.g3.b)), 0);
     const ptsJ2 = todosJ2.reduce((best, d) => Math.max(best, calcPontos(d.palpite_g4, PLACARES_OFICIAIS.g4.a, PLACARES_OFICIAIS.g4.b)), 0);
-    const ptsTotal = ptsJ1 + ptsJ2;
+    const ptsJ3 = PLACARES_OFICIAIS.g5.a !== null ? todosJ3.reduce((best, d) => Math.max(best, calcPontos(d.palpite_g5, PLACARES_OFICIAIS.g5.a, PLACARES_OFICIAIS.g5.b)), 0) : 0;
+    const ptsTotal = ptsJ1 + ptsJ2 + ptsJ3;
 
-    return { loja, nome: g.nome || loja, palp1, palp2, delta, envJ1, envJ2, ptsJ1, ptsJ2, ptsTotal };
+    return { loja, nome: g.nome || loja, palp1, palp2, delta, envJ1, envJ2, envJ3, ptsJ1, ptsJ2, ptsJ3, ptsTotal };
   }).sort((a,b) => b.ptsTotal - a.ptsTotal || b.palp2 - a.palp2);
 
   // contadores
@@ -1316,11 +1332,14 @@ function renderEvolucao() {
       <td style="text-align:center;">${tendSVG(r.delta)}</td>
       <td style="text-align:center;">${enviouCell(r.envJ1, r.envJ1?.palpite_g3)}</td>
       <td style="text-align:center;">${enviouCell(r.envJ2, r.envJ2?.palpite_g4)}</td>
+      <td style="text-align:center;">${enviouCell(r.envJ3, r.envJ3?.palpite_g5)}</td>
       <td style="text-align:center;font-size:13px;color:rgba(255,255,255,0.6);">${r.envJ1?.palpite_g3||'—'}</td>
       <td style="text-align:center;font-size:13px;color:rgba(255,255,255,0.6);">${r.envJ2?.palpite_g4||'—'}</td>
+      <td style="text-align:center;font-size:13px;color:rgba(255,255,255,0.6);">${r.envJ3?.palpite_g5||'—'}</td>
       <td style="text-align:center;font-family:'Bebas Neue',sans-serif;font-size:20px;color:${r.ptsJ1===4?'#4dff8a':r.ptsJ1>0?'var(--amarelo)':'rgba(255,255,255,0.2)'};">${r.ptsJ1}</td>
       <td style="text-align:center;font-family:'Bebas Neue',sans-serif;font-size:20px;color:${r.ptsJ2===4?'#4dff8a':r.ptsJ2>0?'var(--amarelo)':'rgba(255,255,255,0.2)'};">${r.ptsJ2}</td>
-      <td style="text-align:center;font-family:'Bebas Neue',sans-serif;font-size:24px;font-weight:700;color:${r.ptsTotal>=7?'#4dff8a':r.ptsTotal>=4?'var(--amarelo)':r.ptsTotal>0?'#ffaa55':'rgba(255,255,255,0.2)'};">${r.ptsTotal}</td>
+      <td style="text-align:center;font-family:'Bebas Neue',sans-serif;font-size:20px;color:${r.ptsJ3===4?'#4dff8a':r.ptsJ3>0?'var(--amarelo)':'rgba(255,255,255,0.2)'};">${r.ptsJ3}</td>
+      <td style="text-align:center;font-family:'Bebas Neue',sans-serif;font-size:24px;font-weight:700;color:${r.ptsTotal>=9?'#4dff8a':r.ptsTotal>=5?'var(--amarelo)':r.ptsTotal>0?'#ffaa55':'rgba(255,255,255,0.2)'};">${r.ptsTotal}</td>
     </tr>`;
   }).join('');
 }
@@ -1438,6 +1457,7 @@ async function carregar() {
     renderDiretoria();
     renderEvolucao();
     renderFechamentoJ2();
+    renderFechamentoJ3();
     preencherFotosJ1();
     renderProximoJogo();
   } catch(e) {
@@ -1447,29 +1467,30 @@ async function carregar() {
   document.getElementById('ultimaAtualizacao').textContent = `Atualizado: ${agora.toLocaleTimeString('pt-BR')}`;
 }
 
-let jogoAtivo = 2; // 1 = Escócia×Brasil | 2 = Brasil×Japão
+let jogoAtivo = 3; // 1 = Escócia×Brasil | 2 = Brasil×Japão | 3 = Brasil×Noruega
 
 function selecionarJogo(n) {
   jogoAtivo = n;
   const j1 = document.getElementById('btnJogo1');
   const j2 = document.getElementById('btnJogo2');
+  const j3 = document.getElementById('btnJogo3');
   const titulo = document.getElementById('palpitesTitulo');
+  [j1, j2, j3].forEach(b => { if(b){ b.style.borderColor='rgba(255,255,255,0.15)'; b.style.background='rgba(255,255,255,0.06)'; b.style.color='rgba(255,255,255,0.5)'; } });
   if (n === 1) {
     j1.style.borderColor = 'rgba(255,220,0,0.4)';
     j1.style.background  = 'rgba(255,220,0,0.08)';
     j1.style.color       = '#ffdc00';
-    j2.style.borderColor = 'rgba(255,255,255,0.15)';
-    j2.style.background  = 'rgba(255,255,255,0.06)';
-    j2.style.color       = 'rgba(255,255,255,0.5)';
     titulo.textContent   = 'Palpites · Escócia × Brasil · 24/Jun';
-  } else {
+  } else if (n === 2) {
     j2.style.borderColor = 'rgba(255,220,0,0.4)';
     j2.style.background  = 'rgba(255,220,0,0.08)';
     j2.style.color       = '#ffdc00';
-    j1.style.borderColor = 'rgba(255,255,255,0.15)';
-    j1.style.background  = 'rgba(255,255,255,0.06)';
-    j1.style.color       = 'rgba(255,255,255,0.5)';
     titulo.textContent   = 'Palpites · Brasil × Japão · 29/Jun';
+  } else {
+    j3.style.borderColor = 'rgba(255,220,0,0.4)';
+    j3.style.background  = 'rgba(255,220,0,0.08)';
+    j3.style.color       = '#ffdc00';
+    titulo.textContent   = 'Palpites · Brasil × Noruega · 05/Jul';
   }
   renderizar();
 }
@@ -1530,7 +1551,7 @@ function renderizar() {
       <td style="color:rgba(255,255,255,0.4);font-size:12px;">${i}</td>
       <td style="font-weight:600;">${primeiroNome}</td>
       <td><span style="font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--amarelo);">${d.loja||'—'}</span></td>
-      <td><span class="placar-cell">${(jogoAtivo===1 ? d.palpite_g3 : d.palpite_g4)||'—'}</span></td>
+      <td><span class="placar-cell">${(jogoAtivo===1 ? d.palpite_g3 : jogoAtivo===2 ? d.palpite_g4 : d.palpite_g5)||'—'}</span></td>
       <td>${direitoCell}</td>
       <td class="hora">${hora}</td>
     </tr>`;
@@ -1868,6 +1889,7 @@ _Corre que ainda dá tempo! 🇧🇷_`;
 const PLACARES_OFICIAIS = {
   g3: { a: 0, b: 3, label: 'Escócia 0 × 3 Brasil' },   // J1 — 24/Jun
   g4: { a: 2, b: 1, label: 'Brasil 2 × 1 Japão' },       // J2 — 29/Jun
+  g5: { a: null, b: null, label: 'Brasil × Noruega · 05/Jul' }, // J3 — aguardando
 };
 
 function calcPontos(palpite, golA, golB) {
@@ -1904,7 +1926,8 @@ function melhorPalpite(palpite, golA, golB) {
 function ptsTotais(d) {
   const j1 = calcPontos(d.palpite_g3, PLACARES_OFICIAIS.g3.a, PLACARES_OFICIAIS.g3.b);
   const j2 = calcPontos(d.palpite_g4, PLACARES_OFICIAIS.g4.a, PLACARES_OFICIAIS.g4.b);
-  return j1 + j2;
+  const j3 = PLACARES_OFICIAIS.g5.a !== null ? calcPontos(d.palpite_g5, PLACARES_OFICIAIS.g5.a, PLACARES_OFICIAIS.g5.b) : 0;
+  return j1 + j2 + j3;
 }
 
 function renderFechamentoJ2() {
@@ -2010,6 +2033,141 @@ function renderFechamentoJ2() {
                   <td style="text-align:center;font-size:11px;color:${cj2};">${melhorPalp(d.palpite_g4, PLACARES_OFICIAIS.g4.a, PLACARES_OFICIAIS.g4.b)}</td>
                   <td style="text-align:center;font-family:'Bebas Neue',sans-serif;font-size:17px;color:${cj1};">${d.ptsJ1}</td>
                   <td style="text-align:center;font-family:'Bebas Neue',sans-serif;font-size:17px;color:${cj2};">${d.ptsJ2}</td>
+                  <td style="text-align:center;font-family:'Bebas Neue',sans-serif;font-size:20px;font-weight:700;color:${cTot};">${d.ptsTotal}</td>
+                </tr>`;
+              }).join('')}</tbody>
+            </table>`;
+          return `<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">${renderTable(col1)}${renderTable(col2)}</div>`;
+        })()}
+      </div>
+    </div>`;
+}
+
+function renderFechamentoJ3() {
+  const el = document.getElementById('fechamentoJ3');
+  if (!el || !dados.length) return;
+
+  const { a: golA, b: golB, label } = PLACARES_OFICIAIS.g5;
+
+  if (golA === null) {
+    el.innerHTML = '<p style="color:rgba(255,255,255,0.3);text-align:center;padding:20px;">Jogo 3 ainda não foi disputado. O fechamento será publicado após o apito final.</p>';
+    return;
+  }
+
+  const mapa = {};
+  dados.forEach(d => {
+    if (gerentes[d.loja] && gerentes[d.loja].nome) d.nome = gerentes[d.loja].nome;
+    const chave = d.loja;
+    const pj1 = calcPontos(d.palpite_g3, PLACARES_OFICIAIS.g3.a, PLACARES_OFICIAIS.g3.b);
+    const pj2 = calcPontos(d.palpite_g4, PLACARES_OFICIAIS.g4.a, PLACARES_OFICIAIS.g4.b);
+    const pj3 = calcPontos(d.palpite_g5, golA, golB);
+    if (!mapa[chave]) mapa[chave] = { nome: d.nome, loja: d.loja, palpite_g3: null, palpite_g4: null, palpite_g5: null, ptsJ1: 0, ptsJ2: 0, ptsJ3: 0 };
+    if (d.nome && d.nome.length > (mapa[chave].nome||'').length) mapa[chave].nome = d.nome;
+    if (pj1 > mapa[chave].ptsJ1) { mapa[chave].ptsJ1 = pj1; mapa[chave].palpite_g3 = d.palpite_g3; }
+    if (pj2 > mapa[chave].ptsJ2) { mapa[chave].ptsJ2 = pj2; mapa[chave].palpite_g4 = d.palpite_g4; }
+    if (pj3 > mapa[chave].ptsJ3) { mapa[chave].ptsJ3 = pj3; mapa[chave].palpite_g5 = d.palpite_g5; }
+  });
+  Object.values(mapa).forEach(d => { d.ptsTotal = d.ptsJ1 + d.ptsJ2 + d.ptsJ3; });
+
+  const ranked = Object.values(mapa)
+    .filter(d => d.ptsJ3 > 0)
+    .sort((a, b) => b.ptsJ3 - a.ptsJ3 || b.ptsTotal - a.ptsTotal);
+
+  if (!ranked.length) { el.innerHTML = '<p style="color:rgba(255,255,255,0.3);text-align:center;padding:20px;">Nenhum palpite enviado para o Jogo 3.</p>'; return; }
+
+  const cores = ['var(--amarelo)', '#C0C0C0', '#CD7F32'];
+  const top3 = ranked.slice(0, 3);
+
+  el.innerHTML = `
+    <div style="background:linear-gradient(160deg,#0a2e14,#071c0c);border:1px solid rgba(255,220,0,0.2);border-radius:18px;padding:28px 24px;">
+      <div style="text-align:center;margin-bottom:16px;">
+        <span style="background:var(--amarelo);color:#000;font-weight:900;font-size:10px;letter-spacing:2px;padding:4px 14px;border-radius:20px;">BOLÃO COPA 2026 · MARGEM NA VEIA PA2</span>
+      </div>
+      <div style="text-align:center;margin-bottom:16px;">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:52px;color:var(--amarelo);line-height:1;">TOP 3</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:#fff;letter-spacing:4px;">JOGO 3 · BRASIL × NORUEGA</div>
+        <div style="margin:12px 0;background:rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:14px;">
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:38px;color:#fff;letter-spacing:3px;">BRASIL <span style="color:#4dff8a;">${golB}</span> <span style="color:rgba(255,255,255,0.3);">×</span> <span style="color:#ff7a7a;">${golA}</span> NORUEGA</span>
+          <div style="font-size:10px;color:rgba(255,255,255,0.3);margin-top:4px;letter-spacing:1px;">PLACAR EXATO = 4PTS · VENCEDOR CERTO = 1PT</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:${top3.length===1?'1fr':top3.length===2?'1fr 1fr':'1fr 1fr 1fr'};gap:12px;margin-bottom:20px;align-items:end;">
+        ${top3.map((d, i) => {
+          const g = gerentes[d.loja] || {};
+          const nome = (d.nome||g.nome||d.loja).split(' ').slice(0,2).join(' ');
+          const iniciais = nome.split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase();
+          const cor = cores[i];
+          const sz = i===0 ? '84px' : '70px';
+          const fsz = i===0 ? '52px' : '36px';
+          const fotoHtml = g.foto
+            ? `<img src="${g.foto}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" onerror="this.parentNode.innerHTML='<span style=\\'font-family:Bebas Neue,sans-serif;font-size:${i===0?'28':'22'}px;color:${cor};\\' >${iniciais}</span>'">`
+            : `<span style="font-family:'Bebas Neue',sans-serif;font-size:${i===0?'28px':'22px'};color:${cor};">${iniciais}</span>`;
+          return `<div style="text-align:center;${i===1&&top3.length===3?'order:-1':''}">
+            <div style="position:relative;display:inline-block;">
+              <div style="width:${sz};height:${sz};border-radius:50%;background:rgba(255,255,255,0.06);border:3px solid ${cor};display:flex;align-items:center;justify-content:center;margin:0 auto;overflow:hidden;">${fotoHtml}</div>
+              <div style="position:absolute;top:-8px;right:-8px;width:${i===0?'26px':'22px'};height:${i===0?'26px':'22px'};border-radius:50%;background:${cor};display:flex;align-items:center;justify-content:center;font-size:${i===0?'12px':'10px'};font-weight:900;color:${i===0?'#000':'#fff'};">${i+1}</div>
+            </div>
+            <div style="margin-top:8px;font-size:${i===0?'12px':'11px'};font-weight:700;color:${cor};text-transform:uppercase;line-height:1.3;">${nome}</div>
+            <div style="font-size:10px;color:rgba(255,255,255,0.35);margin-top:2px;">Loja ${d.loja}</div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:3px;">Palpite: ${d.palpite_g5||'—'}</div>
+            <div style="margin-top:8px;background:rgba(255,255,255,0.05);border:1px solid ${cor}55;border-radius:10px;padding:8px;">
+              <span style="font-family:'Bebas Neue',sans-serif;font-size:${fsz};color:${cor};">${d.ptsJ3}</span><span style="font-size:11px;color:${cor};margin-left:2px;">PTS</span>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>
+      <div style="background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:14px;">
+        <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.3);text-align:center;margin-bottom:12px;">PLACAR COMPLETO · J1 + J2 + J3</div>
+        ${(() => {
+          const allMapa = {};
+          dados.forEach(d => {
+            const chave = d.loja;
+            const pj1 = calcPontos(d.palpite_g3, PLACARES_OFICIAIS.g3.a, PLACARES_OFICIAIS.g3.b);
+            const pj2 = calcPontos(d.palpite_g4, PLACARES_OFICIAIS.g4.a, PLACARES_OFICIAIS.g4.b);
+            const pj3 = calcPontos(d.palpite_g5, golA, golB);
+            if (!allMapa[chave]) allMapa[chave] = { nome: (gerentes[d.loja]?.nome||d.nome||d.loja), loja: d.loja, palpite_g3: null, palpite_g4: null, palpite_g5: null, ptsJ1: 0, ptsJ2: 0, ptsJ3: 0 };
+            if (pj1 > allMapa[chave].ptsJ1) { allMapa[chave].ptsJ1 = pj1; allMapa[chave].palpite_g3 = d.palpite_g3; }
+            if (pj2 > allMapa[chave].ptsJ2) { allMapa[chave].ptsJ2 = pj2; allMapa[chave].palpite_g4 = d.palpite_g4; }
+            if (pj3 > allMapa[chave].ptsJ3) { allMapa[chave].ptsJ3 = pj3; allMapa[chave].palpite_g5 = d.palpite_g5; }
+          });
+          Object.values(allMapa).forEach(d => { d.ptsTotal = d.ptsJ1 + d.ptsJ2 + d.ptsJ3; });
+          const sorted = Object.values(allMapa).sort((a,b)=>b.ptsTotal-a.ptsTotal||b.ptsJ3-a.ptsJ3);
+          const mid = Math.ceil(sorted.length / 2);
+          const col1 = sorted.slice(0, mid);
+          const col2 = sorted.slice(mid);
+          const renderTable = rows => `
+            <table style="width:100%;font-size:11px;border-collapse:collapse;">
+              <thead><tr>
+                <th style="text-align:left;color:rgba(255,255,255,0.35);padding:4px 6px;font-size:10px;">Gestor</th>
+                <th style="text-align:center;color:rgba(255,255,255,0.35);padding:4px 4px;font-size:10px;">Loja</th>
+                <th style="text-align:center;color:#aaa;padding:4px 4px;font-size:10px;">Palp J1</th>
+                <th style="text-align:center;color:#aaa;padding:4px 4px;font-size:10px;">Palp J2</th>
+                <th style="text-align:center;color:var(--amarelo);padding:4px 4px;font-size:10px;">Palp J3</th>
+                <th style="text-align:center;color:#aaa;padding:4px 3px;font-size:10px;">J1</th>
+                <th style="text-align:center;color:#aaa;padding:4px 3px;font-size:10px;">J2</th>
+                <th style="text-align:center;color:var(--amarelo);padding:4px 3px;font-size:10px;">J3</th>
+                <th style="text-align:center;color:#4dff8a;padding:4px 4px;font-size:10px;">⚽</th>
+              </tr></thead>
+              <tbody>${rows.map(d => {
+                const cj1 = d.ptsJ1===4?'#4dff8a':d.ptsJ1>0?'var(--amarelo)':'rgba(255,255,255,0.2)';
+                const cj2 = d.ptsJ2===4?'#4dff8a':d.ptsJ2>0?'var(--amarelo)':'rgba(255,255,255,0.2)';
+                const cj3 = d.ptsJ3===4?'#4dff8a':d.ptsJ3>0?'var(--amarelo)':'rgba(255,255,255,0.2)';
+                const cTot = d.ptsTotal>=9?'#4dff8a':d.ptsTotal>=5?'var(--amarelo)':d.ptsTotal>0?'#ffaa55':'rgba(255,255,255,0.2)';
+                const bp = (palp, ga, gb) => {
+                  if (!palp) return '—';
+                  const cands = palp.split('|').map(s=>s.trim());
+                  const exato = cands.find(c => { const p=c.split('x').map(Number); return p[0]===ga&&p[1]===gb; });
+                  return exato || cands[0];
+                };
+                return `<tr style="border-bottom:1px solid rgba(255,255,255,0.04);">
+                  <td style="padding:5px 6px;font-weight:600;white-space:nowrap;">${(d.nome||d.loja).split(' ')[0]}</td>
+                  <td style="text-align:center;font-family:'Bebas Neue',sans-serif;font-size:14px;color:var(--amarelo);">${d.loja}</td>
+                  <td style="text-align:center;font-size:11px;color:${cj1};">${bp(d.palpite_g3, PLACARES_OFICIAIS.g3.a, PLACARES_OFICIAIS.g3.b)}</td>
+                  <td style="text-align:center;font-size:11px;color:${cj2};">${bp(d.palpite_g4, PLACARES_OFICIAIS.g4.a, PLACARES_OFICIAIS.g4.b)}</td>
+                  <td style="text-align:center;font-size:11px;color:${cj3};">${bp(d.palpite_g5, golA, golB)}</td>
+                  <td style="text-align:center;font-family:'Bebas Neue',sans-serif;font-size:17px;color:${cj1};">${d.ptsJ1}</td>
+                  <td style="text-align:center;font-family:'Bebas Neue',sans-serif;font-size:17px;color:${cj2};">${d.ptsJ2}</td>
+                  <td style="text-align:center;font-family:'Bebas Neue',sans-serif;font-size:17px;color:${cj3};">${d.ptsJ3}</td>
                   <td style="text-align:center;font-family:'Bebas Neue',sans-serif;font-size:20px;font-weight:700;color:${cTot};">${d.ptsTotal}</td>
                 </tr>`;
               }).join('')}</tbody>
@@ -2396,10 +2554,10 @@ function renderMonitor() {
 
 function exportarCSV() {
   if (!dados.length) { alert('Nenhum dado para exportar.'); return; }
-  let csv = 'Nome,Loja,Cargo,Email,Palpite,Campeão,Horário\n';
+  let csv = 'Nome,Loja,Cargo,Email,PalpiteJ3,Campeão,Horário\n';
   dados.forEach(d => {
     const dt = new Date(d.created_at).toLocaleString('pt-BR');
-    csv += `"${d.nome}","${d.loja}","${d.cargo}","${d.email}","${d.palpite_g4}","${d.campeao}","${dt}"\n`;
+    csv += `"${d.nome}","${d.loja}","${d.cargo}","${d.email}","${d.palpite_g5}","${d.campeao}","${dt}"\n`;
   });
   const a = document.createElement('a');
   a.href = 'data:text/csv;charset=utf-8,﻿' + encodeURIComponent(csv);
@@ -2497,26 +2655,28 @@ function copiarMsgEngajamento() {
     const chave = d.loja;
     const j1 = calcPontos(d.palpite_g3, PLACARES_OFICIAIS.g3.a, PLACARES_OFICIAIS.g3.b);
     const j2 = calcPontos(d.palpite_g4, PLACARES_OFICIAIS.g4.a, PLACARES_OFICIAIS.g4.b);
-    if (!mapaE[chave]) mapaE[chave] = { nome: d.nome, loja: d.loja, j1: 0, j2: 0 };
+    const j3 = PLACARES_OFICIAIS.g5.a !== null ? calcPontos(d.palpite_g5, PLACARES_OFICIAIS.g5.a, PLACARES_OFICIAIS.g5.b) : 0;
+    if (!mapaE[chave]) mapaE[chave] = { nome: d.nome, loja: d.loja, j1: 0, j2: 0, j3: 0 };
     if (j1 > mapaE[chave].j1) mapaE[chave].j1 = j1;
     if (j2 > mapaE[chave].j2) mapaE[chave].j2 = j2;
+    if (j3 > mapaE[chave].j3) mapaE[chave].j3 = j3;
   });
-  Object.values(mapaE).forEach(p => { p.total = p.j1 + p.j2; });
-  const ranked = Object.values(mapaE).sort((a,b) => b.total - a.total || b.j2 - a.j2);
+  Object.values(mapaE).forEach(p => { p.total = p.j1 + p.j2 + p.j3; });
+  const ranked = Object.values(mapaE).sort((a,b) => b.total - a.total || b.j3 - a.j3);
   const lider = ranked[0];
   const top3nomes = ranked.slice(0,3).map((p,i)=>`${['🥇','🥈','🥉'][i]} ${p.nome.split(' ')[0]} (${p.total}pts)`).join(' · ');
 
   const hoje = new Date().toLocaleDateString('pt-BR');
   let msg = `⚽ *BOLÃO COPA 2026 · PA2 — MARGEM NA VEIA*\n`;
-  msg += `📅 ${hoje} · Atualização pós Jogo 2\n\n`;
+  msg += `📅 ${hoje} · Atualização pós Jogo 3\n\n`;
 
   msg += `━━━━━━━━━━━━━━━━━━━━━━\n`;
-  msg += `🏆 *PLACAR ACUMULADO (J1+J2)*\n\n`;
+  msg += `🏆 *PLACAR ACUMULADO (J1+J2+J3)*\n\n`;
   ranked.slice(0,5).forEach((p,i) => {
-    const bar = '█'.repeat(p.total) + '░'.repeat(Math.max(0,8-p.total));
+    const bar = '█'.repeat(p.total) + '░'.repeat(Math.max(0,12-p.total));
     const medal = i<3?['🥇','🥈','🥉'][i]:`${i+1}º`;
     msg += `${medal} *${p.nome.split(' ')[0]}* · Loja ${p.loja}\n`;
-    msg += `   ${bar} *${p.total}pts* (J1:${p.j1} J2:${p.j2})\n\n`;
+    msg += `   ${bar} *${p.total}pts* (J1:${p.j1} J2:${p.j2} J3:${p.j3})\n\n`;
   });
   if (ranked.length > 5) {
     msg += `_...e mais ${ranked.length - 5} gestores na disputa_\n\n`;
@@ -2579,13 +2739,13 @@ function preencherFotosJ1() {
 function mostrarFechamento(n) {
   document.getElementById('painelFechJ1').style.display = n===1 ? '' : 'none';
   document.getElementById('painelFechJ2').style.display = n===2 ? '' : 'none';
-  const b1 = document.getElementById('btnFechJ1'), b2 = document.getElementById('btnFechJ2');
-  b1.style.background = n===1 ? 'rgba(255,255,255,0.12)' : 'rgba(255,255,255,0.06)';
-  b1.style.color = n===1 ? '#fff' : 'rgba(255,255,255,0.5)';
-  b1.style.borderColor = n===1 ? 'rgba(255,255,255,0.4)' : 'rgba(255,255,255,0.15)';
-  b2.style.background = n===2 ? 'rgba(255,220,0,0.1)' : 'rgba(255,255,255,0.06)';
-  b2.style.color = n===2 ? 'var(--amarelo)' : 'rgba(255,255,255,0.5)';
-  b2.style.borderColor = n===2 ? 'var(--amarelo)' : 'rgba(255,255,255,0.15)';
+  document.getElementById('painelFechJ3').style.display = n===3 ? '' : 'none';
+  const b1 = document.getElementById('btnFechJ1'), b2 = document.getElementById('btnFechJ2'), b3 = document.getElementById('btnFechJ3');
+  [b1,b2,b3].forEach(b => { b.style.background='rgba(255,255,255,0.06)'; b.style.color='rgba(255,255,255,0.5)'; b.style.borderColor='rgba(255,255,255,0.15)'; });
+  const btn = n===1?b1:n===2?b2:b3;
+  btn.style.background = n===1 ? 'rgba(255,255,255,0.12)' : 'rgba(255,220,0,0.1)';
+  btn.style.color = n===1 ? '#fff' : 'var(--amarelo)';
+  btn.style.borderColor = n===1 ? 'rgba(255,255,255,0.4)' : 'var(--amarelo)';
 }
 
 function copiarMsgTop3() {
@@ -2597,12 +2757,14 @@ function copiarMsgTop3() {
     const chave = d.loja;
     const j1 = calcPontos(d.palpite_g3, PLACARES_OFICIAIS.g3.a, PLACARES_OFICIAIS.g3.b);
     const j2 = calcPontos(d.palpite_g4, PLACARES_OFICIAIS.g4.a, PLACARES_OFICIAIS.g4.b);
-    if (!mapaMsg[chave]) mapaMsg[chave] = { nome, loja: d.loja, j1: 0, j2: 0 };
+    const j3 = PLACARES_OFICIAIS.g5.a !== null ? calcPontos(d.palpite_g5, PLACARES_OFICIAIS.g5.a, PLACARES_OFICIAIS.g5.b) : 0;
+    if (!mapaMsg[chave]) mapaMsg[chave] = { nome, loja: d.loja, j1: 0, j2: 0, j3: 0 };
     if (j1 > mapaMsg[chave].j1) mapaMsg[chave].j1 = j1;
     if (j2 > mapaMsg[chave].j2) mapaMsg[chave].j2 = j2;
+    if (j3 > mapaMsg[chave].j3) mapaMsg[chave].j3 = j3;
   });
-  Object.values(mapaMsg).forEach(p => { p.total = p.j1 + p.j2; });
-  const ranked = Object.values(mapaMsg).sort((a,b) => b.total - a.total || b.j2 - a.j2 || b.j1 - a.j1);
+  Object.values(mapaMsg).forEach(p => { p.total = p.j1 + p.j2 + p.j3; });
+  const ranked = Object.values(mapaMsg).sort((a,b) => b.total - a.total || b.j3 - a.j3 || b.j2 - a.j2 || b.j1 - a.j1);
   const top3 = ranked.slice(0,3);
 
   const medalhas = ['🥇','🥈','🥉'];
@@ -2620,15 +2782,15 @@ function copiarMsgTop3() {
   const dataHoje = new Date().toLocaleDateString('pt-BR');
   let msg = `⚽ *BOLÃO COPA 2026 · PA2 — RANKING ACUMULADO*\n`;
   msg += `📅 Atualizado em ${dataHoje}\n`;
-  msg += `📊 J1: Escócia 0×3 Brasil · J2: Brasil 2×1 Japão\n\n`;
-  msg += `*🏆 TOP 3 — PONTUAÇÃO GERAL (J1+J2)*\n`;
+  msg += `📊 J1: Escócia 0×3 Brasil · J2: Brasil 2×1 Japão · J3: Brasil × Noruega\n\n`;
+  msg += `*🏆 TOP 3 — PONTUAÇÃO GERAL (J1+J2+J3)*\n`;
   msg += `━━━━━━━━━━━━━━━━━━━━━━\n\n`;
 
   top3.forEach((p, i) => {
     msg += `${medalhas[i]} *${p.nome.split(' ')[0].toUpperCase()}* — Loja ${p.loja}\n`;
     msg += `   ⚽ J1: ${pontoLabel(p.j1)}\n`;
     msg += `   ⚽ J2: ${pontoLabel(p.j2)}\n`;
-    msg += `   ${evolLabel(p.j1, p.j2)}\n`;
+    msg += `   ⚽ J3: ${pontoLabel(p.j3)}\n`;
     msg += `   🔢 *TOTAL: ${p.total} pts*\n\n`;
   });
 
@@ -2637,7 +2799,7 @@ function copiarMsgTop3() {
   if (ranked.length > 3) {
     msg += `\n*Demais gestores:*\n`;
     ranked.slice(3).forEach((p, i) => {
-      msg += `${i+4}º ${p.nome.split(' ')[0]} (Loja ${p.loja}) · J1:${p.j1}pt J2:${p.j2}pt → *${p.total}pts*\n`;
+      msg += `${i+4}º ${p.nome.split(' ')[0]} (Loja ${p.loja}) · J1:${p.j1}pt J2:${p.j2}pt J3:${p.j3}pt → *${p.total}pts*\n`;
     });
     msg += `\n`;
   }
