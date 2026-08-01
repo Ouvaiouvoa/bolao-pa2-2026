@@ -264,6 +264,22 @@
     }
     .mobile-nav button.active { color: var(--amarelo); }
     .mobile-nav button span { font-size: 20px; }
+
+    /* ===== CONTROLE DE MOVIMENTO ===== */
+    html.reduced-motion *, html.reduced-motion *::before, html.reduced-motion *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
   </style>
 </head>
 <body>
@@ -343,6 +359,11 @@
           </button>
           <button onclick="resetZoom()" style="width:30px;height:30px;border-radius:8px;background:rgba(255,220,0,0.08);border:1px solid rgba(255,220,0,0.2);color:var(--amarelo);font-size:10px;font-weight:700;cursor:pointer;letter-spacing:.5px;">1:1</button>
         </div>
+      </div>
+      <!-- CONTROLE DE MOVIMENTO -->
+      <div style="margin-bottom:14px;">
+        <div style="font-size:10px;letter-spacing:1.5px;color:rgba(255,255,255,0.3);margin-bottom:8px;text-transform:uppercase;">Movimento</div>
+        <button id="btnMotion" onclick="toggleMotion()" style="width:100%;padding:8px 10px;border-radius:8px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:#fff;font-size:11px;font-weight:700;cursor:pointer;letter-spacing:.3px;">⏸ Reduzir animações</button>
       </div>
       <div class="refresh-info" id="ultimaAtualizacao">Carregando...</div>
       <button class="btn btn-primary" style="width:100%; margin-top:10px; justify-content:center;" onclick="carregar()">Atualizar</button>
@@ -2582,6 +2603,19 @@ function aplicarZoom() {
   document.getElementById('zoomLabel').textContent = zoomAtual + '%';
 }
 
+function aplicarMotionPref() {
+  const reduzido = localStorage.getItem('motionReduced') === '1';
+  document.documentElement.classList.toggle('reduced-motion', reduzido);
+  const btn = document.getElementById('btnMotion');
+  if (btn) btn.textContent = reduzido ? '▶ Ativar animações' : '⏸ Reduzir animações';
+}
+function toggleMotion() {
+  const reduzido = localStorage.getItem('motionReduced') === '1';
+  localStorage.setItem('motionReduced', reduzido ? '0' : '1');
+  aplicarMotionPref();
+}
+aplicarMotionPref();
+
 /* ── MODAL CARTÃO GERENTE ── */
 function abrirCartao(loja) {
   const k = kpiLojas[loja];
@@ -3233,7 +3267,6 @@ function copiarMsgProximoJogo(tipo) {
     const j1 = calcPontos(d.palpite_g3, g3.a, g3.b);
     const j2 = calcPontos(d.palpite_g4, g4.a, g4.b);
     const j3 = g5.a !== null ? calcPontos(d.palpite_g5, g5.a, g5.b) : 0;
-    const j2 = calcPontos(d.palpite_g4, g4.a, g4.b);
     if (!mapa[d.loja]) mapa[d.loja] = { nome: d.nome, loja: d.loja, j1: 0, j2: 0 };
     if (j1 > mapa[d.loja].j1) mapa[d.loja].j1 = j1;
     if (j2 > mapa[d.loja].j2) mapa[d.loja].j2 = j2;
