@@ -73,11 +73,12 @@ versão, totalizando 40.
 
 ## Paleta de cores
 
-| Nome | HEX | CMYK aproximado |
-|---|---|---|
-| Azul royal (principal) | `#1B3FAF` | C100 M80 Y0 K10 |
-| Azul claro (apoio) | `#29B6F6` | C70 M15 Y0 K0 |
-| Branco | `#FFFFFF` | C0 M0 Y0 K0 |
+| Nome | HEX | CMYK aproximado | Uso |
+|---|---|---|---|
+| Azul royal (principal) | `#1B3FAF` | C100 M80 Y0 K10 | Marca, fundos, "35" |
+| Azul claro (apoio) | `#29B6F6` | C70 M15 Y0 K0 | "anos", linhas, check, apoios |
+| Azul intermediário | `#2E56C6` | C85 M65 Y0 K0 | Linhas internas do símbolo |
+| Branco | `#FFFFFF` | C0 M0 Y0 K0 | Fundo da frente e da faixa |
 
 > **Atenção:** os valores CMYK acima foram convertidos a partir do arquivo digital.
 > Antes de rodar a tiragem, conferir com o manual de marca da EDUC ou com o arquivo
@@ -87,7 +88,8 @@ versão, totalizando 40.
 
 ## Arquivos enviados
 
-- Logo EDUC Consultoria Acadêmica em vetor (`.ai` ou `.eps`) com fundo transparente
+- Referência visual da marca e do selo de 35 anos (foto do topo de bolo) — recebida
+- Logo EDUC Consultoria Acadêmica em vetor (`.ai` ou `.eps`) com fundo transparente — **pendente**
 - Artes finais de frente e versos em PDF fechado
 - Arquivo aberto disponível mediante solicitação
 
@@ -105,11 +107,14 @@ versão, totalizando 40.
 ### Frente do marcador (idêntica nas 5 versões)
 
 ```
-[LOGO EDUC CONSULTORIA ACADÊMICA]
+[SÍMBOLO + EDUC / Consultoria Acadêmica]
 
-35 ANOS
-da Dona da Educ
+35 anos           (selo comemorativo, com os raios)
+da Dona da Educ   (dentro da faixa)
 ```
+
+O selo segue o lockup da arte enviada: "35" em serifa pesada, "anos" em script,
+raios à direita e a faixa com "da Dona da Educ".
 
 ### Versos (uma frase por versão)
 
@@ -152,7 +157,9 @@ Rodapé de todos os versos:
 - [ ] Fontes em curvas
 - [ ] Verso corretamente pareado com a frente na imposição
 - [ ] Quantidade por versão confirmada: 8 de cada, 40 no total
-- [ ] Logo vetorial oficial substituindo o placeholder do layout de prova
+- [ ] Logo e selo vetoriais oficiais substituindo a reconstrução do layout de prova
+- [ ] Versão da marca definida: positiva (azul sobre branco) e negativa (branca sobre azul)
+- [ ] Fontes originais da marca confirmadas (serifa do "Educ"/"35" e script de "anos"/faixa)
 
 ---
 

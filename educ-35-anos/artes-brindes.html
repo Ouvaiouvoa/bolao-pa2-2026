@@ -9,27 +9,40 @@
      EDUC Consultoria Acadêmica | 35 anos
      Layout de prova em tamanho real (1:1) dos brindes.
      Imprimir em A4, escala 100%, SEM "ajustar à página".
+
+     A marca e o selo comemorativo aqui são RECONSTRUÇÃO baseada na
+     arte enviada (topo de bolo). Servem para conferir composição,
+     hierarquia e área útil — o fechamento tem que usar o vetor oficial.
      ============================================================ */
 
   :root {
     --royal: #1B3FAF;
     --claro: #29B6F6;
+    --meio:  #2E56C6;   /* azul intermediário das linhas do símbolo */
     --branco: #FFFFFF;
 
-    --guia-corte: #E5007E;   /* linha de corte */
-    --guia-seg:   #00A0B0;   /* margem de segurança */
-    --guia-furo:  #F5A623;   /* furo */
+    --guia-corte: #E5007E;
+    --guia-seg:   #00A0B0;
+    --guia-furo:  #F5A623;
 
-    --pad: 4mm;              /* espaço para as marcas de corte */
+    --pad: 4mm;
+
+    /* papéis de cor da marca — invertidos nas peças de fundo azul */
+    --c-mark: var(--royal);
+    --c-accent: var(--claro);
+    --c-bar: var(--meio);
+
+    --serifa: Georgia, "Times New Roman", serif;
+    --script: "Segoe Script", "Brush Script MT", "Snell Roundhand", cursive;
+    --sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
   }
 
   * { box-sizing: border-box; }
-
   html, body { margin: 0; padding: 0; }
 
   body {
     background: #6b7280;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: var(--sans);
     color: #111;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
@@ -66,15 +79,15 @@
 
   .folha-topo {
     display: flex; justify-content: space-between; align-items: baseline;
-    border-bottom: 0.3mm solid #d1d5db;
+    border-bottom: .3mm solid #d1d5db;
     padding-bottom: 2mm; margin-bottom: 4mm;
-    font-size: 7.5pt; color: #4b5563; letter-spacing: .02em;
+    font-size: 7.5pt; color: #4b5563;
   }
   .folha-topo b { color: #111; letter-spacing: .06em; text-transform: uppercase; }
 
-  .fileira { display: flex; justify-content: center; align-items: flex-start; gap: 0; }
+  .fileira { display: flex; justify-content: center; align-items: flex-start; }
 
-  /* ---------- peça: wrapper + sangria + guias ---------- */
+  /* ---------- peça: sangria, guias, marcas ---------- */
 
   .peca { position: relative; padding: var(--pad); }
 
@@ -86,11 +99,7 @@
   }
   .bleed.redondo { border-radius: 50%; }
 
-  .arte {
-    position: absolute; inset: 0;
-    overflow: hidden;
-    display: flex; flex-direction: column;
-  }
+  .arte { position: absolute; inset: 0; overflow: hidden; display: flex; flex-direction: column; }
 
   .marca { position: absolute; background: #111; }
 
@@ -98,18 +107,12 @@
   body.sem-guias .guias { display: none; }
 
   .guias .corte, .guias .seguranca {
-    position: absolute;
-    border-style: dashed; border-width: .25mm;
+    position: absolute; border-style: dashed; border-width: .25mm;
   }
-  .guias .corte {
-    inset: var(--s);
-    border-color: var(--guia-corte);
-    border-radius: var(--raio, 0);
-  }
+  .guias .corte { inset: var(--s); border-color: var(--guia-corte); border-radius: var(--raio, 0); }
   .guias .seguranca {
     inset: calc(var(--s) + var(--seg, 5mm));
-    border-color: var(--guia-seg);
-    border-radius: var(--raio, 0);
+    border-color: var(--guia-seg); border-radius: var(--raio, 0);
   }
   .guias .redonda { border-radius: 50%; }
 
@@ -120,7 +123,7 @@
     top: calc(var(--s) + var(--furo-y) - var(--furo) / 2);
     border: .25mm dashed var(--guia-furo);
     border-radius: 50%;
-    background: rgba(255,255,255,.55);
+    background: rgba(255,255,255,.5);
   }
 
   .legenda {
@@ -131,146 +134,153 @@
   .legenda b { display: block; font-size: 7pt; color: #111; }
 
   /* ============================================================
-     ARTE — marcador de página, frente
+     MARCA — símbolo + wordmark + selo comemorativo
+     ============================================================ */
+
+  .defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+  .simbolo { display: block; }
+
+  .wordmark {
+    font-family: var(--serifa); font-weight: 700;
+    color: var(--c-mark);
+    letter-spacing: -.015em; line-height: .95;
+  }
+  .descritor {
+    font-family: var(--sans); font-weight: 600;
+    color: var(--c-mark);
+    letter-spacing: .10em; line-height: 1.15;
+  }
+
+  /* selo "35 anos" + faixa */
+  .selo { position: relative; display: flex; flex-direction: column; align-items: center; }
+
+  .selo-linha { display: flex; align-items: baseline; justify-content: center; }
+  .n35 {
+    font-family: var(--serifa); font-weight: 700;
+    color: var(--c-mark); line-height: .9; letter-spacing: -.02em;
+  }
+  .anos {
+    font-family: var(--script); font-style: italic; font-weight: 700;
+    color: var(--c-accent); line-height: .9;
+    margin-left: .07em;
+  }
+  /* posicionado sobre o selo para não empurrar a largura da linha */
+  .raios { position: absolute; right: 1.5mm; top: -1mm; }
+
+  .faixa { position: relative; display: flex; align-items: center; justify-content: center; }
+  .faixa svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .faixa-txt {
+    position: relative;
+    font-family: var(--script); font-style: italic; font-weight: 700;
+    color: var(--royal); white-space: nowrap;
+  }
+
+  /* ============================================================
+     ARTE — marcador, frente (fundo branco, marca em cor original)
      ============================================================ */
 
   .frente {
-    background: var(--royal);
-    color: #fff;
-    padding: 22mm 8mm 13mm;
+    background: #fff;
+    /* padding inferior reserva a faixa de linhas do rodapé */
+    padding: 20mm 8mm 27mm;
     align-items: center; text-align: center;
   }
-  .frente .arco {
-    position: absolute; border-radius: 50%;
-    background: var(--claro); opacity: .22;
-  }
-  .frente .arco-a { width: 86mm; height: 86mm; left: -30mm; bottom: -46mm; }
-  .frente .arco-b { width: 40mm; height: 40mm; right: -18mm; top: 26mm; opacity: .16; }
+  .frente .simbolo { width: 24mm; }
+  .frente .wordmark { font-size: 34pt; margin-top: 1.5mm; }
+  .frente .descritor { font-size: 5.4pt; margin-top: 1.4mm; }
 
-  .lockup { position: relative; }
-  .lockup .marca-nome {
-    font-size: 21pt; font-weight: 800; letter-spacing: .10em;
-    line-height: 1;
-  }
-  .lockup .marca-desc {
-    margin-top: 1.6mm;
-    font-size: 5.2pt; font-weight: 600; letter-spacing: .22em;
-    color: #cfe6ff; text-transform: uppercase;
-  }
-  .lockup .placeholder {
-    position: absolute; inset: -2.5mm -3mm;
-    border: .25mm dashed rgba(255,255,255,.55); border-radius: 1mm;
-  }
-  body.sem-guias .lockup .placeholder { display: none; }
+  .frente .n35 { font-size: 40pt; }
+  .frente .anos { font-size: 22pt; }
+  .frente .raios { width: 5.5mm; }
+  .frente .faixa { width: 38mm; height: 10.5mm; margin-top: 2mm; }
+  .frente .faixa-txt { font-size: 9pt; }
 
   .espaco { flex: 1; }
 
-  .hero {
-    position: relative;
-    font-size: 25pt; font-weight: 800; letter-spacing: .04em; line-height: 1;
+  /* faixa inferior com o motivo de linhas do símbolo (full bleed) */
+  .rodape-motivo {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    height: 22mm; background: var(--royal);
+    display: flex; flex-direction: column; justify-content: center; gap: 1.6mm;
+    padding-left: 8mm;
   }
-  .hero-sub {
-    position: relative;
-    margin-top: 3mm;
-    font-family: Georgia, "Times New Roman", serif;
-    font-style: italic; font-size: 11.5pt; color: #bfe6ff;
-  }
-  .traco {
-    position: relative;
-    width: 14mm; height: .6mm; background: var(--claro); border-radius: .3mm;
-  }
+  .rodape-motivo i { display: block; height: 1.3mm; border-radius: .65mm; background: var(--claro); }
+  .rodape-motivo i:nth-child(1) { width: 26mm; }
+  .rodape-motivo i:nth-child(2) { width: 34mm; opacity: .75; }
+  .rodape-motivo i:nth-child(3) { width: 19mm; }
+  .rodape-motivo i:nth-child(4) { width: 30mm; opacity: .75; }
 
   /* ============================================================
-     ARTE — marcador de página, versos
+     ARTE — marcador, versos (fundo azul, marca invertida)
      ============================================================ */
 
   .verso {
-    background: #fff;
-    /* padding inferior reserva a faixa do rodapé; o bloco da frase fica
-       centrado entre a zona livre do furo e a faixa */
-    padding: 26mm 9mm 33mm;
-    align-items: center; text-align: center;
-    justify-content: center;
+    background: var(--royal);
+    --c-mark: #fff;
+    padding: 30mm 8mm 24mm;
+    align-items: center; text-align: center; justify-content: center;
   }
-  .verso .ponto {
-    width: 3mm; height: 3mm; border-radius: 50%;
-    background: var(--claro); margin-bottom: 7mm; flex: none;
-  }
+  .verso .linhas { display: flex; flex-direction: column; gap: 1.4mm; margin-bottom: 6.5mm; }
+  .verso .linhas i { display: block; height: 1.2mm; border-radius: .6mm; background: var(--claro); }
+  .verso .linhas i:nth-child(1) { width: 14mm; }
+  .verso .linhas i:nth-child(2) { width: 20mm; opacity: .7; }
+  .verso .linhas i:nth-child(3) { width: 9mm; }
+
   .verso .frase {
-    font-family: Georgia, "Times New Roman", serif;
-    font-style: italic;
-    font-size: 13pt; line-height: 1.55;
-    color: var(--royal);
+    font-family: var(--serifa); font-style: italic;
+    font-size: 13pt; line-height: 1.55; color: #fff;
   }
+
   .verso .rodape {
     position: absolute; left: 0; right: 0; bottom: 0;
-    height: 23mm;
-    background: var(--royal); color: #fff;
-    display: flex; align-items: flex-end; justify-content: center;
-    /* padding lateral = sangria + margem de segurança: trava o texto na área útil */
     padding: 0 8mm 8.5mm;
-    font-size: 6.6pt; font-weight: 700; letter-spacing: .10em; text-transform: uppercase;
-    white-space: nowrap;
+    display: flex; flex-direction: column; align-items: center; gap: 2.5mm;
+  }
+  .verso .rodape .fio { width: 12mm; height: .5mm; background: var(--claro); }
+  .verso .rodape span {
+    font-family: var(--serifa); font-style: italic;
+    font-size: 8pt; color: #fff; white-space: nowrap;
   }
 
   /* ============================================================
-     ARTE — tag redonda
+     ARTE — tag redonda (fundo azul, selo invertido)
      ============================================================ */
 
   .tag {
-    background: var(--royal); color: #fff;
+    background: var(--royal);
+    --c-mark: #fff;
     align-items: center; justify-content: center; text-align: center;
-    padding: 15mm 8mm 10mm;
+    padding: 15mm 7mm 8mm;
   }
-  .tag .arco {
-    position: absolute; width: 44mm; height: 44mm; border-radius: 50%;
-    background: var(--claro); opacity: .18; left: -14mm; bottom: -18mm;
-  }
-  .tag .n { position: relative; font-size: 19pt; font-weight: 800; line-height: 1; }
-  .tag .t {
-    position: relative; margin-top: 1.5mm;
-    font-family: Georgia, "Times New Roman", serif; font-style: italic;
-    font-size: 8.5pt; color: #d7ecff;
-  }
-  .tag .traco-tag {
-    position: relative; width: 10mm; height: .5mm;
-    background: rgba(255,255,255,.6); margin: 3.5mm 0 2.5mm;
-  }
+  .tag .n35 { font-size: 27pt; }
+  .tag .anos { font-size: 15pt; }
+  .tag .raios { width: 4.2mm; top: -1mm; }
+  .tag .faixa { width: 34mm; height: 8.5mm; margin-top: 1.5mm; }
+  .tag .faixa-txt { font-size: 8pt; }
   .tag .data {
-    position: relative;
-    font-size: 6.5pt; font-weight: 700; letter-spacing: .16em; color: var(--claro);
+    margin-top: 3mm;
+    font-family: var(--sans); font-weight: 700;
+    font-size: 6.5pt; letter-spacing: .16em; color: var(--claro);
   }
 
   /* ============================================================
-     ARTE — adesivo
+     ARTE — adesivo (fundo branco, marca reduzida sem descritivo)
      ============================================================ */
 
   .adesivo {
-    background: var(--royal); color: #fff;
+    background: #fff;
     flex-direction: row; align-items: center; justify-content: center;
-    gap: 4mm; padding: 5mm;
+    gap: 3mm; padding: 4mm 5mm;
   }
-  .adesivo .arco {
-    position: absolute; width: 30mm; height: 30mm; border-radius: 50%;
-    background: var(--claro); opacity: .2; right: -12mm; top: -12mm;
-  }
-  .adesivo .lockup { text-align: right; }
-  .adesivo .marca-nome { font-size: 12.5pt; letter-spacing: .09em; }
-  /* 4,6 pt é o piso de legibilidade para tipo negativo nesta peça —
-     não reduzir ao trocar o placeholder pelo logo vetorial */
-  .adesivo .marca-desc { font-size: 4.6pt; letter-spacing: .12em; margin-top: .8mm; }
-  .adesivo .divisor {
-    position: relative; width: .4mm; height: 12mm;
-    background: rgba(255,255,255,.55); flex: none;
-  }
-  .adesivo .anos {
-    position: relative;
-    font-family: Georgia, "Times New Roman", serif; font-style: italic;
-    font-size: 11pt;
-  }
-  .adesivo .anos b { font-style: normal; font-weight: 800; }
+  .adesivo .simbolo { width: 11mm; flex: none; }
+  .adesivo .wordmark { font-size: 16pt; }
+  .adesivo .divisor { width: .4mm; height: 11mm; background: var(--claro); flex: none; }
+  .adesivo .selo-linha { align-items: baseline; }
+  .adesivo .n35 { font-size: 15pt; }
+  .adesivo .anos { font-size: 10.5pt; }
 
-  /* ---------- bloco de notas técnicas ---------- */
+  /* ---------- notas técnicas ---------- */
 
   .notas {
     margin-top: 6mm;
@@ -278,21 +288,16 @@
     padding: 4mm 5mm;
     font-size: 7.5pt; line-height: 1.55; color: #1f2937;
   }
-  .notas h2 {
-    margin: 0 0 2mm; font-size: 8pt; letter-spacing: .08em; text-transform: uppercase;
-  }
+  .notas h2 { margin: 0 0 2mm; font-size: 8pt; letter-spacing: .08em; text-transform: uppercase; }
   .notas ul { margin: 0 0 3mm; padding-left: 4mm; }
   .notas li { margin-bottom: 1mm; }
   .notas table { width: 100%; border-collapse: collapse; font-size: 7pt; }
-  .notas th, .notas td {
-    border: .2mm solid #d1d5db; padding: 1mm 1.5mm; text-align: left;
-  }
+  .notas th, .notas td { border: .2mm solid #d1d5db; padding: 1mm 1.5mm; text-align: left; }
   .notas th { background: #f3f4f6; }
   .amostra {
     display: inline-block; width: 3mm; height: 3mm; border: .2mm solid #9ca3af;
-    vertical-align: -0.3mm; margin-right: 1.5mm;
+    vertical-align: -.3mm; margin-right: 1.5mm;
   }
-
   .legenda-guias { display: flex; gap: 6mm; flex-wrap: wrap; margin-bottom: 2mm; }
   .legenda-guias span { display: inline-flex; align-items: center; gap: 1.5mm; }
   .legenda-guias i { width: 6mm; height: 0; border-top: .5mm dashed; display: inline-block; }
@@ -304,21 +309,62 @@
   @media print {
     body { background: #fff; }
     .no-print { display: none !important; }
-    .folha {
-      margin: 0; box-shadow: none;
-      break-after: page; page-break-after: always;
-    }
+    .folha { margin: 0; box-shadow: none; break-after: page; page-break-after: always; }
     .folha:last-of-type { break-after: auto; page-break-after: auto; }
   }
 </style>
 </head>
 <body>
 
+<!-- ============ elementos gráficos da marca (reconstrução) ============ -->
+<svg class="defs" aria-hidden="true" focusable="false">
+  <defs>
+    <!-- símbolo: balão/cérebro com linhas de texto + check de revisão -->
+    <symbol id="sym-marca" viewBox="0 0 120 100">
+      <path fill="var(--c-mark)"
+            d="M63 6c18 0 32 8 35 20 15 4 19 24 8 34 5 16-10 28-25 24-8 9-32 9-40 0-15 4-30-8-25-24C5 50 9 30 24 26 27 14 45 6 63 6Z"/>
+      <g fill="none" stroke-width="6.5" stroke-linecap="round">
+        <path d="M31 24h58" stroke="var(--c-accent)"/>
+        <path d="M23 36h44" stroke="var(--c-bar)"/>
+        <path d="M75 36h24" stroke="var(--c-accent)"/>
+        <path d="M19 48h44" stroke="var(--c-accent)"/>
+        <path d="M71 48h30" stroke="var(--c-bar)"/>
+        <path d="M23 60h38" stroke="var(--c-bar)"/>
+        <path d="M69 60h26" stroke="var(--c-accent)"/>
+        <path d="M29 72h56" stroke="var(--c-accent)"/>
+        <path d="M45 82h34" stroke="var(--c-bar)"/>
+      </g>
+      <!-- o traço grosso na cor do símbolo abre o vão onde entra o check,
+           e prolonga a silhueta para baixo formando a ponta do balão -->
+      <path d="M34 68 44 93 58 60" fill="none" stroke="var(--c-mark)"
+            stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M34 68 44 93 58 60" fill="none" stroke="var(--c-accent)"
+            stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+
+    <!-- faixa do "da Dona da Educ" -->
+    <symbol id="sym-faixa" viewBox="0 0 200 46" preserveAspectRatio="none">
+      <path d="M13 7h174l13-6v44l-13-6H13L0 45V1Z"
+            fill="#fff" stroke="var(--royal)" stroke-width="2.6" stroke-linejoin="round"/>
+    </symbol>
+
+    <!-- estrelinha/raios que acompanham o "anos" -->
+    <symbol id="sym-raios" viewBox="0 0 40 40">
+      <g stroke="var(--c-mark)" stroke-width="3.5" stroke-linecap="round">
+        <path d="M13.8 32.6 4 20"/>
+        <path d="M16.8 29.6 14 10"/>
+        <path d="M20.7 30.5 27 13"/>
+        <path d="M23.4 34.1 36 25"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
+
 <div class="barra no-print">
   <strong>EDUC 35 anos — layout de prova 1:1</strong>
   <label><input type="checkbox" id="tgl-guias" checked> Mostrar guias (corte, segurança, furo)</label>
   <button onclick="window.print()">Imprimir / gerar PDF</button>
-  <span class="dica">Imprimir em A4, escala 100%, sem "ajustar à página". Conferir com régua: o marcador deve medir 5 × 15 cm entre as linhas de corte.</span>
+  <span class="dica">A4, escala 100%, sem "ajustar à página". Conferir com régua: o marcador mede 5 × 15 cm entre as linhas de corte.</span>
 </div>
 
 <!-- ==================== FOLHA 1 ==================== -->
@@ -336,29 +382,30 @@
            style="--w:50mm; --h:150mm; --s:3mm; --raio:3mm; --seg:5mm; --furo:5mm; --furo-y:10mm;">
         <div class="bleed">
           <div class="arte frente">
-            <div class="arco arco-a"></div>
-            <div class="arco arco-b"></div>
-            <div class="lockup">
-              <div class="placeholder"></div>
-              <div class="marca-nome">EDUC</div>
-              <div class="marca-desc">Consultoria Acadêmica</div>
+            <svg class="simbolo" viewBox="-4 0 128 104"><use href="#sym-marca"/></svg>
+            <div class="wordmark">Educ</div>
+            <div class="descritor">Consultoria Acadêmica</div>
+            <div class="espaco" style="flex:1.25"></div>
+            <div class="selo">
+              <div class="selo-linha">
+                <span class="n35">35</span>
+                <span class="anos">anos</span>
+                <svg class="raios" viewBox="0 0 40 40"><use href="#sym-raios"/></svg>
+              </div>
+              <div class="faixa">
+                <svg viewBox="0 0 200 46" preserveAspectRatio="none"><use href="#sym-faixa"/></svg>
+                <span class="faixa-txt">da Dona da Educ</span>
+              </div>
             </div>
-            <div class="espaco"></div>
-            <div class="hero">35 ANOS</div>
-            <div class="hero-sub">da Dona da Educ</div>
-            <div class="espaco"></div>
-            <div class="traco"></div>
+            <div class="espaco" style="flex:.75"></div>
+            <div class="rodape-motivo"><i></i><i></i><i></i><i></i></div>
           </div>
           <div class="guias">
-            <div class="corte"></div>
-            <div class="seguranca"></div>
-            <div class="furo"></div>
+            <div class="corte"></div><div class="seguranca"></div><div class="furo"></div>
           </div>
         </div>
       </div>
-      <div class="legenda" style="--w:50mm; --s:3mm;">
-        <b>FRENTE</b>idêntica nas 5 versões · 40 un.
-      </div>
+      <div class="legenda" style="--w:50mm; --s:3mm;"><b>FRENTE</b>idêntica nas 5 versões · 40 un.</div>
     </div>
 
     <!-- VERSO 1 -->
@@ -367,20 +414,16 @@
            style="--w:50mm; --h:150mm; --s:3mm; --raio:3mm; --seg:5mm; --furo:5mm; --furo-y:10mm;">
         <div class="bleed">
           <div class="arte verso">
-            <div class="ponto"></div>
+            <div class="linhas"><i></i><i></i><i></i></div>
             <div class="frase">Ela não esperou a porta abrir. Construiu a casa.</div>
-            <div class="rodape">35 anos da Dona da Educ</div>
+            <div class="rodape"><div class="fio"></div><span>35 anos da Dona da Educ</span></div>
           </div>
           <div class="guias">
-            <div class="corte"></div>
-            <div class="seguranca"></div>
-            <div class="furo"></div>
+            <div class="corte"></div><div class="seguranca"></div><div class="furo"></div>
           </div>
         </div>
       </div>
-      <div class="legenda" style="--w:50mm; --s:3mm;">
-        <b>VERSO 1</b>8 un.
-      </div>
+      <div class="legenda" style="--w:50mm; --s:3mm;"><b>VERSO 1</b>8 un.</div>
     </div>
 
     <!-- VERSO 2 -->
@@ -389,20 +432,16 @@
            style="--w:50mm; --h:150mm; --s:3mm; --raio:3mm; --seg:5mm; --furo:5mm; --furo-y:10mm;">
         <div class="bleed">
           <div class="arte verso">
-            <div class="ponto"></div>
+            <div class="linhas"><i></i><i></i><i></i></div>
             <div class="frase">Trinta e cinco anos de palavra dada e palavra cumprida.</div>
-            <div class="rodape">35 anos da Dona da Educ</div>
+            <div class="rodape"><div class="fio"></div><span>35 anos da Dona da Educ</span></div>
           </div>
           <div class="guias">
-            <div class="corte"></div>
-            <div class="seguranca"></div>
-            <div class="furo"></div>
+            <div class="corte"></div><div class="seguranca"></div><div class="furo"></div>
           </div>
         </div>
       </div>
-      <div class="legenda" style="--w:50mm; --s:3mm;">
-        <b>VERSO 2</b>8 un.
-      </div>
+      <div class="legenda" style="--w:50mm; --s:3mm;"><b>VERSO 2</b>8 un.</div>
     </div>
 
   </div>
@@ -423,20 +462,16 @@
            style="--w:50mm; --h:150mm; --s:3mm; --raio:3mm; --seg:5mm; --furo:5mm; --furo-y:10mm;">
         <div class="bleed">
           <div class="arte verso">
-            <div class="ponto"></div>
+            <div class="linhas"><i></i><i></i><i></i></div>
             <div class="frase">Empreender é revisar o mundo até ele fazer sentido.</div>
-            <div class="rodape">35 anos da Dona da Educ</div>
+            <div class="rodape"><div class="fio"></div><span>35 anos da Dona da Educ</span></div>
           </div>
           <div class="guias">
-            <div class="corte"></div>
-            <div class="seguranca"></div>
-            <div class="furo"></div>
+            <div class="corte"></div><div class="seguranca"></div><div class="furo"></div>
           </div>
         </div>
       </div>
-      <div class="legenda" style="--w:50mm; --s:3mm;">
-        <b>VERSO 3</b>8 un.
-      </div>
+      <div class="legenda" style="--w:50mm; --s:3mm;"><b>VERSO 3</b>8 un.</div>
     </div>
 
     <!-- VERSO 4 -->
@@ -445,20 +480,16 @@
            style="--w:50mm; --h:150mm; --s:3mm; --raio:3mm; --seg:5mm; --furo:5mm; --furo-y:10mm;">
         <div class="bleed">
           <div class="arte verso">
-            <div class="ponto"></div>
+            <div class="linhas"><i></i><i></i><i></i></div>
             <div class="frase">Quem corrige o texto dos outros também escreve a própria história.</div>
-            <div class="rodape">35 anos da Dona da Educ</div>
+            <div class="rodape"><div class="fio"></div><span>35 anos da Dona da Educ</span></div>
           </div>
           <div class="guias">
-            <div class="corte"></div>
-            <div class="seguranca"></div>
-            <div class="furo"></div>
+            <div class="corte"></div><div class="seguranca"></div><div class="furo"></div>
           </div>
         </div>
       </div>
-      <div class="legenda" style="--w:50mm; --s:3mm;">
-        <b>VERSO 4</b>8 un.
-      </div>
+      <div class="legenda" style="--w:50mm; --s:3mm;"><b>VERSO 4</b>8 un.</div>
     </div>
 
     <!-- VERSO 5 -->
@@ -467,20 +498,16 @@
            style="--w:50mm; --h:150mm; --s:3mm; --raio:3mm; --seg:5mm; --furo:5mm; --furo-y:10mm;">
         <div class="bleed">
           <div class="arte verso">
-            <div class="ponto"></div>
+            <div class="linhas"><i></i><i></i><i></i></div>
             <div class="frase">A que ficou. A que fez. A que ensinou.</div>
-            <div class="rodape">35 anos da Dona da Educ</div>
+            <div class="rodape"><div class="fio"></div><span>35 anos da Dona da Educ</span></div>
           </div>
           <div class="guias">
-            <div class="corte"></div>
-            <div class="seguranca"></div>
-            <div class="furo"></div>
+            <div class="corte"></div><div class="seguranca"></div><div class="furo"></div>
           </div>
         </div>
       </div>
-      <div class="legenda" style="--w:50mm; --s:3mm;">
-        <b>VERSO 5</b>8 un.
-      </div>
+      <div class="legenda" style="--w:50mm; --s:3mm;"><b>VERSO 5</b>8 un.</div>
     </div>
 
   </div>
@@ -493,7 +520,7 @@
     <span>Tag redonda · adesivo · notas técnicas · folha 3 de 3</span>
   </div>
 
-  <div class="fileira" style="gap: 14mm; align-items: flex-start;">
+  <div class="fileira" style="gap: 14mm;">
 
     <!-- TAG -->
     <div>
@@ -501,16 +528,21 @@
            style="--w:50mm; --h:50mm; --s:3mm; --seg:5mm; --furo:4mm; --furo-y:7mm;">
         <div class="bleed redondo">
           <div class="arte tag">
-            <div class="arco"></div>
-            <div class="n">35 anos</div>
-            <div class="t">da Dona da Educ</div>
-            <div class="traco-tag"></div>
+            <div class="selo">
+              <div class="selo-linha">
+                <span class="n35">35</span>
+                <span class="anos">anos</span>
+                <svg class="raios" viewBox="0 0 40 40"><use href="#sym-raios"/></svg>
+              </div>
+              <div class="faixa">
+                <svg viewBox="0 0 200 46" preserveAspectRatio="none"><use href="#sym-faixa"/></svg>
+                <span class="faixa-txt">da Dona da Educ</span>
+              </div>
+            </div>
             <div class="data">[DATA]</div>
           </div>
           <div class="guias">
-            <div class="corte redonda"></div>
-            <div class="seguranca redonda"></div>
-            <div class="furo"></div>
+            <div class="corte redonda"></div><div class="seguranca redonda"></div><div class="furo"></div>
           </div>
         </div>
       </div>
@@ -525,19 +557,15 @@
            style="--w:60mm; --h:30mm; --s:2mm; --raio:2mm; --seg:3mm;">
         <div class="bleed">
           <div class="arte adesivo">
-            <div class="arco"></div>
-            <div class="lockup">
-              <div class="placeholder"></div>
-              <div class="marca-nome">EDUC</div>
-              <div class="marca-desc">Consultoria Acadêmica</div>
-            </div>
+            <svg class="simbolo" viewBox="-4 0 128 104"><use href="#sym-marca"/></svg>
+            <div class="wordmark">Educ</div>
             <div class="divisor"></div>
-            <div class="anos"><b>35</b> anos</div>
+            <div class="selo-linha">
+              <span class="n35">35</span>
+              <span class="anos">anos</span>
+            </div>
           </div>
-          <div class="guias">
-            <div class="corte"></div>
-            <div class="seguranca"></div>
-          </div>
+          <div class="guias"><div class="corte"></div><div class="seguranca"></div></div>
         </div>
       </div>
       <div class="legenda" style="--w:60mm; --s:2mm;">
@@ -557,20 +585,22 @@
 
     <h2>Paleta</h2>
     <table>
-      <tr><th>Cor</th><th>HEX</th><th>CMYK aproximado</th></tr>
-      <tr><td><span class="amostra" style="background:#1B3FAF"></span>Azul royal (principal)</td><td>#1B3FAF</td><td>C100 M80 Y0 K10</td></tr>
-      <tr><td><span class="amostra" style="background:#29B6F6"></span>Azul claro (apoio)</td><td>#29B6F6</td><td>C70 M15 Y0 K0</td></tr>
-      <tr><td><span class="amostra" style="background:#FFFFFF"></span>Branco</td><td>#FFFFFF</td><td>C0 M0 Y0 K0</td></tr>
+      <tr><th>Cor</th><th>HEX</th><th>CMYK aproximado</th><th>Uso</th></tr>
+      <tr><td><span class="amostra" style="background:#1B3FAF"></span>Azul royal (principal)</td><td>#1B3FAF</td><td>C100 M80 Y0 K10</td><td>Marca, fundos, "35"</td></tr>
+      <tr><td><span class="amostra" style="background:#29B6F6"></span>Azul claro (apoio)</td><td>#29B6F6</td><td>C70 M15 Y0 K0</td><td>"anos", linhas, check, descritivo</td></tr>
+      <tr><td><span class="amostra" style="background:#2E56C6"></span>Azul intermediário</td><td>#2E56C6</td><td>C85 M65 Y0 K0</td><td>Linhas internas do símbolo</td></tr>
+      <tr><td><span class="amostra" style="background:#FFFFFF"></span>Branco</td><td>#FFFFFF</td><td>C0 M0 Y0 K0</td><td>Fundo da frente e da faixa</td></tr>
     </table>
 
     <h2 style="margin-top:3mm">Antes de fechar os arquivos</h2>
     <ul>
-      <li><b>Este documento é layout de prova, não é arquivo de produção.</b> Ele é RGB e as fontes não estão em curvas. O fechamento final deve sair do arquivo vetorial em PDF/X-1a, CMYK, 300 dpi, fontes convertidas em curvas.</li>
-      <li><b>Logo:</b> o lockup "EDUC" marcado com moldura tracejada é <b>placeholder</b> — substituir pelo vetor oficial (.ai/.eps, fundo transparente) e reconferir a margem de segurança depois da troca.</li>
-      <li><b>Furo:</b> desenhado com a medida do briefing tomada da borda até o <b>centro</b> do furo (marcador: Ø 5 mm a 10 mm do topo; tag: Ø 4 mm a 7 mm do topo). Confirmar essa leitura com a gráfica antes da produção.</li>
-      <li><b>Imposição:</b> conferir o pareamento frente/verso — a frente é a mesma para as 5 versões, com 8 unidades de cada verso, 40 no total.</li>
-      <li><b>Tipografia mínima:</b> no adesivo o descritivo do logo fica em ~4,6 pt negativo sobre azul. Conferir com a gráfica se o material segura esse corpo; se não segurar, usar só o símbolo/wordmark na peça.</li>
-      <li><b>Cor:</b> os valores CMYK são conversão do arquivo digital. Validar com o manual de marca da EDUC e aprovar prova de cor impressa antes da tiragem.</li>
+      <li><b>A marca e o selo desta prova são reconstrução</b> feita a partir da arte enviada (topo de bolo), só para conferir composição e área útil. Substituir pelo <b>vetor oficial</b> — símbolo, "Educ", "35 anos", raios e faixa — antes de fechar. As fontes usadas aqui são aproximações: a serifa do "Educ"/"35" e o script de "anos"/"da Dona da Educ" precisam vir do arquivo original.</li>
+      <li><b>Versão da marca:</b> na arte enviada o "Educ" e o "35" aparecem em branco com contorno azul, que é o recorte em acrílico do topo de bolo. Nesta prova foram usados em azul royal sobre branco (frente e adesivo) e em branco sobre azul (tag). Confirmar no manual de marca qual é a versão positiva e se existe versão negativa aprovada.</li>
+      <li><b>Este documento é layout de prova, não arquivo de produção:</b> é RGB e as fontes não estão em curvas. Fechamento final em PDF/X-1a, CMYK, 300 dpi, fontes convertidas.</li>
+      <li><b>Furo:</b> desenhado com a medida do briefing tomada da borda até o <b>centro</b> do furo (marcador: Ø 5 mm a 10 mm do topo; tag: Ø 4 mm a 7 mm do topo). Confirmar essa leitura com a gráfica.</li>
+      <li><b>Adesivo:</b> em 60 × 30 mm o descritivo "Consultoria Acadêmica" não sai legível — a peça usa a versão reduzida da marca (símbolo + "Educ"). Validar se existe versão reduzida oficial.</li>
+      <li><b>Imposição:</b> conferir o pareamento frente/verso — a frente é a mesma para as 5 versões, 8 unidades de cada verso, 40 no total.</li>
+      <li><b>Cor:</b> os CMYK são conversão dos valores digitais. Validar com o manual de marca e aprovar prova de cor impressa antes da tiragem.</li>
     </ul>
   </div>
 </section>
