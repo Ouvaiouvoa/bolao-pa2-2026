@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Rotina de Alimentação · Nós Dois</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:        #0c1210;
+    --bg-2:      #121a17;
+    --card:      #17211d;
+    --card-2:    #1e2b26;
+    --linha:     #26352e;
+    --verde:     #4ade80;
+    --verde-esc: #16a34a;
+    --ambar:     #fbbf24;
+    --txt:       #e8f0ec;
+    --txt-2:     #8fa79b;
+    --vermelho:  #f87171;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--txt);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background:
+      radial-gradient(900px 500px at 15% -5%, rgba(74,222,128,0.10), transparent 60%),
+      radial-gradient(700px 400px at 100% 5%, rgba(251,191,36,0.06), transparent 60%);
+  }
+
+  .wrap { position: relative; z-index: 1; max-width: 680px; margin: 0 auto; padding: 20px 16px 64px; }
+
+  /* ---------- HEADER ---------- */
+  header { text-align: center; margin-bottom: 22px; }
+  .kicker {
+    font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--verde); font-weight: 700; margin-bottom: 6px;
+  }
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(38px, 11vw, 56px);
+    line-height: 0.95; letter-spacing: 1px;
+  }
+  .sub { color: var(--txt-2); font-size: 13px; margin-top: 8px; }
+  .sub b { color: var(--txt); font-weight: 600; }
+
+  /* ---------- ABAS DE PERFIL ---------- */
+  .perfis { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 20px 0 14px; }
+  .perfil-btn {
+    background: var(--card); border: 2px solid var(--linha); border-radius: 14px;
+    padding: 12px 10px; cursor: pointer; text-align: left; color: var(--txt);
+    font-family: inherit; transition: .18s; position: relative;
+  }
+  .perfil-btn:hover { border-color: #3b5147; }
+  .perfil-btn.on { border-color: var(--verde); background: var(--card-2); }
+  .perfil-btn .nome { font-weight: 800; font-size: 16px; }
+  .perfil-btn .obj  { font-size: 11px; color: var(--txt-2); margin-top: 2px; }
+  .perfil-btn.on .obj { color: var(--verde); }
+
+  /* ---------- TURNO ---------- */
+  .turno { display: flex; gap: 8px; margin-bottom: 16px; }
+  .turno-btn {
+    flex: 1; background: var(--card); border: 1px solid var(--linha); border-radius: 10px;
+    padding: 9px; font-size: 12px; font-weight: 600; color: var(--txt-2);
+    cursor: pointer; font-family: inherit; transition: .15s;
+  }
+  .turno-btn.on { background: var(--verde-esc); border-color: var(--verde); color: #fff; }
+  .turno-wrap.hide { display: none; }
+
+  /* ---------- METAS ---------- */
+  .metas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 18px; }
+  .meta {
+    background: var(--card); border: 1px solid var(--linha); border-radius: 12px;
+    padding: 12px 8px; text-align: center;
+  }
+  .meta .v { font-family: 'Bebas Neue', sans-serif; font-size: 26px; line-height: 1; color: var(--verde); }
+  .meta .l { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--txt-2); margin-top: 4px; }
+
+  /* ---------- DIAS ---------- */
+  .dias { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; margin-bottom: 18px; }
+  .dia-btn {
+    background: var(--card); border: 1px solid var(--linha); border-radius: 10px;
+    padding: 9px 2px; font-size: 12px; font-weight: 700; color: var(--txt-2);
+    cursor: pointer; font-family: inherit; transition: .15s;
+  }
+  .dia-btn.on { background: var(--verde); border-color: var(--verde); color: #06120c; }
+  .dia-btn.hoje::after {
+    content: ''; display: block; width: 4px; height: 4px; border-radius: 50%;
+    background: var(--ambar); margin: 3px auto 0;
+  }
+  .dia-btn.on.hoje::after { background: #06120c; }
+
+  /* ---------- PROGRESSO ---------- */
+  .prog-box {
+    background: var(--card); border: 1px solid var(--linha); border-radius: 14px;
+    padding: 14px 16px; margin-bottom: 18px;
+  }
+  .prog-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 9px; }
+  .prog-top span { font-size: 12px; color: var(--txt-2); font-weight: 600; }
+  .prog-top b { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: var(--verde); }
+  .bar { height: 8px; background: #0a100d; border-radius: 99px; overflow: hidden; }
+  .bar i { display: block; height: 100%; background: linear-gradient(90deg, var(--verde-esc), var(--verde)); border-radius: 99px; transition: width .3s; }
+
+  /* ---------- SEÇÕES ---------- */
+  h2 {
+    font-family: 'Bebas Neue', sans-serif; font-size: 24px; letter-spacing: 1px;
+    margin: 28px 0 12px; display: flex; align-items: center; gap: 9px;
+  }
+  h2::after { content: ''; flex: 1; height: 1px; background: var(--linha); }
+
+  /* ---------- REFEIÇÕES ---------- */
+  .refeicao {
+    display: flex; gap: 12px; background: var(--card); border: 1px solid var(--linha);
+    border-radius: 14px; padding: 13px 14px; margin-bottom: 9px; cursor: pointer;
+    transition: .16s; align-items: flex-start;
+  }
+  .refeicao:hover { border-color: #3b5147; }
+  .refeicao.feito { opacity: .5; border-color: var(--verde-esc); }
+  .refeicao.feito .titulo { text-decoration: line-through; }
+  .check {
+    width: 22px; height: 22px; flex: 0 0 22px; border-radius: 7px; margin-top: 2px;
+    border: 2px solid var(--linha); display: grid; place-items: center;
+    font-size: 13px; color: transparent; transition: .16s;
+  }
+  .refeicao.feito .check { background: var(--verde); border-color: var(--verde); color: #06120c; }
+  .r-body { flex: 1; min-width: 0; }
+  .r-top { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; margin-bottom: 3px; }
+  .hora {
+    font-family: 'Bebas Neue', sans-serif; font-size: 19px; color: var(--ambar); letter-spacing: .5px;
+  }
+  .titulo { font-size: 11px; letter-spacing: 1.4px; text-transform: uppercase; color: var(--txt-2); font-weight: 700; }
+  .tag {
+    font-size: 9px; letter-spacing: 1px; text-transform: uppercase; font-weight: 800;
+    padding: 2px 7px; border-radius: 99px; background: rgba(74,222,128,.14); color: var(--verde);
+  }
+  .tag.carb { background: rgba(251,191,36,.14); color: var(--ambar); }
+  .comida { font-size: 14px; line-height: 1.45; }
+
+  /* ---------- TREINO ---------- */
+  .treino {
+    background: linear-gradient(135deg, #1b2a22, #17211d);
+    border: 1px solid var(--verde-esc); border-radius: 14px; padding: 14px;
+    display: flex; gap: 12px; align-items: center; margin-bottom: 9px;
+  }
+  .treino .ico { font-size: 24px; }
+  .treino .t1 { font-size: 11px; letter-spacing: 1.4px; text-transform: uppercase; color: var(--verde); font-weight: 700; }
+  .treino .t2 { font-size: 15px; font-weight: 600; margin-top: 2px; }
+
+  /* ---------- ÁGUA ---------- */
+  .copos { display: flex; flex-wrap: wrap; gap: 7px; }
+  .copo {
+    width: 34px; height: 42px; border-radius: 6px 6px 11px 11px;
+    border: 2px solid var(--linha); background: var(--card); cursor: pointer;
+    transition: .15s; display: grid; place-items: center; font-size: 15px;
+  }
+  .copo.on { background: #0b3f6b; border-color: #38bdf8; }
+  .agua-txt { font-size: 13px; color: var(--txt-2); margin-top: 10px; }
+  .agua-txt b { color: #38bdf8; font-family: 'Bebas Neue', sans-serif; font-size: 20px; }
+
+  /* ---------- LISTAS ---------- */
+  .grupo { background: var(--card); border: 1px solid var(--linha); border-radius: 14px; padding: 14px 16px; margin-bottom: 10px; }
+  .grupo h3 {
+    font-size: 11px; letter-spacing: 1.6px; text-transform: uppercase;
+    color: var(--verde); margin-bottom: 10px; font-weight: 800;
+  }
+  .item {
+    display: flex; gap: 9px; align-items: center; padding: 6px 0; cursor: pointer;
+    font-size: 14px; border-bottom: 1px solid rgba(38,53,46,.5);
+  }
+  .item:last-child { border-bottom: none; }
+  .item .box {
+    width: 17px; height: 17px; flex: 0 0 17px; border: 2px solid var(--linha);
+    border-radius: 5px; display: grid; place-items: center; font-size: 10px; color: transparent;
+  }
+  .item.feito .box { background: var(--verde); border-color: var(--verde); color: #06120c; }
+  .item.feito span { text-decoration: line-through; color: var(--txt-2); }
+
+  /* ---------- PASSOS ---------- */
+  .passo { display: flex; gap: 12px; margin-bottom: 12px; }
+  .passo .n {
+    width: 26px; height: 26px; flex: 0 0 26px; border-radius: 50%;
+    background: var(--verde-esc); color: #fff; display: grid; place-items: center;
+    font-weight: 800; font-size: 13px;
+  }
+  .passo p { font-size: 14px; line-height: 1.5; padding-top: 3px; }
+
+  /* ---------- REGRAS / SUBS ---------- */
+  .regra { display: flex; gap: 10px; font-size: 14px; line-height: 1.5; margin-bottom: 11px; }
+  .regra .b { color: var(--verde); font-weight: 900; }
+  .sub-linha {
+    display: flex; align-items: center; gap: 8px; font-size: 13px;
+    padding: 8px 0; border-bottom: 1px solid rgba(38,53,46,.5);
+  }
+  .sub-linha:last-child { border-bottom: none; }
+  .sub-linha .de { color: var(--vermelho); flex: 1; text-decoration: line-through; }
+  .sub-linha .seta { color: var(--txt-2); }
+  .sub-linha .para { color: var(--verde); flex: 1.4; font-weight: 600; }
+
+  /* ---------- BOTÕES ---------- */
+  .btn {
+    width: 100%; padding: 13px; border-radius: 12px; border: none; cursor: pointer;
+    font-family: inherit; font-size: 14px; font-weight: 700; margin-top: 10px;
+    background: var(--verde-esc); color: #fff; transition: .15s;
+  }
+  .btn:hover { background: var(--verde); color: #06120c; }
+  .btn.ghost { background: transparent; border: 1px solid var(--linha); color: var(--txt-2); }
+  .btn.ghost:hover { border-color: var(--vermelho); color: var(--vermelho); background: transparent; }
+
+  footer { text-align: center; color: var(--txt-2); font-size: 11px; margin-top: 34px; line-height: 1.7; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="kicker">Low carb · Zero lactose</div>
+    <h1>Rotina de<br>Alimentação</h1>
+    <p class="sub">Cozinha compartilhada, metas separadas — <b id="hojeTxt"></b></p>
+  </header>
+
+  <div class="perfis" id="perfis"></div>
+  <div class="turno-wrap" id="turnoWrap"><div class="turno" id="turno"></div></div>
+  <div class="metas" id="metas"></div>
+  <div class="dias" id="dias"></div>
+
+  <div class="prog-box">
+    <div class="prog-top"><span id="progLabel">Refeições do dia</span><b id="progPct">0%</b></div>
+    <div class="bar"><i id="progBar" style="width:0%"></i></div>
+  </div>
+
+  <h2>O dia</h2>
+  <div id="agenda"></div>
+
+  <h2>Água</h2>
+  <div class="grupo">
+    <div class="copos" id="copos"></div>
+    <p class="agua-txt"><b id="aguaAtual">0,0 L</b> de <span id="aguaMeta"></span> — cada copo = 250 ml</p>
+  </div>
+
+  <h2>Regras de ouro</h2>
+  <div class="grupo" id="regras"></div>
+
+  <h2>Substituições rápidas</h2>
+  <div class="grupo" id="subs"></div>
+
+  <h2>Preparo de domingo</h2>
+  <div class="grupo" id="preparo"></div>
+
+  <h2>Lista de compras da semana</h2>
+  <div id="compras"></div>
+  <button class="btn" id="btnCopiar">Copiar lista para o WhatsApp</button>
+  <button class="btn ghost" id="btnLimpar">Limpar marcações do dia</button>
+
+  <footer>
+    Para editar nomes, objetivos, horários ou metas: bloco <b>PERFIS</b> no topo do script.<br>
+    Referência de organização e hábito — não substitui orientação de nutricionista.
+  </footer>
+</div>
+
+<script>
+/* ============================================================
+   CONFIG — mude aqui e a página inteira se ajusta
+   ============================================================ */
+const PERFIS = [
+  {
+    id: 'a',
+    nome: 'Você',
+    objetivo: 'Ganho de massa',
+    rotina: 'Escala de loja',
+    kcal: '2.700', prot: '170 g', agua: 14,          // agua = nº de copos de 250 ml
+    turnos: {
+      manha: { rotulo: 'Turno manhã (06–15h)', ordem: [
+        ['cafe','05:20','Café da manhã'], ['lanche1','09:00','Lanche na loja'],
+        ['almoco','12:00','Almoço'], ['pre','15:30','Pré-treino'],
+        ['__treino','16:30',''], ['pos','18:30','Pós-treino'], ['ceia','21:30','Ceia'] ] },
+      tarde: { rotulo: 'Turno tarde (13–22h)', ordem: [
+        ['cafe','07:00','Café da manhã'], ['pre','09:00','Pré-treino'],
+        ['__treino','09:40',''], ['pos','11:30','Pós-treino'],
+        ['almoco','13:30','Almoço na loja'], ['lanche1','17:30','Lanche na loja'],
+        ['ceia','22:30','Ceia'] ] }
+    }
+  },
+  {
+    id: 'b',
+    nome: 'Hyllana',
+    objetivo: 'Emagrecimento',
+    rotina: 'Comercial 8–18h',
+    kcal: '1.600', prot: '120 g', agua: 10,
+    turnos: {
+      unico: { rotulo: '', ordem: [
+        ['cafe','06:40','Café da manhã'], ['lanche1','10:00','Lanche da manhã'],
+        ['almoco','12:30','Almoço (marmita)'], ['lanche2','16:00','Lanche da tarde'],
+        ['__treino','18:00',''], ['jantar','19:30','Jantar'] ] }
+    }
+  }
+];
+
+const DIAS = ['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
+
+/* Cardápios — todos low carb e sem lactose.
+   Carbo bom (batata-doce, mandioca, abóbora) só no perfil de ganho, perto do treino. */
+const CARDAPIO = {
+  a: [
+    { cafe:'4 ovos mexidos no azeite + ½ abacate + café preto',
+      lanche1:'Frango desfiado (100 g) + 6 castanhas de caju',
+      almoco:'Patinho grelhado 200 g + brócolis no alho + salada de folhas',
+      pre:'Batata-doce 150 g + 2 ovos cozidos',
+      pos:'Peito de frango 200 g + abóbora assada 100 g + salada',
+      ceia:'Omelete de 3 ovos com espinafre + 3 castanhas-do-pará' },
+    { cafe:'Omelete de 4 ovos com tomate e cebola + café preto',
+      lanche1:'1 lata de atum em água com azeite e limão',
+      almoco:'Carne moída refogada 200 g + abobrinha + salada de repolho',
+      pre:'Mandioca cozida 150 g + 100 g de frango desfiado',
+      pos:'Tilápia 200 g + purê de abóbora + couve refogada',
+      ceia:'3 ovos cozidos + azeitonas + chá' },
+    { cafe:'Panqueca de ovo (4 ovos) recheada com frango + café',
+      lanche1:'Mix de castanhas 40 g + água de coco',
+      almoco:'Bife de coxão mole 200 g + chuchu refogado + salada',
+      pre:'Batata-doce 150 g + 1 lata de sardinha',
+      pos:'Frango 200 g + arroz de couve-flor + cenoura ralada',
+      ceia:'Omelete de 3 ovos com queijo zero lactose' },
+    { cafe:'4 ovos mexidos + linguiça de frango 100 g + café',
+      lanche1:'½ abacate batido com leite de coco e canela',
+      almoco:'Frango 200 g com quiabo + salada de alface e tomate',
+      pre:'Mandioca 150 g + 2 ovos cozidos',
+      pos:'Patinho 200 g + abóbora assada + brócolis',
+      ceia:'2 ovos cozidos + 5 amêndoas' },
+    { cafe:'Omelete de 4 ovos com espinafre + ½ abacate + café',
+      lanche1:'Frango desfiado 100 g + pepino em palitos',
+      almoco:'Tilápia 200 g + legumes assados no azeite + salada',
+      pre:'Batata-doce 150 g + 1 lata de atum',
+      pos:'Carne moída 200 g com abobrinha + arroz de couve-flor',
+      ceia:'3 ovos cozidos + castanha-do-pará' },
+    { cafe:'4 ovos + tapioca fina com frango (dia de treino forte)',
+      lanche1:'Água de coco + mix de castanhas 40 g',
+      almoco:'Churrasco: 250 g de carne + vinagrete + salada de repolho',
+      pre:'Batata-doce 150 g + 2 ovos',
+      pos:'Frango 200 g + abóbora + couve',
+      ceia:'Morango com creme de leite de coco + cacau 70%' },
+    { cafe:'Ovos poché (4) + abacate + café preto',
+      lanche1:'Iogurte zero lactose + 6 amêndoas',
+      almoco:'Frango assado inteiro (200 g) + legumes assados',
+      pre:'Descanso — mandioca 100 g + ovos, se treinar',
+      pos:'Caldo verde sem batata (couve + linguiça de frango + leite de coco)',
+      ceia:'2 ovos cozidos + chá de camomila' }
+  ],
+  b: [
+    { cafe:'3 ovos mexidos no azeite + ½ abacate + café preto',
+      lanche1:'Castanhas 30 g (1 punhado fechado)',
+      almoco:'Frango grelhado 150 g + brócolis no alho + salada de folhas',
+      lanche2:'2 ovos cozidos + tomate-cereja',
+      jantar:'Omelete de 3 ovos com espinafre + salada verde' },
+    { cafe:'Omelete de 2 ovos com tomate + café preto',
+      lanche1:'Iogurte zero lactose + 5 amêndoas',
+      almoco:'Carne moída 150 g refogada com abobrinha + salada de repolho',
+      lanche2:'Guacamole de ½ abacate com palitos de pepino',
+      jantar:'Tilápia 150 g na frigideira + couve refogada' },
+    { cafe:'3 ovos cozidos + 5 castanhas + café preto',
+      lanche1:'Mix de castanhas 30 g',
+      almoco:'Frango desfiado com quiabo + salada de alface e tomate',
+      lanche2:'1 lata de atum em água com azeite e limão',
+      jantar:'Sopa de legumes com frango desfiado (sem batata)' },
+    { cafe:'Panqueca de ovo (2 ovos) com frango desfiado + café',
+      lanche1:'1 punhado de amendoim (30 g)',
+      almoco:'Bife de patinho 150 g + chuchu refogado + salada',
+      lanche2:'2 ovos cozidos + azeitonas',
+      jantar:'Abóbora recheada com carne moída (porção pequena)' },
+    { cafe:'3 ovos mexidos + tomate + café preto',
+      lanche1:'½ abacate com canela',
+      almoco:'Filé de frango 150 g + salada colorida + cenoura ralada',
+      lanche2:'Castanhas 30 g',
+      jantar:'Peixe ao alho e óleo + brócolis no vapor' },
+    { cafe:'Omelete completo (3 ovos, tomate, cebola, orégano)',
+      lanche1:'Água de coco + 5 castanhas',
+      almoco:'Churrasco: 180 g de carne + vinagrete + salada de repolho',
+      lanche2:'1 xícara de morango',
+      jantar:'Livre inteligente: proteína + salada primeiro, sem arroz e sem doce' },
+    { cafe:'2 ovos poché + abacate + café preto',
+      lanche1:'3 castanhas-do-pará',
+      almoco:'Frango assado 150 g + legumes assados no azeite',
+      lanche2:'Chá + 2 ovos cozidos',
+      jantar:'Caldo verde sem batata (couve + linguiça de frango + leite de coco)' }
+  ]
+};
+
+const TREINOS = {
+  a: ['Peito e tríceps · 60 min','Costas e bíceps · 60 min','Pernas completo · 70 min',
+      'Ombro e trapézio · 50 min','Full body + core · 60 min','Cardio leve 30 min','Descanso ativo'],
+  b: ['Musculação inferior · 45 min','Caminhada 40 min','Musculação superior · 45 min',
+      'HIIT 20 min','Full body · 45 min','Caminhada / lazer ativo','Descanso']
+};
+
+const REGRAS = [
+  ['Zero lactose sempre.','Leite de coco no lugar do leite, ghee no lugar da manteiga, queijo e iogurte só na versão zero lactose.'],
+  ['Proteína em toda refeição.','Se não tem proteína, não é refeição — é beliscar. Ovo resolve 90% das emergências.'],
+  ['Carbo tem hora.','Pão, arroz branco, macarrão e açúcar ficam fora do dia a dia. Batata-doce, mandioca e abóbora só perto do treino, e só no perfil de ganho.'],
+  ['A escala não pode ganhar.','Marmita pronta na bolsa térmica antes de sair. Dia sem marmita é dia perdido.'],
+  ['Duas horas antes de dormir.','A última refeição é leve: ovo, castanha, chá. Nada pesado antes de deitar.'],
+  ['Sábado tem folga inteligente.','Comece pela proteína e pela salada. O que sobrar de fome, come sem culpa.']
+];
+
+const SUBS = [
+  ['Leite','Leite de coco ou leite zero lactose'],
+  ['Pão francês','Omelete ou panqueca de ovo'],
+  ['Arroz branco','Couve-flor ralada refogada'],
+  ['Macarrão','Abobrinha em tiras (espaguete de legume)'],
+  ['Manteiga','Ghee ou azeite extravirgem'],
+  ['Sobremesa','Morango com creme de coco + cacau 70%'],
+  ['Refrigerante','Água com gás e limão'],
+  ['Queijo comum','Queijo zero lactose ou abacate']
+];
+
+const PREPARO = [
+  'Cozinhe 24 ovos de uma vez. Esfrie, guarde com casca na geladeira — dura 7 dias e salva todo lanche.',
+  'Tempere 2 kg de frango e asse. Metade em filés, metade desfiada em pote separado.',
+  'Refogue 1 kg de carne moída com abobrinha, tomate e cebola. Porcione em 5 potes.',
+  'Asse a bandeja de legumes no azeite: abóbora, cenoura, chuchu e brócolis juntos.',
+  'Cozinhe 1 kg de batata-doce só para o perfil de ganho. Porcione em 150 g e congele.',
+  'Higienize as folhas e guarde em pote com papel-toalha no fundo. Duram a semana toda.',
+  'Monte as marmitas de segunda a sexta dos dois e etiquete com o dia. Domingo à noite, geladeira cheia.'
+];
+
+const COMPRAS = [
+  ['Proteínas', ['5 dúzias de ovos','2 kg de peito de frango','1 kg de patinho moído','700 g de coxão mole em bife',
+    '800 g de tilápia','4 latas de atum em água','2 latas de sardinha','500 g de linguiça de frango']],
+  ['Hortifruti', ['Alface, rúcula e espinafre','3 maços de couve','2 maços de brócolis','3 abobrinhas','2 chuchus',
+    '300 g de quiabo','1 repolho','500 g de cenoura','1 kg de tomate','1 bandeja de tomate-cereja','3 pepinos',
+    '1 kg de cebola','2 cabeças de alho','6 limões','3 abacates','1 caixa de morango','1 kg de abóbora',
+    '1,5 kg de batata-doce (perfil ganho)','1 kg de mandioca (perfil ganho)']],
+  ['Mercearia', ['Azeite extravirgem 500 ml','Óleo de coco','Castanha-do-pará 200 g','Castanha de caju 200 g',
+    'Amêndoas 200 g','Amendoim 200 g','Azeitona','3 caixas de leite de coco','Creme de leite de coco',
+    'Cacau 70% em barra','Café','Chá de camomila','Água de coco 2 L','Vinagre, sal e temperos secos']],
+  ['Zero lactose', ['300 g de queijo mussarela zero lactose','4 iogurtes naturais zero lactose','1 pote de ghee']]
+];
+
+/* ============================================================
+   ESTADO
+   ============================================================ */
+const KEY = 'rotina-alimentacao-v1';
+const hoje = new Date();
+const idxHoje = (hoje.getDay() + 6) % 7;              // 0 = segunda
+let perfilAtual = PERFIS[0];
+let turnoAtual = Object.keys(PERFIS[0].turnos)[0];
+let diaSel = idxHoje;
+
+const load = () => { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { return {}; } };
+const save = d => { try { localStorage.setItem(KEY, JSON.stringify(d)); } catch (e) {} };
+
+/* data real do dia selecionado, dentro da semana corrente */
+function dataDoDia(i) {
+  const d = new Date(hoje);
+  d.setDate(d.getDate() + (i - idxHoje));
+  return d.toISOString().slice(0, 10);
+}
+function slot() {
+  const db = load();
+  const k = perfilAtual.id + '|' + dataDoDia(diaSel);
+  if (!db[k]) db[k] = { ref: [], agua: 0 };
+  return { db, k, s: db[k] };
+}
+
+/* ============================================================
+   RENDER
+   ============================================================ */
+function renderPerfis() {
+  document.getElementById('perfis').innerHTML = PERFIS.map(p => `
+    <button class="perfil-btn ${p.id === perfilAtual.id ? 'on' : ''}" data-p="${p.id}">
+      <div class="nome">${p.nome}</div>
+      <div class="obj">${p.objetivo} · ${p.rotina}</div>
+    </button>`).join('');
+}
+
+function renderTurno() {
+  const ts = Object.keys(perfilAtual.turnos);
+  const wrap = document.getElementById('turnoWrap');
+  if (ts.length < 2) { wrap.classList.add('hide'); document.getElementById('turno').innerHTML = ''; return; }
+  wrap.classList.remove('hide');
+  document.getElementById('turno').innerHTML = ts.map(t => `
+    <button class="turno-btn ${t === turnoAtual ? 'on' : ''}" data-t="${t}">${perfilAtual.turnos[t].rotulo}</button>`).join('');
+}
+
+function renderMetas() {
+  const p = perfilAtual;
+  document.getElementById('metas').innerHTML = `
+    <div class="meta"><div class="v">${p.kcal}</div><div class="l">kcal/dia</div></div>
+    <div class="meta"><div class="v">${p.prot}</div><div class="l">proteína</div></div>
+    <div class="meta"><div class="v">${(p.agua * 0.25).toFixed(1).replace('.', ',')} L</div><div class="l">água</div></div>`;
+}
+
+function renderDias() {
+  document.getElementById('dias').innerHTML = DIAS.map((d, i) => `
+    <button class="dia-btn ${i === diaSel ? 'on' : ''} ${i === idxHoje ? 'hoje' : ''}" data-d="${i}">${d}</button>`).join('');
+}
+
+function renderAgenda() {
+  const p = perfilAtual;
+  const ordem = p.turnos[turnoAtual].ordem;
+  const menu = CARDAPIO[p.id][diaSel];
+  const { s } = slot();
+
+  document.getElementById('agenda').innerHTML = ordem.map(([tipo, hora, titulo]) => {
+    if (tipo === '__treino') {
+      return `<div class="treino">
+        <div class="ico">🏋️</div>
+        <div><div class="t1">Treino · ${hora}</div><div class="t2">${TREINOS[p.id][diaSel]}</div></div>
+      </div>`;
+    }
+    const feito = s.ref.includes(tipo);
+    const carb = (tipo === 'pre' || tipo === 'pos');
+    return `<div class="refeicao ${feito ? 'feito' : ''}" data-r="${tipo}">
+      <div class="check">✓</div>
+      <div class="r-body">
+        <div class="r-top">
+          <span class="hora">${hora}</span>
+          <span class="titulo">${titulo}</span>
+          ${carb ? '<span class="tag carb">carbo bom</span>' : ''}
+        </div>
+        <div class="comida">${menu[tipo] || '—'}</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  const total = ordem.filter(o => o[0] !== '__treino').length;
+  const pct = total ? Math.round(s.ref.length / total * 100) : 0;
+  document.getElementById('progPct').textContent = pct + '%';
+  document.getElementById('progBar').style.width = pct + '%';
+  document.getElementById('progLabel').textContent = `${s.ref.length} de ${total} refeições · ${p.nome}`;
+}
+
+function renderAgua() {
+  const p = perfilAtual, { s } = slot();
+  document.getElementById('copos').innerHTML = Array.from({ length: p.agua }, (_, i) =>
+    `<div class="copo ${i < s.agua ? 'on' : ''}" data-c="${i}">${i < s.agua ? '💧' : ''}</div>`).join('');
+  document.getElementById('aguaAtual').textContent = (s.agua * 0.25).toFixed(2).replace('.', ',') + ' L';
+  document.getElementById('aguaMeta').textContent = (p.agua * 0.25).toFixed(1).replace('.', ',') + ' L';
+}
+
+function renderEstaticos() {
+  document.getElementById('regras').innerHTML = REGRAS.map(([t, d]) =>
+    `<div class="regra"><span class="b">→</span><span><b>${t}</b> ${d}</span></div>`).join('');
+
+  document.getElementById('subs').innerHTML = SUBS.map(([de, para]) =>
+    `<div class="sub-linha"><span class="de">${de}</span><span class="seta">→</span><span class="para">${para}</span></div>`).join('');
+
+  document.getElementById('preparo').innerHTML = PREPARO.map((p, i) =>
+    `<div class="passo"><div class="n">${i + 1}</div><p>${p}</p></div>`).join('');
+
+  const db = load();
+  const marcados = db.compras || [];
+  document.getElementById('compras').innerHTML = COMPRAS.map(([g, itens]) => `
+    <div class="grupo"><h3>${g}</h3>
+      ${itens.map(it => `<div class="item ${marcados.includes(it) ? 'feito' : ''}" data-i="${it}">
+        <div class="box">✓</div><span>${it}</span></div>`).join('')}
+    </div>`).join('');
+}
+
+function render() { renderPerfis(); renderTurno(); renderMetas(); renderDias(); renderAgenda(); renderAgua(); }
+
+/* ============================================================
+   EVENTOS
+   ============================================================ */
+document.addEventListener('click', e => {
+  const perfil = e.target.closest('.perfil-btn');
+  if (perfil) {
+    perfilAtual = PERFIS.find(p => p.id === perfil.dataset.p);
+    turnoAtual = Object.keys(perfilAtual.turnos)[0];
+    return render();
+  }
+
+  const turno = e.target.closest('.turno-btn');
+  if (turno) { turnoAtual = turno.dataset.t; return render(); }
+
+  const dia = e.target.closest('.dia-btn');
+  if (dia) { diaSel = +dia.dataset.d; return render(); }
+
+  const ref = e.target.closest('.refeicao');
+  if (ref) {
+    const { db, k, s } = slot();
+    const t = ref.dataset.r;
+    s.ref = s.ref.includes(t) ? s.ref.filter(x => x !== t) : [...s.ref, t];
+    db[k] = s; save(db);
+    return renderAgenda();
+  }
+
+  const copo = e.target.closest('.copo');
+  if (copo) {
+    const { db, k, s } = slot();
+    const n = +copo.dataset.c + 1;
+    s.agua = (s.agua === n) ? n - 1 : n;
+    db[k] = s; save(db);
+    return renderAgua();
+  }
+
+  const item = e.target.closest('.item');
+  if (item) {
+    const db = load();
+    const lista = db.compras || [];
+    const v = item.dataset.i;
+    db.compras = lista.includes(v) ? lista.filter(x => x !== v) : [...lista, v];
+    save(db);
+    item.classList.toggle('feito');
+  }
+});
+
+document.getElementById('btnLimpar').addEventListener('click', () => {
+  const { db, k } = slot();
+  db[k] = { ref: [], agua: 0 }; save(db);
+  renderAgenda(); renderAgua();
+});
+
+document.getElementById('btnCopiar').addEventListener('click', function () {
+  const db = load(), marcados = db.compras || [];
+  const txt = '*LISTA DE COMPRAS DA SEMANA*\n_Low carb · zero lactose_\n\n' +
+    COMPRAS.map(([g, itens]) => '*' + g.toUpperCase() + '*\n' +
+      itens.map(i => (marcados.includes(i) ? '✅ ' : '• ') + i).join('\n')).join('\n\n');
+
+  const done = () => { const o = this.textContent; this.textContent = 'Lista copiada ✓'; setTimeout(() => this.textContent = o, 1800); };
+
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(txt).then(done).catch(() => fallback(txt, done));
+  } else { fallback(txt, done); }
+});
+
+function fallback(txt, done) {
+  const ta = document.createElement('textarea');
+  ta.value = txt;
+  ta.style.cssText = 'position:fixed;left:-9999px;top:0';
+  document.body.appendChild(ta);
+  ta.select();
+  try { document.execCommand('copy'); done(); } catch (e) { alert(txt); }
+  document.body.removeChild(ta);
+}
+
+/* ============================================================
+   BOOT
+   ============================================================ */
+document.getElementById('hojeTxt').textContent =
+  hoje.toLocaleDateString('pt-BR', { weekday: 'long', day: '2-digit', month: 'long' });
+renderEstaticos();
+render();
+</script>
+</body>
+</html>
