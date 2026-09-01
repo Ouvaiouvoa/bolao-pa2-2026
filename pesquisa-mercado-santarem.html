@@ -1,0 +1,432 @@
+<title>Mapa de Oportunidades do Tapajós</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap"/>
+<style>
+  :root{
+    --ground:#F5F8F7; --surface:#FFFFFF; --surface-2:#E9EFED; --sunken:#EDF2F0;
+    --ink:#0D1A18; --ink-2:#41534F; --ink-3:#6D807C; --rule:#D3DDDA;
+    --agua:#0B5D57; --agua-2:#0E7A72; --agua-wash:#E2EFEC;
+    --barro:#9C5F24; --barro-wash:#F4E9DC;
+    --quente:#A8412C; --frio:#2E6B4E;
+    --shadow:0 1px 2px rgba(13,26,24,.05), 0 8px 24px -16px rgba(13,26,24,.35);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ground:#0A1312; --surface:#101C1A; --surface-2:#162523; --sunken:#0D1817;
+      --ink:#E9F1EF; --ink-2:#A6B8B4; --ink-3:#7C8E8A; --rule:#213230;
+      --agua:#5AC9BB; --agua-2:#7FDACD; --agua-wash:#122C29;
+      --barro:#D9A35F; --barro-wash:#2A2119;
+      --quente:#E58B72; --frio:#79C79C;
+      --shadow:0 1px 2px rgba(0,0,0,.4), 0 12px 32px -18px rgba(0,0,0,.8);
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#0A1312; --surface:#101C1A; --surface-2:#162523; --sunken:#0D1817;
+    --ink:#E9F1EF; --ink-2:#A6B8B4; --ink-3:#7C8E8A; --rule:#213230;
+    --agua:#5AC9BB; --agua-2:#7FDACD; --agua-wash:#122C29;
+    --barro:#D9A35F; --barro-wash:#2A2119;
+    --quente:#E58B72; --frio:#79C79C;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 12px 32px -18px rgba(0,0,0,.8);
+  }
+
+  body{background:var(--ground); color:var(--ink);
+    font-family:"Source Serif 4","Iowan Old Style",Georgia,serif; font-size:17px; line-height:1.62;
+    -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1080px; margin:0 auto; padding:0 24px 96px;}
+  .col{max-width:68ch;}
+
+  h1,h2,h3,h4,.mono,.eyebrow,th,.chip,.tag,.kpi-v,.num{font-family:Archivo,"Helvetica Neue",Arial,sans-serif;}
+  .mono,.eyebrow,.tag,.src-n{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;}
+  h1{font-size:clamp(2.1rem,5.2vw,3.4rem); line-height:1.04; font-weight:700; letter-spacing:-.022em; text-wrap:balance;}
+  h2{font-size:clamp(1.35rem,2.6vw,1.72rem); line-height:1.18; font-weight:700; letter-spacing:-.015em; text-wrap:balance;}
+  h3{font-size:1.06rem; line-height:1.3; font-weight:600; letter-spacing:-.006em; text-wrap:balance;}
+  p{margin:0;} a{color:var(--agua); text-underline-offset:2px;}
+  a:focus-visible,summary:focus-visible{outline:2px solid var(--agua-2); outline-offset:3px; border-radius:3px;}
+
+  .eyebrow{font-size:.68rem; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-3); font-weight:500;}
+
+  /* CABEÇALHO */
+  header.hero{padding:64px 0 40px; border-bottom:1px solid var(--rule);}
+  .hero-grid{display:flex; flex-direction:column; gap:22px;}
+  .rio{height:8px; border-radius:99px; background:linear-gradient(90deg,var(--agua) 0 48%, var(--barro) 52% 100%);}
+  .dek{font-size:1.12rem; color:var(--ink-2); max-width:62ch;}
+  .meta{display:flex; flex-wrap:wrap; gap:8px 20px; font-size:.74rem; color:var(--ink-3);}
+
+  /* FAIXA DE INDICADORES */
+  .kpis{display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:1px;
+    background:var(--rule); border:1px solid var(--rule); border-radius:10px; overflow:hidden; margin:34px 0 0;}
+  .kpi{background:var(--surface); padding:16px 18px; display:flex; flex-direction:column; gap:5px;}
+  .kpi-v{font-size:1.5rem; font-weight:700; letter-spacing:-.02em; font-variant-numeric:tabular-nums; line-height:1;}
+  .kpi-l{font-size:.79rem; color:var(--ink-2); line-height:1.35;}
+  .kpi-s{font-size:.66rem; color:var(--ink-3); font-family:"IBM Plex Mono",monospace;}
+
+  section{padding-top:56px;}
+  .sec-head{display:flex; align-items:baseline; gap:14px; border-top:2px solid var(--ink); padding-top:12px; margin-bottom:20px;}
+  .sec-head .eyebrow{white-space:nowrap;}
+  .stack{display:flex; flex-direction:column; gap:16px;}
+  .stack-lg{display:flex; flex-direction:column; gap:28px;}
+
+  /* CHIPS E TAGS */
+  .chip{display:inline-flex; align-items:center; gap:5px; font-size:.68rem; font-weight:600; letter-spacing:.03em;
+    padding:3px 9px; border-radius:99px; border:1px solid var(--rule); color:var(--ink-2); background:var(--surface); white-space:nowrap;}
+  .chip.agora{color:var(--agua); border-color:color-mix(in srgb,var(--agua) 40%,transparent); background:var(--agua-wash);}
+  .chip.medio{color:var(--barro); border-color:color-mix(in srgb,var(--barro) 40%,transparent); background:var(--barro-wash);}
+  .chip.d{color:var(--agua); border-color:color-mix(in srgb,var(--agua) 40%,transparent);}
+  .chip.f{color:var(--barro); border-color:color-mix(in srgb,var(--barro) 40%,transparent);}
+
+  /* CARTÕES DE OPORTUNIDADE */
+  .ops{display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:18px;}
+  .op{background:var(--surface); border:1px solid var(--rule); border-radius:12px; padding:20px 20px 18px;
+    display:flex; flex-direction:column; gap:12px; box-shadow:var(--shadow);}
+  .op-top{display:flex; align-items:center; justify-content:space-between; gap:12px;}
+  .op-id{font-family:"IBM Plex Mono",monospace; font-size:.72rem; font-weight:500; color:var(--ink-3); letter-spacing:.06em;}
+  .op h3{margin:0;}
+  .op p{font-size:.94rem; line-height:1.55;}
+  .op dl{display:grid; grid-template-columns:auto 1fr; gap:6px 12px; margin:0; font-size:.86rem;}
+  .op dt{font-family:"IBM Plex Mono",monospace; font-size:.66rem; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--ink-3); padding-top:4px;}
+  .op dd{margin:0; color:var(--ink-2);}
+  .op-foot{display:flex; flex-wrap:wrap; gap:6px; margin-top:auto; padding-top:4px;}
+
+  /* TABELAS */
+  .tw{overflow-x:auto; border:1px solid var(--rule); border-radius:10px; background:var(--surface);}
+  table{border-collapse:collapse; width:100%; font-size:.88rem; min-width:640px;}
+  th,td{text-align:left; padding:11px 14px; border-bottom:1px solid var(--rule); vertical-align:top;}
+  th{font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-3); font-weight:600;
+    background:var(--sunken); position:sticky; top:0;}
+  tbody tr:last-child td{border-bottom:0;}
+  td.num{font-variant-numeric:tabular-nums; font-weight:600; text-align:right; white-space:nowrap;}
+  .rank{font-family:"IBM Plex Mono",monospace; color:var(--ink-3); font-size:.8rem;}
+
+  /* BLOCOS DE APOIO */
+  .note{border-left:3px solid var(--barro); background:var(--barro-wash); padding:14px 18px; border-radius:0 8px 8px 0;
+    font-size:.92rem; color:var(--ink-2);}
+  .note strong{color:var(--ink);}
+  .grid2{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:18px;}
+  .panel{background:var(--surface); border:1px solid var(--rule); border-radius:12px; padding:20px;}
+  .panel h3{margin-bottom:10px;}
+  ul.tight{margin:0; padding-left:1.1em; display:flex; flex-direction:column; gap:7px; font-size:.94rem; color:var(--ink-2);}
+  ul.tight strong{color:var(--ink);}
+  ol.plan{margin:0; padding:0; list-style:none; counter-reset:p; display:flex; flex-direction:column; gap:0;}
+  ol.plan li{counter-increment:p; display:grid; grid-template-columns:52px 1fr; gap:16px;
+    padding:16px 0; border-bottom:1px solid var(--rule);}
+  ol.plan li:last-child{border-bottom:0;}
+  ol.plan li::before{content:"S" counter(p); font-family:"IBM Plex Mono",monospace; font-size:.78rem; font-weight:500;
+    color:var(--agua); padding-top:3px;}
+  .plan-t{font-family:Archivo,sans-serif; font-weight:600; font-size:.98rem; display:block; margin-bottom:3px;}
+  .plan-d{font-size:.92rem; color:var(--ink-2);}
+
+  footer{margin-top:64px; padding-top:24px; border-top:1px solid var(--rule); font-size:.84rem; color:var(--ink-2);}
+  footer ol{margin:14px 0 0; padding-left:1.4em; display:flex; flex-direction:column; gap:7px;}
+  footer li{padding-left:4px;}
+  .src-n{font-size:.76rem;}
+  sup a{text-decoration:none; font-family:"IBM Plex Mono",monospace; font-size:.68rem; padding:0 1px;}
+  @media (max-width:640px){
+    body{font-size:16px;}
+    header.hero{padding:40px 0 28px;}
+    .op dl{grid-template-columns:1fr; gap:2px 0;}
+    .op dt{padding-top:8px;}
+  }
+</style>
+
+<div class="wrap">
+
+<header class="hero">
+  <div class="hero-grid">
+    <div class="rio" aria-hidden="true"></div>
+    <span class="eyebrow">Pesquisa de mercado · Santarém (PA) · Setembro 2026</span>
+    <h1>Onde o Tapajós ainda não tem dono</h1>
+    <p class="dek">Doze frentes de negócio — digitais, físicas e híbridas — abertas na maior cidade do oeste do Pará, ordenadas por janela de entrada. O ponto de partida é uma economia de 360 mil habitantes que vive de serviços e folha pública, e que está recebendo, ao mesmo tempo, seu primeiro distrito industrial, uma nova rota aérea para o Sudeste e um ciclo de capital em bioeconomia.</p>
+    <div class="meta">
+      <span>Base: IBGE, Novo Caged, FAPESPA, Governo do Pará, Prefeitura de Santarém</span>
+      <span>·</span>
+      <span>Dados verificados até setembro de 2026</span>
+    </div>
+  </div>
+
+  <div class="kpis">
+    <div class="kpi"><span class="kpi-v">360.871</span><span class="kpi-l">habitantes em Santarém</span><span class="kpi-s">IBGE 2025 · +0,99% a/a</span></div>
+    <div class="kpi"><span class="kpi-v">705.737</span><span class="kpi-l">habitantes na região do Baixo Amazonas</span><span class="kpi-s">FAPESPA · 13 municípios</span></div>
+    <div class="kpi"><span class="kpi-v">R$ 6,3 bi</span><span class="kpi-l">PIB municipal</span><span class="kpi-s">IBGE · per capita R$ 26,1 mil</span></div>
+    <div class="kpi"><span class="kpi-v">57,6%</span><span class="kpi-l">do valor adicionado vem de serviços</span><span class="kpi-s">+24,2% administração pública</span></div>
+    <div class="kpi"><span class="kpi-v">~28 mil</span><span class="kpi-l">empresas ativas, das quais 16 mil MEIs</span><span class="kpi-s">base 2023</span></div>
+    <div class="kpi"><span class="kpi-v">104</span><span class="kpi-l">empresas com interesse no distrito industrial</span><span class="kpi-s">demanda declarada</span></div>
+  </div>
+</header>
+
+<section id="leitura">
+  <div class="sec-head"><span class="eyebrow">01 — Leitura</span><h2>O que a estrutura da economia local está dizendo</h2></div>
+  <div class="col stack">
+    <p>Santarém é uma capital regional que concentra comércio, saúde, ensino e serviços públicos para uma área de influência de mais de 700 mil pessoas, num raio em que o transporte principal é o rio.<sup><a href="#f1">1</a></sup> Três características definem quase todas as oportunidades reais:</p>
+    <ul class="tight">
+      <li><strong>Renda estável, não cíclica.</strong> Com 24,2% do valor adicionado vindo da administração pública, a massa salarial da cidade oscila pouco. Isso favorece negócios de recorrência (assinatura, mensalidade, convênio) e penaliza apostas em picos de consumo.</li>
+      <li><strong>Serviços dominam, indústria quase não existe.</strong> 57,6% do valor adicionado é serviço; a transformação local é marginal. Quase todo bem manufaturado chega por balsa de Belém/Manaus ou por rodovia. Cada item com alto custo de frete e baixo valor unitário é um candidato natural a produção local.</li>
+      <li><strong>Emprego formal cresce devagar e sempre.</strong> Junho de 2026 fechou com 1.858 admissões e 1.516 desligamentos — saldo de +342 vagas, com serviços respondendo por 177 delas; no primeiro semestre de 2025 o saldo foi de +2.105.<sup><a href="#f5">5</a></sup> É expansão de base, não boom. Modelos que exigem crescimento explosivo de demanda não se sustentam aqui.</li>
+    </ul>
+    <div class="note"><strong>A consequência prática:</strong> em Santarém a tendência não nasce do consumo — nasce do gargalo. Onde há fila, frete caro, sazonalidade mal aproveitada ou informalidade cara, há mercado. Onde há apenas "espaço para mais um", há concorrência com o mais barato.</div>
+  </div>
+</section>
+
+<section id="vetores">
+  <div class="sec-head"><span class="eyebrow">02 — Vetores</span><h2>Cinco mudanças em curso que abrem a janela</h2></div>
+  <div class="grid2">
+    <div class="panel">
+      <h3>Primeiro distrito industrial da cidade</h3>
+      <p style="font-size:.94rem;color:var(--ink-2)">175 hectares e 125 lotes entre a BR-163 e a PA-370, com seis zonas (indústria, construção civil, bioindústria, mineração não metálica, logística, agroindústria) e R$ 5 milhões em infraestrutura.<sup><a href="#f3">3</a></sup> A demanda declarada por 104 empresas já revela o mix: comércio e serviços 23%, produtos não metálicos 12%, logística 9%, energia renovável 9%, bioprodutos 7%.<sup><a href="#f4">4</a></sup></p>
+    </div>
+    <div class="panel">
+      <h3>Conectividade aérea com o Sudeste</h3>
+      <p style="font-size:.94rem;color:var(--ink-2)">A Azul abriu rota direta Confins–Santarém com seis voos semanais a partir de 1º de setembro, encurtando o acesso a Alter do Chão.<sup><a href="#f6">6</a></sup> Rota nova é o momento em que um destino muda de perfil de visitante — e de ticket.</p>
+    </div>
+    <div class="panel">
+      <h3>Temporada de praia longa e previsível</h3>
+      <p style="font-size:.94rem;color:var(--ink-2)">A vazante do Tapajós abre as praias de agosto a dezembro; o Sairé, de 17 a 21 de setembro, é o pico cultural. Comerciantes projetaram alta de 20% a 25% no fluxo da alta temporada.<sup><a href="#f7">7</a></sup> A diária média em Alter do Chão ainda circula na faixa de R$ 75–110 — sinal de oferta concentrada no segmento econômico.</p>
+    </div>
+    <div class="panel">
+      <h3>Bioeconomia com capital e comprador</h3>
+      <p style="font-size:.94rem;color:var(--ink-2)">No Pará a sociobiodiversidade movimenta R$ 13,5 bilhões por ano e sustenta 271 mil empregos: mandioca R$ 6,5 bi, pesca e aquicultura R$ 2,7 bi, açaí R$ 1,5 bi.<sup><a href="#f8">8</a></sup> O que falta na ponta de Santarém não é matéria-prima — é padronização, frio, embalagem e prova de origem.</p>
+    </div>
+    <div class="panel">
+      <h3>Base digital e de talento instalada</h3>
+      <p style="font-size:.94rem;color:var(--ink-2)">O CIAT Tapajós é o primeiro ambiente de inovação do oeste do Pará, com coworking e programas para startups; já saiu de lá a Yjara Viagens, que digitaliza a navegação fluvial amazônica.<sup><a href="#f9">9</a></sup> Some-se a UFOPA — 1.204 vagas anuais em Santarém e curso de Medicina autorizado pelo MEC, com hospital universitário no plano de expansão.<sup><a href="#f10">10</a></sup></p>
+    </div>
+    <div class="panel">
+      <h3>Agenda pública de atração de investimento</h3>
+      <p style="font-size:.94rem;color:var(--ink-2)">Prefeitura e Governo do Estado lançaram em 2026 o Guia do Investidor da região Oeste, com indicadores, infraestrutura e setores prioritários.<sup><a href="#f2">2</a></sup> Para quem vai abrir negócio, é o documento a puxar antes de qualquer plano — e o canal para pleitear lote no distrito.</p>
+    </div>
+  </div>
+</section>
+
+<section id="oportunidades">
+  <div class="sec-head"><span class="eyebrow">03 — Oportunidades</span><h2>Doze frentes, com a tese e o primeiro passo de cada uma</h2></div>
+  <div class="col" style="margin-bottom:22px;">
+    <p style="color:var(--ink-2);font-size:.95rem">Prefixo <strong>D</strong> = negócio digital · <strong>F</strong> = negócio físico · <strong>H</strong> = híbrido. A janela indica quando a entrada é mais barata, não quando o mercado existe.</p>
+  </div>
+
+  <div class="ops">
+
+    <article class="op">
+      <div class="op-top"><span class="op-id">H1</span><span class="chip agora">Janela: agora</span></div>
+      <h3>Fulfillment e última milha do Baixo Amazonas</h3>
+      <p>Marketplaces entregam em Santarém com prazo e frete de exceção, e quase não entregam nos 12 municípios ao redor. Um centro de distribuição avançado na cidade, com roteirização própria e integração fluvial, transforma 700 mil pessoas em endereço viável.</p>
+      <dl>
+        <dt>Quem paga</dt><dd>Sellers de fora, varejo local que quer vender online, atacadistas</dd>
+        <dt>Começo</dt><dd>Galpão pequeno + contrato com 2 ou 3 sellers de alto giro; medir prazo porta a porta antes de escalar</dd>
+        <dt>Risco</dt><dd>Sazonalidade do rio e custo de retorno de carga</dd>
+      </dl>
+      <div class="op-foot"><span class="chip f">Capex médio</span><span class="chip">Logística</span></div>
+    </article>
+
+    <article class="op">
+      <div class="op-top"><span class="op-id">D1</span><span class="chip agora">Janela: agora</span></div>
+      <h3>Software para transporte fluvial de carga e encomenda</h3>
+      <p>A Yjara provou que há mercado em digitalizar a navegação de passageiros. A adjacência ainda aberta é a carga: cotação, conhecimento de embarque, rastreio e pagamento entre armadores, comércio e ribeirinhos — hoje resolvidos por WhatsApp e caderno.</p>
+      <dl>
+        <dt>Quem paga</dt><dd>Armadores, transportadoras, comércio que despacha para o interior</dd>
+        <dt>Começo</dt><dd>Um armador âncora, rastreio simples por SMS/WhatsApp, cobrança por embarque</dd>
+        <dt>Risco</dt><dd>Adoção lenta; exige presença física no porto no primeiro ano</dd>
+      </dl>
+      <div class="op-foot"><span class="chip d">Capex baixo</span><span class="chip">SaaS B2B</span></div>
+    </article>
+
+    <article class="op">
+      <div class="op-top"><span class="op-id">F1</span><span class="chip agora">Janela: agora</span></div>
+      <h3>Cadeia do frio para pescado e polpas</h3>
+      <p>Pesca e aquicultura movimentam R$ 2,7 bilhões por ano no estado, mas o produto de Santarém sai da cidade sem padronização e sem frio confiável. Câmara frigorífica, gelo, filetagem e transporte refrigerado é infraestrutura escassa que se cobra por quilo e por dia.</p>
+      <dl>
+        <dt>Quem paga</dt><dd>Colônias e cooperativas, restaurantes, distribuidores de Belém e Manaus</dd>
+        <dt>Começo</dt><dd>Serviço de armazenagem frigorífica por terceiros antes de comprar produção própria</dd>
+        <dt>Risco</dt><dd>Energia, licenciamento sanitário (SIF/SIE) e curva de aprendizado de qualidade</dd>
+      </dl>
+      <div class="op-foot"><span class="chip f">Capex alto</span><span class="chip">Bioeconomia</span></div>
+    </article>
+
+    <article class="op">
+      <div class="op-top"><span class="op-id">F2</span><span class="chip agora">Janela: agora</span></div>
+      <h3>Materiais de construção não metálicos</h3>
+      <p>Produtos não metálicos são a segunda maior demanda declarada no distrito industrial (12%). Blocos, pré-moldados, argamassa e pisos viajam mal: pesam muito e valem pouco por quilo. É o caso clássico de substituição de frete por produção local.</p>
+      <dl>
+        <dt>Quem paga</dt><dd>Construtoras, obras públicas, autoconstrução (mercado grande e informal)</dd>
+        <dt>Começo</dt><dd>Reservar lote no distrito e fechar contrato de fornecimento com uma construtora antes da planta</dd>
+        <dt>Risco</dt><dd>Ciclo de obras e concorrência de players já instalados no Pará</dd>
+      </dl>
+      <div class="op-foot"><span class="chip f">Capex alto</span><span class="chip">Distrito industrial</span></div>
+    </article>
+
+    <article class="op">
+      <div class="op-top"><span class="op-id">D2</span><span class="chip agora">Janela: agora</span></div>
+      <h3>Canal direto e gestão para o trade turístico</h3>
+      <p>A rota Confins–Santarém traz um visitante de ticket maior para uma oferta que ainda vende por WhatsApp e OTA. Motor de reserva com pagamento, gestão de disponibilidade e pacotes combinados (pousada + passeio + traslado) captura margem que hoje vaza em comissão.</p>
+      <dl>
+        <dt>Quem paga</dt><dd>Pousadas, receptivos e barqueiros de Alter do Chão; comissão ou mensalidade</dd>
+        <dt>Começo</dt><dd>10 pousadas na temporada de setembro a dezembro; medir taxa de reserva direta</dd>
+        <dt>Risco</dt><dd>Receita concentrada em 5 meses; exige caixa para a entressafra</dd>
+      </dl>
+      <div class="op-foot"><span class="chip d">Capex baixo</span><span class="chip">Turismo</span></div>
+    </article>
+
+    <article class="op">
+      <div class="op-top"><span class="op-id">F3</span><span class="chip medio">Janela: 12 meses</span></div>
+      <h3>Hospedagem e serviços de apoio de padrão médio-alto</h3>
+      <p>Diárias na faixa de R$ 75–110 indicam oferta concentrada no econômico enquanto a demanda muda de perfil. Além do hotel, o gargalo é o que sustenta a rede: lavanderia industrial, base náutica, manutenção de embarcações e comissaria.</p>
+      <dl>
+        <dt>Quem paga</dt><dd>Visitante do Sudeste, turismo corporativo, e as próprias pousadas (B2B)</dd>
+        <dt>Começo</dt><dd>Entrar pelo B2B — serviço de apoio dá caixa antes e revela a demanda real de leitos</dd>
+        <dt>Risco</dt><dd>Sazonalidade e ocupação baixa de janeiro a julho</dd>
+      </dl>
+      <div class="op-foot"><span class="chip f">Capex alto</span><span class="chip">Turismo</span></div>
+    </article>
+
+    <article class="op">
+      <div class="op-top"><span class="op-id">D3</span><span class="chip agora">Janela: agora</span></div>
+      <h3>Rastreabilidade e prova de origem para bioprodutos</h3>
+      <p>Castanha, óleos, farinha e pescado valem mais quando conseguem provar de onde vieram. Comprador nacional e exportador já pedem essa documentação; cooperativa nenhuma tem sistema para produzir. É software leve com valor de contrato alto.</p>
+      <dl>
+        <dt>Quem paga</dt><dd>Cooperativas, agroindústrias, compradores que exigem certificação</dd>
+        <dt>Começo</dt><dd>Uma cooperativa piloto e um comprador que já exige o dado — nunca só a cooperativa</dd>
+        <dt>Risco</dt><dd>Ciclo de venda longo e dependência de exigência regulatória</dd>
+      </dl>
+      <div class="op-foot"><span class="chip d">Capex baixo</span><span class="chip">Bioeconomia</span></div>
+    </article>
+
+    <article class="op">
+      <div class="op-top"><span class="op-id">F4</span><span class="chip medio">Janela: 12 meses</span></div>
+      <h3>Agroindústria de mandioca, castanha e óleos</h3>
+      <p>Mandioca sozinha responde por R$ 6,5 bilhões anuais no estado e sai de Santarém como farinha artesanal sem padrão. Fécula, farinha classificada, castanha quebrada e embalada, óleos prensados: o mesmo produto, com duas a quatro vezes o valor de saída.</p>
+      <dl>
+        <dt>Quem paga</dt><dd>Indústria de alimentos, redes de varejo, mercado de produtos amazônicos</dd>
+        <dt>Começo</dt><dd>Beneficiamento de um único produto, com selo e embalagem, antes de diversificar</dd>
+        <dt>Risco</dt><dd>Oferta instável — a seca de anos recentes derrubou safras de castanha, mandioca e açaí na região</dd>
+      </dl>
+      <div class="op-foot"><span class="chip f">Capex médio</span><span class="chip">Bioeconomia</span></div>
+    </article>
+
+    <article class="op">
+      <div class="op-top"><span class="op-id">D4</span><span class="chip agora">Janela: agora</span></div>
+      <h3>Fábrica de software e BPO com talento local</h3>
+      <p>É o negócio 100% digital de menor capex da lista: a UFOPA forma 1.204 novos universitários por ano em Santarém e o CIAT oferece a estrutura. Vende-se para clientes de fora, com custo do Norte e fuso do Brasil.</p>
+      <dl>
+        <dt>Quem paga</dt><dd>Empresas do Sudeste, agências, e o próprio agro e logística regionais</dd>
+        <dt>Começo</dt><dd>Um cliente âncora recorrente e trilha de formação com a universidade</dd>
+        <dt>Risco</dt><dd>Rotatividade e concorrência salarial remota — retenção é o produto</dd>
+      </dl>
+      <div class="op-foot"><span class="chip d">Capex baixo</span><span class="chip">Serviços digitais</span></div>
+    </article>
+
+    <article class="op">
+      <div class="op-top"><span class="op-id">H2</span><span class="chip medio">Janela: 12 meses</span></div>
+      <h3>Saúde privada de média complexidade e telessaúde</h3>
+      <p>Santarém já é referência de saúde para todo o oeste do Pará, e a chegada do curso de Medicina da UFOPA adensa o ecossistema. Diagnóstico por imagem, day clinic e agendamento com teleconsulta para os municípios do entorno atacam fila real, não demanda criada.</p>
+      <dl>
+        <dt>Quem paga</dt><dd>Planos de saúde, particular, prefeituras do interior por convênio</dd>
+        <dt>Começo</dt><dd>Uma especialidade com fila comprovada, medida no SUS local, antes de investir em estrutura</dd>
+        <dt>Risco</dt><dd>Regulação, escassez de especialistas e capex de equipamento</dd>
+      </dl>
+      <div class="op-foot"><span class="chip f">Capex alto</span><span class="chip">Saúde</span></div>
+    </article>
+
+    <article class="op">
+      <div class="op-top"><span class="op-id">F5</span><span class="chip medio">Janela: 12 meses</span></div>
+      <h3>Energia solar distribuída: projeto, instalação e O&amp;M</h3>
+      <p>Energia renovável é 9% da demanda declarada do distrito industrial, e conta de luz alta é dor universal do comércio local. O dinheiro previsível não está na venda do kit: está na manutenção, no monitoramento e no contrato de performance depois dela.</p>
+      <dl>
+        <dt>Quem paga</dt><dd>Comércio, agroindústria, condomínios, produtores rurais</dd>
+        <dt>Começo</dt><dd>Instalação com contrato de O&amp;M embutido desde o primeiro cliente</dd>
+        <dt>Risco</dt><dd>Mudanças na regra de geração distribuída e guerra de preço de kit</dd>
+      </dl>
+      <div class="op-foot"><span class="chip f">Capex médio</span><span class="chip">Energia</span></div>
+    </article>
+
+    <article class="op">
+      <div class="op-top"><span class="op-id">H3</span><span class="chip medio">Janela: 24 meses</span></div>
+      <h3>Serviços B2B para o distrito industrial</h3>
+      <p>Comércio e serviços são 23% da demanda declarada dos 125 lotes — ou seja, a maior oportunidade do distrito não é fabricar, é atender quem vai fabricar: manutenção industrial, segurança do trabalho, refeição coletiva, EPI, transporte de funcionários, contabilidade.</p>
+      <dl>
+        <dt>Quem paga</dt><dd>As indústrias que se instalarem; contratos mensais recorrentes</dd>
+        <dt>Começo</dt><dd>Mapear as 104 empresas interessadas e fechar pré-contrato antes da obra terminar</dd>
+        <dt>Risco</dt><dd>Cronograma público — se o distrito atrasar, a receita atrasa junto</dd>
+      </dl>
+      <div class="op-foot"><span class="chip f">Capex baixo</span><span class="chip">Distrito industrial</span></div>
+    </article>
+
+  </div>
+</section>
+
+<section id="ranking">
+  <div class="sec-head"><span class="eyebrow">04 — Ranking</span><h2>Se for escolher uma só</h2></div>
+  <div class="tw">
+    <table>
+      <thead>
+        <tr><th>#</th><th>Frente</th><th>Tipo</th><th>Capex</th><th>Tempo até a primeira receita</th><th>Por que está nesta posição</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="rank">1</td><td><strong>Fulfillment e última milha</strong></td><td>Híbrido</td><td>Médio</td><td class="num">3–6 meses</td><td>Gargalo comprovado, cliente pagante já existe fora da cidade, cresce com o e-commerce sem depender de obra pública</td></tr>
+        <tr><td class="rank">2</td><td><strong>Serviços B2B do distrito</strong></td><td>Físico</td><td>Baixo</td><td class="num">6–12 meses</td><td>Demanda declarada por 104 empresas e receita recorrente; a única dependência é o cronograma do distrito</td></tr>
+        <tr><td class="rank">3</td><td><strong>Canal direto do trade turístico</strong></td><td>Digital</td><td>Baixo</td><td class="num">1–3 meses</td><td>Menor custo de entrada da lista e janela imediata com a rota nova; teto limitado pela sazonalidade</td></tr>
+        <tr><td class="rank">4</td><td><strong>Cadeia do frio</strong></td><td>Físico</td><td>Alto</td><td class="num">9–18 meses</td><td>Infraestrutura escassa e defensável, mas exige licenciamento e capital paciente</td></tr>
+        <tr><td class="rank">5</td><td><strong>Fábrica de software / BPO</strong></td><td>Digital</td><td>Baixo</td><td class="num">2–4 meses</td><td>Independe do mercado local — o que é vantagem no risco e desvantagem na barreira de entrada</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="riscos">
+  <div class="sec-head"><span class="eyebrow">05 — Contraponto</span><h2>O que derruba plano de negócio em Santarém</h2></div>
+  <div class="col">
+    <ul class="tight">
+      <li><strong>O rio manda no calendário.</strong> Vazante e cheia mudam custo de frete, acesso a comunidades e fluxo turístico. Fluxo de caixa precisa ser modelado por estação, não por média anual.</li>
+      <li><strong>Clima já está cobrando o preço.</strong> Estudos de campo em Santarém e municípios vizinhos registraram perdas severas de castanha, mandioca e açaí por seca e queimadas. Qualquer tese de bioeconomia precisa de plano B de originação.</li>
+      <li><strong>Dependência de folha pública corta os dois lados.</strong> Ela estabiliza o consumo, mas atrasa a economia quando repasses travam. Evite depender de um único convênio público.</li>
+      <li><strong>Obra pública escorrega.</strong> Distrito industrial é vetor real, mas datas mudam. Nenhuma tese deve depender exclusivamente da entrega da infraestrutura.</li>
+      <li><strong>Concorrer por preço com marketplace é derrota.</strong> Varejo local que só revende o que a Shopee entrega perde. O que não é replicável de fora: prazo, serviço, assistência, presença e crédito.</li>
+      <li><strong>Talento é escasso e disputado remotamente.</strong> Formar não basta; quem forma sem plano de retenção acaba treinando para empresa de fora.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="plano">
+  <div class="sec-head"><span class="eyebrow">06 — Validação</span><h2>Noventa dias para decidir com dado, não com palpite</h2></div>
+  <div class="col">
+    <ol class="plan">
+      <li><div><span class="plan-t">Puxar as fontes primárias</span><span class="plan-d">Guia do Investidor da região Oeste, painel do Novo Caged para o município, cadastro da JUCEPA e diagnóstico do Sebrae/PA. Custo zero, e é o que separa hipótese de tese.</span></div></li>
+      <li><div><span class="plan-t">Mapear as 104 empresas do distrito</span><span class="plan-d">A lista de interessados é o melhor mapa de demanda B2B disponível na cidade. Ligue para 20 e pergunte o que vão precisar comprar localmente.</span></div></li>
+      <li><div><span class="plan-t">Medir o gargalo logístico na prática</span><span class="plan-d">Compre 20 pedidos de marketplaces distintos com entrega em Santarém e em dois municípios do entorno. Registre prazo, frete e falha. Esse é o dado que ninguém tem.</span></div></li>
+      <li><div><span class="plan-t">Rodar a temporada como campo de teste</span><span class="plan-d">Setembro a dezembro é a janela de observação do turismo: ocupação, ticket, origem do visitante, o que faltou. Entre com um piloto pequeno agora, em vez de um plano grande em janeiro.</span></div></li>
+      <li><div><span class="plan-t">Fechar uma âncora antes de investir</span><span class="plan-d">Um seller, um armador, uma cooperativa, uma construtora ou uma pousada — assinado. Em mercado de base estreita, contrato âncora vale mais do que pesquisa de intenção.</span></div></li>
+      <li><div><span class="plan-t">Escolher uma frente e matar as outras</span><span class="plan-d">Doze opções são para descartar onze. Ao fim dos 90 dias, o critério é simples: onde apareceu cliente pagante mais rápido.</span></div></li>
+    </ol>
+  </div>
+</section>
+
+<section id="lacunas">
+  <div class="sec-head"><span class="eyebrow">07 — Ressalvas</span><h2>Onde este relatório precisa de dado local</h2></div>
+  <div class="col stack">
+    <ul class="tight">
+      <li><strong>PIB municipal.</strong> Fontes divergem entre R$ 6,3 bilhões (divulgação IBGE) e cifras mais altas em portais agregadores. Adotamos a menor e o per capita oficial de R$ 26.154,78 (2023).</li>
+      <li><strong>Liderança na castanha.</strong> Uma fonte estadual aponta Santarém como principal produtora do Pará; outra atribui a liderança a Óbidos, Oriximiná e Alenquer. Para tese de agroindústria, confirme a originação real por município antes de dimensionar planta.</li>
+      <li><strong>Base empresarial.</strong> Os ~28 mil CNPJs ativos e 16 mil MEIs são de 2023; o número atual é maior e deve ser puxado atualizado na JUCEPA.</li>
+      <li><strong>Turismo.</strong> Não há série pública consolidada de visitantes e ocupação hoteleira. As projeções de +20% a 25% vêm de expectativa do trade, não de contagem.</li>
+      <li><strong>Área de influência.</strong> Usamos os 705.737 habitantes do Baixo Amazonas (13 municípios). Incluindo a região do Tapajós, o mercado atendível é maior — dimensione com dados da FAPESPA por município.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <span class="eyebrow">Fontes</span>
+  <ol class="src-n">
+    <li id="f1">IBGE Cidades — Panorama de Santarém (PA): população 2025, PIB per capita, área. <a href="https://cidades.ibge.gov.br/brasil/pa/santarem/panorama">cidades.ibge.gov.br</a> · população de 360.871 habitantes reportada por <a href="https://www.oestadonet.com.br/noticia/24550966/populacao-de-santarem-cresce-menos-de-1-em-um-ano-e-alcanca-360-871-habitantes-em-2025/">O Estado Net</a> · PIB municipal de R$ 6,3 bi em <a href="https://www.oestadonet.com.br/noticia/24549429/santarem-tem-produto-interno-bruto-pib-de-r-6-3-bilhoes/">O Estado Net</a> · Região de Integração do Baixo Amazonas (705.737 hab., 13 municípios) em <a href="https://www.fapespa.pa.gov.br/wp-content/uploads/2024/10/BS-RI_BAIXO-AMAZONAS_SI.pdf">FAPESPA</a>.</li>
+    <li id="f2">Prefeitura de Santarém e Governo do Pará — Guia do Investidor da região Oeste. <a href="https://santarem.pa.gov.br/pautas/desenvolvimento-economico/prefeitura-de-santarem-e-governo-do-para-vao-lancar-o-guia-do-investidor-para-impulsionar-novos-negocios-na-regiao-oeste-jlyqed">santarem.pa.gov.br</a></li>
+    <li id="f3">Agência Pará — criação do Distrito Industrial de Santarém: 175 ha, 125 lotes, seis zonas econômicas. <a href="https://agenciapara.com.br/noticia/60595/estado-assina-desapropriacao-de-areas-e-cria-o-distrito-industrial-de-santarem-">agenciapara.com.br</a></li>
+    <li id="f4">Princesa do Tapajós — 104 empresas interessadas e distribuição setorial da demanda. <a href="https://princesadotapajos.com.br/noticia/3555/santarem-avanca-para-novo-ciclo-economico-com-a-criacao-de-seu-primeiro-distrito-industrial.html">princesadotapajos.com.br</a></li>
+    <li id="f5">Novo Caged — saldo de empregos formais em Santarém. Primeiro semestre de 2025 (+2.105): <a href="https://santarem.pa.gov.br/noticias/governo-e-administracao/santarem-registra-saldo-positivo-no-primeiro-semestre-de-2025-com-mais-de-2-mil-empregos-formais-ixvorq">Prefeitura de Santarém</a>. Junho de 2026 (+342) e oeste do Pará: <a href="https://www.danielnunes.net.br/2026/07/santarem-e-itaituba-puxam-geracao-de.html">Daniel Nunes</a>. Peso dos serviços no emprego formal do estado: <a href="https://dol.com.br/noticias/para/943335/servicos-concentram-78-dos-empregos-formais-no-para-em-2026">DOL</a>.</li>
+    <li id="f6">Azul — nova rota Confins–Santarém, seis voos semanais. <a href="https://brasilturis.com.br/2026/04/23/azul-lanca-rota-entre-confins-e-santarem-e-amplia-acesso-a-alter-do-chao/">Brasilturis</a></li>
+    <li id="f7">Prefeitura de Santarém / Semtur — fluxo de turistas nas praias e expectativa de alta temporada. <a href="https://santarem.pa.gov.br/noticias/turismo/praias-de-santarem-registram-aumento-no-fluxo-de-turistas-durante-o-periodo-de-ferias-icjgok">santarem.pa.gov.br</a> · Sairé 2026 e temporada de vazante: <a href="https://revistaforum.com.br/turismo/alter-do-chao-2026-guia-mochilao/">Revista Fórum</a></li>
+    <li id="f8">Bioeconomia da sociobiodiversidade no Pará — R$ 13,5 bi/ano, 271 mil empregos e composição por produto. <a href="https://dol.com.br/noticias/para/942415/bioeconomia-movimenta-r-135-bilhoes-por-ano-no-para">DOL</a> · perdas por seca e queimadas em Santarém e municípios vizinhos: <a href="https://portalofato.com.br/2026/05/22/bioeconomia-movimenta-r-135-bilhoes-por-ano-e-sustenta-271-mil-empregos-no-para/">Portal O Fato</a> · castanha no oeste paraense: <a href="https://portalamazonia.com/economia/safra-castanha-bioeconomia-para/">Portal Amazônia</a></li>
+    <li id="f9">Agência Pará — CIAT (Centro de Inovação Aces Tapajós), primeiro ambiente de inovação do oeste do Pará, e o caso Yjara Viagens. <a href="https://www.agenciapara.com.br/noticia/61455/ciat-colabora-com-o-crescimento-de-startups-em-santarem-por-meio-de-capacitacoes-e-networking">agenciapara.com.br</a> · Programa Santarém Conectada: <a href="https://santarem.pa.gov.br/noticias/desenvolvimento-economico/programa-santarem-conectada-amplia-inclusao-digital-e-fortalece-a-economia-local-jcuvtc">Prefeitura de Santarém</a></li>
+    <li id="f10">UFOPA — expansão, vagas em Santarém e autorização do curso de Medicina pelo MEC. <a href="https://www.ufopa.edu.br/ufopa/comunica/noticias/ufopa-apresenta-avancos-em-santarem-e-projeta-nova-fase-de-expansao-e-inclusao/">ufopa.edu.br</a> · <a href="https://www.ufopa.edu.br/ufopa/comunica/noticias/curso-de-medicina-da-ufopa-e-autorizado-pelo-mec/">autorização do MEC</a></li>
+  </ol>
+  <p style="margin-top:18px;color:var(--ink-3);font-size:.8rem">Documento de trabalho. Números refletem as fontes públicas disponíveis em setembro de 2026 e devem ser reconfirmados antes de qualquer decisão de investimento.</p>
+</footer>
+
+</div>
