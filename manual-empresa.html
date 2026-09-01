@@ -1,0 +1,429 @@
+<title>Da Zero aos Dez Mil</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Instrument+Sans:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap"/>
+<style>
+  :root{
+    --paper:#FAF8F5; --surface:#FFFFFF; --sunken:#F1EDE7;
+    --ink:#14110F; --ink-2:#4A4340; --ink-3:#7C736D; --rule:#E3DCD3;
+    --fogo:#C9421C; --fogo-2:#E05427; --fogo-wash:#FBEBE4;
+    --verde:#13674A; --verde-wash:#E4F0EA; --ambar:#9A6B10; --ambar-wash:#F8EFDC;
+    --shadow:0 1px 2px rgba(20,17,15,.05), 0 10px 26px -20px rgba(20,17,15,.5);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#100E0D; --surface:#1A1614; --sunken:#141110;
+      --ink:#F6F1EB; --ink-2:#BCB1A8; --ink-3:#8C8079; --rule:#2F2825;
+      --fogo:#FF7B4F; --fogo-2:#FF9670; --fogo-wash:#2B1811;
+      --verde:#57C295; --verde-wash:#12241D; --ambar:#E0AE5A; --ambar-wash:#2A2114;
+      --shadow:0 1px 2px rgba(0,0,0,.5), 0 14px 32px -22px rgba(0,0,0,.95);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#100E0D; --surface:#1A1614; --sunken:#141110;
+    --ink:#F6F1EB; --ink-2:#BCB1A8; --ink-3:#8C8079; --rule:#2F2825;
+    --fogo:#FF7B4F; --fogo-2:#FF9670; --fogo-wash:#2B1811;
+    --verde:#57C295; --verde-wash:#12241D; --ambar:#E0AE5A; --ambar-wash:#2A2114;
+    --shadow:0 1px 2px rgba(0,0,0,.5), 0 14px 32px -22px rgba(0,0,0,.95);
+  }
+  body{background:var(--paper); color:var(--ink);
+    font-family:"Instrument Sans",system-ui,-apple-system,sans-serif; font-size:16px; line-height:1.62;}
+  .wrap{max-width:1020px; margin:0 auto; padding:0 22px 90px;}
+  .col{max-width:66ch;}
+  h1,h2,.display{font-family:Anton,"Arial Narrow",Impact,sans-serif; font-weight:400; text-transform:uppercase;
+    letter-spacing:.01em; line-height:.94; text-wrap:balance;}
+  h1{font-size:clamp(2.2rem,6.5vw,3.8rem);}
+  h2{font-size:clamp(1.5rem,3.4vw,2.1rem);}
+  h3{font-size:1.02rem; font-weight:700; letter-spacing:-.01em; text-wrap:balance;}
+  h4{font-size:.92rem; font-weight:700;}
+  p{margin:0;} a{color:var(--fogo);}
+  :focus-visible{outline:2px solid var(--fogo); outline-offset:3px; border-radius:5px;}
+  .mono{font-family:"Roboto Mono",ui-monospace,Menlo,monospace;}
+  .eyebrow{font-size:.66rem; letter-spacing:.18em; text-transform:uppercase; color:var(--ink-3); font-weight:600;}
+
+  header.hero{padding:58px 0 38px; border-bottom:2px solid var(--ink);}
+  .hero .dek{font-size:1.1rem; color:var(--ink-2); max-width:58ch; margin-top:18px;}
+  .sumario{display:flex; flex-wrap:wrap; gap:8px; margin-top:26px;}
+  .sumario a{font-size:.78rem; font-weight:600; text-decoration:none; color:var(--ink-2);
+    border:1px solid var(--rule); border-radius:99px; padding:6px 13px; background:var(--surface);}
+  .sumario a:hover{border-color:var(--fogo); color:var(--fogo);}
+
+  section{padding-top:54px;}
+  .sec-h{display:flex; align-items:baseline; gap:13px; margin-bottom:16px;}
+  .sec-h .eyebrow{white-space:nowrap;}
+  .stack{display:flex; flex-direction:column; gap:16px;}
+  .stack-lg{display:flex; flex-direction:column; gap:26px;}
+
+  .tw{overflow-x:auto; border:1px solid var(--rule); border-radius:12px; background:var(--surface);}
+  table{border-collapse:collapse; width:100%; font-size:.87rem; min-width:620px;}
+  th,td{text-align:left; padding:11px 14px; border-bottom:1px solid var(--rule); vertical-align:top;}
+  th{font-size:.65rem; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-3); font-weight:600; background:var(--sunken);}
+  tbody tr:last-child td{border-bottom:0;}
+  td.r{text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; font-weight:600;}
+  tfoot td{font-weight:700; background:var(--sunken); border-top:2px solid var(--rule);}
+
+  .painel{background:var(--surface); border:1px solid var(--rule); border-radius:14px; padding:22px; box-shadow:var(--shadow);}
+  .grid2{display:grid; grid-template-columns:repeat(auto-fit,minmax(290px,1fr)); gap:16px;}
+  .nota{border-left:3px solid var(--ambar); background:var(--ambar-wash); padding:14px 17px;
+    border-radius:0 10px 10px 0; font-size:.9rem; color:var(--ink-2);}
+  .nota strong{color:var(--ink);}
+  .perigo{border-left-color:var(--fogo); background:var(--fogo-wash);}
+  .bom{border-left-color:var(--verde); background:var(--verde-wash);}
+  ul.tight{margin:0; padding-left:1.15em; display:flex; flex-direction:column; gap:7px; font-size:.94rem; color:var(--ink-2);}
+  ul.tight strong{color:var(--ink);}
+
+  .fases{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  @media (max-width:720px){ .fases{grid-template-columns:1fr;} }
+  .fase{background:var(--surface); border:1.5px solid var(--rule); border-radius:14px; padding:22px;
+    display:flex; flex-direction:column; gap:12px;}
+  .fase .tag{font-size:.68rem; letter-spacing:.14em; text-transform:uppercase; font-weight:700; color:var(--fogo);}
+  .fase .faixa{font-family:Anton,sans-serif; font-size:1.7rem; line-height:1;}
+
+  ol.semanas{margin:0; padding:0; list-style:none; counter-reset:s;}
+  ol.semanas li{counter-increment:s; display:grid; grid-template-columns:80px 1fr; gap:16px;
+    padding:16px 0; border-bottom:1px solid var(--rule);}
+  ol.semanas li:last-child{border-bottom:0;}
+  ol.semanas li::before{content:"Semana " counter(s); font-family:"Roboto Mono",monospace; font-size:.7rem;
+    color:var(--fogo); font-weight:500; padding-top:4px; line-height:1.3;}
+  .sem-t{font-weight:700; font-size:.98rem; display:block; margin-bottom:3px;}
+  .sem-d{font-size:.91rem; color:var(--ink-2);}
+  .sem-m{font-size:.78rem; color:var(--fogo); font-weight:600; margin-top:5px; display:block;}
+
+  .script{background:var(--sunken); border:1px solid var(--rule); border-left:3px solid var(--fogo);
+    border-radius:0 11px 11px 0; padding:15px 17px; font-size:.88rem; color:var(--ink-2);
+    white-space:pre-wrap; font-family:"Instrument Sans",sans-serif;}
+  .btn{font:inherit; font-weight:600; font-size:.78rem; cursor:pointer; border-radius:8px; padding:6px 12px;
+    border:1px solid var(--rule); background:var(--surface); color:var(--ink); margin-top:9px;}
+  .btn:hover{border-color:var(--fogo); color:var(--fogo);}
+  .contrato{background:var(--surface); border:1px solid var(--rule); border-radius:12px; padding:20px;
+    font-size:.86rem; color:var(--ink-2); line-height:1.7;}
+  .contrato h4{color:var(--ink); margin:14px 0 4px;}
+  .contrato h4:first-child{margin-top:0;}
+  footer{margin-top:66px; padding-top:24px; border-top:1px solid var(--rule); font-size:.84rem; color:var(--ink-2);}
+  footer ol{margin:12px 0 0; padding-left:1.4em; display:flex; flex-direction:column; gap:6px; font-size:.79rem;}
+  sup a{text-decoration:none; font-family:"Roboto Mono",monospace; font-size:.68rem;}
+</style>
+
+<div class="wrap">
+<header class="hero">
+  <span class="eyebrow">Manual de operação · Canal direto · Santarém (PA)</span>
+  <h1>Da zero aos dez mil</h1>
+  <p class="dek">Tudo que a empresa precisa para sair do nada e chegar a R$ 10.000 por mês vendendo assinatura de canal direto: a estrutura legal em duas fases, a escada de preços que fecha a conta, os 90 primeiros dias semana a semana, os textos de venda e cobrança, o contrato e os números que dizem quando acelerar ou parar.</p>
+  <div class="sumario">
+    <a href="#rota">A rota</a><a href="#legal">Estrutura legal</a><a href="#precos">Preços</a>
+    <a href="#noventa">90 dias</a><a href="#rotina">Rotina</a><a href="#scripts">Textos prontos</a>
+    <a href="#contrato">Contrato</a><a href="#metricas">Métricas</a><a href="#riscos">Riscos</a>
+  </div>
+</header>
+
+<section id="rota">
+  <div class="sec-h"><span class="eyebrow">01</span><h2>A rota até dez mil</h2></div>
+  <div class="col" style="margin-bottom:20px;">
+    <p style="color:var(--ink-2)">R$ 10.000 por mês em assinatura não é uma meta de esforço, é uma equação. Só existem três formas de chegar lá, e elas exigem empresas diferentes.</p>
+  </div>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Escada</th><th>Composição</th><th class="r">Clientes</th><th class="r">Receita</th><th>O que ela exige</th></tr></thead>
+      <tbody>
+        <tr><td><strong>A · só Essencial</strong></td><td>335 × R$ 29,90</td><td class="r">335</td><td class="r">R$ 10.017</td>
+          <td>Uma carteira enorme para uma pessoa só. Cada cliente exige atendimento; a 335 você vira central de suporte e para de vender. <strong>Não recomendada.</strong></td></tr>
+        <tr><td><strong>B · mista</strong></td><td>150 × R$ 29,90 + 60 × R$ 79,90 + avulsos</td><td class="r">210</td><td class="r">R$ 9.999</td>
+          <td>Meio-termo realista. Precisa de dois produtos vendidos em paralelo e de disciplina para empurrar upgrades.</td></tr>
+        <tr><td><strong>C · ticket alto</strong></td><td>40 × R$ 29,90 + 80 × R$ 79,90 + 15 × R$ 159,90</td><td class="r">135</td><td class="r">R$ 9.986</td>
+          <td>Menos da metade dos clientes da escada A. Exige criar o plano Gestão — relatório mensal, mudanças ilimitadas e atendimento prioritário. <strong>É a rota recomendada.</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="col stack" style="margin-top:20px;">
+    <div class="nota"><strong>Por que a escada C:</strong> o trabalho de manter um cliente de R$ 29,90 e um de R$ 159,90 é quase o mesmo — a diferença é o que você entrega junto, não quantas horas gasta. Cortar a carteira pela metade e dobrar o ticket é a única forma de uma operação de uma pessoa chegar a dez mil sem sufocar.</div>
+    <h3>Quanto tempo isso leva, com honestidade</h3>
+    <p style="color:var(--ink-2); font-size:.95rem;">A conta que importa não é quantos você fecha, é quantos você fecha <em>menos</em> quantos perde. Com 5% de cancelamento ao mês — número normal para assinatura barata — uma carteira de 135 clientes perde cerca de 7 por mês só para ficar parada.</p>
+    <div class="tw" style="margin-top:6px;">
+      <table>
+        <thead><tr><th>Ritmo de vendas</th><th class="r">Novos por mês</th><th class="r">Meses até 135 clientes</th><th>Realidade</th></tr></thead>
+        <tbody>
+          <tr><td>Devagar</td><td class="r">6</td><td class="r">nunca</td><td>O cancelamento come tudo. Abaixo de 7 por mês a carteira estaciona.</td></tr>
+          <tr><td>Constante</td><td class="r">12</td><td class="r">≈ 24</td><td>Dois anos. Funciona se a operação for barata e você tiver paciência.</td></tr>
+          <tr><td>Puxado</td><td class="r">20</td><td class="r">≈ 11</td><td>Um cliente novo a cada dia útil. Exige prospecção diária e o laço de indicação girando.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="nota perigo"><strong>O número que decide tudo é o cancelamento, não a venda.</strong> Derrubar o churn de 5% para 3% ao mês encurta a rota mais do que qualquer campanha. É por isso que a promessa de "alteração em 24 horas" está escrita na página de vendas: ela existe para o cliente sentir serviço vivo todo mês.</div>
+  </div>
+</section>
+
+<section id="legal">
+  <div class="sec-h"><span class="eyebrow">02</span><h2>A estrutura legal, em duas fases</h2></div>
+  <div class="col" style="margin-bottom:20px;">
+    <p style="color:var(--ink-2)">Esta é a parte que quase todo mundo erra ao começar — e que aqui tem uma armadilha específica: <strong>a empresa que te faz começar não é a que te leva a dez mil.</strong></p>
+  </div>
+  <div class="fases">
+    <div class="fase">
+      <span class="tag">Fase 1 · do zero a ~R$ 5.600/mês</span>
+      <span class="faixa">MEI</span>
+      <ul class="tight">
+        <li><strong>Custo:</strong> DAS mensal calculado sobre o salário mínimo (5% de INSS mais ISS de serviço), na casa de dezenas de reais. Confira o valor do ano no Portal do Empreendedor.</li>
+        <li><strong>A vantagem decisiva:</strong> MEI e empresário individual são isentos de tarifa de Pix por resolução do Banco Central. Numa assinatura de R$ 29,90, a tarifa mínima de R$ 0,50 a R$ 1,75 que uma PJ comum paga por recebimento levaria de 2% a 6% da sua receita.<sup><a href="#f3">3</a></sup></li>
+        <li><strong>Teto:</strong> R$ 81.000 por ano, ou R$ 6.750 por mês de média — inalterado desde 2019.<sup><a href="#f1">1</a></sup></li>
+        <li><strong>A armadilha:</strong> desenvolvimento de software e consultoria em TI <strong>não são permitidos ao MEI</strong>.<sup><a href="#f2">2</a></sup> A ocupação que você registrar precisa corresponder ao que você realmente vende.</li>
+      </ul>
+    </div>
+    <div class="fase">
+      <span class="tag">Fase 2 · de R$ 5.600 em diante</span>
+      <span class="faixa">ME no Simples</span>
+      <ul class="tight">
+        <li><strong>Quando abrir:</strong> assim que o MRR passar de R$ 5.600. Não espere bater o teto — abrir empresa leva semanas e o desenquadramento retroage.</li>
+        <li><strong>Anexo III ou V:</strong> serviços de tecnologia caem no Anexo V (faixa inicial em torno de 15,5%), mas migram para o Anexo III (faixa inicial em torno de 6%) quando o Fator R — folha dividida pela receita — fica em 28% ou mais. Com pró-labore bem dimensionado isso é administrável, e a diferença é enorme.</li>
+        <li><strong>Custo novo:</strong> contador mensal, algo entre R$ 200 e R$ 400 na sua região. Some isso ao seu custo fixo antes de comemorar a receita.</li>
+        <li><strong>Pix:</strong> a isenção acaba. Negocie tarifa por volume ou concentre os recebimentos.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="col stack" style="margin-top:20px;">
+    <div class="nota perigo"><strong>Leve estas duas perguntas exatas ao contador, antes de abrir qualquer coisa:</strong> (1) "Considerando que eu monto páginas de pedido e faço manutenção de conteúdo para comércios locais, qual ocupação de MEI cobre isso sem cair em desenvolvimento de software?" (2) "Com faturamento de R$ 10 mil por mês e um pró-labore, consigo Fator R acima de 28% para ficar no Anexo III?" As respostas mudam a sua conta em milhares de reais por ano — e nenhum texto na internet, este incluído, substitui a assinatura de um profissional no seu caso.</div>
+    <h3>Os limites que disparam alarme</h3>
+    <div class="tw">
+      <table>
+        <thead><tr><th>Marco</th><th class="r">Valor</th><th>O que fazer no dia em que bater</th></tr></thead>
+        <tbody>
+          <tr><td>Sinal amarelo</td><td class="r">R$ 5.600/mês</td><td>Procurar contador e iniciar a abertura da ME. O painel já mostra o percentual do teto para você não ser pego de surpresa.</td></tr>
+          <tr><td>Teto do MEI</td><td class="r">R$ 6.750/mês</td><td>Média mensal máxima. Passou disso de forma sustentada, você está fora do enquadramento.</td></tr>
+          <tr><td>Excesso tolerado</td><td class="r">até R$ 97.200/ano</td><td>Até 20% acima do teto dá para seguir até dezembro pagando DAS complementar. Acima disso o desenquadramento é imediato e retroage a janeiro.<sup><a href="#f1">1</a></sup></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="precos">
+  <div class="sec-h"><span class="eyebrow">03</span><h2>A tabela de preços e o custo real</h2></div>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Plano</th><th class="r">Preço</th><th class="r">Por dia</th><th>O que entrega</th><th>Para quem</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Essencial</strong></td><td class="r">R$ 29,90</td><td class="r">R$ 0,99</td>
+          <td>Página de pedidos, Pix, WhatsApp, alterações em 24h</td><td>Loja pequena, primeiro contato, prova social</td></tr>
+        <tr><td><strong>Pro</strong></td><td class="r">R$ 79,90</td><td class="r">R$ 2,66</td>
+          <td>Tudo do Essencial + catálogo grande, taxa por bairro, QR impresso, ajustes de sazonalidade</td><td>Restaurante com ticket alto, pousada, distribuidora</td></tr>
+        <tr><td><strong>Gestão</strong></td><td class="r">R$ 159,90</td><td class="r">R$ 5,33</td>
+          <td>Tudo do Pro + relatório mensal de pedidos, atendimento prioritário, uma campanha por mês</td><td>Quem já faturou com a página e quer mais</td></tr>
+        <tr><td>Anual (qualquer plano)</td><td class="r">10 meses</td><td class="r">—</td><td>Mesma entrega, pagamento único</td><td>Quem resiste a mensalidade recorrente</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="grid2" style="margin-top:18px;">
+    <div class="painel">
+      <h3>Custo fixo da operação</h3>
+      <div class="tw" style="margin-top:10px; border:0;">
+        <table style="min-width:0;">
+          <tbody>
+            <tr><td>Hospedagem das páginas</td><td class="r">R$ 0</td></tr>
+            <tr><td>Domínio próprio (opcional)</td><td class="r">≈ R$ 4/mês</td></tr>
+            <tr><td>Internet e celular (já existentes)</td><td class="r">R$ 0</td></tr>
+            <tr><td>DAS do MEI</td><td class="r">dezenas de reais</td></tr>
+            <tr><td>Contador (só na fase 2)</td><td class="r">R$ 200 a 400</td></tr>
+          </tbody>
+          <tfoot><tr><td>Custo para começar hoje</td><td class="r">quase zero</td></tr></tfoot>
+        </table>
+      </div>
+      <p style="font-size:.86rem; color:var(--ink-2); margin-top:12px;">É isso que sustenta o preço. Qualquer concorrente com servidor, equipe ou plataforma paga não consegue cobrar R$ 29,90 — e é por isso que essa faixa está vazia.</p>
+    </div>
+    <div class="painel">
+      <h3>As três regras de preço</h3>
+      <ul class="tight">
+        <li><strong>Nunca dê desconto no valor.</strong> Dê tempo: um mês grátis, dois meses no anual. Desconto no preço vira referência permanente e derruba a base inteira quando um cliente conta ao outro.</li>
+        <li><strong>Suba o preço só para novos.</strong> Quem entrou a R$ 29,90 fica a R$ 29,90. Preço antigo é o prêmio de quem acreditou primeiro, e é o que faz esse cliente te defender.</li>
+        <li><strong>Upgrade se vende com dado, não com oferta.</strong> "Sua página recebeu 84 pedidos no mês passado" abre a conversa do plano Gestão. Sem relatório, upgrade vira pedido de favor.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="noventa">
+  <div class="sec-h"><span class="eyebrow">04</span><h2>Os primeiros 90 dias</h2></div>
+  <div class="col" style="margin-bottom:14px;">
+    <p style="color:var(--ink-2)">Meta do trimestre: <strong>25 clientes pagantes e R$ 1.200 de receita recorrente.</strong> Parece pouco perto de dez mil — é o degrau que prova que o modelo funciona antes de você apostar tempo grande nele.</p>
+  </div>
+  <div class="col">
+    <ol class="semanas">
+      <li><div><span class="sem-t">Fundação</span><span class="sem-d">Abrir o MEI com a ocupação certa, separar uma chave Pix só do negócio, publicar a página de vendas com seus dados e montar duas páginas de demonstração com negócios reais da cidade.</span><span class="sem-m">Meta: link pronto para mandar.</span></div></li>
+      <li><div><span class="sem-t">Primeiros cinco</span><span class="sem-d">Listar 40 comércios com WhatsApp visível. Falar com 20. Fechar os cinco primeiros ao preço de entrada — inclusive dando o primeiro mês, se precisar. Você está comprando prova, não receita.</span><span class="sem-m">Meta: 5 páginas no ar.</span></div></li>
+      <li><div><span class="sem-t">Entrega impecável</span><span class="sem-d">Nenhuma venda nova. Fazer os cinco funcionarem: QR impresso no balcão, link na bio, dono treinado. Peça a cada um uma frase de depoimento e uma indicação.</span><span class="sem-m">Meta: 5 depoimentos e 5 indicações.</span></div></li>
+      <li><div><span class="sem-t">Prova em público</span><span class="sem-d">Postar os resultados reais dos cinco. Entrar em três grupos de comerciantes da cidade. A partir daqui, toda venda começa com um caso, não com um preço.</span><span class="sem-m">Meta: 10 clientes acumulados.</span></div></li>
+      <li><div><span class="sem-t">Ritmo</span><span class="sem-d">Instalar a rotina da seção 05: prospecção de manhã, entrega à tarde, cobrança na segunda-feira. Sem rotina, o mês 2 vira o mês 1 de novo.</span><span class="sem-m">Meta: 5 conversas novas por dia.</span></div></li>
+      <li><div><span class="sem-t">Primeiro upgrade</span><span class="sem-d">Levar o relatório do primeiro mês aos clientes com mais pedidos e oferecer o plano Pro. Um upgrade vale três clientes novos do Essencial.</span><span class="sem-m">Meta: 2 upgrades.</span></div></li>
+      <li><div><span class="sem-t">Segundo nicho</span><span class="sem-d">Sair de restaurante: pousada, distribuidora de água e gás, pet shop, ótica. O mesmo produto, outra dor. Um nicho novo dobra a lista de alvos sem custo.</span><span class="sem-m">Meta: 3 clientes fora de alimentação.</span></div></li>
+      <li><div><span class="sem-t">Laço girando</span><span class="sem-d">Cobrar as indicações prometidas: mensagem individual para cada cliente ativo com o link dele. Aplicar os créditos no painel na frente do cliente — ele conta isso para os outros.</span><span class="sem-m">Meta: 5 clientes vindos de indicação.</span></div></li>
+      <li><div><span class="sem-t">Primeira limpeza</span><span class="sem-d">Ligar para todo cliente que atrasou. Descobrir por quê. Cancelamento silencioso é informação perdida; cancelamento conversado ensina o que consertar.</span><span class="sem-m">Meta: churn abaixo de 5%.</span></div></li>
+      <li><div><span class="sem-t">Preço de mercado</span><span class="sem-d">Encerrar o preço de entrada. Novos clientes entram na tabela cheia. Se ninguém reclamar, você demorou demais para fazer isso.</span><span class="sem-m">Meta: 3 vendas ao preço cheio.</span></div></li>
+      <li><div><span class="sem-t">Fôlego</span><span class="sem-d">Padronizar: modelo de página, texto de entrega, checklist de publicação. Reduzir o tempo de montagem de duas horas para 30 minutos é o que permite dobrar sem contratar.</span><span class="sem-m">Meta: entrega em 30 minutos.</span></div></li>
+      <li><div><span class="sem-t">Fechamento e decisão</span><span class="sem-d">Somar tudo. 25 clientes e R$ 1.200 recorrentes? Acelere. Entre 10 e 25? O produto serve, o funil está estreito: prospecção. Menos de 10? Volte ao campo e pergunte o que faltou — o problema é o produto, não o discurso.</span><span class="sem-m">Meta: decisão tomada com número, não com sensação.</span></div></li>
+    </ol>
+  </div>
+</section>
+
+<section id="rotina">
+  <div class="sec-h"><span class="eyebrow">05</span><h2>A rotina que sustenta</h2></div>
+  <div class="grid2">
+    <div class="painel"><h3>Todo dia</h3><ul class="tight">
+      <li><strong>Manhã (1h):</strong> 5 abordagens novas. Sempre 5, mesmo em dia cheio.</li>
+      <li><strong>Tarde:</strong> entregar o que foi vendido e resolver alterações pedidas. Nada dorme para o dia seguinte.</li>
+      <li><strong>Fim do dia:</strong> registrar tudo no painel. Cliente não anotado é cliente perdido.</li>
+    </ul></div>
+    <div class="painel"><h3>Toda segunda</h3><ul class="tight">
+      <li>Abrir a aba de cobranças e disparar os Pix da semana.</li>
+      <li>Falar com quem atrasou — no segundo dia, não no décimo.</li>
+      <li>Baixar o backup. Um arquivo por semana.</li>
+    </ul></div>
+    <div class="painel"><h3>Todo dia 1º</h3><ul class="tight">
+      <li>Fechar o mês: MRR, novos, cancelados, churn.</li>
+      <li>Mandar o relatório de pedidos para os clientes do plano Gestão.</li>
+      <li>Conferir o percentual do teto do MEI.</li>
+    </ul></div>
+    <div class="painel"><h3>Todo trimestre</h3><ul class="tight">
+      <li>Revisar preço para novos clientes.</li>
+      <li>Ligar para os cinco maiores. Perguntar o que falta.</li>
+      <li>Cortar o que não deu resultado — inclusive nicho e canal.</li>
+    </ul></div>
+  </div>
+</section>
+
+<section id="scripts">
+  <div class="sec-h"><span class="eyebrow">06</span><h2>Os textos que fazem o trabalho</h2></div>
+  <div class="col stack-lg">
+    <div>
+      <h3>Primeira abordagem</h3>
+      <div class="script" id="s1">Oi, tudo bem? Sou [seu nome], moro aqui em Santarém.
+
+Montei uma página de pedidos pro [nome de um cliente seu] e ele começou a receber pedido direto no WhatsApp, com o Pix já calculado, sem pagar comissão de aplicativo.
+
+Fiz uma de exemplo com a cara do seu negócio, dá uma olhada: [link]
+
+Se fizer sentido, eu deixo a sua pronta hoje. Custa menos de um real por dia.</div>
+      <button class="btn" data-copia="s1">Copiar</button>
+    </div>
+    <div>
+      <h3>Quando dizem "vou pensar"</h3>
+      <div class="script" id="s2">Tranquilo! Só pra você pensar com o número na mão:
+
+Se você faz uns [X] pedidos por mês a [Y] reais, a comissão do aplicativo leva mais ou menos [Z] reais todo mês. A assinatura custa R$ 29,90 e se paga com [N] pedidos.
+
+Deixo a página pronta e você só me paga se gostar do resultado no primeiro mês. Pode ser?</div>
+      <button class="btn" data-copia="s2">Copiar</button>
+    </div>
+    <div>
+      <h3>Cobrança de quem atrasou (dia 2, nunca dia 10)</h3>
+      <div class="script" id="s3">Oi [nome]! Tudo certo por aí?
+
+Sua assinatura venceu ontem — é R$ [valor]. Segue o Pix pra facilitar:
+
+[código pix]
+
+Se estiver apertado esse mês, me fala que a gente combina outra data. Sua página continua no ar.</div>
+      <button class="btn" data-copia="s3">Copiar</button>
+    </div>
+    <div>
+      <h3>Pedido de indicação (depois do primeiro resultado)</h3>
+      <div class="script" id="s4">[nome], sua página fechou [N] pedidos no mês passado. 
+
+Tenho um pedido: você conhece algum comerciante aqui que reclama da comissão do aplicativo? Se ele assinar pelo seu link, você ganha um mês grátis.
+
+Seu link é este: [link com o código]</div>
+      <button class="btn" data-copia="s4">Copiar</button>
+    </div>
+    <div>
+      <h3>Reativação de quem cancelou (30 dias depois)</h3>
+      <div class="script" id="s5">Oi [nome], tudo bem?
+
+Sua página saiu do ar mês passado. Guardei ela do jeitinho que estava, com os preços e tudo.
+
+Se quiser religar, é só me avisar — volta no ar hoje mesmo e o primeiro mês fica por minha conta.</div>
+      <button class="btn" data-copia="s5">Copiar</button>
+    </div>
+    <div class="nota"><strong>Regra dos textos:</strong> mensagem que parece recado de vizinho converte; mensagem que parece anúncio é ignorada. Nunca mande em massa, nunca comece com "Prezado cliente", nunca use link encurtado — em cidade pequena, isso cheira a golpe.</div>
+  </div>
+</section>
+
+<section id="contrato">
+  <div class="sec-h"><span class="eyebrow">07</span><h2>Contrato, cancelamento e dados</h2></div>
+  <div class="col stack">
+    <p style="color:var(--ink-2)">Um contrato de assinatura barata cabe numa mensagem. O que ele precisa é ser claro, estar registrado e ser o mesmo para todo mundo. Mande este texto no WhatsApp junto com a primeira cobrança e peça um "de acordo" — mensagem aceita vale como prova.</p>
+    <div class="contrato" id="contrato-txt">
+      <h4>Termo de assinatura — [nome da sua empresa], CNPJ [número]</h4>
+      <p><strong>1. O que eu entrego.</strong> Uma página de pedidos publicada na internet, com o catálogo, os preços e o contato do contratante, geração de cobrança por Pix na chave do próprio contratante e envio do pedido para o WhatsApp dele. Alterações de conteúdo solicitadas por escrito são atendidas em até 24 horas úteis.</p>
+      <p><strong>2. O que eu não faço.</strong> Não processo, não recebo nem guardo o dinheiro das vendas do contratante: o Pix é gerado na chave dele e cai direto na conta dele. Não garanto volume de vendas nem posição em buscadores.</p>
+      <p><strong>3. Preço e pagamento.</strong> R$ [valor] por mês, com vencimento todo dia [dia], pago por Pix. O preço contratado não muda enquanto a assinatura estiver ativa.</p>
+      <p><strong>4. Atraso.</strong> Após 10 dias de atraso a página pode ser suspensa, voltando ao ar assim que o pagamento for confirmado. Nada é apagado por atraso.</p>
+      <p><strong>5. Cancelamento.</strong> A qualquer momento, por mensagem, sem multa e sem aviso prévio. O serviço segue até o fim do período já pago. Não há devolução proporcional de período em curso.</p>
+      <p><strong>6. Dados.</strong> Uso os dados do contratante apenas para prestar este serviço e emitir cobrança. Não vendo nem compartilho com terceiros. O contratante pode pedir correção ou exclusão dos dados a qualquer momento, e a página não coleta dados dos clientes finais dele — o pedido vai direto para o WhatsApp dele.</p>
+      <p><strong>7. Encerramento.</strong> Cancelada a assinatura, o conteúdo da página é entregue ao contratante em arquivo, se ele pedir, em até 7 dias.</p>
+    </div>
+    <button class="btn" data-copia="contrato-txt">Copiar contrato</button>
+    <div class="nota perigo"><strong>Este é um modelo, não um contrato revisado.</strong> Ele cobre o essencial de uma assinatura simples e foi escrito para ser entendido pelo cliente, mas quem assina o risco é você: leve-o a um advogado antes de usar em escala, principalmente quando passar da fase 1. E cumpra o que está escrito — o item mais perigoso de qualquer contrato é o prazo de 24 horas que você prometeu e não consegue manter.</div>
+    <h3>Nota fiscal</h3>
+    <p style="color:var(--ink-2); font-size:.95rem;">MEI não é obrigado a emitir nota para pessoa física, mas é obrigado quando o cliente é pessoa jurídica — e todo comércio que você vai atender é. Emita a nota de serviço pela prefeitura desde o primeiro cliente: começar informal e regularizar depois custa mais caro do que fazer certo desde o começo, e nota emitida é o que transforma a sua carteira em algo que pode ser vendido ou financiado um dia.</p>
+  </div>
+</section>
+
+<section id="metricas">
+  <div class="sec-h"><span class="eyebrow">08</span><h2>Os cinco números que você olha</h2></div>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Número</th><th>Como calcular</th><th class="r">Meta</th><th>Quando acender o alerta</th></tr></thead>
+      <tbody>
+        <tr><td><strong>MRR</strong></td><td>Soma das mensalidades ativas</td><td class="r">R$ 10.000</td><td>Cresceu menos de 8% no mês: a prospecção parou.</td></tr>
+        <tr><td><strong>Churn mensal</strong></td><td>Cancelados ÷ ativos no início do mês</td><td class="r">abaixo de 5%</td><td>Passou de 7% dois meses seguidos: pare de vender e conserte a entrega.</td></tr>
+        <tr><td><strong>Ticket médio</strong></td><td>MRR ÷ clientes ativos</td><td class="r">R$ 74</td><td>Caindo: você está vendendo só Essencial e a rota vira a escada A.</td></tr>
+        <tr><td><strong>Taxa de indicação</strong></td><td>Clientes que vieram por indicação ÷ novos do mês</td><td class="r">acima de 30%</td><td>Abaixo de 15%: o laço não está girando, cobre as indicações uma a uma.</td></tr>
+        <tr><td><strong>Inadimplência</strong></td><td>Valor vencido não pago ÷ previsto do mês</td><td class="r">abaixo de 8%</td><td>Acima de 15%: sua cobrança está tardia, não seu cliente ruim.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="col" style="margin-top:16px;">
+    <div class="nota bom"><strong>Os cinco estão no painel</strong>, calculados sozinhos a partir dos clientes que você cadastrar. Olhe uma vez por semana, na segunda de manhã, antes de qualquer outra coisa. Cinco minutos.</div>
+  </div>
+</section>
+
+<section id="riscos">
+  <div class="sec-h"><span class="eyebrow">09</span><h2>O que pode quebrar esse negócio</h2></div>
+  <div class="col">
+    <ul class="tight">
+      <li><strong>A 99Food ou a Keeta chegarem a Santarém com comissão zero.</strong> É o risco maior: se a comissão do aplicativo cair para perto de zero, seu argumento principal evapora. Defesa: vender serviço e presença, não só economia — a página é o canal do cliente, e canal próprio vale mesmo quando a comissão é baixa.</li>
+      <li><strong>Você virar suporte e parar de vender.</strong> Acontece por volta do cliente 60. Defesa: padronizar a entrega até 30 minutos por página e concentrar o atendimento em duas janelas fixas por dia.</li>
+      <li><strong>Um concorrente copiar o preço.</strong> Vai acontecer — o produto é simples. Defesa: a carteira e a relação, não a tecnologia. Quem tem 100 clientes atendidos em 24 horas não é copiado por preço.</li>
+      <li><strong>Prometer 24 horas e não cumprir.</strong> A promessa que vende é a mesma que cancela. Se a fila crescer, avise antes — atraso avisado é aceito, atraso silencioso vira cancelamento.</li>
+      <li><strong>Crescer para fora do MEI sem perceber.</strong> Desenquadramento retroativo a janeiro é multa e susto. Defesa: o indicador de teto no painel e a decisão em R$ 5.600.</li>
+      <li><strong>Depender de um só nicho.</strong> Se você só atende restaurante, uma crise no setor derruba a carteira inteira. Defesa: o terceiro mês já leva você para pousada, distribuidora e serviço.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <span class="eyebrow">Fontes e ressalvas</span>
+  <ol>
+    <li id="f1">Limite do MEI em R$ 81.000 por ano em 2026, regra dos 20% de excesso e desenquadramento retroativo: <a href="https://www.infinitepay.io/blog/limite-faturamento-mei-2026">InfinitePay</a> · <a href="https://simplifique.contmatic.com.br/blogs/mei-2026-limite-faturamento-o-que-muda">Simplifique/Contmatic</a></li>
+    <li id="f2">Vedação de desenvolvimento de software e consultoria em TI ao MEI, e consulta oficial de ocupações no Portal do Empreendedor: <a href="https://www.meucontadoronline.com.br/blog/mei-em-ti-atividades-permitidas-riscos-fiscais/">Meu Contador Online</a> · <a href="https://www.contabilizei.com.br/contabilidade-online/atividades-mei-tabela/">Contabilizei</a></li>
+    <li id="f3">Tarifas de Pix para pessoa jurídica (0,89% a 1,45%, com mínimos fixos de R$ 0,50 a R$ 1,75) e isenção para MEI e empresário individual: <a href="https://sejaefi.com.br/blog/qual-custo-do-pix">Efí</a> · <a href="https://www.nuvemshop.com.br/blog/pix-pessoa-juridica/">Nuvemshop</a></li>
+    <li id="f4">Anexos e Fator R do Simples Nacional: <a href="https://contabilidade.com/blog/tabela-simples-nacional-2026-completa-cnae-anexo-fator-r-e-aliquotas-atualizadas/">Tabela do Simples Nacional</a>. As faixas citadas são de referência — confirme a sua com o contador antes de decidir a estrutura.</li>
+  </ol>
+  <p style="margin-top:16px; color:var(--ink-3); font-size:.8rem;">Documento de trabalho, não parecer contábil ou jurídico. Valores de escada, churn e prazos são modelos com premissas declaradas; a estrutura societária e tributária deve ser confirmada com um contador antes de qualquer decisão.</p>
+</footer>
+</div>
+
+<script>
+document.querySelectorAll('[data-copia]').forEach(function(b){
+  b.addEventListener('click',function(){
+    var el=document.getElementById(b.getAttribute('data-copia'));
+    var txt=el.innerText;
+    var ok=function(){ var o=b.textContent; b.textContent='Copiado'; setTimeout(function(){ b.textContent=o; },1800); };
+    var falha=function(){
+      var ta=document.createElement('textarea'); ta.value=txt; ta.style.position='fixed'; ta.style.opacity='0';
+      document.body.appendChild(ta); ta.select();
+      try{ document.execCommand('copy'); ok(); }catch(e){ b.textContent='Selecione e copie'; }
+      document.body.removeChild(ta);
+    };
+    if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(ok,falha);
+    else falha();
+  });
+});
+</script>
