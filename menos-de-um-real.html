@@ -1,0 +1,547 @@
+<title>Menos de Um Real</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Instrument+Sans:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+<style>
+  :root{
+    --paper:#FAF8F5; --surface:#FFFFFF; --sunken:#F1EDE7; --field:#FFFFFF;
+    --ink:#14110F; --ink-2:#4A4340; --ink-3:#7C736D; --rule:#E3DCD3;
+    --fogo:#C9421C; --fogo-2:#E05427; --fogo-wash:#FBEBE4;
+    --verde:#13674A; --verde-wash:#E4F0EA;
+    --shadow:0 1px 2px rgba(20,17,15,.05), 0 12px 30px -20px rgba(20,17,15,.55);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#100E0D; --surface:#1A1614; --sunken:#141110; --field:#221D1A;
+      --ink:#F6F1EB; --ink-2:#BCB1A8; --ink-3:#8C8079; --rule:#2F2825;
+      --fogo:#FF7B4F; --fogo-2:#FF9670; --fogo-wash:#2B1811;
+      --verde:#57C295; --verde-wash:#12241D;
+      --shadow:0 1px 2px rgba(0,0,0,.5), 0 16px 36px -22px rgba(0,0,0,.95);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#100E0D; --surface:#1A1614; --sunken:#141110; --field:#221D1A;
+    --ink:#F6F1EB; --ink-2:#BCB1A8; --ink-3:#8C8079; --rule:#2F2825;
+    --fogo:#FF7B4F; --fogo-2:#FF9670; --fogo-wash:#2B1811;
+    --verde:#57C295; --verde-wash:#12241D;
+    --shadow:0 1px 2px rgba(0,0,0,.5), 0 16px 36px -22px rgba(0,0,0,.95);
+  }
+
+  body{background:var(--paper); color:var(--ink);
+    font-family:"Instrument Sans",system-ui,-apple-system,sans-serif; font-size:16px; line-height:1.6;
+    -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:960px; margin:0 auto; padding:0 22px 90px;}
+  .col{max-width:60ch;}
+  h1,h2,.display,.big{font-family:Anton,"Arial Narrow",Impact,sans-serif; font-weight:400;
+    letter-spacing:.005em; text-transform:uppercase; line-height:.92; text-wrap:balance;}
+  h3{font-size:1.05rem; font-weight:700; letter-spacing:-.01em;}
+  h1{font-size:clamp(2.6rem,8vw,4.6rem);}
+  h2{font-size:clamp(1.7rem,4vw,2.5rem);}
+  p{margin:0;} a{color:var(--fogo);}
+  :focus-visible{outline:2px solid var(--fogo); outline-offset:3px; border-radius:5px;}
+  .mono{font-family:"Roboto Mono",ui-monospace,Menlo,monospace;}
+  .eyebrow{font-size:.68rem; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-3); font-weight:600;}
+  .num{font-variant-numeric:tabular-nums;}
+
+  /* faixa de indicação */
+  .ref-banner{background:var(--verde-wash); border-bottom:1px solid var(--rule); padding:11px 22px;
+    text-align:center; font-size:.87rem; color:var(--verde); font-weight:600;}
+
+  header.hero{padding:60px 0 44px;}
+  .hero-top{display:flex; align-items:center; gap:10px; margin-bottom:22px;}
+  .moeda{width:26px; height:26px; border-radius:50%; background:var(--fogo); flex:none;
+    display:grid; place-items:center; color:var(--paper); font-size:.72rem; font-weight:700;
+    font-family:"Instrument Sans",sans-serif;}
+  h1 em{font-style:normal; color:var(--fogo); display:block;}
+  .hero p.sub{font-size:1.12rem; color:var(--ink-2); max-width:52ch; margin-top:20px;}
+  .preco-hero{display:flex; align-items:flex-end; gap:14px; margin:30px 0 8px; flex-wrap:wrap;}
+  .preco-hero .big{font-size:clamp(3.4rem,11vw,6rem); color:var(--fogo); line-height:.8;}
+  .preco-hero .por{font-size:.95rem; color:var(--ink-2); padding-bottom:8px; max-width:22ch;}
+  .cta-row{display:flex; flex-wrap:wrap; gap:10px; margin-top:26px;}
+  .btn{font:inherit; font-weight:700; font-size:.95rem; cursor:pointer; border-radius:10px;
+    padding:14px 24px; border:1.5px solid var(--ink); background:transparent; color:var(--ink);
+    text-decoration:none; display:inline-flex; align-items:center; gap:8px;}
+  .btn.principal{background:var(--fogo); border-color:var(--fogo); color:#fff;}
+  .btn.principal:hover{background:var(--fogo-2); border-color:var(--fogo-2);}
+  .btn:hover{border-color:var(--fogo); color:var(--fogo);}
+  .btn.principal:hover{color:#fff;}
+  .btn.mini{padding:8px 14px; font-size:.82rem; border-radius:8px;}
+
+  section{padding-top:56px;}
+  .sec-h{display:flex; align-items:baseline; gap:12px; margin-bottom:8px;}
+  .sec-sub{color:var(--ink-2); max-width:56ch; margin-bottom:26px;}
+
+  .card{background:var(--surface); border:1px solid var(--rule); border-radius:16px; box-shadow:var(--shadow);}
+  .card-b{padding:24px;}
+
+  /* calculadora */
+  .calc{display:grid; grid-template-columns:1fr 1fr; gap:26px;}
+  @media (max-width:760px){ .calc{grid-template-columns:1fr;} }
+  .sliders{display:flex; flex-direction:column; gap:22px;}
+  .slider label{display:flex; justify-content:space-between; align-items:baseline; gap:12px;
+    font-size:.82rem; font-weight:600; color:var(--ink-2); margin-bottom:8px;}
+  .slider label b{font-family:Anton,sans-serif; font-weight:400; font-size:1.5rem; color:var(--ink); letter-spacing:.01em;}
+  input[type=range]{width:100%; accent-color:var(--fogo); height:22px;}
+  .saida{display:flex; flex-direction:column; gap:12px;}
+  .stat{border:1px solid var(--rule); border-radius:12px; padding:14px 16px; background:var(--sunken);
+    display:flex; flex-direction:column;}
+  .stat .k{font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-3); font-weight:600;}
+  .stat .v{font-family:Anton,sans-serif; font-size:2rem; line-height:1.05; margin-top:2px;}
+  .stat.destaque{background:var(--verde-wash); border-color:color-mix(in srgb,var(--verde) 35%,transparent);}
+  .stat.destaque .v{color:var(--verde);}
+  .stat .n{font-size:.78rem; color:var(--ink-2); margin-top:3px;}
+  .alerta{background:var(--fogo-wash); border-left:3px solid var(--fogo); border-radius:0 9px 9px 0;
+    padding:12px 15px; font-size:.86rem; color:var(--ink-2);}
+  .alerta strong{color:var(--ink);}
+
+  /* entregáveis */
+  .itens{display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:14px;}
+  .item{display:flex; gap:12px; align-items:flex-start; padding:16px; background:var(--surface);
+    border:1px solid var(--rule); border-radius:12px;}
+  .item .tick{width:22px; height:22px; border-radius:50%; background:var(--fogo-wash); color:var(--fogo);
+    display:grid; place-items:center; font-size:.78rem; font-weight:700; flex:none; margin-top:1px;}
+  .item p{font-size:.88rem; color:var(--ink-2); margin-top:2px;}
+  .item h3{font-size:.95rem;}
+
+  /* planos */
+  .planos{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  @media (max-width:700px){ .planos{grid-template-columns:1fr;} }
+  .plano{padding:24px; border:1.5px solid var(--rule); border-radius:16px; background:var(--surface);
+    display:flex; flex-direction:column; gap:12px; cursor:pointer;}
+  .plano[aria-pressed="true"]{border-color:var(--fogo); box-shadow:0 0 0 3px var(--fogo-wash);}
+  .plano .tag{font-size:.68rem; letter-spacing:.14em; text-transform:uppercase; font-weight:700; color:var(--fogo);}
+  .plano .val{font-family:Anton,sans-serif; font-size:2.7rem; line-height:.95;}
+  .plano .dia{font-size:.9rem; color:var(--ink-2);}
+  .plano ul{margin:0; padding-left:1.1em; font-size:.86rem; color:var(--ink-2); display:flex; flex-direction:column; gap:5px;}
+
+  /* pix */
+  .pix-grid{display:grid; grid-template-columns:1fr 240px; gap:24px; align-items:start;}
+  @media (max-width:700px){ .pix-grid{grid-template-columns:1fr;} }
+  .pix-code{font-family:"Roboto Mono",monospace; font-size:.68rem; line-height:1.45; word-break:break-all;
+    background:var(--sunken); border:1px solid var(--rule); border-radius:10px; padding:12px;
+    color:var(--ink-2); max-height:130px; overflow-y:auto;}
+  .qr-wrap{display:flex; flex-direction:column; align-items:center; gap:10px; padding:18px;
+    background:var(--surface); border:1px solid var(--rule); border-radius:14px;}
+  .qr-wrap canvas{background:#fff; border-radius:10px; padding:8px; max-width:100%; height:auto;}
+  .status{font-size:.82rem; font-weight:600; margin-top:10px;}
+  .status.ok{color:var(--verde);} .status.err{color:var(--fogo);}
+
+  /* indicação */
+  .kit{display:grid; grid-template-columns:1fr 1fr; gap:20px;}
+  @media (max-width:760px){ .kit{grid-template-columns:1fr;} }
+  input[type=text],input[type=number],textarea{font:inherit; font-size:.92rem; color:var(--ink);
+    background:var(--field); border:1px solid var(--rule); border-radius:9px; padding:10px 12px; width:100%;}
+  textarea{min-height:120px; resize:vertical; line-height:1.5; font-size:.88rem;}
+  .campo{display:flex; flex-direction:column; gap:6px; font-size:.8rem; font-weight:600; color:var(--ink-2);}
+  .hint{font-size:.75rem; font-weight:400; color:var(--ink-3); line-height:1.45;}
+  .link-box{font-family:"Roboto Mono",monospace; font-size:.76rem; background:var(--sunken);
+    border:1px solid var(--rule); border-radius:9px; padding:10px 12px; word-break:break-all; color:var(--ink-2);}
+
+  /* fluxo viral */
+  .fluxo{display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:14px; counter-reset:f;}
+  .passo{counter-increment:f; padding:18px; background:var(--surface); border:1px solid var(--rule);
+    border-radius:12px; position:relative;}
+  .passo::before{content:counter(f); font-family:Anton,sans-serif; font-size:1.5rem; color:var(--fogo);
+    display:block; line-height:1; margin-bottom:8px;}
+  .passo h3{font-size:.92rem; margin-bottom:4px;}
+  .passo p{font-size:.85rem; color:var(--ink-2);}
+
+  details#dono{margin-top:60px; border:1px dashed var(--rule); border-radius:14px; background:var(--sunken);}
+  details#dono summary{padding:16px 20px; cursor:pointer; font-weight:700; font-size:.92rem;}
+  details#dono .d-body{padding:0 20px 22px; display:flex; flex-direction:column; gap:14px;}
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+  @media (max-width:600px){ .grid2{grid-template-columns:1fr;} }
+
+  footer{margin-top:60px; padding-top:22px; border-top:1px solid var(--rule);
+    font-size:.8rem; color:var(--ink-3); display:flex; flex-direction:column; gap:8px;}
+  .legal{font-size:.78rem; color:var(--ink-3); line-height:1.5;}
+  [hidden]{display:none !important;}
+</style>
+
+<script id="cfg" type="application/json">
+{"marca":"Loja Direta","cidade":"SANTAREM","chave":"sua-chave-pix@exemplo.com","recebedor":"Seu Nome Completo",
+ "whats":"5593999990000","mensal":29.90,"anual":299.00,"entrega":8,"comissao":26.5}
+</script>
+
+<div class="ref-banner" id="ref-banner" hidden></div>
+
+<div class="wrap">
+
+<header class="hero">
+  <div class="hero-top">
+    <span class="moeda">R$</span>
+    <span class="eyebrow" id="marca-topo">Loja Direta · Santarém, PA</span>
+  </div>
+  <h1>Sua loja vendendo direto<em>por menos de um real por dia</em></h1>
+  <p class="sub">Cardápio ou catálogo próprio, com pedido calculado, Pix na hora e a venda caindo no seu WhatsApp. Sem comissão por pedido, sem taxa de plataforma, sem contrato de fidelidade.</p>
+  <div class="preco-hero">
+    <span class="big" id="preco-dia">R$ 0,99</span>
+    <span class="por">por dia, no plano mensal.<br/>Menos que um café — e cabe no caixa de qualquer loja.</span>
+  </div>
+  <div class="cta-row">
+    <a class="btn principal" href="#assinar">Assinar agora</a>
+    <a class="btn" href="#calculadora">Ver quanto eu economizo</a>
+  </div>
+</header>
+
+<section id="calculadora">
+  <div class="sec-h"><h2>Faça a sua conta</h2></div>
+  <p class="sec-sub">Mexa nos dois controles com os números da sua loja. A comissão usada é a do plano de entrega das plataformas: 26,5% somando comissão e taxa de pagamento.</p>
+  <div class="card"><div class="card-b">
+    <div class="calc">
+      <div class="sliders">
+        <div class="slider">
+          <label for="s-pedidos">Pedidos por mês <b class="num" id="v-pedidos">300</b></label>
+          <input type="range" id="s-pedidos" min="30" max="900" step="10" value="300"/>
+        </div>
+        <div class="slider">
+          <label for="s-ticket">Ticket médio <b class="num" id="v-ticket">R$ 60</b></label>
+          <input type="range" id="s-ticket" min="20" max="150" step="5" value="60"/>
+        </div>
+        <div class="stat">
+          <span class="k">Seu faturamento em delivery</span>
+          <span class="v num" id="o-fat">R$ 18.000</span>
+          <span class="n">por mês</span>
+        </div>
+        <div class="alerta" id="o-alerta" hidden></div>
+      </div>
+      <div class="saida">
+        <div class="stat">
+          <span class="k">Comissão que você paga hoje</span>
+          <span class="v num" id="o-comissao">R$ 4.770</span>
+          <span class="n">por mês, só de plataforma</span>
+        </div>
+        <div class="stat">
+          <span class="k">Custo do mesmo volume no canal próprio</span>
+          <span class="v num" id="o-proprio">R$ 2.400</span>
+          <span class="n" id="o-proprio-n">entrega própria a R$ 8 por pedido</span>
+        </div>
+        <div class="stat destaque">
+          <span class="k">Sobra a mais no seu caixa</span>
+          <span class="v num" id="o-economia">R$ 2.370</span>
+          <span class="n" id="o-ano">R$ 28.440 por ano</span>
+        </div>
+        <div class="stat">
+          <span class="k">A assinatura se paga com</span>
+          <span class="v num" id="o-breakeven">4 pedidos</span>
+          <span class="n">por mês. O resto do mês é lucro seu.</span>
+        </div>
+      </div>
+    </div>
+  </div></div>
+</section>
+
+<section id="inclui">
+  <div class="sec-h"><h2>O que entra</h2></div>
+  <p class="sec-sub">Tudo isso pelo mesmo valor. Sem cobrança por pedido, sem percentual sobre a venda, sem taxa de instalação escondida.</p>
+  <div class="itens">
+    <div class="item"><span class="tick">✓</span><div><h3>Sua página de pedidos</h3><p>Catálogo com fotos e preços, carrinho, taxa por bairro e cálculo do total. Abre em qualquer celular.</p></div></div>
+    <div class="item"><span class="tick">✓</span><div><h3>Pix gerado no pedido</h3><p>Código copia e cola e QR Code no valor exato, direto na sua chave. O dinheiro cai na sua conta, não na nossa.</p></div></div>
+    <div class="item"><span class="tick">✓</span><div><h3>Pedido pronto no WhatsApp</h3><p>O cliente aperta um botão e a mensagem chega organizada: itens, endereço, total e forma de pagamento.</p></div></div>
+    <div class="item"><span class="tick">✓</span><div><h3>Alterações quando precisar</h3><p>Mudou preço, entrou item novo, acabou o estoque: a gente altera em até 24 horas, quantas vezes for.</p></div></div>
+    <div class="item"><span class="tick">✓</span><div><h3>Link e QR para imprimir</h3><p>Para colar na porta, no balcão, na embalagem e na bio do Instagram. O cliente que já é seu volta sem passar por app.</p></div></div>
+    <div class="item"><span class="tick">✓</span><div><h3>Zero mensalidade de servidor</h3><p>A página é um arquivo só, em hospedagem gratuita. É por isso que a assinatura cabe em R$ 0,99 por dia.</p></div></div>
+  </div>
+</section>
+
+<section id="assinar">
+  <div class="sec-h"><h2>Escolha o plano</h2></div>
+  <p class="sec-sub">Pague no Pix, sem cartão e sem fidelidade. Cancelou, para no fim do período — a página continua sua até o último dia pago.</p>
+  <div class="planos">
+    <div class="plano" id="p-mensal" role="button" tabindex="0" aria-pressed="true">
+      <span class="tag">Mensal</span>
+      <span class="val num" id="t-mensal">R$ 29,90</span>
+      <span class="dia num" id="t-mensal-dia">R$ 0,99 por dia</span>
+      <ul><li>Sem fidelidade, cancela quando quiser</li><li>Alterações ilimitadas</li><li>Começa a valer no mesmo dia</li></ul>
+    </div>
+    <div class="plano" id="p-anual" role="button" tabindex="0" aria-pressed="false">
+      <span class="tag">Anual · dois meses grátis</span>
+      <span class="val num" id="t-anual">R$ 299,00</span>
+      <span class="dia num" id="t-anual-dia">R$ 0,81 por dia</span>
+      <ul><li>Paga uma vez, esquece o ano inteiro</li><li>Alterações ilimitadas</li><li>Prioridade na fila de mudanças</li></ul>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:20px;"><div class="card-b">
+    <div class="pix-grid">
+      <div>
+        <span class="eyebrow">Pagamento por Pix</span>
+        <h3 style="margin:6px 0 12px;">Copie o código e pague no app do seu banco</h3>
+        <div class="pix-code" id="pix-code">Gerando…</div>
+        <div class="cta-row" style="margin-top:14px;">
+          <button class="btn principal mini" id="b-copiar">Copiar código Pix</button>
+          <a class="btn mini" id="b-whats" href="#" target="_blank" rel="noopener">Falar no WhatsApp</a>
+        </div>
+        <p class="status" id="pix-status" hidden></p>
+        <p class="hint" style="margin-top:14px;">Depois de pagar, mande o comprovante no WhatsApp com o nome da sua loja. A página fica pronta no mesmo dia.</p>
+      </div>
+      <div class="qr-wrap">
+        <span class="eyebrow">QR Code</span>
+        <canvas id="pix-qr" width="200" height="200"></canvas>
+        <span class="hint" style="text-align:center;">Confira o valor e o nome do recebedor no app do banco antes de confirmar.</span>
+      </div>
+    </div>
+  </div></div>
+</section>
+
+<section id="indique">
+  <div class="sec-h"><h2>Indique e não pague</h2></div>
+  <p class="sec-sub">Cada loja que assinar pelo seu link te dá <strong>um mês grátis</strong>. Três indicações, três meses. Não é dinheiro, é tempo de assinatura — e é por isso que funciona sem nenhuma complicação legal.</p>
+
+  <div class="fluxo" style="margin-bottom:22px;">
+    <div class="passo"><h3>Você assina</h3><p>Paga o Pix e recebe sua página no mesmo dia.</p></div>
+    <div class="passo"><h3>Seu link nasce</h3><p>Pegue seu código aqui embaixo e o link sai pronto com ele.</p></div>
+    <div class="passo"><h3>Manda pro grupo</h3><p>Grupo de comerciantes, vizinho de rua, fornecedor. Texto pronto abaixo.</p></div>
+    <div class="passo"><h3>Ganha um mês</h3><p>Cada assinatura pelo seu link soma 30 dias na sua conta.</p></div>
+  </div>
+
+  <div class="card"><div class="card-b">
+    <div class="kit">
+      <div style="display:flex; flex-direction:column; gap:14px;">
+        <label class="campo">Seu código de indicação
+          <input type="text" id="i-codigo" maxlength="16" placeholder="Ex.: MARIA93"/>
+          <span class="hint">Use algo curto e fácil de falar. Ele viaja no link e entra no Pix de quem assinar, então dá para conferir quem indicou quem.</span>
+        </label>
+        <div>
+          <span class="eyebrow">Seu link</span>
+          <div class="link-box" id="i-link" style="margin-top:6px;">Digite seu código acima</div>
+        </div>
+        <div class="cta-row">
+          <button class="btn mini" id="b-link">Copiar link</button>
+          <button class="btn mini" id="b-texto">Copiar mensagem</button>
+        </div>
+        <p class="status" id="i-status" hidden></p>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:8px;">
+        <span class="eyebrow">Mensagem pronta para o WhatsApp</span>
+        <textarea id="i-texto" readonly></textarea>
+        <p class="hint">Edite à vontade antes de mandar. Mensagem que parece recado de vizinho converte mais que anúncio.</p>
+      </div>
+    </div>
+  </div></div>
+</section>
+
+<section id="duvidas">
+  <div class="sec-h"><h2>O que perguntam antes de assinar</h2></div>
+  <div class="col" style="display:flex; flex-direction:column; gap:16px; max-width:64ch;">
+    <div><h3>Vou ter que sair do iFood?</h3><p style="color:var(--ink-2); font-size:.93rem;">Não, e não recomendamos. O aplicativo traz cliente novo; sua página segura o cliente que já é seu. Quem descobriu você no app e voltou pela sua página é onde está o ganho — ali a comissão é zero.</p></div>
+    <div><h3>E se eu não entender de tecnologia?</h3><p style="color:var(--ink-2); font-size:.93rem;">Você não precisa mexer em nada. Manda a lista de itens e os preços no WhatsApp; a página volta pronta. Mudança também é por mensagem.</p></div>
+    <div><h3>O dinheiro passa por vocês?</h3><p style="color:var(--ink-2); font-size:.93rem;">Nunca. O Pix da sua venda é gerado direto na sua chave e cai na sua conta. A assinatura é a única coisa que você paga — e é este valor aqui.</p></div>
+    <div><h3>Por que tão barato?</h3><p style="color:var(--ink-2); font-size:.93rem;">Porque a página é um arquivo estático em hospedagem gratuita: não há servidor, banco de dados nem assinatura de plataforma por trás. O custo é o nosso trabalho, e ele se paga no volume.</p></div>
+    <div><h3>A indicação me paga em dinheiro?</h3><p style="color:var(--ink-2); font-size:.93rem;">Não. Indicação dá tempo de assinatura, nunca dinheiro por trazer gente. Programa que paga para recrutar é pirâmide, é crime no Brasil e pega quem divulga também. Aqui você ganha mês grátis, e só quando a loja indicada realmente assina.</p></div>
+  </div>
+</section>
+
+<details id="dono">
+  <summary>⚙ Painel do dono — configure antes de publicar (esta seção não vai para a página do cliente)</summary>
+  <div class="d-body">
+    <p class="hint">Preencha com os seus dados, confira a página acima mudando ao vivo e clique em copiar. O HTML sai com tudo embutido e sem este painel. Publique em GitHub Pages, Netlify Drop ou Cloudflare Pages.</p>
+    <div class="grid2">
+      <label class="campo">Nome do seu serviço<input type="text" id="c-marca"/></label>
+      <label class="campo">Cidade<input type="text" id="c-cidade"/></label>
+      <label class="campo">Sua chave Pix<input type="text" id="c-chave"/></label>
+      <label class="campo">Nome do recebedor<input type="text" id="c-recebedor" maxlength="25"/></label>
+      <label class="campo">Seu WhatsApp<input type="text" id="c-whats"/><span class="hint">Só números, com 55 e DDD</span></label>
+      <label class="campo">Preço mensal (R$)<input type="number" id="c-mensal" step="0.10" min="0"/></label>
+      <label class="campo">Preço anual (R$)<input type="number" id="c-anual" step="1" min="0"/></label>
+      <label class="campo">Custo de entrega usado na calculadora (R$)<input type="number" id="c-entrega" step="0.5" min="0"/></label>
+    </div>
+    <div class="cta-row">
+      <button class="btn principal mini" id="b-exportar">Copiar HTML configurado</button>
+    </div>
+    <p class="status" id="c-status" hidden></p>
+    <p class="hint"><strong>Antes de vender:</strong> abra MEI para receber Pix sem tarifa — pessoa jurídica comum paga de R$ 0,50 a R$ 1,75 fixos por recebimento, o que inviabiliza preço baixo. Emita nota, informe o cancelamento em uma linha e cumpra as alterações em 24 horas: a assinatura barata só sobrevive com renovação alta.</p>
+  </div>
+</details>
+
+<footer>
+  <span id="rodape-marca">Loja Direta · Santarém, PA</span>
+  <span class="legal">Assinatura de serviço digital. Não é investimento, não promete rendimento e não paga por indicação em dinheiro — indicação concede tempo de assinatura. Cancele quando quiser pelo WhatsApp.</span>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var $=function(id){ return document.getElementById(id); };
+  var CFG=JSON.parse($('cfg').textContent);
+  var porDia=function(v){ return BRL(Math.floor(v*100)/100); };
+  var BRL=function(v,casas){ return v.toLocaleString('pt-BR',{style:'currency',currency:'BRL',
+    minimumFractionDigits:casas===undefined?2:casas, maximumFractionDigits:casas===undefined?2:casas}); };
+
+  /* ---------- Pix: padrão EMV do Banco Central ---------- */
+  function strip(s){ return String(s).normalize('NFD').replace(/[\u0300-\u036f]/g,''); }
+  function emv(id,v){ v=String(v); var l=String(v.length); if(l.length<2) l='0'+l; return id+l+v; }
+  function crc16(s){
+    var crc=0xFFFF;
+    for(var i=0;i<s.length;i++){
+      crc^=(s.charCodeAt(i)&0xFF)<<8;
+      for(var j=0;j<8;j++){ crc=(crc&0x8000)?((crc<<1)^0x1021)&0xFFFF:(crc<<1)&0xFFFF; }
+    }
+    var h=crc.toString(16).toUpperCase(); while(h.length<4) h='0'+h; return h;
+  }
+  function pix(valor,txid){
+    var p=emv('00','01')+emv('01','12')
+      +emv('26', emv('00','BR.GOV.BCB.PIX')+emv('01', String(CFG.chave).trim()))
+      +emv('52','0000')+emv('53','986');
+    if(valor>0) p+=emv('54', Number(valor).toFixed(2));
+    p+=emv('58','BR')
+      +emv('59', strip(CFG.recebedor).toUpperCase().slice(0,25))
+      +emv('60', strip(CFG.cidade).toUpperCase().slice(0,15))
+      +emv('62', emv('05', (txid||'***').replace(/[^A-Za-z0-9]/g,'').slice(0,25)||'***'))
+      +'6304';
+    return p+crc16(p);
+  }
+
+  function copiar(txt, alvo, ok){
+    var mostra=function(t,c){ if(!alvo) return; alvo.hidden=false; alvo.textContent=t;
+      alvo.className='status '+c; setTimeout(function(){ alvo.hidden=true; },2600); };
+    var falha=function(){
+      var ta=document.createElement('textarea'); ta.value=txt;
+      ta.style.position='fixed'; ta.style.top='0'; ta.style.opacity='0';
+      document.body.appendChild(ta); ta.focus(); ta.select();
+      var f=false; try{ f=document.execCommand('copy'); }catch(e){ f=false; }
+      document.body.removeChild(ta);
+      mostra(f?ok:'Não deu para copiar — selecione o texto e copie à mão.', f?'ok':'err');
+    };
+    if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(function(){ mostra(ok,'ok'); }, falha);
+    else falha();
+  }
+
+  /* ---------- indicação recebida ---------- */
+  var indicador='';
+  try{
+    var m=/[?&]i=([A-Za-z0-9]{1,16})/.exec(window.location.search);
+    if(m) indicador=m[1].toUpperCase();
+  }catch(e){}
+  if(indicador){
+    var b=$('ref-banner'); b.hidden=false;
+    b.textContent='Você chegou pela indicação de '+indicador+'. Assinando por aqui, '+indicador+' ganha um mês grátis.';
+  }
+
+  /* ---------- planos ---------- */
+  var plano='mensal';
+  function precos(){
+    $('t-mensal').textContent=BRL(CFG.mensal);
+    $('t-anual').textContent=BRL(CFG.anual);
+    $('t-mensal-dia').textContent=porDia(CFG.mensal/30)+' por dia';
+    $('t-anual-dia').textContent=porDia(CFG.anual/365)+' por dia';
+    $('preco-dia').textContent=porDia(CFG.mensal/30);
+    $('marca-topo').textContent=CFG.marca+' · '+CFG.cidade;
+    $('rodape-marca').textContent=CFG.marca+' · '+CFG.cidade;
+  }
+  function selecionar(p){
+    plano=p;
+    $('p-mensal').setAttribute('aria-pressed', p==='mensal'?'true':'false');
+    $('p-anual').setAttribute('aria-pressed', p==='anual'?'true':'false');
+    gerarPix();
+  }
+  ['mensal','anual'].forEach(function(p){
+    var el=$('p-'+p);
+    el.addEventListener('click',function(){ selecionar(p); });
+    el.addEventListener('keydown',function(e){ if(e.key===' '||e.key==='Enter'){ e.preventDefault(); selecionar(p); } });
+  });
+
+  /* ---------- pix da assinatura ---------- */
+  var qr=null;
+  function gerarPix(){
+    var valor = plano==='mensal' ? CFG.mensal : CFG.anual;
+    var txid = (indicador? 'IND'+indicador : 'DIRETO') + (plano==='anual'?'A':'M');
+    if(!CFG.chave || !CFG.recebedor){ $('pix-code').textContent='Configure a chave Pix no painel do dono.'; return; }
+    var code=pix(valor,txid);
+    $('pix-code').textContent=code;
+    if(window.QRious){
+      try{ qr = qr || new QRious({element:$('pix-qr'), size:200, level:'M'}); qr.value=code; $('pix-qr').hidden=false; }
+      catch(e){ $('pix-qr').hidden=true; }
+    } else { $('pix-qr').hidden=true; }
+    var msg='Olá! Quero assinar o plano '+(plano==='mensal'?'mensal':'anual')+' ('+BRL(valor)+').'
+      + (indicador? '\nIndicação: '+indicador : '')
+      + '\n\nMinha loja: ';
+    $('b-whats').href='https://wa.me/'+String(CFG.whats).replace(/\D/g,'')+'?text='+encodeURIComponent(msg);
+  }
+  $('b-copiar').addEventListener('click',function(){
+    copiar($('pix-code').textContent, $('pix-status'), 'Código Pix copiado. Cole no app do seu banco.');
+  });
+
+  /* ---------- calculadora ---------- */
+  function calcular(){
+    var P=Number($('s-pedidos').value), T=Number($('s-ticket').value);
+    var taxa=CFG.comissao/100, ent=CFG.entrega;
+    var fat=P*T, comissao=fat*taxa, proprio=P*ent, econ=comissao-proprio;
+    $('v-pedidos').textContent=P;
+    $('v-ticket').textContent=BRL(T,0);
+    $('o-fat').textContent=BRL(fat,0);
+    $('o-comissao').textContent=BRL(comissao,0);
+    $('o-proprio').textContent=BRL(proprio,0);
+    $('o-proprio-n').textContent='entrega própria a '+BRL(ent,0)+' por pedido';
+    $('o-economia').textContent=BRL(Math.max(econ,0),0);
+    $('o-ano').textContent=BRL(Math.max(econ,0)*12,0)+' por ano';
+
+    var porPedido=T*taxa-ent, alerta=$('o-alerta');
+    if(porPedido<=0){
+      var minimo=ent/taxa;
+      $('o-breakeven').textContent='—';
+      alerta.hidden=false;
+      alerta.innerHTML='<strong>Com ticket de '+BRL(T,0)+', a conta não fecha pela entrega.</strong> Abaixo de '+BRL(minimo,0)+
+        ' de ticket, pagar motoboy custa mais que a comissão da plataforma. Aqui o ganho vem dos pedidos de retirada e dos clientes que já são seus — ou de subir o ticket com combo.';
+    } else {
+      alerta.hidden=true;
+      var n=Math.ceil(CFG.mensal/porPedido);
+      $('o-breakeven').textContent=n+(n>1?' pedidos':' pedido');
+    }
+  }
+  ['s-pedidos','s-ticket'].forEach(function(id){ $(id).addEventListener('input',calcular); });
+
+  /* ---------- kit de indicação ---------- */
+  function baseUrl(){
+    try{ return window.location.origin+window.location.pathname; }catch(e){ return ''; }
+  }
+  function kit(){
+    var c=$('i-codigo').value.replace(/[^A-Za-z0-9]/g,'').toUpperCase().slice(0,16);
+    $('i-codigo').value=c;
+    var link=c ? baseUrl()+'?i='+c : '';
+    $('i-link').textContent = link || 'Digite seu código acima';
+    $('i-texto').value = c
+      ? 'Fala! Comecei a receber pedido direto no WhatsApp, com Pix já calculado, sem pagar comissão de aplicativo.\n\n'
+        + 'Custa menos de um real por dia. Sério.\n\n'
+        + 'Se quiser ver como ficou, é por aqui: ' + link + '\n\n'
+        + 'Se você assinar por esse link eu ganho um mês, então me ajuda também.'
+      : 'Digite seu código de indicação para gerar a mensagem.';
+  }
+  $('i-codigo').addEventListener('input',kit);
+  $('b-link').addEventListener('click',function(){
+    var c=$('i-codigo').value; if(!c){ $('i-codigo').focus(); return; }
+    copiar($('i-link').textContent, $('i-status'), 'Link copiado.');
+  });
+  $('b-texto').addEventListener('click',function(){
+    var c=$('i-codigo').value; if(!c){ $('i-codigo').focus(); return; }
+    copiar($('i-texto').value, $('i-status'), 'Mensagem copiada. Cole no grupo.');
+  });
+
+  /* ---------- painel do dono ---------- */
+  var campos={marca:'c-marca',cidade:'c-cidade',chave:'c-chave',recebedor:'c-recebedor',
+              whats:'c-whats',mensal:'c-mensal',anual:'c-anual',entrega:'c-entrega'};
+  Object.keys(campos).forEach(function(k){
+    var el=$(campos[k]); el.value=CFG[k];
+    el.addEventListener('input',function(){
+      CFG[k] = (k==='mensal'||k==='anual'||k==='entrega') ? (Number(el.value)||0) : el.value;
+      precos(); calcular(); gerarPix();
+    });
+  });
+  $('b-exportar').addEventListener('click',function(){
+    var doc=document.documentElement.cloneNode(true);
+    var cfgEl=doc.querySelector('#cfg'); if(cfgEl) cfgEl.textContent=JSON.stringify(CFG,null,1);
+    var painel=doc.querySelector('#dono'); if(painel) painel.remove();
+    var banner=doc.querySelector('#ref-banner'); if(banner){ banner.hidden=true; banner.textContent=''; }
+    var head=doc.querySelector('head'), body=doc.querySelector('body');
+    var html='<!doctype html>\n<html lang="pt-BR">\n<head>\n'
+      + (head?head.innerHTML:'')
+      + '\n</head>\n<body>\n' + (body?body.innerHTML:doc.innerHTML) + '\n</body>\n</html>';
+    copiar(html, $('c-status'), 'HTML copiado. Salve como index.html e publique.');
+  });
+
+  precos(); calcular(); gerarPix(); kit();
+})();
+</script>
