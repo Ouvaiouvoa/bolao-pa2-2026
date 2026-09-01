@@ -1,0 +1,831 @@
+<title>Reserva Direta Tapajós</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+<style>
+  :root{
+    --ground:#F4F7F6; --surface:#FFFFFF; --sunken:#EAF0EE; --field:#FFFFFF;
+    --ink:#0D1A18; --ink-2:#42544F; --ink-3:#6E817D; --rule:#D2DCD9;
+    --agua:#0B5D57; --agua-2:#0E7A72; --agua-wash:#E1EEEB;
+    --barro:#9C5F24; --barro-wash:#F5EADD;
+    --ok:#2E6B4E; --alerta:#A8412C;
+    --shadow:0 1px 2px rgba(13,26,24,.06), 0 10px 28px -20px rgba(13,26,24,.5);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ground:#0A1312; --surface:#101C1A; --sunken:#0D1817; --field:#162422;
+      --ink:#E9F1EF; --ink-2:#A7B9B5; --ink-3:#7C8E8A; --rule:#213230;
+      --agua:#5AC9BB; --agua-2:#84DCCF; --agua-wash:#122C29;
+      --barro:#D9A35F; --barro-wash:#2A2119;
+      --ok:#79C79C; --alerta:#E58B72;
+      --shadow:0 1px 2px rgba(0,0,0,.45), 0 14px 34px -22px rgba(0,0,0,.9);
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#0A1312; --surface:#101C1A; --sunken:#0D1817; --field:#162422;
+    --ink:#E9F1EF; --ink-2:#A7B9B5; --ink-3:#7C8E8A; --rule:#213230;
+    --agua:#5AC9BB; --agua-2:#84DCCF; --agua-wash:#122C29;
+    --barro:#D9A35F; --barro-wash:#2A2119;
+    --ok:#79C79C; --alerta:#E58B72;
+    --shadow:0 1px 2px rgba(0,0,0,.45), 0 14px 34px -22px rgba(0,0,0,.9);
+  }
+
+  body{background:var(--ground); color:var(--ink);
+    font-family:Archivo,"Helvetica Neue",Arial,sans-serif; font-size:15px; line-height:1.55;
+    -webkit-font-smoothing:antialiased;}
+  .mono{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;}
+  .wrap{max-width:1240px; margin:0 auto; padding:0 20px 80px;}
+  h1,h2,h3{letter-spacing:-.018em; text-wrap:balance;}
+  h1{font-size:clamp(1.6rem,3.4vw,2.15rem); font-weight:700; line-height:1.08;}
+  h2{font-size:1.18rem; font-weight:700; line-height:1.2;}
+  h3{font-size:.95rem; font-weight:600;}
+  p{margin:0;} a{color:var(--agua);}
+  :focus-visible{outline:2px solid var(--agua-2); outline-offset:2px; border-radius:4px;}
+  .eyebrow{font-family:"IBM Plex Mono",monospace; font-size:.66rem; letter-spacing:.16em;
+    text-transform:uppercase; color:var(--ink-3);}
+
+  header.top{padding:34px 0 22px; display:flex; flex-direction:column; gap:14px;}
+  .rio{height:6px; border-radius:99px; background:linear-gradient(90deg,var(--agua) 0 48%, var(--barro) 52% 100%);}
+  .top p.dek{color:var(--ink-2); max-width:70ch; font-size:.98rem;}
+
+  /* ABAS */
+  .tabs{display:flex; gap:4px; padding:4px; background:var(--sunken); border:1px solid var(--rule);
+    border-radius:10px; margin:22px 0 26px; width:fit-content; max-width:100%; overflow-x:auto;}
+  .tabs button{font:inherit; font-weight:600; font-size:.88rem; color:var(--ink-2); background:transparent;
+    border:0; padding:9px 16px; border-radius:7px; cursor:pointer; white-space:nowrap;}
+  .tabs button[aria-selected="true"]{background:var(--surface); color:var(--ink); box-shadow:var(--shadow);}
+  .tabs button:hover:not([aria-selected="true"]){color:var(--ink);}
+
+  /* PAINEL 1: GERADOR */
+  .split{display:grid; grid-template-columns:minmax(320px,420px) 1fr; gap:24px; align-items:start;}
+  @media (max-width:900px){ .split{grid-template-columns:1fr;} }
+  .card{background:var(--surface); border:1px solid var(--rule); border-radius:12px; box-shadow:var(--shadow);}
+  .card > .card-h{padding:14px 18px; border-bottom:1px solid var(--rule); display:flex; align-items:center;
+    justify-content:space-between; gap:12px;}
+  .card > .card-b{padding:18px;}
+  fieldset{border:0; padding:0; margin:0 0 20px; display:flex; flex-direction:column; gap:12px;}
+  fieldset:last-of-type{margin-bottom:0;}
+  legend{font-family:"IBM Plex Mono",monospace; font-size:.66rem; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--ink-3); padding:0 0 8px; width:100%; border-bottom:1px solid var(--rule); margin-bottom:4px;}
+  label{display:flex; flex-direction:column; gap:5px; font-size:.8rem; font-weight:600; color:var(--ink-2);}
+  input,textarea,select{font:inherit; font-size:.9rem; color:var(--ink); background:var(--field);
+    border:1px solid var(--rule); border-radius:7px; padding:8px 10px; width:100%; font-weight:400;}
+  input:focus,textarea:focus{border-color:var(--agua);}
+  textarea{resize:vertical; min-height:64px; line-height:1.5;}
+  .row{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+  .hint{font-size:.72rem; font-weight:400; color:var(--ink-3); line-height:1.4;}
+  .quarto{border:1px solid var(--rule); border-radius:9px; padding:12px; display:flex; flex-direction:column;
+    gap:9px; background:var(--sunken);}
+  .quarto-h{display:flex; justify-content:space-between; align-items:center;}
+  .quarto-h span{font-family:"IBM Plex Mono",monospace; font-size:.68rem; color:var(--ink-3); letter-spacing:.08em;}
+
+  button.btn{font:inherit; font-weight:600; font-size:.85rem; cursor:pointer; border-radius:8px;
+    padding:9px 15px; border:1px solid var(--rule); background:var(--surface); color:var(--ink);
+    display:inline-flex; align-items:center; gap:7px;}
+  button.btn:hover{border-color:var(--agua);}
+  button.btn.primary{background:var(--agua); border-color:var(--agua); color:var(--ground);}
+  button.btn.primary:hover{background:var(--agua-2); border-color:var(--agua-2);}
+  button.btn.ghost{background:transparent;}
+  button.btn.mini{padding:5px 10px; font-size:.76rem;}
+  .actions{display:flex; flex-wrap:wrap; gap:8px;}
+
+  .preview-shell{position:sticky; top:16px;}
+  .device{background:var(--sunken); border:1px solid var(--rule); border-radius:12px; padding:14px;
+    display:flex; justify-content:center;}
+  iframe.pv{width:100%; max-width:420px; height:640px; border:1px solid var(--rule); border-radius:10px;
+    background:#fff; display:block;}
+  iframe.pv.wide{max-width:100%; height:700px;}
+  .code-area{width:100%; min-height:260px; font-family:"IBM Plex Mono",monospace; font-size:.72rem;
+    line-height:1.45; background:var(--sunken);}
+
+  /* PAINEL 2: COBRANÇA */
+  .charge{display:grid; grid-template-columns:1fr 300px; gap:24px; align-items:start;}
+  @media (max-width:820px){ .charge{grid-template-columns:1fr;} }
+  .qr-box{display:flex; flex-direction:column; align-items:center; gap:12px; padding:20px;
+    background:var(--surface); border:1px solid var(--rule); border-radius:12px; box-shadow:var(--shadow);}
+  .qr-box canvas{background:#fff; border-radius:8px; padding:8px; max-width:100%; height:auto;}
+  .pix-code{width:100%; font-family:"IBM Plex Mono",monospace; font-size:.68rem; line-height:1.4;
+    word-break:break-all; background:var(--sunken); border:1px solid var(--rule); border-radius:8px;
+    padding:10px; color:var(--ink-2); max-height:120px; overflow-y:auto;}
+  .status{font-size:.78rem; font-weight:600;}
+  .status.ok{color:var(--ok);} .status.err{color:var(--alerta);}
+
+  /* PAINEL 3: PLAYBOOK */
+  .doc{max-width:74ch; display:flex; flex-direction:column; gap:22px;}
+  .doc p{color:var(--ink-2);}
+  .steps{display:flex; flex-direction:column; counter-reset:s;}
+  .steps li{counter-increment:s; list-style:none; display:grid; grid-template-columns:46px 1fr; gap:14px;
+    padding:15px 0; border-bottom:1px solid var(--rule);}
+  .steps li:last-child{border-bottom:0;}
+  .steps li::before{content:counter(s,decimal-leading-zero); font-family:"IBM Plex Mono",monospace;
+    font-size:.78rem; color:var(--agua); padding-top:2px;}
+  .steps strong{display:block; margin-bottom:2px;}
+  .steps span{font-size:.9rem; color:var(--ink-2);}
+  .tw{overflow-x:auto; border:1px solid var(--rule); border-radius:10px; background:var(--surface);}
+  table{border-collapse:collapse; width:100%; font-size:.86rem; min-width:520px;}
+  th,td{text-align:left; padding:10px 13px; border-bottom:1px solid var(--rule); vertical-align:top;}
+  th{font-family:"IBM Plex Mono",monospace; font-size:.64rem; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--ink-3); background:var(--sunken); font-weight:500;}
+  tbody tr:last-child td{border-bottom:0;}
+  td.num{font-variant-numeric:tabular-nums; text-align:right; white-space:nowrap; font-weight:600;}
+  .script-box{background:var(--sunken); border:1px solid var(--rule); border-left:3px solid var(--agua);
+    border-radius:0 9px 9px 0; padding:14px 16px; font-size:.88rem; color:var(--ink-2); white-space:pre-wrap;}
+  .note{border-left:3px solid var(--barro); background:var(--barro-wash); padding:13px 16px;
+    border-radius:0 8px 8px 0; font-size:.88rem; color:var(--ink-2);}
+  .note strong{color:var(--ink);}
+  ul.tight{margin:0; padding-left:1.1em; display:flex; flex-direction:column; gap:6px; font-size:.9rem; color:var(--ink-2);}
+  ul.tight strong{color:var(--ink);}
+  [hidden]{display:none !important;}
+</style>
+
+<div class="wrap">
+<header class="top">
+  <div class="rio" aria-hidden="true"></div>
+  <span class="eyebrow">Produto D2 · Canal direto do trade turístico · Alter do Chão</span>
+  <h1>Reserva Direta Tapajós</h1>
+  <p class="dek">Ferramenta pronta para operar. Você preenche os dados da pousada, gera a página de reserva direta dela com Pix e WhatsApp embutidos, entrega em minutos e cobra o setup na hora — pelo Pix que esta mesma página gera. Sem servidor, sem conta em plataforma, sem custo fixo.</p>
+</header>
+
+<div class="tabs" role="tablist">
+  <button role="tab" id="t1" aria-selected="true" aria-controls="p1">1 · Gerar a página do cliente</button>
+  <button role="tab" id="t2" aria-selected="false" aria-controls="p2">2 · Cobrar o setup hoje</button>
+  <button role="tab" id="t3" aria-selected="false" aria-controls="p3">3 · Playbook de venda</button>
+</div>
+
+<!-- ============ PAINEL 1 ============ -->
+<div id="p1" role="tabpanel" aria-labelledby="t1">
+<div class="split">
+
+  <form class="card" id="form" autocomplete="off">
+    <div class="card-h"><h2>Dados do cliente</h2><button type="button" class="btn mini ghost" id="reset">Limpar</button></div>
+    <div class="card-b">
+
+      <fieldset>
+        <legend>A pousada</legend>
+        <label>Nome
+          <input id="f-nome" value="Pousada Maré do Tapajós"/>
+          <span class="hint">Exemplo fictício — troque pelos dados reais do cliente antes de entregar.</span>
+        </label>
+        <label>Localização
+          <input id="f-cidade" value="Vila de Alter do Chão · Santarém, PA"/>
+        </label>
+        <label>Chamada da página
+          <textarea id="f-chamada">Cinco quartos a duzentos metros da Ilha do Amor. Reserve direto com a gente, sem taxa de plataforma.</textarea>
+        </label>
+        <label>WhatsApp que recebe a reserva
+          <input id="f-fone" value="5593999990000"/>
+          <span class="hint">Só números, com 55 e DDD. Ex.: 5593999990000</span>
+        </label>
+        <label>Foto de capa (URL)
+          <input id="f-foto" placeholder="https://..." value=""/>
+          <span class="hint">Opcional. Não aparece na pré-visualização daqui, mas funciona na página publicada. Sem foto, a capa usa o degradê do rio.</span>
+        </label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Acomodações e diárias</legend>
+        <div id="quartos"></div>
+        <button type="button" class="btn mini" id="add-quarto">+ Adicionar acomodação</button>
+      </fieldset>
+
+      <fieldset>
+        <legend>Pix da pousada (sinal da reserva)</legend>
+        <label>Chave Pix
+          <input id="f-chave" value="chave-pix-do-cliente@exemplo.com"/>
+          <span class="hint">E-mail, CPF/CNPJ só com números, telefone com +55 ou chave aleatória.</span>
+        </label>
+        <div class="row">
+          <label>Nome do recebedor
+            <input id="f-recebedor" value="Pousada Mare do Tapajos" maxlength="25"/>
+          </label>
+          <label>Cidade
+            <input id="f-pixcidade" value="SANTAREM" maxlength="15"/>
+          </label>
+        </div>
+        <label>Sinal para confirmar a reserva (%)
+          <input id="f-sinal" type="number" min="0" max="100" step="5" value="30"/>
+          <span class="hint">0 = sem sinal; a página só manda a reserva pelo WhatsApp.</span>
+        </label>
+      </fieldset>
+
+      <div class="actions">
+        <button type="button" class="btn primary" id="copy-html">Copiar HTML da página</button>
+        <button type="button" class="btn" id="toggle-code">Ver código</button>
+        <button type="button" class="btn ghost" id="toggle-wide">Ver em tela larga</button>
+      </div>
+      <p class="status" id="copy-status" hidden></p>
+    </div>
+  </form>
+
+  <div class="preview-shell">
+    <div class="card">
+      <div class="card-h">
+        <h2>A página que o cliente recebe</h2>
+        <span class="eyebrow" id="pv-label">pré-visualização ao vivo</span>
+      </div>
+      <div class="card-b">
+        <div class="device"><iframe class="pv" id="pv" title="Pré-visualização da página de reserva"></iframe></div>
+        <div id="code-wrap" hidden style="margin-top:14px;">
+          <label style="gap:7px;">HTML gerado — salve como <span class="mono">index.html</span> e publique
+            <textarea class="code-area mono" id="code" readonly></textarea>
+            <span class="hint">Publique em GitHub Pages, Netlify Drop ou Cloudflare Pages. Todos aceitam um arquivo solto e são gratuitos. Leva menos de cinco minutos.</span>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- ============ PAINEL 2 ============ -->
+<div id="p2" role="tabpanel" aria-labelledby="t2" hidden>
+<div class="charge">
+  <div class="card">
+    <div class="card-h"><h2>Cobrança do seu serviço</h2><span class="eyebrow">pix do operador</span></div>
+    <div class="card-b">
+      <p style="color:var(--ink-2); font-size:.92rem; margin-bottom:18px;">Mesma tecnologia da página do cliente, virada para você. Preencha sua chave, o valor combinado e mande o código junto com a página pronta. É esta a primeira receita.</p>
+      <fieldset>
+        <legend>Seus dados de recebimento</legend>
+        <label>Sua chave Pix
+          <input id="c-chave" placeholder="e-mail, CPF só números, +55DDDNUMERO ou chave aleatória"/>
+        </label>
+        <div class="row">
+          <label>Seu nome (como aparece no Pix)
+            <input id="c-nome" placeholder="Nome Sobrenome" maxlength="25"/>
+          </label>
+          <label>Sua cidade
+            <input id="c-cidade" value="SANTAREM" maxlength="15"/>
+          </label>
+        </div>
+        <div class="row">
+          <label>Valor (R$)
+            <input id="c-valor" type="number" min="0" step="1" value="397"/>
+          </label>
+          <label>Identificador da cobrança
+            <input id="c-txid" value="SETUP001" maxlength="25"/>
+            <span class="hint">Só letras e números. Ajuda a saber de quem veio o Pix.</span>
+          </label>
+        </div>
+      </fieldset>
+      <div class="actions">
+        <button type="button" class="btn primary" id="c-gerar">Gerar cobrança</button>
+        <button type="button" class="btn" id="c-copiar">Copiar código Pix</button>
+      </div>
+      <p class="status" id="c-status" hidden></p>
+      <div style="margin-top:18px;">
+        <span class="eyebrow">Pix copia e cola</span>
+        <div class="pix-code mono" id="c-code">Preencha a chave e o valor, depois clique em gerar.</div>
+      </div>
+    </div>
+  </div>
+  <div class="qr-box">
+    <span class="eyebrow">QR Code</span>
+    <canvas id="c-qr" width="220" height="220"></canvas>
+    <p class="hint" style="text-align:center;">Padrão EMV do Banco Central, gerado no seu navegador. Nada é enviado para lugar nenhum — confira o valor no app do banco antes de mandar para o cliente.</p>
+  </div>
+</div>
+</div>
+
+<!-- ============ PAINEL 3 ============ -->
+<div id="p3" role="tabpanel" aria-labelledby="t3" hidden>
+<div class="doc">
+
+  <div>
+    <span class="eyebrow">A tese em uma frase</span>
+    <h2 style="margin:6px 0 10px;">Você não vende site. Vende reserva sem comissão, na temporada em que o dinheiro entra.</h2>
+    <p>Uma pousada de Alter do Chão que fecha dez diárias por mês numa OTA paga entre 15% e 20% de comissão. Com diária média na faixa de R$ 75 a R$ 110 relatada para a vila, isso é da ordem de R$ 150 a R$ 220 por mês indo embora — todo mês, sem contraparte. O seu serviço custa menos que isso e devolve o canal. É a conta que abre a conversa.</p>
+  </div>
+
+  <div>
+    <span class="eyebrow">Preço</span>
+    <div class="tw" style="margin-top:8px;">
+      <table>
+        <thead><tr><th>Formato</th><th>Setup</th><th>Mensal</th><th>Quando usar</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Entrada</strong></td><td class="num">R$ 297</td><td class="num">R$ 97</td><td>Pousada pequena, primeira venda, prova social. Aceite este preço para os três primeiros clientes.</td></tr>
+          <tr><td><strong>Padrão</strong></td><td class="num">R$ 497</td><td class="num">R$ 147</td><td>Pousada com 5+ quartos ou receptivo com passeios. Inclui ajustes de fotos e preços na temporada.</td></tr>
+          <tr><td><strong>Temporada</strong></td><td class="num">R$ 897</td><td class="num">—</td><td>Pacote fechado de setembro a dezembro, pago uma vez. Bom para quem resiste a mensalidade.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="hint" style="margin-top:8px;">Preços de partida, não verdade de mercado: são a hipótese a testar nos cinco primeiros contatos. Se três dos cinco fecharem sem hesitar, está barato.</p>
+  </div>
+
+  <div>
+    <span class="eyebrow">O dia de hoje, em ordem</span>
+    <ol class="steps" style="margin:8px 0 0; padding:0;">
+      <li><div><strong>Monte duas páginas de demonstração agora</strong><span>Uma pousada e um receptivo de passeio, com preço e foto plausíveis. Publique as duas no Netlify Drop ou GitHub Pages. Você precisa de link, não de conversa.</span></div></li>
+      <li><div><strong>Liste 20 alvos com WhatsApp visível</strong><span>Pousadas e receptivos de Alter do Chão que anunciam no Instagram ou em OTA. Priorize quem não tem site próprio e responde rápido — dá para checar em minutos.</span></div></li>
+      <li><div><strong>Mande a demo, não o orçamento</strong><span>Use o roteiro abaixo. A página pronta na tela do dono vale mais do que qualquer apresentação. Objetivo do primeiro contato: uma resposta, não uma venda.</span></div></li>
+      <li><div><strong>Feche com a página do próprio cliente já feita</strong><span>Quando alguém demonstrar interesse, gere a página dele em quinze minutos com os dados reais, mande o link e só então o preço. Fecha muito mais quando já existe.</span></div></li>
+      <li><div><strong>Cobre na aba 2 e publique</strong><span>Gere o Pix do setup, mande QR e código. Pix cai na hora. Assim que cair, publique no domínio dele ou no subdomínio gratuito e mande o link final.</span></div></li>
+      <li><div><strong>Amarre a recorrência no mesmo dia</strong><span>Combine o que a mensalidade cobre: mudança de preço na virada da temporada, novas fotos, novos quartos, relatório de quantas reservas chegaram. Sem entrega mensal clara, o mensal cai no segundo mês.</span></div></li>
+    </ol>
+  </div>
+
+  <div>
+    <span class="eyebrow">Roteiro de primeiro contato</span>
+    <div class="script-box mono" id="pitch">Oi, tudo bem? Sou [seu nome], moro aqui em Santarém e trabalho com página de reserva direta para pousada.
+
+Fiz uma de demonstração pra você ver como fica: [link]
+
+É uma página com seus quartos e preços, onde o hóspede escolhe as datas, o sistema já calcula o total, gera o Pix do sinal e cai direto no seu WhatsApp com tudo preenchido. Sem comissão de plataforma, sem mensalidade de site.
+
+Se quiser, monto com as suas fotos e seus preços e te mando pronta hoje ainda. Posso?</div>
+    <div class="actions" style="margin-top:10px;">
+      <button type="button" class="btn mini" id="copy-pitch">Copiar roteiro</button>
+    </div>
+  </div>
+
+  <div>
+    <span class="eyebrow">As três objeções que vão aparecer</span>
+    <ul class="tight" style="margin-top:8px;">
+      <li><strong>"Já tenho Instagram."</strong> Instagram não fecha reserva nem calcula o sinal — ele leva para o direct, onde a pessoa desiste. A página vive no link da bio e devolve a conversa já com data, quarto e valor definidos.</li>
+      <li><strong>"E se eu quiser mudar o preço?"</strong> Está na mensalidade: mudança de preço em até 24 horas, quantas vezes precisar na temporada. Se a pessoa recusar o mensal, venda o pacote de temporada.</li>
+      <li><strong>"Quanto custa por mês de hospedagem?"</strong> Zero. A página é um arquivo só, roda em hospedagem gratuita, não tem banco de dados nem assinatura. É por isso que o seu preço fecha.</li>
+    </ul>
+  </div>
+
+  <div class="note"><strong>O limite honesto deste produto:</strong> ele não controla disponibilidade real — duas pessoas podem pedir a mesma data e quem confirma é o dono, no WhatsApp. Para pousada de até 8 quartos isso é irrelevante e vira até vantagem, porque mantém o contato humano. Acima disso, o cliente vai pedir calendário de verdade, e aí você cobra um plano maior ou integra com um motor de reservas existente. Diga isso na venda: promessa que não se cumpre em setembro vira cancelamento em novembro.</div>
+
+  <div>
+    <span class="eyebrow">Como saber se funcionou, em 30 dias</span>
+    <ul class="tight" style="margin-top:8px;">
+      <li><strong>5 clientes pagantes</strong> em 30 dias com o preço de entrada — sinal verde, suba para o preço padrão.</li>
+      <li><strong>2 a 4 clientes</strong> — o produto serve, o funil está estreito. Problema de prospecção, não de oferta.</li>
+      <li><strong>0 a 1 cliente</strong> — pare de vender e vá até a vila. Pergunte a cinco donos como as reservas chegam hoje. A resposta muda o produto, não o discurso.</li>
+      <li><strong>Métrica que vale mais que a receita:</strong> quantas reservas chegaram pela página do cliente. Um dono que recebeu três reservas por ela renova sem discutir e traz o vizinho.</li>
+    </ul>
+  </div>
+
+</div>
+</div>
+
+</div>
+
+<!-- ============ TEMPLATE DA PÁGINA GERADA ============ -->
+<template id="tpl">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --areia:#FBF6EE; --areia-2:#F2E9DA; --card:#FFFFFF;
+    --tinta:#1A1512; --tinta-2:#5C534A; --tinta-3:#8A7F73;
+    --agua:#0C6B62; --agua-2:#0E857A; --sol:#C97A2B; --linha:#E3D8C6;
+  }
+  body{background:var(--areia); color:var(--tinta); font-family:Karla,system-ui,sans-serif;
+    font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased}
+  h1,h2,h3{font-family:Fraunces,Georgia,serif; font-weight:600; letter-spacing:-.01em; text-wrap:balance}
+  .cap{position:relative; padding:56px 22px 44px; color:#fff; overflow:hidden;
+    background:linear-gradient(160deg,#0B4F49 0%,#0C6B62 45%,#1E8C7E 100%)}
+  .cap.foto{background-size:cover; background-position:center}
+  .cap::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,42,38,.30),rgba(8,42,38,.75))}
+  .cap > *{position:relative; z-index:1}
+  .cap .loc{font-size:.72rem; letter-spacing:.16em; text-transform:uppercase; opacity:.85; margin-bottom:12px}
+  .cap h1{font-size:clamp(2rem,7vw,2.9rem); line-height:1.05; margin-bottom:14px}
+  .cap p{font-size:1.02rem; max-width:34ch; opacity:.94}
+  .cta{display:inline-flex; margin-top:22px; background:#fff; color:var(--agua); font-weight:700;
+    font-size:.92rem; padding:12px 22px; border-radius:99px; text-decoration:none}
+  main{max-width:640px; margin:0 auto; padding:0 22px 60px}
+  section{padding-top:38px}
+  .eyebrow{font-size:.68rem; letter-spacing:.16em; text-transform:uppercase; color:var(--tinta-3); display:block; margin-bottom:10px}
+  h2{font-size:1.35rem; margin-bottom:16px}
+  .quartos{display:flex; flex-direction:column; gap:12px}
+  .q{background:var(--card); border:1px solid var(--linha); border-radius:14px; padding:16px 18px;
+    display:flex; justify-content:space-between; gap:16px; align-items:flex-start}
+  .q h3{font-size:1.05rem; margin-bottom:3px}
+  .q p{font-size:.88rem; color:var(--tinta-2)}
+  .q .preco{text-align:right; white-space:nowrap}
+  .q .preco b{font-family:Fraunces,serif; font-size:1.15rem; color:var(--agua); display:block}
+  .q .preco span{font-size:.7rem; color:var(--tinta-3)}
+  .box{background:var(--card); border:1px solid var(--linha); border-radius:16px; padding:20px}
+  .campos{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+  label{display:flex; flex-direction:column; gap:5px; font-size:.76rem; font-weight:700;
+    letter-spacing:.02em; color:var(--tinta-2); text-transform:uppercase}
+  label.full{grid-column:1 / -1}
+  input,select{font-family:inherit; font-size:.95rem; font-weight:400; color:var(--tinta); text-transform:none;
+    background:var(--areia); border:1px solid var(--linha); border-radius:9px; padding:10px; width:100%}
+  input:focus,select:focus{outline:2px solid var(--agua-2); outline-offset:1px}
+  .resumo{margin-top:18px; border-top:1px dashed var(--linha); padding-top:16px; display:flex;
+    flex-direction:column; gap:8px; font-size:.92rem}
+  .linha{display:flex; justify-content:space-between; gap:12px; color:var(--tinta-2)}
+  .linha b{color:var(--tinta); font-variant-numeric:tabular-nums}
+  .linha.total{font-size:1.06rem; padding-top:8px; border-top:1px solid var(--linha)}
+  .linha.total b{font-family:Fraunces,serif; font-size:1.3rem; color:var(--agua)}
+  .aviso{font-size:.82rem; color:var(--sol); font-weight:700}
+  .btn-zap{display:block; width:100%; margin-top:18px; text-align:center; background:var(--agua);
+    color:#fff; font-weight:700; font-size:1rem; padding:15px; border-radius:11px; text-decoration:none; border:0;
+    font-family:inherit; cursor:pointer}
+  .btn-zap:hover{background:var(--agua-2)}
+  .pix{margin-top:20px; padding-top:18px; border-top:1px dashed var(--linha)}
+  .pix-flex{display:flex; gap:16px; align-items:flex-start; flex-wrap:wrap}
+  .pix canvas{background:#fff; border:1px solid var(--linha); border-radius:10px; padding:6px}
+  .pix-code{flex:1; min-width:180px; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.66rem;
+    line-height:1.4; word-break:break-all; background:var(--areia-2); border-radius:9px; padding:10px;
+    color:var(--tinta-2); max-height:110px; overflow-y:auto}
+  .btn-copy{margin-top:10px; font-family:inherit; font-size:.82rem; font-weight:700; color:var(--agua);
+    background:transparent; border:1px solid var(--agua); border-radius:8px; padding:8px 14px; cursor:pointer}
+  footer{text-align:center; padding:30px 22px 40px; color:var(--tinta-3); font-size:.8rem;
+    border-top:1px solid var(--linha); margin-top:20px}
+  @media (max-width:420px){ .campos{grid-template-columns:1fr} }
+</style>
+
+<header class="cap" id="cap">
+  <span class="loc">{{CIDADE}}</span>
+  <h1>{{NOME}}</h1>
+  <p>{{CHAMADA}}</p>
+  <a class="cta" href="#reservar">Reservar direto</a>
+</header>
+
+<main>
+  <section>
+    <span class="eyebrow">Acomodações</span>
+    <h2>Escolha onde ficar</h2>
+    <div class="quartos" id="lista"></div>
+  </section>
+
+  <section id="reservar">
+    <span class="eyebrow">Reserva</span>
+    <h2>Monte sua estadia</h2>
+    <div class="box">
+      <div class="campos">
+        <label class="full">Acomodação
+          <select id="q"></select>
+        </label>
+        <label>Entrada
+          <input type="date" id="ci"/>
+        </label>
+        <label>Saída
+          <input type="date" id="co"/>
+        </label>
+        <label>Hóspedes
+          <input type="number" id="pax" min="1" value="2"/>
+        </label>
+        <label>Seu nome
+          <input type="text" id="nome" placeholder="Como te chamamos"/>
+        </label>
+      </div>
+
+      <div class="resumo" id="resumo"></div>
+      <button class="btn-zap" id="zap" type="button">Confirmar no WhatsApp</button>
+
+      <div class="pix" id="pixbox" style="display:none">
+        <span class="eyebrow">Sinal de {{SINAL}}% para garantir a data</span>
+        <div class="pix-flex">
+          <canvas id="qr" width="150" height="150"></canvas>
+          <div style="flex:1;min-width:180px">
+            <div class="pix-code" id="pixcode"></div>
+            <button class="btn-copy" id="pixcopy" type="button">Copiar código Pix</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>{{NOME}} · {{CIDADE}}<br/>Reserva direta, sem taxa de plataforma.</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+<script>
+(function(){
+  var CFG = {{CFG}};
+  var BRL = function(v){ return v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'}); };
+
+  if(CFG.foto){ var c=document.getElementById('cap'); c.classList.add('foto'); c.style.backgroundImage='url("'+CFG.foto+'")'; }
+
+  var lista=document.getElementById('lista'), sel=document.getElementById('q');
+  CFG.quartos.forEach(function(q,i){
+    var d=document.createElement('div'); d.className='q';
+    var esq=document.createElement('div');
+    var h=document.createElement('h3'); h.textContent=q.nome; esq.appendChild(h);
+    var p=document.createElement('p'); p.textContent=q.desc; esq.appendChild(p);
+    var dir=document.createElement('div'); dir.className='preco';
+    var b=document.createElement('b'); b.textContent=BRL(q.preco); dir.appendChild(b);
+    var s=document.createElement('span'); s.textContent='por noite'; dir.appendChild(s);
+    d.appendChild(esq); d.appendChild(dir); lista.appendChild(d);
+    var o=document.createElement('option'); o.value=String(i); o.textContent=q.nome+' — '+BRL(q.preco)+'/noite';
+    sel.appendChild(o);
+  });
+
+  var ci=document.getElementById('ci'), co=document.getElementById('co'),
+      pax=document.getElementById('pax'), nome=document.getElementById('nome'),
+      resumo=document.getElementById('resumo'), zap=document.getElementById('zap'),
+      pixbox=document.getElementById('pixbox'), pixcode=document.getElementById('pixcode');
+
+  var hoje=new Date(), d1=new Date(hoje.getTime()+86400000), d2=new Date(hoje.getTime()+3*86400000);
+  var iso=function(d){ return d.toISOString().slice(0,10); };
+  ci.value=iso(d1); co.value=iso(d2); ci.min=iso(hoje); co.min=iso(d1);
+
+  function noites(){
+    var a=new Date(ci.value), b=new Date(co.value);
+    if(isNaN(a)||isNaN(b)) return 0;
+    return Math.round((b-a)/86400000);
+  }
+
+  function estado(){
+    var q=CFG.quartos[Number(sel.value)||0], n=noites();
+    var total=q.preco*Math.max(n,0);
+    return { q:q, n:n, total:total, sinal: Math.round(total*CFG.sinal)/100 };
+  }
+
+  function strip(s){ return String(s).normalize('NFD').replace(/[\u0300-\u036f]/g,''); }
+  function emv(id,v){ v=String(v); var l=String(v.length); if(l.length<2) l='0'+l; return id+l+v; }
+  function crc16(s){
+    var crc=0xFFFF;
+    for(var i=0;i<s.length;i++){
+      crc^= (s.charCodeAt(i)&0xFF)<<8;
+      for(var j=0;j<8;j++){ crc = (crc&0x8000) ? ((crc<<1)^0x1021)&0xFFFF : (crc<<1)&0xFFFF; }
+    }
+    var h=crc.toString(16).toUpperCase(); while(h.length<4) h='0'+h; return h;
+  }
+  function pix(valor){
+    var p = emv('00','01') + emv('01','12')
+      + emv('26', emv('00','BR.GOV.BCB.PIX') + emv('01', CFG.pix.chave))
+      + emv('52','0000') + emv('53','986');
+    if(valor>0) p += emv('54', valor.toFixed(2));
+    p += emv('58','BR')
+      + emv('59', strip(CFG.pix.nome).toUpperCase().slice(0,25))
+      + emv('60', strip(CFG.pix.cidade).toUpperCase().slice(0,15))
+      + emv('62', emv('05','***')) + '6304';
+    return p + crc16(p);
+  }
+
+  var qr=null;
+  function render(){
+    var e=estado();
+    resumo.innerHTML='';
+    function linha(rot,val,cls){
+      var d=document.createElement('div'); d.className='linha'+(cls?' '+cls:'');
+      var s=document.createElement('span'); s.textContent=rot;
+      var b=document.createElement('b'); b.textContent=val;
+      d.appendChild(s); d.appendChild(b); resumo.appendChild(d);
+    }
+    if(e.n<=0){
+      var a=document.createElement('div'); a.className='aviso';
+      a.textContent='A data de saída precisa ser depois da entrada.';
+      resumo.appendChild(a); pixbox.style.display='none'; return;
+    }
+    linha(e.q.nome, e.n+(e.n>1?' noites':' noite'));
+    linha('Diária', BRL(e.q.preco));
+    linha('Total da estadia', BRL(e.total), 'total');
+    if(CFG.sinal>0 && CFG.pix.chave){
+      linha('Sinal de '+CFG.sinal+'% para confirmar', BRL(e.sinal));
+      var code=pix(e.sinal);
+      pixcode.textContent=code; pixbox.style.display='block';
+      if(window.QRious){
+        try{ qr = qr || new QRious({element:document.getElementById('qr'), size:150, level:'M'}); qr.value=code; }
+        catch(err){ document.getElementById('qr').style.display='none'; }
+      } else { document.getElementById('qr').style.display='none'; }
+    } else { pixbox.style.display='none'; }
+  }
+
+  [sel,ci,co,pax].forEach(function(el){ el.addEventListener('change',render); el.addEventListener('input',render); });
+  render();
+
+  if(!CFG.fone){ zap.textContent='WhatsApp não configurado'; zap.disabled=true; zap.style.opacity='.55'; }
+
+  zap.addEventListener('click',function(){
+    var e=estado();
+    if(e.n<=0){ ci.focus(); return; }
+    var t='Olá! Quero reservar na '+CFG.nome+'.\n\n'
+      + 'Acomodação: '+e.q.nome+'\n'
+      + 'Entrada: '+ci.value.split('-').reverse().join('/')+'\n'
+      + 'Saída: '+co.value.split('-').reverse().join('/')+'\n'
+      + 'Noites: '+e.n+'\n'
+      + 'Hóspedes: '+(pax.value||'1')+'\n'
+      + 'Total: '+BRL(e.total)+'\n'
+      + (CFG.sinal>0 ? 'Sinal de '+CFG.sinal+'%: '+BRL(e.sinal)+'\n' : '')
+      + (nome.value ? '\nMeu nome: '+nome.value : '');
+    window.open('https://wa.me/'+CFG.fone+'?text='+encodeURIComponent(t),'_blank');
+  });
+
+  document.getElementById('pixcopy').addEventListener('click',function(){
+    var b=this, txt=pixcode.textContent;
+    var done=function(){ b.textContent='Código copiado'; setTimeout(function(){ b.textContent='Copiar código Pix'; },2000); };
+    if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(txt).then(done, fallback); }
+    else fallback();
+    function fallback(){
+      var ta=document.createElement('textarea'); ta.value=txt; ta.style.position='fixed'; ta.style.opacity='0';
+      document.body.appendChild(ta); ta.select();
+      try{ document.execCommand('copy'); done(); }catch(e){ b.textContent='Selecione e copie o código'; }
+      document.body.removeChild(ta);
+    }
+  });
+})();
+</script>
+</template>
+
+<script>
+(function(){
+  "use strict";
+  var $ = function(id){ return document.getElementById(id); };
+
+  /* ---------- utilidades Pix (padrão EMV do Banco Central) ---------- */
+  function strip(s){ return String(s).normalize('NFD').replace(/[\u0300-\u036f]/g,''); }
+  function emv(id,v){ v=String(v); var l=String(v.length); if(l.length<2) l='0'+l; return id+l+v; }
+  function crc16(s){
+    var crc=0xFFFF;
+    for(var i=0;i<s.length;i++){
+      crc ^= (s.charCodeAt(i)&0xFF)<<8;
+      for(var j=0;j<8;j++){ crc = (crc&0x8000) ? ((crc<<1)^0x1021)&0xFFFF : (crc<<1)&0xFFFF; }
+    }
+    var h=crc.toString(16).toUpperCase(); while(h.length<4) h='0'+h; return h;
+  }
+  function pixPayload(o){
+    var p = emv('00','01') + emv('01','12')
+      + emv('26', emv('00','BR.GOV.BCB.PIX') + emv('01', String(o.chave).trim()))
+      + emv('52','0000') + emv('53','986');
+    if(o.valor>0) p += emv('54', Number(o.valor).toFixed(2));
+    p += emv('58','BR')
+      + emv('59', strip(o.nome).toUpperCase().slice(0,25))
+      + emv('60', strip(o.cidade).toUpperCase().slice(0,15))
+      + emv('62', emv('05', (o.txid||'***').replace(/[^A-Za-z0-9]/g,'').slice(0,25) || '***'))
+      + '6304';
+    return p + crc16(p);
+  }
+
+  function copiar(texto, alvo, msgOk){
+    var mostrar=function(txt,cls){
+      if(!alvo) return;
+      alvo.hidden=false; alvo.textContent=txt; alvo.className='status '+cls;
+      setTimeout(function(){ alvo.hidden=true; },2600);
+    };
+    var falha=function(){
+      var ta=document.createElement('textarea'); ta.value=texto;
+      ta.style.position='fixed'; ta.style.top='0'; ta.style.opacity='0';
+      document.body.appendChild(ta); ta.focus(); ta.select();
+      var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+      document.body.removeChild(ta);
+      mostrar(ok ? msgOk : 'Não deu para copiar automaticamente — selecione o texto e copie à mão.', ok?'ok':'err');
+    };
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(texto).then(function(){ mostrar(msgOk,'ok'); }, falha);
+    } else falha();
+  }
+
+  /* ---------- abas ---------- */
+  var abas=[['t1','p1'],['t2','p2'],['t3','p3']];
+  abas.forEach(function(par){
+    $(par[0]).addEventListener('click',function(){
+      abas.forEach(function(p){
+        var sel = p[0]===par[0];
+        $(p[0]).setAttribute('aria-selected', sel?'true':'false');
+        $(p[1]).hidden = !sel;
+      });
+    });
+  });
+
+  /* ---------- acomodações ---------- */
+  var QUARTOS_PADRAO = [
+    {nome:'Chalé Ilha do Amor', desc:'Casal, varanda com rede, ar-condicionado. Até 2 pessoas.', preco:180},
+    {nome:'Quarto Família', desc:'Cama de casal e dois solteiros, frigobar. Até 4 pessoas.', preco:260},
+    {nome:'Quarto Econômico', desc:'Casal, ventilador, banheiro privativo. Até 2 pessoas.', preco:120}
+  ];
+  var quartos = QUARTOS_PADRAO.map(function(q){ return {nome:q.nome, desc:q.desc, preco:q.preco}; });
+
+  function renderQuartos(){
+    var box=$('quartos'); box.innerHTML='';
+    quartos.forEach(function(q,i){
+      var d=document.createElement('div'); d.className='quarto';
+      var h=document.createElement('div'); h.className='quarto-h';
+      var s=document.createElement('span'); s.textContent='Acomodação '+(i+1);
+      h.appendChild(s);
+      if(quartos.length>1){
+        var rm=document.createElement('button');
+        rm.type='button'; rm.className='btn mini ghost'; rm.textContent='Remover';
+        rm.addEventListener('click',function(){ quartos.splice(i,1); renderQuartos(); build(); });
+        h.appendChild(rm);
+      }
+      d.appendChild(h);
+
+      var l1=document.createElement('label'); l1.textContent='Nome';
+      var i1=document.createElement('input'); i1.value=q.nome;
+      i1.addEventListener('input',function(){ q.nome=i1.value; build(); });
+      l1.appendChild(i1); d.appendChild(l1);
+
+      var l2=document.createElement('label'); l2.textContent='Descrição';
+      var i2=document.createElement('input'); i2.value=q.desc;
+      i2.addEventListener('input',function(){ q.desc=i2.value; build(); });
+      l2.appendChild(i2); d.appendChild(l2);
+
+      var l3=document.createElement('label'); l3.textContent='Diária (R$)';
+      var i3=document.createElement('input'); i3.type='number'; i3.min='0'; i3.step='10'; i3.value=q.preco;
+      i3.addEventListener('input',function(){ q.preco=Number(i3.value)||0; build(); });
+      l3.appendChild(i3); d.appendChild(l3);
+
+      box.appendChild(d);
+    });
+  }
+
+  $('add-quarto').addEventListener('click',function(){
+    quartos.push({nome:'Nova acomodação', desc:'Descreva em uma linha: cama, ar, capacidade.', preco:150});
+    renderQuartos(); build();
+  });
+
+  /* ---------- geração da página ---------- */
+  var TPL = $('tpl').innerHTML;
+
+  function esc(s){
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  }
+
+  function montar(){
+    var cfg = {
+      nome: $('f-nome').value.trim() || 'Pousada',
+      cidade: $('f-cidade').value.trim(),
+      chamada: $('f-chamada').value.trim(),
+      fone: $('f-fone').value.replace(/\D/g,''),
+      foto: $('f-foto').value.trim(),
+      sinal: Math.min(100, Math.max(0, Number($('f-sinal').value)||0)),
+      quartos: quartos.filter(function(q){ return q.nome && q.preco>0; }),
+      pix: { chave:$('f-chave').value.trim(), nome:$('f-recebedor').value.trim(), cidade:$('f-pixcidade').value.trim() }
+    };
+    if(!cfg.quartos.length) cfg.quartos=[{nome:'Acomodação', desc:'', preco:100}];
+
+    var corpo = TPL
+      .replace(/\{\{NOME\}\}/g, esc(cfg.nome))
+      .replace(/\{\{CIDADE\}\}/g, esc(cfg.cidade))
+      .replace(/\{\{CHAMADA\}\}/g, esc(cfg.chamada))
+      .replace(/\{\{SINAL\}\}/g, String(cfg.sinal))
+      .replace(/\{\{CFG\}\}/g, JSON.stringify(cfg).replace(/</g,'\\u003c'));
+
+    return '<!doctype html>\n<html lang="pt-BR">\n<head>\n'
+      + '<meta charset="utf-8"/>\n'
+      + '<meta name="viewport" content="width=device-width, initial-scale=1"/>\n'
+      + '<title>' + esc(cfg.nome) + ' · Reserva direta</title>\n'
+      + '<meta name="description" content="' + esc(cfg.chamada.slice(0,150)) + '"/>\n'
+      + '<link rel="preconnect" href="https://fonts.googleapis.com"/>\n'
+      + '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>\n'
+      + '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Karla:wght@400;700&display=swap"/>\n'
+      + '</head>\n<body>\n' + corpo + '\n</body>\n</html>';
+  }
+
+  var htmlAtual='';
+  function build(){
+    htmlAtual = montar();
+    $('pv').srcdoc = htmlAtual;
+    $('code').value = htmlAtual;
+  }
+
+  ['f-nome','f-cidade','f-chamada','f-fone','f-foto','f-sinal','f-chave','f-recebedor','f-pixcidade']
+    .forEach(function(id){ $(id).addEventListener('input', build); });
+
+  $('copy-html').addEventListener('click',function(){
+    copiar(htmlAtual, $('copy-status'), 'HTML copiado. Cole num arquivo index.html e publique.');
+  });
+  $('toggle-code').addEventListener('click',function(){
+    var w=$('code-wrap'); w.hidden=!w.hidden; this.textContent = w.hidden ? 'Ver código' : 'Esconder código';
+  });
+  $('toggle-wide').addEventListener('click',function(){
+    var pv=$('pv'); pv.classList.toggle('wide');
+    var w=pv.classList.contains('wide');
+    this.textContent = w ? 'Ver no celular' : 'Ver em tela larga';
+    $('pv-label').textContent = w ? 'largura de desktop' : 'pré-visualização ao vivo';
+  });
+  $('reset').addEventListener('click',function(){
+    ['f-nome','f-cidade','f-chamada','f-fone','f-foto','f-chave','f-recebedor'].forEach(function(id){ $(id).value=''; });
+    quartos = [{nome:'Acomodação 1', desc:'', preco:150}];
+    renderQuartos(); build(); $('f-nome').focus();
+  });
+
+  /* ---------- aba de cobrança ---------- */
+  var qrCharge=null;
+  function gerarCobranca(){
+    var chave=$('c-chave').value.trim(), nome=$('c-nome').value.trim(), cid=$('c-cidade').value.trim();
+    var st=$('c-status');
+    if(!chave || !nome || !cid){
+      st.hidden=false; st.className='status err';
+      st.textContent='Preencha chave, nome e cidade — os três são obrigatórios no padrão do Banco Central.';
+      return null;
+    }
+    st.hidden=true;
+    var code = pixPayload({ chave:chave, nome:nome, cidade:cid,
+      valor:Number($('c-valor').value)||0, txid:$('c-txid').value });
+    $('c-code').textContent = code;
+    if(window.QRious){
+      try{
+        qrCharge = qrCharge || new QRious({ element:$('c-qr'), size:220, level:'M' });
+        qrCharge.value = code;
+      }catch(e){ $('c-qr').hidden=true; }
+    } else { $('c-qr').hidden=true; }
+    return code;
+  }
+  $('c-gerar').addEventListener('click', gerarCobranca);
+  $('c-copiar').addEventListener('click',function(){
+    var code = gerarCobranca();
+    if(code) copiar(code, $('c-status'), 'Código Pix copiado. Mande no WhatsApp junto com o link da página.');
+  });
+
+  /* ---------- playbook ---------- */
+  $('copy-pitch').addEventListener('click',function(){
+    copiar($('pitch').textContent, null, '');
+    this.textContent='Roteiro copiado';
+    var b=this; setTimeout(function(){ b.textContent='Copiar roteiro'; },2200);
+  });
+
+  renderQuartos();
+  build();
+})();
+</script>
