@@ -1,0 +1,324 @@
+<title>A Obra Para na Calçada</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chivo:wght@700;900&family=Newsreader:opsz,wght@6..72,400;6..72,600&family=Roboto+Mono:wght@400;500&display=swap"/>
+<style>
+  :root{
+    --ground:#EDF0F1; --surface:#FFFFFF; --sunken:#E2E7E9; --rule:#CFD7DA;
+    --ink:#111A1E; --ink-2:#3F4E55; --ink-3:#6C7B82;
+    --agua:#0D6A87; --agua-2:#0F82A4; --agua-wash:#DFEEF3;
+    --ferro:#9E4E1C; --ferro-wash:#F5E7DC;
+    --shadow:0 1px 2px rgba(17,26,30,.06), 0 10px 26px -18px rgba(17,26,30,.45);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ground:#0B1114; --surface:#131B1F; --sunken:#0E1518; --rule:#243036;
+      --ink:#E8EEF0; --ink-2:#A7B6BC; --ink-3:#788790;
+      --agua:#5CBEDC; --agua-2:#84D2EA; --agua-wash:#0E2A34;
+      --ferro:#D9915A; --ferro-wash:#2A1D14;
+      --shadow:0 1px 2px rgba(0,0,0,.5), 0 14px 32px -22px rgba(0,0,0,.95);
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#0B1114; --surface:#131B1F; --sunken:#0E1518; --rule:#243036;
+    --ink:#E8EEF0; --ink-2:#A7B6BC; --ink-3:#788790;
+    --agua:#5CBEDC; --agua-2:#84D2EA; --agua-wash:#0E2A34;
+    --ferro:#D9915A; --ferro-wash:#2A1D14;
+    --shadow:0 1px 2px rgba(0,0,0,.5), 0 14px 32px -22px rgba(0,0,0,.95);
+  }
+  body{background:var(--ground); color:var(--ink);
+    font-family:Newsreader,"Iowan Old Style",Georgia,serif; font-size:17.5px; line-height:1.62;
+    -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1000px; margin:0 auto; padding:0 22px 96px;}
+  .col{max-width:65ch;}
+  h1,h2,h3,.mono,.eyebrow,th,.n-v,.chip{font-family:Chivo,"Helvetica Neue",Arial,sans-serif;}
+  .mono,.eyebrow{font-family:"Roboto Mono",ui-monospace,Menlo,monospace;}
+  h1{font-size:clamp(2.3rem,6vw,3.9rem); font-weight:900; line-height:.98; letter-spacing:-.03em; text-wrap:balance;}
+  h2{font-size:clamp(1.4rem,3vw,1.9rem); font-weight:900; line-height:1.12; letter-spacing:-.02em; text-wrap:balance;}
+  h3{font-size:1.04rem; font-weight:700; letter-spacing:-.01em; text-wrap:balance;}
+  p{margin:0;} a{color:var(--agua); text-underline-offset:2px;}
+  a:focus-visible{outline:2px solid var(--agua-2); outline-offset:3px; border-radius:3px;}
+  .eyebrow{font-size:.66rem; letter-spacing:.18em; text-transform:uppercase; color:var(--ink-3); font-weight:500;}
+
+  header.hero{padding:62px 0 36px;}
+  .hero .dek{font-size:1.14rem; color:var(--ink-2); max-width:60ch; margin-top:20px;}
+  .hero .meta{display:flex; flex-wrap:wrap; gap:6px 18px; font-size:.74rem; color:var(--ink-3); margin-top:20px;}
+
+  .numeros{display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:1px;
+    background:var(--rule); border:1px solid var(--rule); border-radius:12px; overflow:hidden; margin:34px 0 0;}
+  .n{background:var(--surface); padding:16px 18px; display:flex; flex-direction:column; gap:4px;}
+  .n-v{font-size:1.55rem; font-weight:900; letter-spacing:-.025em; line-height:1; font-variant-numeric:tabular-nums;}
+  .n-l{font-size:.8rem; color:var(--ink-2); line-height:1.35;}
+  .n-s{font-family:"Roboto Mono",monospace; font-size:.65rem; color:var(--ink-3);}
+  .n.alerta .n-v{color:var(--ferro);} .n.foco .n-v{color:var(--agua);}
+
+  section{padding-top:56px;}
+  .sec-h{display:flex; align-items:baseline; gap:14px; border-top:3px solid var(--ink); padding-top:12px; margin-bottom:20px;}
+  .stack{display:flex; flex-direction:column; gap:16px;}
+
+  figure{margin:26px 0 0; background:var(--surface); border:1px solid var(--rule); border-radius:14px;
+    padding:22px 20px 16px; box-shadow:var(--shadow); overflow-x:auto;}
+  figure svg{width:100%; max-width:100%; height:auto; min-width:620px; display:block; color:var(--ink-2);}
+  figcaption{font-size:.85rem; color:var(--ink-2); margin-top:14px; line-height:1.5; font-family:Newsreader,serif;}
+  figcaption b{color:var(--ink);}
+
+  .nota{border-left:3px solid var(--ferro); background:var(--ferro-wash); padding:15px 18px;
+    border-radius:0 10px 10px 0; font-size:.94rem; color:var(--ink-2);}
+  .nota strong{color:var(--ink);}
+  .nota.agua{border-left-color:var(--agua); background:var(--agua-wash);}
+  ul.tight{margin:0; padding-left:1.15em; display:flex; flex-direction:column; gap:8px; font-size:.96rem; color:var(--ink-2);}
+  ul.tight strong{color:var(--ink);}
+
+  .camadas{display:flex; flex-direction:column; gap:16px;}
+  .camada{background:var(--surface); border:1px solid var(--rule); border-radius:13px; padding:22px;
+    box-shadow:var(--shadow); display:grid; grid-template-columns:70px 1fr; gap:20px;}
+  @media (max-width:640px){ .camada{grid-template-columns:1fr; gap:10px;} }
+  .camada .idx{font-family:Chivo,sans-serif; font-weight:900; font-size:2.1rem; line-height:.9; color:var(--agua);}
+  .camada dl{display:grid; grid-template-columns:auto 1fr; gap:6px 14px; margin:14px 0 0; font-size:.88rem;}
+  .camada dt{font-family:"Roboto Mono",monospace; font-size:.64rem; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--ink-3); padding-top:4px;}
+  .camada dd{margin:0; color:var(--ink-2);}
+
+  .tw{overflow-x:auto; border:1px solid var(--rule); border-radius:11px; background:var(--surface); margin-top:8px;}
+  table{border-collapse:collapse; width:100%; font-size:.88rem; min-width:560px;}
+  th,td{text-align:left; padding:11px 14px; border-bottom:1px solid var(--rule); vertical-align:top;}
+  th{font-size:.64rem; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-3); font-weight:700; background:var(--sunken);}
+  tbody tr:last-child td{border-bottom:0;}
+  td.r{text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; font-weight:600;}
+  tfoot td{font-weight:700; background:var(--sunken); border-top:2px solid var(--rule);}
+
+  ol.campo{margin:0; padding:0; list-style:none; counter-reset:c; display:flex; flex-direction:column;}
+  ol.campo li{counter-increment:c; display:grid; grid-template-columns:44px 1fr; gap:16px;
+    padding:15px 0; border-bottom:1px solid var(--rule);}
+  ol.campo li:last-child{border-bottom:0;}
+  ol.campo li::before{content:counter(c,decimal-leading-zero); font-family:"Roboto Mono",monospace;
+    font-size:.76rem; color:var(--agua); padding-top:4px;}
+  .c-t{font-family:Chivo,sans-serif; font-weight:700; font-size:.98rem; display:block; margin-bottom:2px;}
+  .c-d{font-size:.92rem; color:var(--ink-2);}
+
+  footer{margin-top:66px; padding-top:24px; border-top:1px solid var(--rule); font-size:.85rem; color:var(--ink-2);}
+  footer ol{margin:12px 0 0; padding-left:1.4em; display:flex; flex-direction:column; gap:7px; font-size:.79rem;}
+  sup a{text-decoration:none; font-family:"Roboto Mono",monospace; font-size:.68rem;}
+  @media (max-width:640px){ body{font-size:16.5px;} header.hero{padding:40px 0 26px;} }
+</style>
+
+<div class="wrap">
+<header class="hero">
+  <span class="eyebrow">Achado de mercado · Santarém (PA) · Setembro 2026</span>
+  <h1>A obra para na calçada</h1>
+  <p class="dek">Santarém é a última colocada do Brasil em saneamento e acaba de entregar o serviço a uma concessionária privada que vai gastar bilhões enfurnando cano na rua. Ninguém está olhando para os últimos oito metros — do meio-fio até dentro da casa — que a concessionária não faz, a lei obriga o morador a fazer, e que em Santarém precisam ser feitos em quase toda a cidade.</p>
+  <div class="meta"><span>Fontes: Ranking do Saneamento 2026 (Trata Brasil/Sinisa), Censo 2022 do IBGE, Aegea, Governo do Pará</span></div>
+
+  <div class="numeros">
+    <div class="n alerta"><span class="n-v">100º de 100</span><span class="n-l">Santarém no Ranking do Saneamento</span><span class="n-s">Trata Brasil 2026 · base 2024</span></div>
+    <div class="n alerta"><span class="n-v">3,28%</span><span class="n-l">da população com coleta de esgoto</span><span class="n-s">Brasil: 62,3% · Pará: 19,1%</span></div>
+    <div class="n"><span class="n-v">44,93%</span><span class="n-l">com abastecimento de água</span><span class="n-s">menos da metade da cidade</span></div>
+    <div class="n alerta"><span class="n-v">140.652</span><span class="n-l">pessoas usam fossa rudimentar ou buraco</span><span class="n-s">42,6% · Censo 2022</span></div>
+    <div class="n foco"><span class="n-v">R$ 10 bi</span><span class="n-l">contratados só em esgoto nos blocos da concessão</span><span class="n-s">R$ 15,2 bi no total</span></div>
+    <div class="n foco"><span class="n-v">1º/abr/2026</span><span class="n-l">início da operação da concessionária em Santarém</span><span class="n-s">5 meses atrás</span></div>
+  </div>
+</header>
+
+<section id="fronteira">
+  <div class="sec-h"><span class="eyebrow">01 — O mecanismo</span><h2>Onde termina a obra e começa o problema</h2></div>
+  <div class="col stack">
+    <p>A concessionária constrói a rede coletora na rua e deixa um ponto de ligação na calçada. Daí para dentro — a tubulação que sai do banheiro, da cozinha e do tanque e chega até esse ponto — <strong>é obrigação e é custo do proprietário do imóvel</strong>, e a lei federal torna a conexão obrigatória assim que a rede fica disponível.<sup><a href="#f4">4</a></sup> Depois de conectar, a fossa antiga precisa ser desativada.</p>
+    <p>Numa cidade onde 62% das casas já têm esgoto, isso é um detalhe técnico. Numa cidade onde <strong>96,7% não têm</strong> e 140 mil pessoas vivem sobre fossa rudimentar, isso é um mercado inteiro que vai nascer rua por rua, sem ninguém organizado para atendê-lo.</p>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 900 352" role="img" aria-label="Diagrama em corte: a concessionária constrói a rede coletora na rua e o ramal até a caixa de inspeção na calçada; da divisa do imóvel para dentro, a tubulação interna e a desativação da fossa são obrigação e custo do morador.">
+      <defs>
+        <marker id="setaA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor"/>
+        </marker>
+        <marker id="setaB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--agua)"/>
+        </marker>
+      </defs>
+
+      <text x="215" y="24" text-anchor="middle" font-size="12" font-weight="700" letter-spacing="1.6" fill="currentColor">OBRA DA CONCESSIONÁRIA</text>
+      <text x="655" y="24" text-anchor="middle" font-size="12" font-weight="700" letter-spacing="1.6" fill="var(--agua)">CUSTO E OBRIGAÇÃO DO MORADOR</text>
+
+      <line x1="440" y1="38" x2="440" y2="330" stroke="currentColor" stroke-width="1.5" stroke-dasharray="6 5" opacity=".55"/>
+      <text x="440" y="346" text-anchor="middle" font-size="11" fill="currentColor" opacity=".75">divisa do imóvel</text>
+
+      <rect x="45" y="120" width="185" height="62" rx="7" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <text x="137" y="146" text-anchor="middle" font-size="13" fill="currentColor">Rede coletora</text>
+      <text x="137" y="164" text-anchor="middle" font-size="13" fill="currentColor">na rua</text>
+
+      <line x1="230" y1="151" x2="330" y2="151" stroke="currentColor" stroke-width="1.6" marker-end="url(#setaA)"/>
+      <text x="280" y="141" text-anchor="middle" font-size="11" fill="currentColor" opacity=".8">ramal</text>
+
+      <rect x="340" y="126" width="86" height="50" rx="6" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <text x="383" y="147" text-anchor="middle" font-size="12" fill="currentColor">Caixa de</text>
+      <text x="383" y="163" text-anchor="middle" font-size="12" fill="currentColor">inspeção</text>
+
+      <rect x="700" y="74" width="160" height="88" rx="7" fill="none" stroke="var(--agua)" stroke-width="1.8"/>
+      <text x="780" y="104" text-anchor="middle" font-size="13" fill="var(--agua)">Casa</text>
+      <text x="780" y="124" text-anchor="middle" font-size="11.5" fill="var(--agua)">banheiro, cozinha,</text>
+      <text x="780" y="140" text-anchor="middle" font-size="11.5" fill="var(--agua)">tanque</text>
+
+      <polyline points="700,118 560,118 560,151 431,151" fill="none" stroke="var(--agua)" stroke-width="2.2" marker-end="url(#setaB)"/>
+      <text x="575" y="86" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--agua)">tubulação interna</text>
+      <text x="575" y="102" text-anchor="middle" font-size="11.5" fill="var(--agua)">não existe hoje na maioria das casas</text>
+
+      <rect x="700" y="228" width="160" height="60" rx="7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-dasharray="5 4" opacity=".8"/>
+      <text x="780" y="253" text-anchor="middle" font-size="12.5" fill="currentColor" opacity=".85">Fossa rudimentar</text>
+      <text x="780" y="271" text-anchor="middle" font-size="11" fill="currentColor" opacity=".7">onde 42,6% escoa hoje</text>
+
+      <line x1="780" y1="162" x2="780" y2="228" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4 4" opacity=".6" marker-end="url(#setaA)"/>
+      <text x="792" y="192" font-size="11" fill="currentColor" opacity=".7">hoje</text>
+
+      <text x="780" y="310" text-anchor="middle" font-size="11.5" fill="currentColor" opacity=".85">precisa ser desativada depois da ligação</text>
+    </svg>
+    <figcaption><b>Os oito metros que ninguém está vendendo.</b> A concessionária entrega o cano até a caixa de inspeção e para. A linha em destaque — a tubulação que precisa ser construída dentro do terreno, mais a desativação da fossa — é a parte que a lei joga no colo do morador e que, em Santarém, não existe em quase nenhuma casa.</figcaption>
+  </figure>
+</section>
+
+<section id="porque">
+  <div class="sec-h"><span class="eyebrow">02 — Por que está invisível</span><h2>Todo mundo está olhando para a obra</h2></div>
+  <div class="col stack">
+    <p>A concessão do Pará foi arrematada pela Aegea, que assinou contratos em 99 municípios nos blocos A, B e D, somando <strong>R$ 15,2 bilhões — dos quais R$ 10 bilhões só em esgotamento sanitário</strong>, com meta de 90% de coleta e tratamento até 2039. Em Santarém a operação começou em 1º de abril de 2026.<sup><a href="#f2">2</a></sup><sup><a href="#f3">3</a></sup> Notícia, política, imprensa e fornecedor grande estão todos olhando para o mesmo lugar: a obra.</p>
+    <p>O gargalo mora no ponto cego de todos eles, por quatro motivos que se reforçam:</p>
+    <ul class="tight">
+      <li><strong>Não parece um negócio, parece um formigueiro.</strong> Não é uma obra de R$ 50 milhões; são dezenas de milhares de serviços de R$ 800. Empreiteira grande não desce a esse nível e encanador informal não sobe a essa escala.</li>
+      <li><strong>A concessionária não quer entrar na casa das pessoas.</strong> Entrar no terreno do cliente é risco, responsabilidade e reclamação. Ela prefere avisar que é obrigação do morador — e é.</li>
+      <li><strong>O morador não sabe que a conta é dele</strong> até a rede passar na rua. Aí descobre que precisa quebrar piso, comprar tubo e chamar alguém — e adia.</li>
+      <li><strong>E o adiamento é o problema da concessionária.</strong> Rede construída sem ligação efetiva é investimento sem receita e meta contratual não cumprida. Ela precisa de adesão, não de cano.</li>
+    </ul>
+    <div class="nota agua"><strong>É esse desencontro que cria a vaga.</strong> Existe um agente que precisa desesperadamente que as casas se conectem — e não pode entrar nelas. E existem 100 mil casas que precisam se conectar — e não sabem como. Quem ficar no meio, com preço fechado, prazo curto e comprovação por foto, está vendendo para os dois lados ao mesmo tempo.</div>
+  </div>
+</section>
+
+<section id="entrada">
+  <div class="sec-h"><span class="eyebrow">03 — Onde entramos</span><h2>Três camadas, da mais rápida à mais defensável</h2></div>
+  <div class="camadas">
+
+    <article class="camada">
+      <div class="idx">01</div>
+      <div>
+        <h3>Ligação intradomiciliar com preço fechado</h3>
+        <p style="color:var(--ink-2); font-size:.95rem;">Kit padronizado por tipologia de casa: tubulação interna até a caixa de inspeção, caixa de gordura, desativação e aterro da fossa, teste e limpeza. Preço fixo divulgado antes da visita, execução em um dia, garantia por escrito. O oposto do orçamento improvisado de encanador, que é tudo que existe hoje.</p>
+        <dl>
+          <dt>Quem paga</dt><dd>O morador no varejo; a concessionária ou um programa social no atacado, por bairro</dd>
+          <dt>Começo</dt><dd>Cinco ligações reais pagas, cronometradas, para descobrir o custo e o tempo verdadeiros antes de anunciar preço</dd>
+          <dt>Risco</dt><dd>Casa velha com piso quebrado e nível errado estoura o preço fechado. A tipologia tem que ser levantada na visita, não no telefone.</dd>
+        </dl>
+      </div>
+    </article>
+
+    <article class="camada">
+      <div class="idx">02</div>
+      <div>
+        <h3>A camada digital — que é o que nos diferencia</h3>
+        <p style="color:var(--ink-2); font-size:.95rem;">Cadastro do imóvel, agendamento, roteirização por rua, vistoria com foto datada e laudo automático de conclusão, painel de adesão por bairro. É exatamente a engenharia que já construímos nas outras peças. Para a concessionária, esse painel é o produto: ela precisa provar adesão para o regulador e não tem como enxergar rua por rua.</p>
+        <dl>
+          <dt>Quem paga</dt><dd>A concessionária, por ligação comprovada, e não por hora trabalhada</dd>
+          <dt>Começo</dt><dd>Fazer as primeiras ligações já com foto e laudo, mesmo sem contrato — o histórico é o que abre a porta dela</dd>
+          <dt>Risco</dt><dd>Ciclo de venda longo com empresa grande. Enquanto isso, o varejo paga a conta.</dd>
+        </dl>
+      </div>
+    </article>
+
+    <article class="camada">
+      <div class="idx">03</div>
+      <div>
+        <h3>O mercado da fossa, enquanto a rede não chega</h3>
+        <p style="color:var(--ink-2); font-size:.95rem;">A meta contratual de esgoto vai até 2039. A maior parte da cidade vai passar anos ainda com fossa — e fossa rudimentar é a que contamina o lençol de onde sai a água de quem não tem rede. Adequação para fossa séptica de verdade, limpeza periódica com destino correto e manutenção programada usam o mesmo cadastro, a mesma equipe e a mesma rota da camada 01.</p>
+        <dl>
+          <dt>Quem paga</dt><dd>Morador, condomínio, comércio, escola e posto — recorrência natural, não venda única</dd>
+          <dt>Começo</dt><dd>Descobrir onde o caminhão limpa-fossa da cidade descarta hoje. Se não houver destino licenciado, isso é o próximo negócio, não um detalhe.</dd>
+          <dt>Risco</dt><dd>Exige licenciamento ambiental e destino correto do resíduo. Fazer errado é crime ambiental, não economia.</dd>
+        </dl>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<section id="conta">
+  <div class="sec-h"><span class="eyebrow">04 — A conta</span><h2>Tamanho do mercado, com as premissas na mesa</h2></div>
+  <div class="col" style="margin-bottom:14px;">
+    <p style="color:var(--ink-2); font-size:.96rem;">Nenhum destes números é medição local — são estimativas construídas sobre dados públicos, e existem para dizer a ordem de grandeza, não para fundamentar investimento. As premissas estão escritas para você poder discordar de cada uma.</p>
+  </div>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Linha</th><th>Premissa declarada</th><th class="r">Valor</th></tr></thead>
+      <tbody>
+        <tr><td>Domicílios em Santarém</td><td>360.871 habitantes ÷ 3,3 moradores por domicílio (média da região Norte)</td><td class="r">≈ 109.000</td></tr>
+        <tr><td>Sem coleta de esgoto hoje</td><td>96,72% dos domicílios, pelo indicador de cobertura</td><td class="r">≈ 105.000</td></tr>
+        <tr><td>Alcançados pela meta contratual</td><td>90% de cobertura urbana até 2039</td><td class="r">≈ 95.000</td></tr>
+        <tr><td>Ticket médio da ligação interna</td><td>Serviço simples, material e mão de obra, em casa térrea pequena</td><td class="r">R$ 800</td></tr>
+        <tr><td><strong>Mercado total da camada 01</strong></td><td>Ao longo de todo o prazo da concessão</td><td class="r"><strong>≈ R$ 76 milhões</strong></td></tr>
+      </tbody>
+      <tfoot>
+        <tr><td>Fatia realista por ano</td><td>5.000 ligações/ano na cidade, das quais você faz 15%, a R$ 800</td><td class="r">R$ 600 mil/ano</td></tr>
+      </tfoot>
+    </table>
+  </div>
+  <div class="col stack" style="margin-top:18px;">
+    <div class="nota"><strong>O número frágil aqui é o ritmo, não o tamanho.</strong> O mercado existe e é grande; o que ninguém sabe ainda é quantas ligações por ano a concessionária vai efetivamente destravar em Santarém. Se forem 1.500 por ano em vez de 5.000, o negócio continua existindo, mas cabe numa equipe de duas pessoas — e é isso que a pergunta 2 da seção 06 vai responder em uma tarde.</div>
+    <h3>Por que a margem aqui é melhor do que parece</h3>
+    <ul class="tight">
+      <li><strong>O material é barato e o serviço é repetitivo.</strong> A partir da vigésima casa, o tempo de execução despenca e o preço fechado vira margem, não risco.</li>
+      <li><strong>A rota é densa por natureza.</strong> A rede chega rua por rua: seus clientes ficam a metros uns dos outros, não espalhados pela cidade. É o oposto da economia de qualquer serviço a domicílio.</li>
+      <li><strong>A demanda tem data marcada e é obrigatória.</strong> Não depende de convencer ninguém do valor — depende de estar lá quando a rede passar. É o raro mercado em que o cronograma do concorrente é público.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="riscos">
+  <div class="sec-h"><span class="eyebrow">05 — O que mata isso</span><h2>Os cinco jeitos de perder dinheiro aqui</h2></div>
+  <div class="col">
+    <ul class="tight">
+      <li><strong>A obra atrasar.</strong> É o risco central: sem rede na rua, não existe ligação para vender. Defesa é a camada 03 — o mercado da fossa não depende do cronograma de ninguém e paga a conta na espera.</li>
+      <li><strong>A concessionária já ter contratado alguém.</strong> Grupos como o dessa concessão costumam operar programas próprios de conexão em outras cidades. Isso pode significar que a vaga já está ocupada — ou que existe um contrato local para disputar. É a primeira coisa a descobrir, não a última.</li>
+      <li><strong>Cobrar do morador errado.</strong> Numa cidade com essa renda, quem mais precisa da ligação é quem menos pode pagar por ela. Um negócio construído sobre o bolso do morador de bairro periférico não fecha — o pagador de escala é a concessionária ou o programa social, e o varejo é só a ponte até lá.</li>
+      <li><strong>Achar que é negócio digital.</strong> Não é. É serviço de campo com camada digital em cima. Quem entra achando que vende software vai descobrir na primeira semana que precisa de dois encanadores, uma caminhonete e alvará.</li>
+      <li><strong>Descarte irregular na camada 03.</strong> Sugar fossa é fácil; despejar o que saiu dela é o negócio inteiro. Sem destino licenciado, isso deixa de ser empresa e vira crime ambiental.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="campo">
+  <div class="sec-h"><span class="eyebrow">06 — Campo</span><h2>Seis perguntas que decidem tudo, em uma semana</h2></div>
+  <div class="col">
+    <ol class="campo">
+      <li><div><span class="c-t">A concessionária já tem programa de ligação?</span><span class="c-d">Ligue para o atendimento da concessionária em Santarém como morador e pergunte: "a rede passou na minha rua, quem faz a ligação dentro de casa e quanto custa?" A resposta dela define se você é fornecedor, concorrente ou a única opção.</span></div></li>
+      <li><div><span class="c-t">Quantas ligações por ano estão previstas aqui?</span><span class="c-d">Peça o cronograma de bairros e a meta anual de ligações — é informação de concessão, regulada, e costuma estar em plano público ou na agência reguladora estadual. Esse número transforma este documento em plano de negócio.</span></div></li>
+      <li><div><span class="c-t">Onde a rede já passou e ninguém ligou?</span><span class="c-d">Escolha três ruas com rede recente e conte as casas conectadas. Adesão baixa em rua pronta é a prova de que o gargalo é real — e é o slide que vende para a concessionária.</span></div></li>
+      <li><div><span class="c-t">Quanto custa de verdade uma ligação aqui?</span><span class="c-d">Cote o material numa loja de construção de Santarém e contrate um encanador para fazer uma ligação real, cronometrando. Referências nacionais de R$ 45 a R$ 77 por metro quadrado de instalação hidráulica<sup><a href="#f5">5</a></sup> não valem nada diante do preço da sua rua.</span></div></li>
+      <li><div><span class="c-t">Para onde vai o que sai das fossas?</span><span class="c-d">Pergunte na Secretaria de Meio Ambiente e aos caminhões limpa-fossa que já rodam na cidade. Se não existe ponto de recebimento licenciado, você achou um segundo gargalo maior que o primeiro.</span></div></li>
+      <li><div><span class="c-t">Existe programa social pagando por isso?</span><span class="c-d">Prefeitura, governo do estado e a própria concessão costumam ter linha para conexão de família de baixa renda. Se existir, o pagador da escala já está definido e o seu trabalho é habilitar-se, não convencer morador.</span></div></li>
+    </ol>
+    <div class="nota agua" style="margin-top:20px;"><strong>Se as perguntas 1 e 3 voltarem juntas com "não existe programa" e "quase ninguém ligou", pare tudo e vá para cima disso.</strong> É o cenário em que existe demanda obrigatória, sem oferta organizada e com um comprador institucional precisando do resultado. Não é comum encontrar os três no mesmo lugar.</div>
+  </div>
+</section>
+
+<section id="lacunas">
+  <div class="sec-h"><span class="eyebrow">07 — Ressalvas</span><h2>O que este documento não sabe</h2></div>
+  <div class="col">
+    <ul class="tight">
+      <li><strong>Domicílios.</strong> Os ~109 mil são estimativa por população e média de moradores, não a contagem do Censo. Puxe a tabela de domicílios de Santarém antes de dimensionar qualquer coisa.</li>
+      <li><strong>Programa de conexão da concessionária.</strong> Não consegui confirmar se existe um em Santarém — é a pergunta 1 do campo, e ela pode derrubar ou multiplicar toda a tese.</li>
+      <li><strong>Ritmo de ligações.</strong> As 5.000 por ano do modelo são premissa minha, não meta publicada.</li>
+      <li><strong>Preço local.</strong> As faixas de custo de instalação hidráulica são nacionais. Santarém tem frete de material amazônico embutido em tudo — pode ser bem mais caro.</li>
+      <li><strong>Regras locais.</strong> Licenciamento de serviço de esgotamento sanitário individual, exigência de responsável técnico e destino de resíduo variam por município. Nada disso foi verificado para Santarém.</li>
+      <li><strong>Água também é gargalo.</strong> Com 44,93% de cobertura, mais da metade da cidade se vira com poço, caixa e carro-pipa. Este documento olhou só o esgoto — o lado da água provavelmente esconde uma tese irmã.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <span class="eyebrow">Fontes</span>
+  <ol>
+    <li id="f1">Ranking do Saneamento 2026, do Instituto Trata Brasil, com dados do Sinisa/Ministério das Cidades, ano-base 2024: Santarém na última posição entre os 100 municípios mais populosos, com 44,93% de atendimento de água, 3,28% de coleta e tratamento de esgoto e R$ 37,35 por habitante de investimento. <a href="https://tratabrasil.org.br/ranking-do-saneamento-2026/">Trata Brasil</a> · <a href="https://www.infomoney.com.br/brasil/paradisiaca-santarem-no-para-e-a-cidade-brasileira-com-o-pior-saneamento-basico/">InfoMoney</a> · <a href="https://agenciacenarium.com.br/para-concentra-quatro-das-20-piores-cidades-em-saneamento-basico-no-pais/">Agência Cenarium</a></li>
+    <li id="f2">Concessão do Pará arrematada pela Aegea: contratos em 99 municípios nos blocos A, B e D, com R$ 15,2 bilhões previstos, sendo R$ 10 bilhões em esgotamento sanitário, e metas de 99% de água até 2033 e 90% de esgoto até 2033 no bloco A e 2039 nos blocos B e D. <a href="https://www.aegea.com.br/2025/08/06/aegea-conquista-concessao-do-bloco-c-para-operar-servicos-de-agua-e-esgoto-no-para/">Aegea</a> · <a href="https://agenciadenoticias.bndes.gov.br/infraestrutura/Consorcio-Aegea-vence-leilao-para-universalizar-servicos-de-agua-e-esgoto-no-Para/">BNDES</a> · <a href="https://diariodopara.com.br/para/aegea-assumira-agua-e-esgoto-em-municipios-do-para-com-r-15-bi-em-obras/">Diário do Pará</a></li>
+    <li id="f3">Entrada da Águas do Pará em Santarém a partir de 1º de abril de 2026, com R$ 257 milhões de investimento no primeiro ano da etapa. <a href="https://agenciapara.com.br/noticia/75198/nova-fase-do-saneamento-no-oeste-do-para-comecara-em-abril-em-santarem">Agência Pará</a> · <a href="https://agenciapara.com.br/noticia/73188/governo-acelera-universalizacao-do-saneamento-com-entrada-antecipada-da-aguas-do-para-em-mais-34-municipios">Agência Pará</a></li>
+    <li id="f4">Ligação intradomiciliar como responsabilidade e custo do proprietário, obrigatória quando a rede está disponível, com desativação da fossa após a conexão. <a href="https://www.aguasdeteresina.com.br/ligacao-intradomiciliar-e-indispensavel-para-o-avanco-do-saneamento-basico/">Águas de Teresina</a> · <a href="https://www.tjsc.jus.br/web/imprensa/-/cliente-e-responsavel-por-ligar-esgoto-a-rede-e-pagara-servico-mesmo-sem-usufrui-lo">TJSC</a> · <a href="https://corsan.com.br/upload/arquivos/202207/01163053-orientacoes-para-ligacao-intradomiciliar-do-imovel-a-rede-de-esgoto.pdf">Corsan — orientações técnicas</a></li>
+    <li id="f5">Censo 2022 do IBGE: 140.652 pessoas em Santarém, 42,6% da população, usam fossa rudimentar ou buraco; 3,3% têm esgotamento sanitário, contra 19,1% no Pará e 62,3% no Brasil. <a href="https://www.aguaesaneamento.org.br/municipios-e-saneamento/pa/santarem">Instituto Água e Saneamento</a> · <a href="https://infosanbas.org.br/municipio/santarem-pa/">Infosanbas</a>. Faixas de custo de instalação hidráulica: <a href="https://www.habitissimo.com.br/orcamentos/instalar-esgoto">Habitissimo</a></li>
+  </ol>
+  <p style="margin-top:16px; color:var(--ink-3); font-size:.8rem;">Documento de trabalho. As estimativas de mercado são modelos com premissas declaradas, não medições locais; confirme em campo antes de qualquer decisão de investimento.</p>
+</footer>
+</div>
