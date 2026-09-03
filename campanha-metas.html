@@ -1,0 +1,646 @@
+<title>Campanha de Metas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"/>
+<style>
+  :root{
+    --ground:#F4F6F8; --surface:#FFFFFF; --sunken:#EDF0F4; --field:#FFFFFF;
+    --ink:#121620; --ink-2:#464F60; --ink-3:#727C8F; --rule:#DDE2EA;
+    --acento:#2E3A8C; --acento-2:#3C4BB0; --acento-wash:#E7E9F6;
+    --ouro:#8A6508; --ouro-wash:#F8EFD9;
+    --ok:#0F6B4A; --ok-wash:#E3F0EA; --ruim:#A93526; --ruim-wash:#F8E8E5;
+    --shadow:0 1px 2px rgba(18,22,32,.06), 0 10px 26px -20px rgba(18,22,32,.5);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ground:#0D1015; --surface:#161A22; --sunken:#11151C; --field:#1D222C;
+      --ink:#EDF0F5; --ink-2:#AEB6C4; --ink-3:#7C8598; --rule:#262C38;
+      --acento:#8794F2; --acento-2:#A3AEF7; --acento-wash:#191E33;
+      --ouro:#E0B45C; --ouro-wash:#2A2314;
+      --ok:#5CC194; --ok-wash:#12241D; --ruim:#E8897A; --ruim-wash:#2A1714;
+      --shadow:0 1px 2px rgba(0,0,0,.5), 0 14px 32px -22px rgba(0,0,0,.95);
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#0D1015; --surface:#161A22; --sunken:#11151C; --field:#1D222C;
+    --ink:#EDF0F5; --ink-2:#AEB6C4; --ink-3:#7C8598; --rule:#262C38;
+    --acento:#8794F2; --acento-2:#A3AEF7; --acento-wash:#191E33;
+    --ouro:#E0B45C; --ouro-wash:#2A2314;
+    --ok:#5CC194; --ok-wash:#12241D; --ruim:#E8897A; --ruim-wash:#2A1714;
+    --shadow:0 1px 2px rgba(0,0,0,.5), 0 14px 32px -22px rgba(0,0,0,.95);
+  }
+  body{background:var(--ground); color:var(--ink);
+    font-family:"IBM Plex Sans",system-ui,-apple-system,sans-serif; font-size:15px; line-height:1.55;
+    -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1240px; margin:0 auto; padding:0 20px 80px;}
+  h1,h2,.cond{font-family:"Barlow Condensed","Arial Narrow",sans-serif; font-weight:700;
+    text-transform:uppercase; letter-spacing:.02em; line-height:1;}
+  h1{font-size:clamp(1.9rem,4.4vw,2.7rem);} h2{font-size:1.2rem;}
+  h3{font-size:.95rem; font-weight:600;}
+  p{margin:0;} a{color:var(--acento);}
+  :focus-visible{outline:2px solid var(--acento); outline-offset:2px; border-radius:5px;}
+  .num{font-variant-numeric:tabular-nums;}
+  .eyebrow{font-size:.65rem; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-3); font-weight:600;}
+
+  header.top{padding:28px 0 18px; display:flex; flex-wrap:wrap; gap:14px; align-items:flex-end; justify-content:space-between;}
+  .fonte{font-size:.72rem; padding:4px 10px; border-radius:99px; border:1px solid var(--rule); color:var(--ink-3);}
+  .fonte.nuvem{color:var(--ok); border-color:color-mix(in srgb,var(--ok) 40%,transparent); background:var(--ok-wash);}
+  .fonte.local{color:var(--ouro); border-color:color-mix(in srgb,var(--ouro) 40%,transparent); background:var(--ouro-wash);}
+
+  .faixa{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; margin-bottom:20px;}
+  .box{background:var(--surface); border:1px solid var(--rule); border-radius:12px; padding:14px 16px;
+    display:flex; flex-direction:column; box-shadow:var(--shadow);}
+  .box .k{font-size:.65rem; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-3); font-weight:600;}
+  .box .v{font-family:"Barlow Condensed",sans-serif; font-weight:700; font-size:1.9rem; line-height:1.05; margin-top:2px;}
+  .box .n{font-size:.74rem; color:var(--ink-2);}
+  .box.destaque{background:var(--acento-wash); border-color:color-mix(in srgb,var(--acento) 30%,transparent);}
+  .box.destaque .v{color:var(--acento);}
+
+  .tabs{display:flex; gap:4px; padding:4px; background:var(--sunken); border:1px solid var(--rule);
+    border-radius:11px; margin:0 0 18px; width:fit-content; max-width:100%; overflow-x:auto;}
+  .tabs button{font:inherit; font-weight:600; font-size:.86rem; color:var(--ink-2); background:transparent;
+    border:0; padding:9px 15px; border-radius:8px; cursor:pointer; white-space:nowrap;}
+  .tabs button[aria-selected="true"]{background:var(--surface); color:var(--ink); box-shadow:var(--shadow);}
+
+  .card{background:var(--surface); border:1px solid var(--rule); border-radius:13px; box-shadow:var(--shadow);}
+  .card-h{padding:14px 18px; border-bottom:1px solid var(--rule); display:flex; align-items:center;
+    justify-content:space-between; gap:12px; flex-wrap:wrap;}
+  .card-b{padding:18px;}
+  .tw{overflow-x:auto;}
+  table{border-collapse:collapse; width:100%; font-size:.86rem;}
+  th,td{text-align:left; padding:9px 11px; border-bottom:1px solid var(--rule); vertical-align:middle;}
+  th{font-size:.63rem; letter-spacing:.09em; text-transform:uppercase; color:var(--ink-3); font-weight:600;
+    background:var(--sunken); white-space:nowrap;}
+  tbody tr:last-child td{border-bottom:0;}
+  td.r,th.r{text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap;}
+  tr.lider td{background:var(--ouro-wash);}
+  .pos{font-family:"Barlow Condensed",sans-serif; font-weight:700; font-size:1.4rem; line-height:1; color:var(--ink-3);}
+  tr.lider .pos{color:var(--ouro);}
+  .medalha{font-size:1rem;}
+  .barra{height:7px; background:var(--sunken); border-radius:99px; overflow:hidden; min-width:70px; border:1px solid var(--rule);}
+  .barra i{display:block; height:100%; background:var(--acento); border-radius:99px;}
+  .barra i.ok{background:var(--ok);} .barra i.ruim{background:var(--ruim);}
+  .tag{display:inline-flex; font-size:.66rem; font-weight:700; padding:2px 8px; border-radius:99px;
+    border:1px solid var(--rule); white-space:nowrap;}
+  .tag.ok{color:var(--ok); background:var(--ok-wash); border-color:color-mix(in srgb,var(--ok) 32%,transparent);}
+  .tag.ruim{color:var(--ruim); background:var(--ruim-wash); border-color:color-mix(in srgb,var(--ruim) 32%,transparent);}
+  .tag.meio{color:var(--ouro); background:var(--ouro-wash); border-color:color-mix(in srgb,var(--ouro) 32%,transparent);}
+
+  button.btn{font:inherit; font-weight:600; font-size:.83rem; cursor:pointer; border-radius:8px; padding:8px 13px;
+    border:1px solid var(--rule); background:var(--surface); color:var(--ink); display:inline-flex; align-items:center; gap:6px;}
+  button.btn:hover{border-color:var(--acento); color:var(--acento);}
+  button.btn.principal{background:var(--acento); border-color:var(--acento); color:#fff;}
+  button.btn.principal:hover{background:var(--acento-2); color:#fff;}
+  button.btn.mini{padding:5px 9px; font-size:.75rem;}
+  .acoes{display:flex; gap:6px; flex-wrap:wrap;}
+
+  label.campo{display:flex; flex-direction:column; gap:5px; font-size:.75rem; font-weight:600; color:var(--ink-2);}
+  input,select,textarea{font:inherit; font-size:.87rem; color:var(--ink); background:var(--field);
+    border:1px solid var(--rule); border-radius:8px; padding:7px 9px; width:100%; font-weight:400;}
+  input.mini{padding:5px 7px; font-size:.82rem; text-align:right;}
+  .gridf{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px;}
+  .hint{font-size:.73rem; font-weight:400; color:var(--ink-3); line-height:1.45;}
+  .vazio{padding:34px 18px; text-align:center; color:var(--ink-3); font-size:.9rem;}
+  .status{font-size:.8rem; font-weight:600; margin-top:8px;}
+  .status.ok{color:var(--ok);} .status.err{color:var(--ruim);}
+  textarea.saida{min-height:230px; font-family:ui-monospace,Menlo,monospace; font-size:.76rem; line-height:1.5;}
+  .aviso{background:var(--acento-wash); border-left:3px solid var(--acento); border-radius:0 9px 9px 0;
+    padding:12px 15px; font-size:.85rem; color:var(--ink-2); margin-bottom:16px;}
+  .aviso strong{color:var(--ink);}
+  [hidden]{display:none !important;}
+</style>
+
+<div class="wrap">
+<header class="top">
+  <div><span class="eyebrow" id="sub-campanha">Configure a campanha para começar</span><h1 id="titulo">Campanha de Metas</h1></div>
+  <span class="fonte" id="fonte">verificando…</span>
+</header>
+
+<div class="faixa">
+  <div class="box destaque"><span class="k">Líder</span><span class="v" id="b-lider">—</span><span class="n" id="b-lider-n">sem apuração</span></div>
+  <div class="box"><span class="k">Unidades</span><span class="v num" id="b-unidades">0</span><span class="n" id="b-unidades-n">nenhuma cadastrada</span></div>
+  <div class="box"><span class="k">Adesão da apuração</span><span class="v num" id="b-adesao">0%</span><span class="n" id="b-adesao-n">0 de 0 lançamentos</span></div>
+  <div class="box"><span class="k">Atingimento médio</span><span class="v num" id="b-atg">—</span><span class="n">média ponderada da rede</span></div>
+  <div class="box"><span class="k">Bateram tudo</span><span class="v num" id="b-perfeitas">0</span><span class="n">unidades com 100% em todos os KPIs</span></div>
+</div>
+
+<div class="tabs" role="tablist">
+  <button role="tab" id="t1" aria-selected="true" aria-controls="p1">Ranking</button>
+  <button role="tab" id="t2" aria-selected="false" aria-controls="p2">Lançar resultados</button>
+  <button role="tab" id="t3" aria-selected="false" aria-controls="p3">Unidades</button>
+  <button role="tab" id="t4" aria-selected="false" aria-controls="p4">KPIs e campanha</button>
+  <button role="tab" id="t5" aria-selected="false" aria-controls="p5">Comunicar</button>
+</div>
+
+<div id="p1" role="tabpanel" aria-labelledby="t1">
+  <div class="card">
+    <div class="card-h"><h2>Classificação</h2><span class="hint" id="ranking-info"></span></div>
+    <div class="tw"><table id="tab-rank"><thead></thead><tbody></tbody></table></div>
+    <div class="vazio" id="vazio-rank">Cadastre unidades e KPIs, lance os resultados e o ranking aparece aqui.</div>
+  </div>
+</div>
+
+<div id="p2" role="tabpanel" aria-labelledby="t2" hidden>
+  <div class="aviso"><strong>Digite o resultado apurado de cada unidade.</strong> A pontuação recalcula sozinha: cada KPI vale o peso definido, o atingimento é limitado a 120% para que uma unidade não vença por causa de um único número fora da curva, e KPI em branco conta como não apurado.</div>
+  <div class="card">
+    <div class="card-h"><h2>Apuração</h2><span class="hint" id="apuracao-info"></span></div>
+    <div class="tw"><table id="tab-lanc"><thead></thead><tbody></tbody></table></div>
+    <div class="vazio" id="vazio-lanc">Cadastre KPIs e unidades primeiro.</div>
+  </div>
+</div>
+
+<div id="p3" role="tabpanel" aria-labelledby="t3" hidden>
+  <div class="card">
+    <div class="card-h"><h2>Unidades participantes</h2>
+      <div class="acoes">
+        <button class="btn" id="b-colar">Colar lista</button>
+        <button class="btn principal" id="b-nova-unidade">+ Nova unidade</button>
+      </div>
+    </div>
+    <div class="tw"><table id="tab-unidades">
+      <thead><tr><th>Unidade</th><th>Responsável</th><th>Grupo</th><th></th></tr></thead><tbody></tbody>
+    </table></div>
+    <div class="vazio" id="vazio-unidades">Nenhuma unidade. Use “Colar lista” para cadastrar dezenas de uma vez.</div>
+  </div>
+</div>
+
+<div id="p4" role="tabpanel" aria-labelledby="t4" hidden>
+  <div class="card" style="margin-bottom:16px;"><div class="card-b">
+    <div class="gridf">
+      <label class="campo">Nome da campanha<input type="text" id="c-nome"/></label>
+      <label class="campo">Cliente / rede<input type="text" id="c-cliente"/></label>
+      <label class="campo">Período apurado<input type="text" id="c-periodo" placeholder="Ex.: Setembro/2026"/></label>
+    </div>
+    <div class="acoes" style="margin-top:14px;">
+      <button class="btn principal" id="b-salvar-camp">Salvar campanha</button>
+      <button class="btn" id="b-backup">Baixar backup</button>
+      <button class="btn" id="b-csv">Exportar CSV</button>
+      <button class="btn" id="b-demo">Carregar exemplo</button>
+      <button class="btn" id="b-zerar">Zerar tudo</button>
+    </div>
+    <p class="status" id="camp-status" hidden></p>
+  </div></div>
+  <div class="card">
+    <div class="card-h"><h2>Indicadores</h2><button class="btn principal" id="b-novo-kpi">+ Novo KPI</button></div>
+    <div class="tw"><table id="tab-kpis">
+      <thead><tr><th>Indicador</th><th class="r">Meta</th><th>Melhor quando</th><th class="r">Peso</th><th>Unidade</th><th></th></tr></thead>
+      <tbody></tbody>
+    </table></div>
+    <div class="vazio" id="vazio-kpis">Nenhum indicador. Um KPI precisa de meta, direção e peso — é isso que transforma número em placar.</div>
+  </div>
+</div>
+
+<div id="p5" role="tabpanel" aria-labelledby="t5" hidden>
+  <div class="card"><div class="card-b">
+    <div class="gridf" style="margin-bottom:14px;">
+      <label class="campo">Quantos aparecem no destaque<input type="number" id="m-top" min="3" max="20" value="5"/></label>
+      <label class="campo">Incluir posição de todas as unidades<select id="m-todas"><option value="sim">Sim</option><option value="nao">Não</option></select></label>
+    </div>
+    <label class="campo">Mensagem pronta
+      <textarea class="saida" id="m-texto" readonly></textarea>
+    </label>
+    <div class="acoes" style="margin-top:12px;">
+      <button class="btn principal" id="b-copiar-msg">Copiar mensagem</button>
+      <button class="btn" id="b-atualizar-msg">Atualizar</button>
+    </div>
+    <p class="status" id="msg-status" hidden></p>
+    <p class="hint" style="margin-top:12px;">Ranking divulgado no mesmo dia da apuração vale o dobro. Mande no grupo dos gerentes assim que fechar o período — placar antigo não muda comportamento de ninguém.</p>
+  </div></div>
+</div>
+</div>
+
+<dialog id="dlg-unidade"><form method="dialog">
+  <div class="card-h"><h2 id="du-titulo">Nova unidade</h2></div>
+  <div class="card-b" style="min-width:280px;">
+    <div class="gridf">
+      <label class="campo">Nome<input type="text" id="du-nome" required/></label>
+      <label class="campo">Responsável<input type="text" id="du-resp"/></label>
+      <label class="campo">Grupo / regional<input type="text" id="du-grupo"/></label>
+    </div>
+  </div>
+  <div class="card-h" style="border-top:1px solid var(--rule); border-bottom:0; justify-content:flex-end;">
+    <button class="btn" value="cancel">Cancelar</button><button class="btn principal" value="ok">Salvar</button>
+  </div>
+</form></dialog>
+
+<dialog id="dlg-kpi"><form method="dialog">
+  <div class="card-h"><h2 id="dk-titulo">Novo KPI</h2></div>
+  <div class="card-b" style="min-width:280px;">
+    <div class="gridf">
+      <label class="campo">Nome<input type="text" id="dk-nome" required placeholder="Ex.: Venda mesma loja"/></label>
+      <label class="campo">Meta<input type="number" id="dk-meta" step="0.01" value="100"/></label>
+      <label class="campo">Melhor quando<select id="dk-dir"><option value="maior">Maior é melhor</option><option value="menor">Menor é melhor</option></select></label>
+      <label class="campo">Peso<input type="number" id="dk-peso" step="0.5" min="0.5" value="1"/></label>
+      <label class="campo">Unidade<input type="text" id="dk-unid" placeholder="%, R$, pontos"/></label>
+    </div>
+    <p class="hint" style="margin-top:10px;">Peso é quanto o indicador vale no placar. Dois KPIs de peso 1 e um de peso 2 fazem o terceiro valer metade da campanha.</p>
+  </div>
+  <div class="card-h" style="border-top:1px solid var(--rule); border-bottom:0; justify-content:flex-end;">
+    <button class="btn" value="cancel">Cancelar</button><button class="btn principal" value="ok">Salvar</button>
+  </div>
+</form></dialog>
+
+<dialog id="dlg-colar"><form method="dialog">
+  <div class="card-h"><h2>Colar lista de unidades</h2></div>
+  <div class="card-b" style="min-width:300px;">
+    <p class="hint" style="margin-bottom:8px;">Uma unidade por linha. Separe por ponto e vírgula: <span class="mono">Nome;Responsável;Grupo</span> — responsável e grupo são opcionais.</p>
+    <textarea id="dc-txt" style="min-height:180px; font-family:ui-monospace,Menlo,monospace; font-size:.8rem;"
+      placeholder="Loja Centro;Ana Souza;Regional Norte&#10;Loja Aeroporto;Bruno Lima;Regional Norte"></textarea>
+  </div>
+  <div class="card-h" style="border-top:1px solid var(--rule); border-bottom:0; justify-content:flex-end;">
+    <button class="btn" value="cancel">Cancelar</button><button class="btn principal" value="ok">Adicionar</button>
+  </div>
+</form></dialog>
+
+<script>
+(function(){
+  "use strict";
+  var $=function(id){ return document.getElementById(id); };
+  var CAMP={nome:'Campanha de Metas', cliente:'', periodo:'', kpis:[]};
+  var UNIDADES=[];
+  var db=null, modo='local';
+  var LS='campanha-metas-v1';
+
+  function nid(p){ return (p||'x')+Date.now().toString(36)+Math.random().toString(36).slice(2,5); }
+  function n(v){ var x=parseFloat(String(v).replace(',','.')); return isFinite(x)?x:null; }
+  function fmt(v,c){ return (Number(v)||0).toLocaleString('pt-BR',{minimumFractionDigits:c===undefined?1:c,
+    maximumFractionDigits:c===undefined?1:c}); }
+
+  /* ---------- pontuação ---------- */
+  var TETO=1.2;
+  function atingimento(kpi, valor){
+    var v=n(valor), meta=n(kpi.meta);
+    if(v===null||meta===null||meta===0) return null;
+    var a = (kpi.dir==='menor') ? (v===0 ? TETO : meta/v) : (v/meta);
+    if(!isFinite(a)||a<0) return null;
+    return a;
+  }
+  function avaliar(u){
+    var pontos=0, somaPeso=0, somaAtg=0, apurados=0, todosBatidos=true;
+    CAMP.kpis.forEach(function(k){
+      var a=atingimento(k, (u.valores||{})[k.id]);
+      var peso=n(k.peso)||1;
+      somaPeso+=peso;
+      if(a===null){ todosBatidos=false; return; }
+      apurados++;
+      var cap=Math.min(a,TETO);
+      pontos += cap*peso*100;
+      somaAtg += cap*peso;
+      if(a<1) todosBatidos=false;
+    });
+    return { pontos:pontos, apurados:apurados, total:CAMP.kpis.length,
+             media: somaPeso? somaAtg/somaPeso : 0, perfeita: todosBatidos && CAMP.kpis.length>0 };
+  }
+  function classificacao(){
+    return UNIDADES.map(function(u){ var e=avaliar(u); return {u:u, e:e}; })
+      .sort(function(a,b){ return b.e.pontos-a.e.pontos || b.e.media-a.e.media ||
+        String(a.u.nome).localeCompare(String(b.u.nome),'pt-BR'); });
+  }
+
+  /* ---------- armazenamento ---------- */
+  function lerLocal(){
+    try{ var d=JSON.parse(localStorage.getItem(LS)||'{}');
+      if(d.camp) CAMP=Object.assign(CAMP,d.camp);
+      if(Array.isArray(d.unidades)) UNIDADES=d.unidades;
+    }catch(e){}
+  }
+  function gravarLocal(){ try{ localStorage.setItem(LS,JSON.stringify({camp:CAMP,unidades:UNIDADES})); }catch(e){} }
+  function salvarCamp(){ if(modo==='db') db.doc('campanha/config').set(CAMP).catch(errDb); gravarLocal(); }
+  function salvarUnidade(u){
+    if(modo==='db'){ db.collection('unidades').doc(u.id).set(u).catch(errDb); }
+    else { var i=UNIDADES.findIndex(function(x){ return x.id===u.id; });
+      if(i>=0) UNIDADES[i]=u; else UNIDADES.push(u); gravarLocal(); render(); }
+  }
+  function apagarUnidade(id){
+    if(modo==='db') db.collection('unidades').doc(id).delete().catch(errDb);
+    else { UNIDADES=UNIDADES.filter(function(x){ return x.id!==id; }); gravarLocal(); render(); }
+  }
+  function errDb(e){
+    var st=$('camp-status'); st.hidden=false; st.className='status err';
+    st.textContent = (e&&e.code==='quota_exceeded') ? 'Limite de registros atingido.' :
+      'Não deu para gravar na nuvem agora — os dados seguem salvos neste navegador.';
+    setTimeout(function(){ st.hidden=true; },5000);
+  }
+  function marcarModo(m){
+    modo = m==='db'?'db':'local';
+    var el=$('fonte');
+    if(modo==='db'){ el.className='fonte nuvem'; el.textContent='Salvando na nuvem'; }
+    else { el.className='fonte local'; el.textContent='Salvando só neste navegador'; }
+  }
+  function iniciar(){
+    lerLocal(); preencherCamp(); render();
+    if(!window.claude||!claude.use){ marcarModo('local'); return; }
+    claude.use('db').then(function(x){
+      if(!x){ marcarModo('local'); return; }
+      db=x; modo='db'; marcarModo('db');
+      db.doc('campanha/config').onSnapshot(function(s){
+        if(s.exists){ CAMP=Object.assign(CAMP,s.data()); if(!Array.isArray(CAMP.kpis)) CAMP.kpis=[];
+          preencherCamp(); render(); }
+      },function(){});
+      db.collection('unidades').onSnapshot(function(s){
+        UNIDADES=s.docs.map(function(d){ var o=Object.assign({},d.data()); o.id=d.id; return o; });
+        gravarLocal(); render();
+      },function(e){ errDb(e); marcarModo('local'); });
+    },function(){ marcarModo('local'); });
+  }
+
+  function copiar(txt,alvo,ok){
+    var mostra=function(t,c){ if(!alvo) return; alvo.hidden=false; alvo.textContent=t; alvo.className='status '+c;
+      setTimeout(function(){ alvo.hidden=true; },2600); };
+    var falha=function(){ var ta=document.createElement('textarea'); ta.value=txt; ta.style.position='fixed';
+      ta.style.opacity='0'; document.body.appendChild(ta); ta.select();
+      var f=false; try{ f=document.execCommand('copy'); }catch(e){}
+      document.body.removeChild(ta); mostra(f?ok:'Não deu para copiar — selecione e copie à mão.',f?'ok':'err'); };
+    if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(function(){ mostra(ok,'ok'); },falha);
+    else falha();
+  }
+
+  /* ---------- render ---------- */
+  function el(tag,cls,txt){ var e=document.createElement(tag); if(cls) e.className=cls;
+    if(txt!==undefined&&txt!==null) e.textContent=txt; return e; }
+  function td(tr,conteudo,cls){ var c=el('td',cls);
+    if(conteudo instanceof Node) c.appendChild(conteudo); else c.textContent=conteudo===undefined?'':conteudo;
+    tr.appendChild(c); return c; }
+  function botao(txt,cls,fn){ var b=el('button','btn mini'+(cls?' '+cls:''),txt); b.addEventListener('click',fn); return b; }
+  function barra(pct,tipo){ var d=el('div','barra'); var i=el('i',tipo);
+    i.style.width=Math.max(0,Math.min(100,pct))+'%'; d.appendChild(i); return d; }
+
+  function render(){
+    $('titulo').textContent=CAMP.nome||'Campanha de Metas';
+    $('sub-campanha').textContent=[CAMP.cliente,CAMP.periodo].filter(Boolean).join(' · ')||'Configure a campanha para começar';
+    var cls=classificacao();
+    var lancados=0, possiveis=UNIDADES.length*CAMP.kpis.length, perfeitas=0, somaMedia=0, comApuracao=0;
+    cls.forEach(function(r){ lancados+=r.e.apurados; if(r.e.perfeita) perfeitas++;
+      if(r.e.apurados>0){ somaMedia+=r.e.media; comApuracao++; } });
+    var lider=cls[0];
+    $('b-lider').textContent = (lider&&lider.e.apurados>0) ? lider.u.nome : '—';
+    $('b-lider-n').textContent = (lider&&lider.e.apurados>0) ? fmt(lider.e.pontos,0)+' pontos' : 'sem apuração';
+    $('b-unidades').textContent=UNIDADES.length;
+    $('b-unidades-n').textContent = UNIDADES.length? CAMP.kpis.length+' indicador'+(CAMP.kpis.length!==1?'es':'')+' na campanha':'nenhuma cadastrada';
+    var adesao = possiveis? Math.round(lancados/possiveis*100):0;
+    $('b-adesao').textContent=adesao+'%';
+    $('b-adesao-n').textContent=lancados+' de '+possiveis+' lançamentos';
+    $('b-atg').textContent = comApuracao? fmt(somaMedia/comApuracao*100,1)+'%' : '—';
+    $('b-perfeitas').textContent=perfeitas;
+    renderRank(cls); renderLanc(); renderUnidades(); renderKpis(); montarMensagem();
+  }
+
+  function renderRank(cls){
+    var t=$('tab-rank'), th=t.querySelector('thead'), tb=t.querySelector('tbody');
+    var temDados = UNIDADES.length>0 && CAMP.kpis.length>0;
+    $('vazio-rank').hidden=temDados; t.hidden=!temDados;
+    th.innerHTML=''; tb.innerHTML=''; if(!temDados) return;
+    var htr=document.createElement('tr');
+    ['#','Unidade','Responsável'].forEach(function(h){ htr.appendChild(el('th',null,h)); });
+    CAMP.kpis.forEach(function(k){ htr.appendChild(el('th','r',k.nome)); });
+    htr.appendChild(el('th','r','Atingimento')); htr.appendChild(el('th','r','Pontos'));
+    th.appendChild(htr);
+    cls.forEach(function(r,i){
+      var tr=document.createElement('tr'); if(i===0&&r.e.apurados>0) tr.className='lider';
+      var p=el('span','pos',String(i+1)); td(tr,p);
+      var nome=el('span',null,r.u.nome);
+      if(i<3&&r.e.apurados>0){ var m=el('span','medalha',' '+['🥇','🥈','🥉'][i]); nome.appendChild(m); }
+      td(tr,nome);
+      td(tr,r.u.resp||'—');
+      CAMP.kpis.forEach(function(k){
+        var v=(r.u.valores||{})[k.id];
+        var a=atingimento(k,v);
+        var c=td(tr, (v===undefined||v===''||v===null)?'—':fmt(n(v),1)+(k.unid?' '+k.unid:''), 'r');
+        if(a!==null){ var tag=el('span','tag '+(a>=1?'ok':a>=0.95?'meio':'ruim'), fmt(a*100,0)+'%');
+          c.appendChild(document.createTextNode(' ')); c.appendChild(tag); }
+      });
+      var cA=td(tr,'','r'); var wrap=el('div'); wrap.style.display='flex'; wrap.style.alignItems='center';
+      wrap.style.gap='8px'; wrap.style.justifyContent='flex-end';
+      wrap.appendChild(el('span',null, r.e.apurados? fmt(r.e.media*100,1)+'%' : '—'));
+      wrap.appendChild(barra(r.e.media*100/1.2, r.e.media>=1?'ok':r.e.media>=0.95?'':'ruim'));
+      cA.appendChild(wrap);
+      var cP=td(tr,'','r'); var forte=el('strong',null,fmt(r.e.pontos,0)); cP.appendChild(forte);
+      if(r.e.apurados<r.e.total){ var av=el('div','hint', r.e.apurados+'/'+r.e.total+' apurados'); cP.appendChild(av); }
+      tb.appendChild(tr);
+    });
+    var faltando=cls.filter(function(r){ return r.e.apurados<r.e.total; }).length;
+    var info=$('ranking-info');
+    if(faltando){
+      info.textContent = faltando+(faltando>1?' unidades estão':' unidade está')+' com indicador não lançado — o placar conta como zero. Complete antes de divulgar.';
+      info.style.color='var(--ruim)'; info.style.fontWeight='600';
+    } else {
+      info.textContent = CAMP.periodo? 'Período: '+CAMP.periodo : '';
+      info.style.color=''; info.style.fontWeight='';
+    }
+  }
+
+  function renderLanc(){
+    var t=$('tab-lanc'), th=t.querySelector('thead'), tb=t.querySelector('tbody');
+    var ok=UNIDADES.length>0&&CAMP.kpis.length>0;
+    $('vazio-lanc').hidden=ok; t.hidden=!ok;
+    th.innerHTML=''; tb.innerHTML=''; if(!ok) return;
+    var htr=document.createElement('tr'); htr.appendChild(el('th',null,'Unidade'));
+    CAMP.kpis.forEach(function(k){ htr.appendChild(el('th','r', k.nome+(k.unid?' ('+k.unid+')':'')+' · meta '+fmt(n(k.meta),1))); });
+    th.appendChild(htr);
+    UNIDADES.slice().sort(function(a,b){ return String(a.nome).localeCompare(String(b.nome),'pt-BR'); })
+      .forEach(function(u){
+      var tr=document.createElement('tr'); td(tr,u.nome);
+      CAMP.kpis.forEach(function(k){
+        var c=td(tr,'','r'); var inp=document.createElement('input');
+        inp.type='text'; inp.className='mini'; inp.inputMode='decimal';
+        inp.value=(u.valores&&u.valores[k.id]!==undefined&&u.valores[k.id]!==null)?u.valores[k.id]:'';
+        inp.setAttribute('aria-label', u.nome+' — '+k.nome);
+        inp.addEventListener('change',function(){
+          var novo=Object.assign({},u); novo.valores=Object.assign({},u.valores||{});
+          if(inp.value.trim()==='') delete novo.valores[k.id]; else novo.valores[k.id]=inp.value.trim();
+          salvarUnidade(novo);
+        });
+        c.appendChild(inp);
+      });
+      tb.appendChild(tr);
+    });
+    $('apuracao-info').textContent=UNIDADES.length+' unidades × '+CAMP.kpis.length+' indicadores';
+  }
+
+  function renderUnidades(){
+    var tb=$('tab-unidades').querySelector('tbody'); tb.innerHTML='';
+    $('vazio-unidades').hidden=UNIDADES.length>0; $('tab-unidades').hidden=UNIDADES.length===0;
+    UNIDADES.slice().sort(function(a,b){ return String(a.nome).localeCompare(String(b.nome),'pt-BR'); })
+      .forEach(function(u){
+      var tr=document.createElement('tr');
+      td(tr,u.nome); td(tr,u.resp||'—'); td(tr,u.grupo||'—');
+      var acoes=el('div','acoes');
+      acoes.appendChild(botao('Editar','',function(){ abrirUnidade(u); }));
+      acoes.appendChild(botao('Remover','',function(){
+        if(confirm('Remover '+u.nome+' da campanha?')) apagarUnidade(u.id); }));
+      td(tr,acoes); tb.appendChild(tr);
+    });
+  }
+
+  function renderKpis(){
+    var tb=$('tab-kpis').querySelector('tbody'); tb.innerHTML='';
+    $('vazio-kpis').hidden=CAMP.kpis.length>0; $('tab-kpis').hidden=CAMP.kpis.length===0;
+    CAMP.kpis.forEach(function(k,i){
+      var tr=document.createElement('tr');
+      td(tr,k.nome); td(tr,fmt(n(k.meta),2),'r');
+      td(tr,k.dir==='menor'?'Menor é melhor':'Maior é melhor');
+      td(tr,fmt(n(k.peso)||1,1),'r'); td(tr,k.unid||'—');
+      var acoes=el('div','acoes');
+      acoes.appendChild(botao('Editar','',function(){ abrirKpi(k); }));
+      acoes.appendChild(botao('Remover','',function(){
+        if(!confirm('Remover o KPI "'+k.nome+'"? Os valores lançados nele serão desconsiderados.')) return;
+        CAMP.kpis.splice(i,1); salvarCamp(); render(); }));
+      td(tr,acoes); tb.appendChild(tr);
+    });
+  }
+
+  /* ---------- diálogos ---------- */
+  var uEdit=null, kEdit=null;
+  function abrirUnidade(u){
+    uEdit=u||null; $('du-titulo').textContent=u?'Editar unidade':'Nova unidade';
+    $('du-nome').value=u?u.nome:''; $('du-resp').value=u?u.resp||'':''; $('du-grupo').value=u?u.grupo||'':'';
+    $('dlg-unidade').showModal();
+  }
+  $('b-nova-unidade').addEventListener('click',function(){ abrirUnidade(null); });
+  $('dlg-unidade').addEventListener('close',function(){
+    if($('dlg-unidade').returnValue!=='ok') return;
+    var nome=$('du-nome').value.trim(); if(!nome) return;
+    var u=uEdit?Object.assign({},uEdit):{id:nid('u'), valores:{}};
+    u.nome=nome; u.resp=$('du-resp').value.trim(); u.grupo=$('du-grupo').value.trim();
+    salvarUnidade(u); uEdit=null;
+  });
+
+  function abrirKpi(k){
+    kEdit=k||null; $('dk-titulo').textContent=k?'Editar KPI':'Novo KPI';
+    $('dk-nome').value=k?k.nome:''; $('dk-meta').value=k?k.meta:100;
+    $('dk-dir').value=k?k.dir||'maior':'maior'; $('dk-peso').value=k?k.peso||1:1; $('dk-unid').value=k?k.unid||'':'';
+    $('dlg-kpi').showModal();
+  }
+  $('b-novo-kpi').addEventListener('click',function(){ abrirKpi(null); });
+  $('dlg-kpi').addEventListener('close',function(){
+    if($('dlg-kpi').returnValue!=='ok') return;
+    var nome=$('dk-nome').value.trim(); if(!nome) return;
+    var dados={nome:nome, meta:n($('dk-meta').value), dir:$('dk-dir').value,
+               peso:n($('dk-peso').value)||1, unid:$('dk-unid').value.trim()};
+    if(kEdit) Object.assign(kEdit,dados); else { dados.id=nid('k'); CAMP.kpis.push(dados); }
+    kEdit=null; salvarCamp(); render();
+  });
+
+  $('b-colar').addEventListener('click',function(){ $('dc-txt').value=''; $('dlg-colar').showModal(); });
+  $('dlg-colar').addEventListener('close',function(){
+    if($('dlg-colar').returnValue!=='ok') return;
+    var linhas=$('dc-txt').value.split('\n').map(function(l){ return l.trim(); }).filter(Boolean);
+    linhas.forEach(function(l){
+      var p=l.split(';').map(function(x){ return x.trim(); });
+      if(!p[0]) return;
+      salvarUnidade({id:nid('u'), nome:p[0], resp:p[1]||'', grupo:p[2]||'', valores:{}});
+    });
+    var st=$('camp-status'); st.hidden=false; st.className='status ok';
+    st.textContent=linhas.length+' unidades adicionadas.'; setTimeout(function(){ st.hidden=true; },3000);
+  });
+
+  /* ---------- campanha, exportação, exemplo ---------- */
+  function preencherCamp(){
+    $('c-nome').value=CAMP.nome||''; $('c-cliente').value=CAMP.cliente||''; $('c-periodo').value=CAMP.periodo||'';
+  }
+  $('b-salvar-camp').addEventListener('click',function(){
+    CAMP.nome=$('c-nome').value.trim()||'Campanha de Metas';
+    CAMP.cliente=$('c-cliente').value.trim(); CAMP.periodo=$('c-periodo').value.trim();
+    salvarCamp(); render();
+    var st=$('camp-status'); st.hidden=false; st.className='status ok'; st.textContent='Campanha salva.';
+    setTimeout(function(){ st.hidden=true; },2400);
+  });
+  function baixar(nome,conteudo){
+    var st=$('camp-status');
+    if(window.claude&&claude.use){
+      claude.use('downloads').then(function(d){
+        if(d&&d.save) d.save({filename:nome,data:conteudo}).then(function(){
+          st.hidden=false; st.className='status ok'; st.textContent='Arquivo salvo.';
+          setTimeout(function(){ st.hidden=true; },2600);
+        },function(){ copiar(conteudo,st,'Download recusado — conteúdo copiado.'); });
+        else copiar(conteudo,st,'Conteúdo copiado — cole num arquivo e guarde.');
+      },function(){ copiar(conteudo,st,'Conteúdo copiado — cole num arquivo e guarde.'); });
+    } else copiar(conteudo,st,'Conteúdo copiado — cole num arquivo e guarde.');
+  }
+  $('b-backup').addEventListener('click',function(){
+    baixar('campanha-backup.json', JSON.stringify({camp:CAMP,unidades:UNIDADES,gerado:new Date().toISOString()},null,2));
+  });
+  $('b-csv').addEventListener('click',function(){
+    var cab=['posicao','unidade','responsavel','grupo'].concat(CAMP.kpis.map(function(k){ return k.nome; }))
+      .concat(['atingimento_%','pontos']);
+    var linhas=[cab.join(';')];
+    classificacao().forEach(function(r,i){
+      var l=[i+1, r.u.nome, r.u.resp||'', r.u.grupo||''];
+      CAMP.kpis.forEach(function(k){ var v=(r.u.valores||{})[k.id]; l.push(v===undefined?'':String(v).replace('.',',')); });
+      l.push(fmt(r.e.media*100,1)); l.push(fmt(r.e.pontos,0));
+      linhas.push(l.map(function(x){ return String(x).replace(/;/g,','); }).join(';'));
+    });
+    baixar('ranking.csv', linhas.join('\n'));
+  });
+  $('b-zerar').addEventListener('click',function(){
+    if(!confirm('Apagar todas as unidades e KPIs desta campanha? Não dá para desfazer.')) return;
+    CAMP.kpis=[]; UNIDADES.slice().forEach(function(u){ apagarUnidade(u.id); });
+    if(modo!=='db') UNIDADES=[];
+    salvarCamp(); gravarLocal(); render();
+  });
+  $('b-demo').addEventListener('click',function(){
+    if(UNIDADES.length&&!confirm('Isso adiciona um exemplo por cima do que já existe. Continuar?')) return;
+    CAMP.nome='Campanha Trimestral de Metas'; CAMP.cliente='Rede Exemplo'; CAMP.periodo='Setembro/2026';
+    CAMP.kpis=[
+      {id:nid('k'), nome:'Venda mesma loja', meta:100, dir:'maior', peso:2, unid:'%'},
+      {id:nid('k'), nome:'Conversão', meta:22, dir:'maior', peso:1, unid:'%'},
+      {id:nid('k'), nome:'Satisfação', meta:85, dir:'maior', peso:1.5, unid:'pts'},
+      {id:nid('k'), nome:'Ruptura', meta:4, dir:'menor', peso:1, unid:'%'}
+    ];
+    var base=[['Unidade Centro','Ana Ribeiro','Regional Norte',104.2,24.1,89,3.2],
+              ['Unidade Aeroporto','Bruno Lima','Regional Norte',98.4,21.0,82,5.1],
+              ['Unidade Orla','Carla Nunes','Regional Sul',101.7,23.4,91,3.8],
+              ['Unidade Rodoviária','Diego Alves','Regional Sul',95.2,19.8,78,6.4],
+              ['Unidade Shopping','Elisa Moraes','Regional Norte',108.9,25.6,88,2.9],
+              ['Unidade Mercado','Fábio Torres','Regional Sul',99.1,22.3,84,4.0]];
+    base.forEach(function(b){
+      var v={}; CAMP.kpis.forEach(function(k,i){ v[k.id]=b[3+i]; });
+      salvarUnidade({id:nid('u'), nome:b[0], resp:b[1], grupo:b[2], valores:v});
+    });
+    salvarCamp(); preencherCamp(); render();
+  });
+
+  /* ---------- mensagem ---------- */
+  function montarMensagem(){
+    var cls=classificacao().filter(function(r){ return r.e.apurados>0; });
+    if(!cls.length){ $('m-texto').value='Lance ao menos um resultado para gerar a mensagem.'; return; }
+    var top=Math.max(3,Math.min(20, parseInt($('m-top').value,10)||5));
+    var medalhas=['🥇','🥈','🥉'];
+    var linhas=[];
+    linhas.push('🏆 '+(CAMP.nome||'Campanha de Metas')+(CAMP.periodo?' — '+CAMP.periodo:''));
+    if(CAMP.cliente) linhas.push(CAMP.cliente);
+    linhas.push('');
+    var incompleta=function(r){ return r.e.apurados<r.e.total ? ' ⚠️ apuração incompleta ('+r.e.apurados+'/'+r.e.total+')' : ''; };
+    cls.slice(0,top).forEach(function(r,i){
+      linhas.push((medalhas[i]||(i+1)+'º')+' '+r.u.nome+' — '+fmt(r.e.pontos,0)+' pts ('+fmt(r.e.media*100,1)+'%)'
+        +(r.u.resp?' · '+r.u.resp:'')+incompleta(r));
+    });
+    if($('m-todas').value==='sim' && cls.length>top){
+      linhas.push(''); linhas.push('Demais posições:');
+      cls.slice(top).forEach(function(r,i){
+        linhas.push((top+i+1)+'º '+r.u.nome+' — '+fmt(r.e.pontos,0)+' pts'+incompleta(r));
+      });
+    }
+    var possiveis=UNIDADES.length*CAMP.kpis.length;
+    var lancados=UNIDADES.reduce(function(s,u){ return s+avaliar(u).apurados; },0);
+    linhas.push('');
+    linhas.push('Apuração: '+(possiveis?Math.round(lancados/possiveis*100):0)+'% dos indicadores lançados.');
+    linhas.push('Dúvida no número da sua unidade? Me chama que a gente confere junto.');
+    $('m-texto').value=linhas.join('\n');
+  }
+  ['m-top','m-todas'].forEach(function(id){ $(id).addEventListener('change',montarMensagem); });
+  $('b-atualizar-msg').addEventListener('click',montarMensagem);
+  $('b-copiar-msg').addEventListener('click',function(){
+    copiar($('m-texto').value,$('msg-status'),'Mensagem copiada. Mande no grupo hoje mesmo.');
+  });
+
+  [['t1','p1'],['t2','p2'],['t3','p3'],['t4','p4'],['t5','p5']].forEach(function(par,i,todos){
+    $(par[0]).addEventListener('click',function(){
+      todos.forEach(function(p){ var s=p[0]===par[0];
+        $(p[0]).setAttribute('aria-selected',s?'true':'false'); $(p[1]).hidden=!s; });
+    });
+  });
+
+  iniciar();
+})();
+</script>
