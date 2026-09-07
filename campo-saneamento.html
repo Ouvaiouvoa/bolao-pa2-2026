@@ -1,0 +1,737 @@
+<title>Caderno de Campo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chivo:wght@700;900&family=IBM+Plex+Sans:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap"/>
+<style>
+  :root{
+    --ground:#EDF0F1; --surface:#FFFFFF; --sunken:#E2E7E9; --field:#FFFFFF; --rule:#CFD7DA;
+    --ink:#111A1E; --ink-2:#3F4E55; --ink-3:#6C7B82;
+    --agua:#0D6A87; --agua-2:#0F82A4; --agua-wash:#DFEEF3;
+    --ferro:#9E4E1C; --ferro-wash:#F5E7DC;
+    --ok:#0F6B4A; --ok-wash:#E1EFE9; --alerta:#A93526; --alerta-wash:#F8E8E5;
+    --shadow:0 1px 2px rgba(17,26,30,.06), 0 10px 26px -18px rgba(17,26,30,.45);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ground:#0B1114; --surface:#131B1F; --sunken:#0E1518; --field:#1B242A; --rule:#243036;
+      --ink:#E8EEF0; --ink-2:#A7B6BC; --ink-3:#788790;
+      --agua:#5CBEDC; --agua-2:#84D2EA; --agua-wash:#0E2A34;
+      --ferro:#D9915A; --ferro-wash:#2A1D14;
+      --ok:#5CC194; --ok-wash:#0F241C; --alerta:#E8897A; --alerta-wash:#2A1714;
+      --shadow:0 1px 2px rgba(0,0,0,.5), 0 14px 32px -22px rgba(0,0,0,.95);
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#0B1114; --surface:#131B1F; --sunken:#0E1518; --field:#1B242A; --rule:#243036;
+    --ink:#E8EEF0; --ink-2:#A7B6BC; --ink-3:#788790;
+    --agua:#5CBEDC; --agua-2:#84D2EA; --agua-wash:#0E2A34;
+    --ferro:#D9915A; --ferro-wash:#2A1D14;
+    --ok:#5CC194; --ok-wash:#0F241C; --alerta:#E8897A; --alerta-wash:#2A1714;
+    --shadow:0 1px 2px rgba(0,0,0,.5), 0 14px 32px -22px rgba(0,0,0,.95);
+  }
+  *{box-sizing:border-box;}
+  body{background:var(--ground); color:var(--ink);
+    font-family:"IBM Plex Sans",system-ui,-apple-system,sans-serif; font-size:15px; line-height:1.5;}
+  .wrap{max-width:1080px; margin:0 auto; padding:0 16px 90px;}
+  h1,h2,.cond{font-family:Chivo,"Helvetica Neue",Arial,sans-serif; font-weight:900; letter-spacing:-.02em; line-height:1.05;}
+  h1{font-size:clamp(1.5rem,5vw,2.1rem);} h2{font-size:1.08rem;}
+  h3{font-size:.95rem; font-weight:700;}
+  p{margin:0;} a{color:var(--agua);}
+  :focus-visible{outline:2px solid var(--agua); outline-offset:2px; border-radius:6px;}
+  .mono{font-family:"Roboto Mono",ui-monospace,Menlo,monospace;}
+  .num{font-variant-numeric:tabular-nums;}
+  .eyebrow{font-size:.63rem; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-3); font-weight:600;}
+
+  header.top{padding:20px 0 14px; display:flex; flex-wrap:wrap; gap:10px; align-items:flex-end; justify-content:space-between;}
+  .fonte{font-size:.7rem; padding:4px 9px; border-radius:99px; border:1px solid var(--rule); color:var(--ink-3); white-space:nowrap;}
+  .fonte.nuvem{color:var(--ok); border-color:color-mix(in srgb,var(--ok) 40%,transparent); background:var(--ok-wash);}
+  .fonte.local{color:var(--ferro); border-color:color-mix(in srgb,var(--ferro) 40%,transparent); background:var(--ferro-wash);}
+
+  .faixa{display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:8px; margin-bottom:16px;}
+  .box{background:var(--surface); border:1px solid var(--rule); border-radius:11px; padding:11px 13px;
+    display:flex; flex-direction:column; box-shadow:var(--shadow);}
+  .box .k{font-size:.61rem; letter-spacing:.09em; text-transform:uppercase; color:var(--ink-3); font-weight:600;}
+  .box .v{font-family:Chivo,sans-serif; font-weight:900; font-size:1.5rem; line-height:1.06; margin-top:2px;}
+  .box .n{font-size:.71rem; color:var(--ink-2);}
+  .box.alerta .v{color:var(--alerta);} .box.ok .v{color:var(--ok);} .box.foco .v{color:var(--agua);}
+
+  .tabs{display:flex; gap:3px; padding:3px; background:var(--sunken); border:1px solid var(--rule);
+    border-radius:10px; margin:0 0 16px; overflow-x:auto;}
+  .tabs button{font:inherit; font-weight:600; font-size:.84rem; color:var(--ink-2); background:transparent;
+    border:0; padding:9px 13px; border-radius:8px; cursor:pointer; white-space:nowrap; flex:1;}
+  .tabs button[aria-selected="true"]{background:var(--surface); color:var(--ink); box-shadow:var(--shadow);}
+
+  .card{background:var(--surface); border:1px solid var(--rule); border-radius:12px; box-shadow:var(--shadow);}
+  .card-h{padding:12px 15px; border-bottom:1px solid var(--rule); display:flex; align-items:center;
+    justify-content:space-between; gap:10px; flex-wrap:wrap;}
+  .card-b{padding:15px;}
+
+  .filtros{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px;}
+  .filtros select,.filtros input{width:auto; min-width:110px; flex:1 1 130px; font-size:.83rem; padding:7px 9px;}
+
+  .lista{display:flex; flex-direction:column; gap:9px;}
+  .ponto{background:var(--surface); border:1px solid var(--rule); border-radius:11px; padding:13px 14px;
+    display:flex; flex-direction:column; gap:8px; box-shadow:var(--shadow); cursor:pointer;}
+  .ponto:hover{border-color:var(--agua);}
+  .ponto-h{display:flex; justify-content:space-between; gap:10px; align-items:flex-start;}
+  .ponto-h strong{font-size:.98rem; line-height:1.25;}
+  .ponto-end{font-size:.83rem; color:var(--ink-2);}
+  .tags{display:flex; gap:5px; flex-wrap:wrap;}
+  .tag{display:inline-flex; align-items:center; gap:4px; font-size:.66rem; font-weight:700; padding:3px 8px;
+    border-radius:99px; border:1px solid var(--rule); color:var(--ink-2); white-space:nowrap;}
+  .tag.poco{color:var(--agua); background:var(--agua-wash); border-color:color-mix(in srgb,var(--agua) 32%,transparent);}
+  .tag.esgoto{color:var(--ferro); background:var(--ferro-wash); border-color:color-mix(in srgb,var(--ferro) 32%,transparent);}
+  .tag.ok{color:var(--ok); background:var(--ok-wash); border-color:color-mix(in srgb,var(--ok) 32%,transparent);}
+  .tag.venc{color:var(--alerta); background:var(--alerta-wash); border-color:color-mix(in srgb,var(--alerta) 32%,transparent);}
+
+  button.btn{font:inherit; font-weight:600; font-size:.83rem; cursor:pointer; border-radius:9px; padding:9px 13px;
+    border:1px solid var(--rule); background:var(--surface); color:var(--ink); display:inline-flex;
+    align-items:center; gap:6px; min-height:38px;}
+  button.btn:hover{border-color:var(--agua); color:var(--agua);}
+  button.btn.principal{background:var(--agua); border-color:var(--agua); color:#fff;}
+  button.btn.principal:hover{background:var(--agua-2); color:#fff;}
+  button.btn.mini{padding:6px 10px; font-size:.76rem; min-height:32px;}
+  .acoes{display:flex; gap:7px; flex-wrap:wrap;}
+
+  label.campo{display:flex; flex-direction:column; gap:5px; font-size:.74rem; font-weight:600; color:var(--ink-2);}
+  input,select,textarea{font:inherit; font-size:16px; color:var(--ink); background:var(--field);
+    border:1px solid var(--rule); border-radius:9px; padding:9px 10px; width:100%; font-weight:400;}
+  @media (min-width:700px){ input,select,textarea{font-size:.88rem;} }
+  textarea{min-height:70px; resize:vertical;}
+  .gridf{display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:11px;}
+  .hint{font-size:.72rem; font-weight:400; color:var(--ink-3); line-height:1.45;}
+  .vazio{padding:32px 16px; text-align:center; color:var(--ink-3); font-size:.88rem;}
+  .status{font-size:.79rem; font-weight:600; margin-top:8px;}
+  .status.ok{color:var(--ok);} .status.err{color:var(--alerta);}
+
+  dialog{border:1px solid var(--rule); border-radius:14px; padding:0; background:var(--surface); color:var(--ink);
+    max-width:640px; width:calc(100% - 20px); box-shadow:0 20px 60px -20px rgba(0,0,0,.55);}
+  dialog::backdrop{background:rgba(0,0,0,.5);}
+  dialog .card-b{max-height:72vh; overflow-y:auto;}
+  .secao{border-top:1px solid var(--rule); margin-top:14px; padding-top:14px;}
+  .secao:first-child{border-top:0; margin-top:0; padding-top:0;}
+  .secao > .eyebrow{display:block; margin-bottom:9px;}
+
+  .fotos{display:grid; grid-template-columns:repeat(auto-fill,minmax(96px,1fr)); gap:8px; margin-top:9px;}
+  .foto{position:relative; border:1px solid var(--rule); border-radius:9px; overflow:hidden; background:var(--sunken);}
+  .foto img{width:100%; height:88px; object-fit:cover; display:block;}
+  .foto button{position:absolute; top:4px; right:4px; border:0; border-radius:6px; background:rgba(0,0,0,.62);
+    color:#fff; font-size:.68rem; padding:3px 6px; cursor:pointer; font-family:inherit;}
+  .foto span{display:block; font-size:.63rem; color:var(--ink-3); padding:4px 6px;
+    font-family:"Roboto Mono",monospace;}
+  .add-foto{display:flex; align-items:center; justify-content:center; min-height:88px; border:1px dashed var(--rule);
+    border-radius:9px; cursor:pointer; color:var(--ink-2); font-size:.8rem; font-weight:600; text-align:center; padding:8px;}
+  .add-foto:hover{border-color:var(--agua); color:var(--agua);}
+
+  .visitas{display:flex; flex-direction:column; gap:7px; margin-top:8px;}
+  .visita{background:var(--sunken); border-radius:9px; padding:9px 11px; font-size:.83rem; color:var(--ink-2);}
+  .visita b{color:var(--ink); font-family:"Roboto Mono",monospace; font-size:.74rem;}
+  .aviso{background:var(--agua-wash); border-left:3px solid var(--agua); border-radius:0 9px 9px 0;
+    padding:11px 14px; font-size:.83rem; color:var(--ink-2); margin-bottom:14px;}
+  .aviso strong{color:var(--ink);}
+  .aviso.perigo{background:var(--alerta-wash); border-left-color:var(--alerta);}
+  textarea.saida{min-height:220px; font-family:"Roboto Mono",monospace; font-size:.76rem; line-height:1.5;}
+  [hidden]{display:none !important;}
+</style>
+
+<div class="wrap">
+<header class="top">
+  <div><span class="eyebrow" id="sub">Santarém · esgoto e poço</span><h1>Caderno de Campo</h1></div>
+  <span class="fonte" id="fonte">verificando…</span>
+</header>
+
+<div class="faixa">
+  <div class="box foco"><span class="k">Pontos</span><span class="v num" id="b-total">0</span><span class="n" id="b-total-n">nenhum cadastrado</span></div>
+  <div class="box ok"><span class="k">Contratados</span><span class="v num" id="b-contratados">0</span><span class="n" id="b-contratados-n">—</span></div>
+  <div class="box alerta"><span class="k">Laudos vencendo</span><span class="v num" id="b-venc">0</span><span class="n">em 30 dias ou vencidos</span></div>
+  <div class="box"><span class="k">A visitar</span><span class="v num" id="b-visitar">0</span><span class="n">sem visita registrada</span></div>
+</div>
+
+<div class="tabs" role="tablist">
+  <button role="tab" id="t1" aria-selected="true" aria-controls="p1">Rota</button>
+  <button role="tab" id="t2" aria-selected="false" aria-controls="p2">Pontos</button>
+  <button role="tab" id="t3" aria-selected="false" aria-controls="p3">Vencimentos</button>
+  <button role="tab" id="t4" aria-selected="false" aria-controls="p4">Ajustes</button>
+</div>
+
+<div id="p1" role="tabpanel" aria-labelledby="t1">
+  <div class="aviso"><strong>A rota é por bairro, não por cliente.</strong> Escolha um bairro e faça a rua inteira. Em serviço de campo, deslocamento é o único custo que não vira receita.</div>
+  <div class="filtros">
+    <select id="r-bairro"><option value="">Todos os bairros</option></select>
+    <select id="r-tipo"><option value="">Esgoto e poço</option><option value="poco">Só poço</option><option value="esgoto">Só esgoto</option></select>
+    <select id="r-status"><option value="pendentes">Pendentes de visita</option><option value="todos">Todos</option></select>
+  </div>
+  <div class="lista" id="lista-rota"></div>
+  <div class="vazio" id="vazio-rota">Nada na rota com esses filtros.</div>
+</div>
+
+<div id="p2" role="tabpanel" aria-labelledby="t2" hidden>
+  <div class="filtros">
+    <input type="search" id="f-busca" placeholder="Buscar por nome, rua ou bairro"/>
+    <select id="f-tipo"><option value="">Todos os tipos</option><option value="poco">Poço</option><option value="esgoto">Esgoto</option><option value="ambos">Ambos</option></select>
+    <select id="f-funil"><option value="">Todo o funil</option><option value="prospect">Prospect</option><option value="visitado">Visitado</option><option value="orcado">Orçado</option><option value="contratado">Contratado</option><option value="executado">Executado</option><option value="perdido">Perdido</option></select>
+    <button class="btn principal" id="b-novo">+ Ponto</button>
+  </div>
+  <div class="lista" id="lista-pontos"></div>
+  <div class="vazio" id="vazio-pontos">Nenhum ponto cadastrado. Comece pelo primeiro estabelecimento da rua que você conhece.</div>
+</div>
+
+<div id="p3" role="tabpanel" aria-labelledby="t3" hidden>
+  <div class="aviso"><strong>Laudo vencido é cliente perdido e é multa do cliente.</strong> Esta lista existe para você ligar antes do vencimento, não depois. Ligar 30 dias antes é serviço; ligar depois é desculpa.</div>
+  <div class="lista" id="lista-venc"></div>
+  <div class="vazio" id="vazio-venc">Nenhum laudo vencendo nos próximos 30 dias.</div>
+</div>
+
+<div id="p4" role="tabpanel" aria-labelledby="t4" hidden>
+  <div class="card"><div class="card-b">
+    <div class="gridf">
+      <label class="campo">Nome da operação<input type="text" id="c-nome"/></label>
+      <label class="campo">Cidade<input type="text" id="c-cidade"/></label>
+      <label class="campo">Frequência padrão de análise (dias)<input type="number" id="c-freq" min="30" step="30"/>
+        <span class="hint">Confirme a frequência exigida com o responsável técnico — ela varia por tipo e volume do sistema.</span></label>
+      <label class="campo">Seu WhatsApp (aparece no laudo)<input type="text" id="c-whats"/></label>
+    </div>
+    <div class="acoes" style="margin-top:14px;">
+      <button class="btn principal" id="b-salvar-cfg">Salvar</button>
+      <button class="btn" id="b-backup">Baixar backup</button>
+      <button class="btn" id="b-csv">Exportar CSV</button>
+      <button class="btn" id="b-demo">Carregar exemplo</button>
+    </div>
+    <p class="status" id="cfg-status" hidden></p>
+    <p class="hint" style="margin-top:12px;" id="hint-armazenamento"></p>
+    <p class="hint" style="margin-top:10px;"><strong>Sobre as fotos:</strong> são reduzidas e comprimidas no próprio aparelho antes de salvar, para caber no armazenamento. Servem como registro de vistoria, não como prova pericial.</p>
+  </div></div>
+</div>
+</div>
+
+<dialog id="dlg">
+  <div class="card-h"><h2 id="d-titulo">Ponto</h2><button class="btn mini" id="d-fechar">Fechar</button></div>
+  <div class="card-b">
+    <div class="secao">
+      <span class="eyebrow">Identificação</span>
+      <div class="gridf">
+        <label class="campo">Nome do estabelecimento<input type="text" id="d-nome"/></label>
+        <label class="campo">Contato (WhatsApp)<input type="text" id="d-contato" placeholder="5593999990000"/></label>
+        <label class="campo">Rua<input type="text" id="d-rua"/></label>
+        <label class="campo">Número<input type="text" id="d-numero"/></label>
+        <label class="campo">Bairro<input type="text" id="d-bairro"/></label>
+        <label class="campo">Tipo<select id="d-tipo"><option value="poco">Poço</option><option value="esgoto">Esgoto</option><option value="ambos">Ambos</option></select></label>
+        <label class="campo">Situação<select id="d-funil">
+          <option value="prospect">Prospect</option><option value="visitado">Visitado</option>
+          <option value="orcado">Orçado</option><option value="contratado">Contratado</option>
+          <option value="executado">Executado</option><option value="perdido">Perdido</option></select></label>
+      </div>
+    </div>
+
+    <div class="secao" id="sec-poco">
+      <span class="eyebrow">Poço e água</span>
+      <div class="gridf">
+        <label class="campo">Situação da outorga<select id="d-outorga">
+          <option value="desconhecida">Não sei</option><option value="sem">Sem outorga</option>
+          <option value="dispensa">Dispensa (pequeno usuário)</option><option value="protocolada">Protocolada</option>
+          <option value="concedida">Concedida</option></select></label>
+        <label class="campo">Profundidade (m)<input type="number" id="d-prof" min="0" step="1"/></label>
+        <label class="campo">Cloro residual (mg/L)<input type="number" id="d-cloro" min="0" step="0.1"/></label>
+        <label class="campo">Data da última análise<input type="date" id="d-analise"/></label>
+        <label class="campo">Frequência (dias)<input type="number" id="d-freq" min="30" step="30"/></label>
+      </div>
+      <p class="hint" style="margin-top:8px;" id="d-proxima"></p>
+    </div>
+
+    <div class="secao" id="sec-esgoto">
+      <span class="eyebrow">Esgoto</span>
+      <div class="gridf">
+        <label class="campo">Rede já passou na rua?<select id="d-rede">
+          <option value="nao">Não</option><option value="sim">Sim</option><option value="obra">Em obra</option></select></label>
+        <label class="campo">Destino atual<select id="d-fossa">
+          <option value="rudimentar">Fossa rudimentar</option><option value="septica">Fossa séptica</option>
+          <option value="vala">Vala ou céu aberto</option><option value="rede">Já ligado à rede</option></select></label>
+        <label class="campo">Distância até a caixa (m)<input type="number" id="d-dist" min="0" step="1"/></label>
+        <label class="campo">Piso a romper<select id="d-piso">
+          <option value="terra">Terra ou grama</option><option value="cimento">Cimento</option>
+          <option value="ceramica">Cerâmica</option><option value="misto">Misto</option></select></label>
+      </div>
+    </div>
+
+    <div class="secao">
+      <span class="eyebrow">Fotos da vistoria</span>
+      <div class="fotos" id="d-fotos"></div>
+      <label class="add-foto" for="d-input-foto" style="margin-top:9px;">+ Adicionar foto (câmera ou galeria)</label>
+      <input type="file" id="d-input-foto" accept="image/*" capture="environment" hidden/>
+      <p class="hint" id="d-foto-status" style="margin-top:6px;"></p>
+    </div>
+
+    <div class="secao">
+      <span class="eyebrow">Visitas</span>
+      <label class="campo">Anotação desta visita<textarea id="d-nota" placeholder="O que você viu, o que o dono falou, o que ficou combinado."></textarea></label>
+      <div class="acoes" style="margin-top:9px;">
+        <button class="btn principal" id="d-registrar">Registrar visita</button>
+        <button class="btn" id="d-laudo">Gerar laudo</button>
+        <button class="btn" id="d-zap">Mandar no WhatsApp</button>
+      </div>
+      <div class="visitas" id="d-visitas"></div>
+    </div>
+  </div>
+  <div class="card-h" style="border-top:1px solid var(--rule); border-bottom:0; justify-content:space-between;">
+    <button class="btn" id="d-apagar">Apagar ponto</button>
+    <button class="btn principal" id="d-salvar">Salvar ponto</button>
+  </div>
+</dialog>
+
+<dialog id="dlg-laudo">
+  <div class="card-h"><h2>Laudo de vistoria</h2></div>
+  <div class="card-b">
+    <textarea class="saida" id="l-texto" readonly></textarea>
+    <div class="acoes" style="margin-top:11px;">
+      <button class="btn principal" id="l-copiar">Copiar</button>
+      <button class="btn" id="l-fechar">Fechar</button>
+    </div>
+    <p class="status" id="l-status" hidden></p>
+  </div>
+</dialog>
+
+<script>
+(function(){
+  "use strict";
+  var $=function(id){ return document.getElementById(id); };
+  var CFG={nome:'Operação de campo', cidade:'Santarém', freq:180, whats:''};
+  var PONTOS=[], FOTOS={}, db=null, modo='local', LS='caderno-campo-v1';
+  var atual=null;
+
+  function nid(p){ return (p||'p')+Date.now().toString(36)+Math.random().toString(36).slice(2,5); }
+  function numOuNulo(v){ v=String(v==null?'':v).trim(); if(v==='') return null;
+    var n=Number(v.replace(',','.')); return isFinite(n)?n:null; }
+  function hoje(){ return new Date(); }
+  function iso(d){ return d.toISOString().slice(0,10); }
+  function brDate(s){ if(!s) return '—'; var p=String(s).split('-'); return p.length===3?p[2]+'/'+p[1]+'/'+p[0]:s; }
+  function diasEntre(a,b){ return Math.round((b-a)/86400000); }
+
+  var ROTULO={
+    tipo:{poco:'Poço', esgoto:'Esgoto', ambos:'Poço e esgoto'},
+    funil:{prospect:'Prospect', visitado:'Visitado', orcado:'Orçado', contratado:'Contratado', executado:'Executado', perdido:'Perdido'},
+    outorga:{desconhecida:'não verificada', sem:'sem outorga', dispensa:'dispensa de outorga', protocolada:'protocolada', concedida:'concedida'},
+    fossa:{rudimentar:'fossa rudimentar', septica:'fossa séptica', vala:'vala ou céu aberto', rede:'ligado à rede'},
+    rede:{nao:'não', sim:'sim', obra:'em obra'},
+    piso:{terra:'terra ou grama', cimento:'cimento', ceramica:'cerâmica', misto:'misto'}
+  };
+
+  /* ---------- armazenamento ---------- */
+  function lerLocal(){
+    try{ var d=JSON.parse(localStorage.getItem(LS)||'{}');
+      if(d.cfg) CFG=Object.assign(CFG,d.cfg);
+      if(Array.isArray(d.pontos)) PONTOS=d.pontos;
+      if(d.fotos) FOTOS=d.fotos;
+    }catch(e){}
+  }
+  function gravarLocal(){
+    try{ localStorage.setItem(LS,JSON.stringify({cfg:CFG,pontos:PONTOS,fotos:FOTOS})); }
+    catch(e){ aviso('Armazenamento local cheio — apague fotos antigas ou baixe o backup.','err'); }
+  }
+  function salvarPonto(p){
+    if(modo==='db'){ var c=Object.assign({},p); delete c.id; db.collection('pontos').doc(p.id).set(c).catch(errDb); }
+    else { var i=PONTOS.findIndex(function(x){ return x.id===p.id; });
+      if(i>=0) PONTOS[i]=p; else PONTOS.push(p); gravarLocal(); render(); }
+  }
+  function apagarPonto(id){
+    if(modo==='db') db.collection('pontos').doc(id).delete().catch(errDb);
+    else { PONTOS=PONTOS.filter(function(x){ return x.id!==id; }); delete FOTOS[id]; gravarLocal(); render(); }
+  }
+  function salvarCfg(){ if(modo==='db') db.doc('config/geral').set(CFG).catch(errDb); gravarLocal(); }
+  function errDb(e){
+    aviso((e&&e.code==='quota_exceeded')?'Limite de registros atingido — apague pontos ou fotos.':
+      'Não deu para gravar na nuvem agora. Seus dados seguem neste aparelho.','err');
+  }
+  function aviso(txt,cls){
+    var st=$('cfg-status'); st.hidden=false; st.className='status '+(cls||'ok'); st.textContent=txt;
+    setTimeout(function(){ st.hidden=true; },4200);
+  }
+  function marcarModo(m){
+    modo = m==='db'?'db':'local'; var el=$('fonte');
+    if(modo==='db'){ el.className='fonte nuvem'; el.textContent='Salvando na nuvem';
+      $('hint-armazenamento').innerHTML='Os dados voltam em qualquer aparelho em que você abrir esta página. Ainda assim, <strong>baixe o backup toda semana</strong>.';
+    } else { el.className='fonte local'; el.textContent='Só neste aparelho';
+      $('hint-armazenamento').innerHTML='<strong>Atenção:</strong> os dados estão apenas neste navegador. Limpar o histórico apaga tudo, fotos incluídas. Baixe o backup ao fim de cada dia de campo.';
+    }
+  }
+  function iniciar(){
+    lerLocal(); preencherCfg(); render();
+    if(!window.claude||!claude.use){ marcarModo('local'); return; }
+    claude.use('db').then(function(x){
+      if(!x){ marcarModo('local'); return; }
+      db=x; modo='db'; marcarModo('db');
+      db.doc('config/geral').onSnapshot(function(s){ if(s.exists){ CFG=Object.assign(CFG,s.data()); preencherCfg(); render(); } },function(){});
+      db.collection('pontos').onSnapshot(function(s){
+        PONTOS=s.docs.map(function(d){ var o=Object.assign({},d.data()); o.id=d.id; return o; });
+        render();
+      },function(e){ errDb(e); marcarModo('local'); });
+    },function(){ marcarModo('local'); });
+  }
+
+  function copiar(txt,alvo,ok){
+    var mostra=function(t,c){ if(!alvo) return; alvo.hidden=false; alvo.textContent=t; alvo.className='status '+c;
+      setTimeout(function(){ alvo.hidden=true; },2600); };
+    var falha=function(){ var ta=document.createElement('textarea'); ta.value=txt; ta.style.position='fixed';
+      ta.style.opacity='0'; document.body.appendChild(ta); ta.select();
+      var f=false; try{ f=document.execCommand('copy'); }catch(e){}
+      document.body.removeChild(ta); mostra(f?ok:'Não deu para copiar — selecione e copie à mão.',f?'ok':'err'); };
+    if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(function(){ mostra(ok,'ok'); },falha);
+    else falha();
+  }
+
+  /* ---------- regras ---------- */
+  function temPoco(p){ return p.tipo==='poco'||p.tipo==='ambos'; }
+  function temEsgoto(p){ return p.tipo==='esgoto'||p.tipo==='ambos'; }
+  function proximaAnalise(p){
+    if(!temPoco(p)||!p.analise) return null;
+    var d=new Date(p.analise+'T12:00:00');
+    if(isNaN(d)) return null;
+    d.setDate(d.getDate()+(Number(p.freq)||Number(CFG.freq)||180));
+    return d;
+  }
+  function diasParaVencer(p){
+    var d=proximaAnalise(p); if(!d) return null;
+    return diasEntre(hoje(), d);
+  }
+  function visitado(p){ return (p.visitas||[]).length>0; }
+
+  /* ---------- render ---------- */
+  function el(t,c,x){ var e=document.createElement(t); if(c) e.className=c; if(x!==undefined&&x!==null) e.textContent=x; return e; }
+  function tag(txt,cls){ return el('span','tag'+(cls?' '+cls:''),txt); }
+
+  function cartao(p){
+    var d=el('div','ponto');
+    d.tabIndex=0; d.setAttribute('role','button');
+    var h=el('div','ponto-h');
+    h.appendChild(el('strong',null,p.nome||'(sem nome)'));
+    var dv=diasParaVencer(p);
+    if(dv!==null && dv<=30) h.appendChild(tag(dv<0?'vencido há '+Math.abs(dv)+'d':'vence em '+dv+'d','venc'));
+    d.appendChild(h);
+    d.appendChild(el('div','ponto-end',[p.rua,p.numero].filter(Boolean).join(', ')+(p.bairro?' — '+p.bairro:'')));
+    var t=el('div','tags');
+    t.appendChild(tag(ROTULO.tipo[p.tipo]||p.tipo, p.tipo==='esgoto'?'esgoto':'poco'));
+    t.appendChild(tag(ROTULO.funil[p.funil]||p.funil, (p.funil==='contratado'||p.funil==='executado')?'ok':''));
+    if(temPoco(p)&&p.outorga&&p.outorga!=='desconhecida') t.appendChild(tag(ROTULO.outorga[p.outorga]));
+    if(temEsgoto(p)&&p.rede) t.appendChild(tag('rede na rua: '+ROTULO.rede[p.rede]));
+    if(!visitado(p)) t.appendChild(tag('sem visita'));
+    d.appendChild(t);
+    var abrir=function(){ abrirPonto(p); };
+    d.addEventListener('click',abrir);
+    d.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); abrir(); } });
+    return d;
+  }
+
+  function render(){
+    $('sub').textContent=(CFG.nome||'Operação')+' · '+(CFG.cidade||'');
+    var contratados=PONTOS.filter(function(p){ return p.funil==='contratado'||p.funil==='executado'; });
+    var vencendo=PONTOS.filter(function(p){ var d=diasParaVencer(p); return d!==null&&d<=30; });
+    var semVisita=PONTOS.filter(function(p){ return !visitado(p)&&p.funil!=='perdido'; });
+    $('b-total').textContent=PONTOS.length;
+    $('b-total-n').textContent=PONTOS.length?bairros().length+' bairros':'nenhum cadastrado';
+    $('b-contratados').textContent=contratados.length;
+    $('b-contratados-n').textContent=PONTOS.length?Math.round(contratados.length/PONTOS.length*100)+'% da carteira':'—';
+    $('b-venc').textContent=vencendo.length;
+    $('b-visitar').textContent=semVisita.length;
+    encherBairros(); renderRota(); renderPontos(); renderVenc();
+  }
+  function bairros(){
+    var s={}; PONTOS.forEach(function(p){ if(p.bairro) s[p.bairro]=1; });
+    return Object.keys(s).sort(function(a,b){ return a.localeCompare(b,'pt-BR'); });
+  }
+  function encherBairros(){
+    var sel=$('r-bairro'), atualV=sel.value;
+    sel.innerHTML='<option value="">Todos os bairros</option>';
+    bairros().forEach(function(b){ var o=document.createElement('option'); o.value=b; o.textContent=b; sel.appendChild(o); });
+    if(atualV) sel.value=atualV;
+  }
+  function ordenar(a,b){
+    return String(a.bairro||'').localeCompare(String(b.bairro||''),'pt-BR')
+      || String(a.rua||'').localeCompare(String(b.rua||''),'pt-BR')
+      || (Number(a.numero)||0)-(Number(b.numero)||0)
+      || String(a.nome||'').localeCompare(String(b.nome||''),'pt-BR');
+  }
+  function renderRota(){
+    var lista=$('lista-rota'); lista.innerHTML='';
+    var b=$('r-bairro').value, t=$('r-tipo').value, s=$('r-status').value;
+    var f=PONTOS.filter(function(p){
+      if(b&&p.bairro!==b) return false;
+      if(t==='poco'&&!temPoco(p)) return false;
+      if(t==='esgoto'&&!temEsgoto(p)) return false;
+      if(s==='pendentes'&&(visitado(p)||p.funil==='perdido')) return false;
+      return true;
+    }).sort(ordenar);
+    $('vazio-rota').hidden=f.length>0;
+    f.forEach(function(p){ lista.appendChild(cartao(p)); });
+  }
+  function renderPontos(){
+    var lista=$('lista-pontos'); lista.innerHTML='';
+    var q=$('f-busca').value.trim().toLowerCase(), t=$('f-tipo').value, fu=$('f-funil').value;
+    var f=PONTOS.filter(function(p){
+      if(t&&p.tipo!==t) return false;
+      if(fu&&p.funil!==fu) return false;
+      if(q){ var alvo=[p.nome,p.rua,p.bairro].join(' ').toLowerCase(); if(alvo.indexOf(q)<0) return false; }
+      return true;
+    }).sort(ordenar);
+    $('vazio-pontos').hidden=f.length>0;
+    f.forEach(function(p){ lista.appendChild(cartao(p)); });
+  }
+  function renderVenc(){
+    var lista=$('lista-venc'); lista.innerHTML='';
+    var f=PONTOS.map(function(p){ return {p:p,d:diasParaVencer(p)}; })
+      .filter(function(x){ return x.d!==null&&x.d<=30; })
+      .sort(function(a,b){ return a.d-b.d; });
+    $('vazio-venc').hidden=f.length>0;
+    f.forEach(function(x){ lista.appendChild(cartao(x.p)); });
+  }
+  ['r-bairro','r-tipo','r-status'].forEach(function(id){ $(id).addEventListener('change',renderRota); });
+  ['f-busca','f-tipo','f-funil'].forEach(function(id){ $(id).addEventListener('input',renderPontos); });
+
+  /* ---------- diálogo do ponto ---------- */
+  function abrirPonto(p){
+    atual = p ? Object.assign({}, p) : {id:nid(), tipo:'poco', funil:'prospect', visitas:[],
+      criadoEm:iso(hoje()), freq:Number(CFG.freq)||180, rede:'nao', fossa:'rudimentar', piso:'terra', outorga:'desconhecida'};
+    $('d-titulo').textContent = p ? (p.nome||'Ponto') : 'Novo ponto';
+    $('d-nome').value=atual.nome||''; $('d-contato').value=atual.contato||'';
+    $('d-rua').value=atual.rua||''; $('d-numero').value=atual.numero||''; $('d-bairro').value=atual.bairro||'';
+    $('d-tipo').value=atual.tipo||'poco'; $('d-funil').value=atual.funil||'prospect';
+    $('d-outorga').value=atual.outorga||'desconhecida'; $('d-prof').value=(atual.prof===0||atual.prof)?atual.prof:'';
+    $('d-cloro').value=(atual.cloro===0||atual.cloro)?atual.cloro:''; $('d-analise').value=atual.analise||'';
+    $('d-freq').value=atual.freq||CFG.freq;
+    $('d-rede').value=atual.rede||'nao'; $('d-fossa').value=atual.fossa||'rudimentar';
+    $('d-dist').value=(atual.dist===0||atual.dist)?atual.dist:''; $('d-piso').value=atual.piso||'terra';
+    $('d-nota').value=''; $('d-foto-status').textContent='';
+    $('d-apagar').hidden = !p;
+    alternarSecoes(); atualizarProxima(); renderVisitas(); carregarFotos();
+    $('dlg').showModal();
+  }
+  function alternarSecoes(){
+    var t=$('d-tipo').value;
+    $('sec-poco').hidden = !(t==='poco'||t==='ambos');
+    $('sec-esgoto').hidden = !(t==='esgoto'||t==='ambos');
+  }
+  $('d-tipo').addEventListener('change',alternarSecoes);
+  function atualizarProxima(){
+    var tmp=Object.assign({},atual,{tipo:$('d-tipo').value, analise:$('d-analise').value, freq:Number($('d-freq').value)});
+    var d=proximaAnalise(tmp);
+    if(!d){ $('d-proxima').textContent='Informe a data da última análise para calcular o próximo vencimento.'; return; }
+    var dias=diasEntre(hoje(),d);
+    $('d-proxima').textContent='Próxima análise: '+d.toLocaleDateString('pt-BR')+
+      (dias<0?' — vencida há '+Math.abs(dias)+' dias':dias===0?' — vence hoje':' — em '+dias+' dias');
+  }
+  ['d-analise','d-freq'].forEach(function(id){ $(id).addEventListener('input',atualizarProxima); });
+
+  function coletar(){
+    atual.nome=$('d-nome').value.trim(); atual.contato=$('d-contato').value.replace(/\D/g,'');
+    atual.rua=$('d-rua').value.trim(); atual.numero=$('d-numero').value.trim(); atual.bairro=$('d-bairro').value.trim();
+    atual.tipo=$('d-tipo').value; atual.funil=$('d-funil').value;
+    atual.outorga=$('d-outorga').value; atual.prof=numOuNulo($('d-prof').value);
+    atual.cloro=numOuNulo($('d-cloro').value); atual.analise=$('d-analise').value||'';
+    atual.freq=Number($('d-freq').value)||Number(CFG.freq)||180;
+    atual.rede=$('d-rede').value; atual.fossa=$('d-fossa').value;
+    atual.dist=numOuNulo($('d-dist').value); atual.piso=$('d-piso').value;
+    return atual;
+  }
+  $('d-salvar').addEventListener('click',function(){
+    var p=coletar();
+    if(!p.nome){ $('d-nome').focus(); return; }
+    salvarPonto(p); $('dlg').close();
+  });
+  $('d-fechar').addEventListener('click',function(){ $('dlg').close(); });
+  $('d-apagar').addEventListener('click',function(){
+    if(!atual||!confirm('Apagar '+(atual.nome||'este ponto')+' e as fotos dele?')) return;
+    apagarPonto(atual.id); $('dlg').close();
+  });
+  $('b-novo').addEventListener('click',function(){ abrirPonto(null); });
+
+  function renderVisitas(){
+    var c=$('d-visitas'); c.innerHTML='';
+    (atual.visitas||[]).slice().reverse().forEach(function(v){
+      var d=el('div','visita'); d.appendChild(el('b',null,brDate(v.data)));
+      d.appendChild(document.createTextNode(' — '+(v.nota||'sem anotação')));
+      c.appendChild(d);
+    });
+  }
+  $('d-registrar').addEventListener('click',function(){
+    var nota=$('d-nota').value.trim();
+    var p=coletar();
+    p.visitas=(p.visitas||[]).concat([{data:iso(hoje()), nota:nota}]);
+    if(p.funil==='prospect') p.funil='visitado';
+    $('d-funil').value=p.funil;
+    atual=p; salvarPonto(p); $('d-nota').value=''; renderVisitas();
+    $('d-foto-status').textContent='Visita registrada em '+brDate(iso(hoje()))+'.';
+  });
+
+  /* ---------- fotos ---------- */
+  function comprimir(file, cb){
+    var fr=new FileReader();
+    fr.onload=function(){
+      var img=new Image();
+      img.onload=function(){
+        var max=700, w=img.width, h=img.height;
+        if(w>h && w>max){ h=Math.round(h*max/w); w=max; } else if(h>=w && h>max){ w=Math.round(w*max/h); h=max; }
+        var cv=document.createElement('canvas'); cv.width=w; cv.height=h;
+        cv.getContext('2d').drawImage(img,0,0,w,h);
+        try{ cb(cv.toDataURL('image/jpeg',0.5)); }catch(e){ cb(null); }
+      };
+      img.onerror=function(){ cb(null); };
+      img.src=fr.result;
+    };
+    fr.onerror=function(){ cb(null); };
+    fr.readAsDataURL(file);
+  }
+  $('d-input-foto').addEventListener('change',function(){
+    var f=this.files&&this.files[0]; if(!f) return;
+    $('d-foto-status').textContent='Processando foto…';
+    comprimir(f,function(dataUrl){
+      if(!dataUrl){ $('d-foto-status').textContent='Não deu para ler essa imagem.'; return; }
+      var kb=Math.round(dataUrl.length*0.75/1024);
+      if(kb>230){ $('d-foto-status').textContent='Foto grande demais mesmo comprimida ('+kb+' KB). Tente uma foto mais simples.'; return; }
+      var foto={id:nid('f'), dataUrl:dataUrl, criadoEm:iso(hoje())};
+      if(modo==='db'){
+        db.doc('pontos/'+atual.id).collection('fotos').doc(foto.id).set(foto)
+          .then(function(){ carregarFotos(); },errDb);
+      } else {
+        FOTOS[atual.id]=(FOTOS[atual.id]||[]).concat([foto]); gravarLocal(); pintarFotos(FOTOS[atual.id]);
+      }
+      $('d-foto-status').textContent='Foto salva ('+kb+' KB).';
+    });
+    this.value='';
+  });
+  function carregarFotos(){
+    if(modo==='db'&&atual&&atual.id){
+      db.doc('pontos/'+atual.id).collection('fotos').get().then(function(s){
+        var arr=s.docs.map(function(d){ var o=Object.assign({},d.data()); o.id=d.id; return o; });
+        FOTOS[atual.id]=arr; pintarFotos(arr);
+      },function(){ pintarFotos(FOTOS[atual.id]||[]); });
+    } else pintarFotos((FOTOS[atual&&atual.id]||[]));
+  }
+  function pintarFotos(arr){
+    var c=$('d-fotos'); c.innerHTML='';
+    (arr||[]).forEach(function(f){
+      var d=el('div','foto');
+      var im=document.createElement('img'); im.src=f.dataUrl; im.alt='Foto da vistoria de '+brDate(f.criadoEm);
+      d.appendChild(im); d.appendChild(el('span',null,brDate(f.criadoEm)));
+      var b=el('button',null,'apagar');
+      b.addEventListener('click',function(ev){
+        ev.stopPropagation();
+        if(!confirm('Apagar esta foto?')) return;
+        if(modo==='db') db.doc('pontos/'+atual.id).collection('fotos').doc(f.id).delete().then(carregarFotos,errDb);
+        else { FOTOS[atual.id]=(FOTOS[atual.id]||[]).filter(function(x){ return x.id!==f.id; });
+          gravarLocal(); pintarFotos(FOTOS[atual.id]); }
+      });
+      d.appendChild(b); c.appendChild(d);
+    });
+  }
+
+  /* ---------- laudo ---------- */
+  function montarLaudo(p){
+    var L=[], dv=diasParaVencer(p), prox=proximaAnalise(p);
+    L.push('VISTORIA — '+(p.nome||'Ponto'));
+    L.push((CFG.nome||'')+(CFG.cidade?' · '+CFG.cidade:''));
+    L.push('Data: '+brDate(iso(hoje())));
+    L.push('Endereço: '+[p.rua,p.numero].filter(Boolean).join(', ')+(p.bairro?' — '+p.bairro:''));
+    L.push('');
+    if(temPoco(p)){
+      L.push('POÇO E ÁGUA');
+      L.push('· Outorga: '+(ROTULO.outorga[p.outorga]||'não verificada'));
+      if(p.prof) L.push('· Profundidade informada: '+p.prof+' m');
+      if(p.cloro!==null&&p.cloro!==undefined&&p.cloro!=='')
+        L.push('· Cloro residual medido: '+p.cloro+' mg/L'+(Number(p.cloro)<0.2?'  <<< abaixo do mínimo usual de 0,2 mg/L':''));
+      L.push('· Última análise: '+brDate(p.analise));
+      if(prox) L.push('· Próxima análise: '+prox.toLocaleDateString('pt-BR')+(dv<0?' (VENCIDA há '+Math.abs(dv)+' dias)':' (em '+dv+' dias)'));
+      else L.push('· Próxima análise: não calculada — falta a data da última');
+      L.push('');
+    }
+    if(temEsgoto(p)){
+      L.push('ESGOTO');
+      L.push('· Rede na rua: '+(ROTULO.rede[p.rede]||'—'));
+      L.push('· Destino atual: '+(ROTULO.fossa[p.fossa]||'—'));
+      if(p.dist) L.push('· Distância estimada até a caixa: '+p.dist+' m');
+      L.push('· Piso a romper: '+(ROTULO.piso[p.piso]||'—'));
+      L.push('');
+    }
+    var fotos=(FOTOS[p.id]||[]).length;
+    L.push('REGISTRO');
+    L.push('· Fotos da vistoria: '+fotos);
+    L.push('· Visitas registradas: '+((p.visitas||[]).length));
+    var ult=(p.visitas||[])[(p.visitas||[]).length-1];
+    if(ult&&ult.nota) L.push('· Última anotação: '+ult.nota);
+    L.push('');
+    L.push('OBSERVAÇÃO');
+    L.push('Este é um registro de vistoria de campo, não um laudo laboratorial nem parecer técnico. Análise de');
+    L.push('potabilidade deve ser feita em laboratório e a outorga confirmada junto ao órgão ambiental estadual.');
+    if(CFG.whats){ L.push(''); L.push('Contato: '+CFG.whats); }
+    return L.join('\n');
+  }
+  $('d-laudo').addEventListener('click',function(){
+    $('l-texto').value=montarLaudo(coletar()); $('dlg-laudo').showModal();
+  });
+  $('l-copiar').addEventListener('click',function(){ copiar($('l-texto').value,$('l-status'),'Laudo copiado.'); });
+  $('l-fechar').addEventListener('click',function(){ $('dlg-laudo').close(); });
+  $('d-zap').addEventListener('click',function(){
+    var p=coletar();
+    if(!p.contato){ $('d-contato').focus(); $('d-foto-status').textContent='Preencha o WhatsApp do contato.'; return; }
+    window.open('https://wa.me/'+p.contato+'?text='+encodeURIComponent(montarLaudo(p)),'_blank');
+  });
+
+  /* ---------- ajustes ---------- */
+  var mapa={nome:'c-nome',cidade:'c-cidade',freq:'c-freq',whats:'c-whats'};
+  function preencherCfg(){ Object.keys(mapa).forEach(function(k){ $(mapa[k]).value=CFG[k]; }); }
+  $('b-salvar-cfg').addEventListener('click',function(){
+    Object.keys(mapa).forEach(function(k){ var v=$(mapa[k]).value; CFG[k]=(k==='freq')?(Number(v)||180):v; });
+    salvarCfg(); render(); aviso('Ajustes salvos.','ok');
+  });
+  function baixar(nome,conteudo){
+    if(window.claude&&claude.use){
+      claude.use('downloads').then(function(d){
+        if(d&&d.save) d.save({filename:nome,data:conteudo}).then(function(){ aviso('Arquivo salvo.','ok'); },
+          function(){ copiar(conteudo,$('cfg-status'),'Download recusado — conteúdo copiado.'); });
+        else copiar(conteudo,$('cfg-status'),'Conteúdo copiado — cole num arquivo e guarde.');
+      },function(){ copiar(conteudo,$('cfg-status'),'Conteúdo copiado — cole num arquivo e guarde.'); });
+    } else copiar(conteudo,$('cfg-status'),'Conteúdo copiado — cole num arquivo e guarde.');
+  }
+  $('b-backup').addEventListener('click',function(){
+    baixar('caderno-campo.json', JSON.stringify({cfg:CFG,pontos:PONTOS,fotos:FOTOS,gerado:new Date().toISOString()},null,1));
+  });
+  $('b-csv').addEventListener('click',function(){
+    var cab=['nome','tipo','situacao','rua','numero','bairro','contato','outorga','profundidade','cloro',
+             'ultima_analise','proxima_analise','dias','rede_na_rua','destino_atual','distancia_m','piso','visitas'];
+    var linhas=[cab.join(';')];
+    PONTOS.slice().sort(ordenar).forEach(function(p){
+      var prox=proximaAnalise(p), dv=diasParaVencer(p);
+      linhas.push([p.nome,ROTULO.tipo[p.tipo]||'',ROTULO.funil[p.funil]||'',p.rua||'',p.numero||'',p.bairro||'',
+        p.contato||'',ROTULO.outorga[p.outorga]||'',p.prof||'',p.cloro||'',brDate(p.analise),
+        prox?prox.toLocaleDateString('pt-BR'):'',dv===null?'':dv,ROTULO.rede[p.rede]||'',ROTULO.fossa[p.fossa]||'',
+        p.dist||'',ROTULO.piso[p.piso]||'',(p.visitas||[]).length]
+        .map(function(x){ return String(x==null?'':x).replace(/;/g,','); }).join(';'));
+    });
+    baixar('pontos.csv', linhas.join('\n'));
+  });
+  $('b-demo').addEventListener('click',function(){
+    if(PONTOS.length&&!confirm('Isso adiciona pontos de exemplo por cima do que já existe. Continuar?')) return;
+    var d=new Date(); d.setDate(d.getDate()-160); var recente=iso(d);
+    var d2=new Date(); d2.setDate(d2.getDate()-200); var velha=iso(d2);
+    [{nome:'Restaurante Beira-Rio', tipo:'ambos', funil:'contratado', rua:'Rua do Comércio', numero:'120',
+      bairro:'Centro', contato:'5593999990001', outorga:'sem', prof:32, cloro:0.4, analise:recente, freq:180,
+      rede:'sim', fossa:'rudimentar', dist:9, piso:'ceramica', visitas:[{data:recente,nota:'Poço nos fundos, sem proteção sanitária. Dono quer resolver antes da vistoria da vigilância.'}]},
+     {nome:'Escola Municipal Boa Vista', tipo:'poco', funil:'orcado', rua:'Travessa São Pedro', numero:'45',
+      bairro:'Aeroporto Velho', contato:'5593999990002', outorga:'desconhecida', prof:28, cloro:0, analise:velha, freq:180,
+      rede:'nao', fossa:'septica', visitas:[]},
+     {nome:'Padaria Central', tipo:'esgoto', funil:'prospect', rua:'Rua do Comércio', numero:'88',
+      bairro:'Centro', contato:'5593999990003', rede:'obra', fossa:'rudimentar', dist:6, piso:'cimento', visitas:[]},
+     {nome:'Pousada do Tapajós', tipo:'ambos', funil:'visitado', rua:'Av. Beira Rio', numero:'300',
+      bairro:'Prainha', contato:'5593999990004', outorga:'dispensa', prof:35, cloro:0.6, analise:recente, freq:180,
+      rede:'nao', fossa:'septica', dist:14, piso:'terra', visitas:[{data:recente,nota:'Tem cloração improvisada. Pediu orçamento do pacote trimestral.'}]}
+    ].forEach(function(p){ p.id=nid(); p.criadoEm=iso(hoje()); salvarPonto(p); });
+    render();
+  });
+
+  [['t1','p1'],['t2','p2'],['t3','p3'],['t4','p4']].forEach(function(par,i,todos){
+    $(par[0]).addEventListener('click',function(){
+      todos.forEach(function(x){ var s=x[0]===par[0];
+        $(x[0]).setAttribute('aria-selected',s?'true':'false'); $(x[1]).hidden=!s; });
+    });
+  });
+
+  iniciar();
+})();
+</script>
