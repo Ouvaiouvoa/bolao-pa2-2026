@@ -1,0 +1,314 @@
+<title>O Poço e a Fossa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chivo:wght@700;900&family=Newsreader:opsz,wght@6..72,400;6..72,600&family=Roboto+Mono:wght@400;500&display=swap"/>
+<style>
+  :root{
+    --ground:#EDF0F1; --surface:#FFFFFF; --sunken:#E2E7E9; --rule:#CFD7DA;
+    --ink:#111A1E; --ink-2:#3F4E55; --ink-3:#6C7B82;
+    --agua:#0D6A87; --agua-2:#0F82A4; --agua-wash:#DFEEF3;
+    --ferro:#9E4E1C; --ferro-wash:#F5E7DC;
+    --shadow:0 1px 2px rgba(17,26,30,.06), 0 10px 26px -18px rgba(17,26,30,.45);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ground:#0B1114; --surface:#131B1F; --sunken:#0E1518; --rule:#243036;
+      --ink:#E8EEF0; --ink-2:#A7B6BC; --ink-3:#788790;
+      --agua:#5CBEDC; --agua-2:#84D2EA; --agua-wash:#0E2A34;
+      --ferro:#D9915A; --ferro-wash:#2A1D14;
+      --shadow:0 1px 2px rgba(0,0,0,.5), 0 14px 32px -22px rgba(0,0,0,.95);
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#0B1114; --surface:#131B1F; --sunken:#0E1518; --rule:#243036;
+    --ink:#E8EEF0; --ink-2:#A7B6BC; --ink-3:#788790;
+    --agua:#5CBEDC; --agua-2:#84D2EA; --agua-wash:#0E2A34;
+    --ferro:#D9915A; --ferro-wash:#2A1D14;
+    --shadow:0 1px 2px rgba(0,0,0,.5), 0 14px 32px -22px rgba(0,0,0,.95);
+  }
+  body{background:var(--ground); color:var(--ink);
+    font-family:Newsreader,"Iowan Old Style",Georgia,serif; font-size:17.5px; line-height:1.62;
+    -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1000px; margin:0 auto; padding:0 22px 96px;}
+  .col{max-width:65ch;}
+  h1,h2,h3,.mono,.eyebrow,th,.n-v{font-family:Chivo,"Helvetica Neue",Arial,sans-serif;}
+  .mono,.eyebrow{font-family:"Roboto Mono",ui-monospace,Menlo,monospace;}
+  h1{font-size:clamp(2.3rem,6vw,3.9rem); font-weight:900; line-height:.98; letter-spacing:-.03em; text-wrap:balance;}
+  h2{font-size:clamp(1.4rem,3vw,1.9rem); font-weight:900; line-height:1.12; letter-spacing:-.02em; text-wrap:balance;}
+  h3{font-size:1.04rem; font-weight:700; letter-spacing:-.01em; text-wrap:balance;}
+  p{margin:0;} a{color:var(--agua); text-underline-offset:2px;}
+  a:focus-visible{outline:2px solid var(--agua-2); outline-offset:3px; border-radius:3px;}
+  .eyebrow{font-size:.66rem; letter-spacing:.18em; text-transform:uppercase; color:var(--ink-3); font-weight:500;}
+  header.hero{padding:62px 0 36px;}
+  .hero .dek{font-size:1.14rem; color:var(--ink-2); max-width:60ch; margin-top:20px;}
+  .hero .meta{display:flex; flex-wrap:wrap; gap:6px 18px; font-size:.74rem; color:var(--ink-3); margin-top:20px;}
+  .numeros{display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:1px;
+    background:var(--rule); border:1px solid var(--rule); border-radius:12px; overflow:hidden; margin:34px 0 0;}
+  .n{background:var(--surface); padding:16px 18px; display:flex; flex-direction:column; gap:4px;}
+  .n-v{font-size:1.55rem; font-weight:900; letter-spacing:-.025em; line-height:1; font-variant-numeric:tabular-nums;}
+  .n-l{font-size:.8rem; color:var(--ink-2); line-height:1.35;}
+  .n-s{font-family:"Roboto Mono",monospace; font-size:.65rem; color:var(--ink-3);}
+  .n.alerta .n-v{color:var(--ferro);} .n.foco .n-v{color:var(--agua);}
+  section{padding-top:56px;}
+  .sec-h{display:flex; align-items:baseline; gap:14px; border-top:3px solid var(--ink); padding-top:12px; margin-bottom:20px;}
+  .stack{display:flex; flex-direction:column; gap:16px;}
+  figure{margin:26px 0 0; background:var(--surface); border:1px solid var(--rule); border-radius:14px;
+    padding:22px 20px 16px; box-shadow:var(--shadow); overflow-x:auto;}
+  figure svg{width:100%; max-width:100%; height:auto; min-width:640px; display:block; color:var(--ink-2);}
+  figcaption{font-size:.85rem; color:var(--ink-2); margin-top:14px; line-height:1.5; font-family:Newsreader,serif;}
+  figcaption b{color:var(--ink);}
+  .nota{border-left:3px solid var(--ferro); background:var(--ferro-wash); padding:15px 18px;
+    border-radius:0 10px 10px 0; font-size:.94rem; color:var(--ink-2);}
+  .nota strong{color:var(--ink);}
+  .nota.agua{border-left-color:var(--agua); background:var(--agua-wash);}
+  ul.tight{margin:0; padding-left:1.15em; display:flex; flex-direction:column; gap:8px; font-size:.96rem; color:var(--ink-2);}
+  ul.tight strong{color:var(--ink);}
+  .tw{overflow-x:auto; border:1px solid var(--rule); border-radius:11px; background:var(--surface); margin-top:8px;}
+  table{border-collapse:collapse; width:100%; font-size:.88rem; min-width:600px;}
+  th,td{text-align:left; padding:11px 14px; border-bottom:1px solid var(--rule); vertical-align:top;}
+  th{font-size:.64rem; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-3); font-weight:700; background:var(--sunken);}
+  tbody tr:last-child td{border-bottom:0;}
+  td.r{text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; font-weight:600;}
+  .pacote{background:var(--surface); border:1px solid var(--rule); border-radius:13px; padding:22px;
+    box-shadow:var(--shadow); display:grid; grid-template-columns:70px 1fr; gap:20px; margin-bottom:16px;}
+  @media (max-width:640px){ .pacote{grid-template-columns:1fr; gap:10px;} }
+  .pacote .idx{font-family:Chivo,sans-serif; font-weight:900; font-size:2.1rem; line-height:.9; color:var(--agua);}
+  .pacote dl{display:grid; grid-template-columns:auto 1fr; gap:6px 14px; margin:14px 0 0; font-size:.88rem;}
+  .pacote dt{font-family:"Roboto Mono",monospace; font-size:.64rem; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--ink-3); padding-top:4px;}
+  .pacote dd{margin:0; color:var(--ink-2);}
+  ol.campo{margin:0; padding:0; list-style:none; counter-reset:c; display:flex; flex-direction:column;}
+  ol.campo li{counter-increment:c; display:grid; grid-template-columns:44px 1fr; gap:16px;
+    padding:15px 0; border-bottom:1px solid var(--rule);}
+  ol.campo li:last-child{border-bottom:0;}
+  ol.campo li::before{content:counter(c,decimal-leading-zero); font-family:"Roboto Mono",monospace;
+    font-size:.76rem; color:var(--agua); padding-top:4px;}
+  .c-t{font-family:Chivo,sans-serif; font-weight:700; font-size:.98rem; display:block; margin-bottom:2px;}
+  .c-d{font-size:.92rem; color:var(--ink-2);}
+  footer{margin-top:66px; padding-top:24px; border-top:1px solid var(--rule); font-size:.85rem; color:var(--ink-2);}
+  footer ol{margin:12px 0 0; padding-left:1.4em; display:flex; flex-direction:column; gap:7px; font-size:.79rem;}
+  sup a{text-decoration:none; font-family:"Roboto Mono",monospace; font-size:.68rem;}
+  @media (max-width:640px){ body{font-size:16.5px;} header.hero{padding:40px 0 26px;} }
+</style>
+
+<div class="wrap">
+<header class="hero">
+  <span class="eyebrow">Achado de mercado · Santarém (PA) · Parte 2 de 2</span>
+  <h1>O poço e a fossa bebem do mesmo lugar</h1>
+  <p class="dek">Quase metade de Santarém tira água de poço raso. Quase a mesma metade joga esgoto em fossa sem fundo. É o mesmo terreno, é o mesmo lençol, e quase 90% desses poços estão irregulares — enquanto uma concessionária recém-chegada começou a cobrar de quem usa poço e o órgão ambiental do estado leva sua campanha de regularização para o interior. Tudo isso aconteceu nos últimos cinco meses.</p>
+  <div class="meta"><span>Fontes: Censo 2022 do IBGE, SEMAS-PA, Ministério da Saúde, Águas do Pará, imprensa local</span></div>
+
+  <div class="numeros">
+    <div class="n foco"><span class="n-v">42,2%</span><span class="n-l">da população se abastece por poço profundo ou artesiano</span><span class="n-s">rede geral: 50,4%</span></div>
+    <div class="n alerta"><span class="n-v">≈ 90%</span><span class="n-l">dos poços em funcionamento estariam irregulares</span><span class="n-s">reportagem local, ago/2026</span></div>
+    <div class="n alerta"><span class="n-v">42,6%</span><span class="n-l">da população escoa esgoto em fossa rudimentar</span><span class="n-s">140.652 pessoas · Censo 2022</span></div>
+    <div class="n"><span class="n-v">≈ 30 m</span><span class="n-l">profundidade típica dos poços da cidade</span><span class="n-s">poço raso, sujeito a coliformes</span></div>
+    <div class="n"><span class="n-v">13.357</span><span class="n-l">habitantes sem água encanada em casa</span><span class="n-s">balde e outras soluções</span></div>
+    <div class="n foco"><span class="n-v">2033</span><span class="n-l">prazo contratual para universalizar a água</span><span class="n-s">o poço fica por muitos anos</span></div>
+  </div>
+</header>
+
+<section id="mecanismo">
+  <div class="sec-h"><span class="eyebrow">01 — O mecanismo</span><h2>Três metros para baixo, trinta metros para baixo</h2></div>
+  <div class="col stack">
+    <p>Fossa rudimentar é um buraco sem fundo: o esgoto infiltra direto no solo. Poço raso capta do primeiro lençol que encontra, tipicamente por volta dos 30 metros. Nos bairros onde as duas coisas convivem — e em Santarém elas convivem em quase toda a cidade —, <strong>a água que sai da torneira vem do mesmo lençol onde o esgoto do vizinho entrou</strong>. Não é hipótese: reportagem local sobre os poços da cidade descreve exatamente isso, poços rasos com risco de coliformes fecais.<sup><a href="#f2">2</a></sup></p>
+    <p>É por isso que os dois números que abrem este documento não são coincidência estatística. São o mesmo problema visto de dois lados: <strong>42,2% tira água do subsolo, 42,6% devolve esgoto para o subsolo.</strong></p>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 900 430" role="img" aria-label="Corte vertical do terreno: a fossa rudimentar infiltra esgoto a cerca de três metros de profundidade e o poço raso capta água do mesmo lençol freático a cerca de trinta metros, alimentando a torneira da casa.">
+      <defs>
+        <marker id="sf" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--ferro)"/>
+        </marker>
+        <marker id="sa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--agua)"/>
+        </marker>
+      </defs>
+
+      <line x1="40" y1="110" x2="860" y2="110" stroke="currentColor" stroke-width="2"/>
+      <text x="46" y="102" font-size="11" fill="currentColor" opacity=".7">superfície · 0 m</text>
+
+      <rect x="120" y="52" width="150" height="58" rx="5" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <text x="195" y="78" text-anchor="middle" font-size="12.5" fill="currentColor">Casa que usa</text>
+      <text x="195" y="95" text-anchor="middle" font-size="12.5" fill="currentColor">o poço</text>
+
+      <rect x="360" y="115" width="130" height="55" rx="4" fill="none" stroke="var(--ferro)" stroke-width="1.8" stroke-dasharray="6 4"/>
+      <text x="425" y="138" text-anchor="middle" font-size="12" fill="var(--ferro)">Fossa rudimentar</text>
+      <text x="425" y="155" text-anchor="middle" font-size="11" fill="var(--ferro)">sem fundo · ~3 m</text>
+
+      <line x1="385" y1="172" x2="385" y2="266" stroke="var(--ferro)" stroke-width="1.6" stroke-dasharray="5 5" marker-end="url(#sf)"/>
+      <line x1="425" y1="172" x2="425" y2="266" stroke="var(--ferro)" stroke-width="1.6" stroke-dasharray="5 5" marker-end="url(#sf)"/>
+      <line x1="465" y1="172" x2="465" y2="266" stroke="var(--ferro)" stroke-width="1.6" stroke-dasharray="5 5" marker-end="url(#sf)"/>
+      <text x="497" y="222" font-size="11.5" fill="var(--ferro)">infiltra no solo</text>
+
+      <line x1="40" y1="275" x2="860" y2="275" stroke="var(--agua)" stroke-width="2.2"/>
+      <text x="46" y="294" font-size="11.5" fill="var(--agua)">lençol freático — o mesmo para os dois</text>
+
+      <rect x="640" y="110" width="26" height="240" fill="none" stroke="var(--agua)" stroke-width="1.8"/>
+      <text x="686" y="200" font-size="12" fill="var(--agua)">Poço raso</text>
+      <text x="686" y="217" font-size="11" fill="var(--agua)">~30 m</text>
+      <line x1="612" y1="320" x2="637" y2="320" stroke="var(--agua)" stroke-width="1.6" marker-end="url(#sa)"/>
+      <line x1="694" y1="320" x2="669" y2="320" stroke="var(--agua)" stroke-width="1.6" marker-end="url(#sa)"/>
+      <text x="653" y="372" text-anchor="middle" font-size="11" fill="var(--agua)">capta aqui</text>
+
+      <polyline points="653,110 653,72 280,72" fill="none" stroke="var(--agua)" stroke-width="2" marker-end="url(#sa)"/>
+      <text x="466" y="64" text-anchor="middle" font-size="12" font-weight="700" fill="var(--agua)">água que a casa bebe</text>
+
+      <line x1="493" y1="188" x2="637" y2="188" stroke="currentColor" stroke-width="1" opacity=".5"/>
+      <line x1="493" y1="183" x2="493" y2="193" stroke="currentColor" stroke-width="1" opacity=".5"/>
+      <line x1="637" y1="183" x2="637" y2="193" stroke="currentColor" stroke-width="1" opacity=".5"/>
+      <text x="565" y="205" text-anchor="middle" font-size="10.5" fill="currentColor" opacity=".75">10 a 20 m</text>
+
+      <text x="854" y="418" text-anchor="end" font-size="11" fill="currentColor" opacity=".6">esquema fora de escala</text>
+    </svg>
+    <figcaption><b>O mesmo lençol, dois usos incompatíveis.</b> A fossa entrega esgoto ao subsolo a poucos metros da superfície; o poço tira água do primeiro lençol logo abaixo, muitas vezes a alguns metros de distância no mesmo terreno. Enquanto a rede de água e a de esgoto não chegam, essa é a situação de quase metade de Santarém — e ninguém está medindo o resultado.</figcaption>
+  </figure>
+</section>
+
+<section id="armadilha">
+  <div class="sec-h"><span class="eyebrow">02 — A armadilha</span><h2>O que parece o negócio e não é</h2></div>
+  <div class="col stack">
+    <p>A leitura preguiçosa deste cenário é: "90% dos poços irregulares, vou vender regularização de poço". <strong>Não venda.</strong> A SEMAS está rodando uma campanha de regularização de usuários de água em que a dispensa de outorga para poço residencial <strong>é gratuita e não exige contratar profissional nenhum</strong> — o técnico do próprio órgão faz o cadastro na hora. A campanha começou por Belém e região metropolitana em janeiro, passou por Marabá em maio, e está sendo levada ao interior do estado.<sup><a href="#f3">3</a></sup></p>
+    <div class="nota"><strong>Cobrar do morador por um serviço que o Estado presta de graça é o caminho mais curto para virar notícia ruim numa cidade pequena.</strong> E a dispensa cobre bastante gente: pequenos usuários de até 5 mil litros por dia e prédios residenciais de até 40 mil litros por dia.</div>
+    <p>O negócio está exatamente onde a campanha gratuita <em>não</em> chega: no poço que abastece um CNPJ ou uma coletividade. Esse poço não se enquadra na dispensa, precisa de outorga de verdade, tem responsável técnico, e carrega uma segunda obrigação que quase ninguém em Santarém está cumprindo.</p>
+  </div>
+</section>
+
+<section id="onde">
+  <div class="sec-h"><span class="eyebrow">03 — Onde está</span><h2>A obrigação que ninguém está cumprindo</h2></div>
+  <div class="col stack">
+    <p>Quem usa poço para abastecer terceiros — restaurante, padaria, pousada, escola, creche, clínica, igreja, condomínio, posto, indústria pequena — é responsável pelo controle da qualidade da própria água pela Portaria GM/MS nº 888/2021, que alcança explicitamente as soluções alternativas de abastecimento, poço artesiano e carro-pipa incluídos. Isso significa <strong>análise laboratorial periódica, controle de cloro e laudo guardado</strong>, com frequência que varia conforme o sistema.<sup><a href="#f4">4</a></sup></p>
+    <p>Some a isso a outorga da SEMAS: sem ela, a captação é clandestina, o que configura infração ambiental sujeita a multa, embargo do poço e travamento de atividade comercial e imobiliária.<sup><a href="#f5">5</a></sup> São duas obrigações distintas, com dois órgãos distintos, e o dono do negócio normalmente não sabe que existe nenhuma das duas.</p>
+    <div class="nota agua"><strong>É esse o produto: um pacote de conformidade recorrente para poço de estabelecimento.</strong> Não é venda de medo nem de multa — é assumir uma obrigação chata que o dono não quer administrar, com laudo em dia, cloração funcionando e papel pronto quando a vigilância bater na porta.</div>
+  </div>
+</section>
+
+<section id="gatilho">
+  <div class="sec-h"><span class="eyebrow">04 — O gatilho</span><h2>Por que agora, e não ano passado</h2></div>
+  <div class="col stack">
+    <p>Uma obrigação legal antiga só vira mercado quando alguém começa a cobrá-la. Em Santarém, três coisas destravaram isso em cinco meses:</p>
+    <ul class="tight">
+      <li><strong>A concessionária chegou e começou a cobrar de quem tem poço.</strong> A cobrança da Águas do Pará a usuários de poços artesianos já gerou denúncia e debate jurídico na cidade.<sup><a href="#f2">2</a></sup> De repente, ter poço deixou de ser gratuito e virou uma conta que o dono precisa entender — e quem explica essa conta ganha a conversa.</li>
+      <li><strong>O órgão ambiental está com a regularização em campanha ativa</strong> e caminhando para o interior.<sup><a href="#f3">3</a></sup> Fiscalização vem atrás de campanha, não antes dela.</li>
+      <li><strong>A água da rede está faltando.</strong> Bairros de Santarém enfrentam interrupções sucessivas desde abril, com apoio de caminhões-pipa.<sup><a href="#f2">2</a></sup> Quem tem poço não vai desligá-lo tão cedo, e quem não tem está perfurando.</li>
+    </ul>
+    <div class="nota agua"><strong>A janela é essa:</strong> o custo de ter poço subiu, a fiscalização se aproximou e a alternativa (a rede) ainda não é confiável. É o momento exato em que um dono de restaurante aceita pagar alguém para resolver o assunto por ele.</div>
+  </div>
+</section>
+
+<section id="pacote">
+  <div class="sec-h"><span class="eyebrow">05 — O produto</span><h2>O pacote, em três peças</h2></div>
+
+  <article class="pacote">
+    <div class="idx">01</div>
+    <div>
+      <h3>Diagnóstico do poço — a porta de entrada</h3>
+      <p style="color:var(--ink-2); font-size:.95rem;">Visita única com preço fixo: coleta de amostra para análise de potabilidade em laboratório, verificação da situação da outorga, inspeção da proteção sanitária do poço e da caixa d'água, e um relatório de uma página dizendo o que está certo e o que não está. Vende sozinho porque entrega um fato — o resultado da água — que o dono nunca teve.</p>
+      <dl>
+        <dt>Quem paga</dt><dd>Restaurante, padaria, pousada, escola, creche, clínica, igreja, condomínio, posto</dd>
+        <dt>Insumo</dt><dd>Existe prestador de análise microbiológica e físico-química de água em Santarém — confirme a acreditação ISO/IEC 17025 antes de fechar parceria<sup><a href="#f6">6</a></sup></dd>
+        <dt>Cuidado</dt><dd>Laudo ruim é notícia ruim para o cliente. Entregue sempre com o caminho da correção junto, nunca só o problema.</dd>
+      </dl>
+    </div>
+  </article>
+
+  <article class="pacote">
+    <div class="idx">02</div>
+    <div>
+      <h3>Conformidade recorrente — onde está a receita</h3>
+      <p style="color:var(--ink-2); font-size:.95rem;">Contrato mensal ou trimestral: análises na frequência que o sistema exige, controle e registro de cloro, limpeza programada de caixa d'água, laudos arquivados e prontos, e alerta antes de cada vencimento. O cliente não quer entender a Portaria 888 — quer que alguém garanta que ele está em dia quando a vigilância aparecer.</p>
+      <dl>
+        <dt>Modelo</dt><dd>Mensalidade por ponto de captação, com as análises inclusas no plano</dd>
+        <dt>Camada digital</dt><dd>Cadastro do poço, calendário de vencimentos, laudo com foto e data, painel do cliente — a mesma engenharia das outras peças que já construímos</dd>
+        <dt>Defesa</dt><dd>Histórico. Depois de dois anos de laudos guardados, trocar de fornecedor custa caro para o cliente.</dd>
+      </dl>
+    </div>
+  </article>
+
+  <article class="pacote">
+    <div class="idx">03</div>
+    <div>
+      <h3>Regularização e adequação — o serviço de projeto</h3>
+      <p style="color:var(--ink-2); font-size:.95rem;">Outorga junto à SEMAS para os casos que não têm dispensa, adequação da proteção sanitária, instalação de cloração e correção do que o diagnóstico apontou. Ticket alto, venda única, e é o que transforma o diagnóstico em obra.</p>
+      <dl>
+        <dt>Barreira</dt><dd>Exige responsável técnico habilitado com ART. Você precisa de um engenheiro ou geólogo sócio ou parceiro — e essa mesma barreira é o que segura o concorrente informal do lado de fora</dd>
+        <dt>Não faça</dt><dd>Vender regularização residencial que a campanha da SEMAS faz de graça</dd>
+      </dl>
+    </div>
+  </article>
+</section>
+
+<section id="conta">
+  <div class="sec-h"><span class="eyebrow">06 — A conta</span><h2>Ordem de grandeza, com o buraco declarado</h2></div>
+  <div class="col" style="margin-bottom:14px;">
+    <p style="color:var(--ink-2); font-size:.96rem;">Falta o número que mais importa e eu não o encontrei: <strong>quantos estabelecimentos em Santarém usam poço</strong>. O modelo abaixo parte de uma faixa estimada e existe para mostrar a sensibilidade — se a faixa real for outra, a conclusão muda de tamanho, não de direção.</p>
+  </div>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Cenário</th><th>Estabelecimentos com poço na cidade</th><th class="r">Carteira em 3% do mercado</th><th class="r">Receita mensal a R$ 350/ponto</th></tr></thead>
+      <tbody>
+        <tr><td>Conservador</td><td>800</td><td class="r">24 clientes</td><td class="r">R$ 8.400</td></tr>
+        <tr><td>Provável</td><td>2.000</td><td class="r">60 clientes</td><td class="r">R$ 21.000</td></tr>
+        <tr><td>Otimista</td><td>4.000</td><td class="r">120 clientes</td><td class="r">R$ 42.000</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="col stack" style="margin-top:18px;">
+    <p style="font-size:.95rem; color:var(--ink-2);">Some a isso o diagnóstico avulso (R$ 250 a 450 por visita, com a análise inclusa) e a regularização (ticket de projeto, na casa dos milhares). O ponto relevante: <strong>até no cenário conservador, 24 clientes recorrentes pagam uma operação enxuta</strong> — e essa é uma carteira que uma pessoa com um parceiro técnico consegue atender.</p>
+    <div class="nota agua"><strong>E é a mesma carteira da outra tese.</strong> O restaurante que precisa de laudo de água é o mesmo que vai precisar ligar o esgoto na rede quando ela passar, e o mesmo que compra a página de pedidos. Três produtos, um cadastro, uma rota, um relacionamento. É assim que uma operação pequena numa cidade média fica difícil de desalojar.</div>
+  </div>
+</section>
+
+<section id="riscos">
+  <div class="sec-h"><span class="eyebrow">07 — O que mata</span><h2>Quatro jeitos de errar aqui</h2></div>
+  <div class="col">
+    <ul class="tight">
+      <li><strong>Vender medo.</strong> Falar em multa e interdição fecha a primeira venda e destrói a segunda. O argumento tem que ser o laudo na gaveta e a água limpa, não a ameaça.</li>
+      <li><strong>Não ter responsável técnico.</strong> Sem ART, você faz diagnóstico e coleta, mas não assina projeto nem outorga. Entrar sem esse parceiro trava o item de maior ticket.</li>
+      <li><strong>Prometer resultado de laboratório.</strong> Você entrega o processo, não a aprovação. Se a água estiver contaminada, o serviço é dizer isso com clareza e corrigir — nunca maquiar coleta.</li>
+      <li><strong>Ignorar que a rede vai chegar.</strong> A meta de universalização de água é 2033. Parte da sua carteira vai migrar para a rede e cancelar. Trate isso como natural e compense com a esteira do esgoto, que cresce exatamente na mesma medida.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="campo">
+  <div class="sec-h"><span class="eyebrow">08 — Campo</span><h2>Cinco perguntas, uma semana</h2></div>
+  <div class="col">
+    <ol class="campo">
+      <li><div><span class="c-t">Quantos estabelecimentos usam poço?</span><span class="c-d">Pergunte na Vigilância Sanitária municipal quantos estabelecimentos declaram solução alternativa de abastecimento, e na SEMAS quantas outorgas existem no município. A diferença entre os dois números é o seu mercado.</span></div></li>
+      <li><div><span class="c-t">A vigilância cobra laudo hoje?</span><span class="c-d">Pergunte a cinco donos de restaurante se já pediram o laudo de potabilidade da água deles. Se ninguém nunca pediu, seu produto é preventivo e a venda é mais lenta — e você precisa saber disso antes, não depois.</span></div></li>
+      <li><div><span class="c-t">Quanto custa a análise, de verdade?</span><span class="c-d">Cote o pacote microbiológico e físico-químico com o laboratório local e com um de Belém. O preço dessa análise define todo o seu preço final.</span></div></li>
+      <li><div><span class="c-t">A campanha da SEMAS já veio a Santarém?</span><span class="c-d">Se ainda não veio, ela é sua aliada: acompanhe o mutirão, ajude quem se enquadra na dispensa gratuita e colete os que não se enquadram. Ninguém junta clientes qualificados mais rápido do que um mutirão do órgão ambiental.</span></div></li>
+      <li><div><span class="c-t">O que a concessionária está cobrando de quem tem poço?</span><span class="c-d">Entenda a cobrança que gerou a denúncia. Se ela se consolidar, muda a conta de todo estabelecimento com poço na cidade — e quem souber explicar essa conta primeiro entra em qualquer porta.</span></div></li>
+    </ol>
+  </div>
+</section>
+
+<section id="lacunas">
+  <div class="sec-h"><span class="eyebrow">09 — Ressalvas</span><h2>O que não está confirmado</h2></div>
+  <div class="col">
+    <ul class="tight">
+      <li><strong>Os 90% de poços irregulares</strong> vêm de reportagem local de agosto de 2026 que não consegui abrir diretamente — o domínio está bloqueado no ambiente desta apuração. Trate como forte indício, não como dado oficial, até confirmar com a SEMAS.</li>
+      <li><strong>Cobertura de água divergente.</strong> O Censo aponta 50,4% por rede geral; o Ranking do Saneamento aponta 44,93% de atendimento. Metodologias diferentes, anos diferentes — use a menor para dimensionar demanda e a maior para não exagerar o discurso.</li>
+      <li><strong>Número de estabelecimentos com poço:</strong> não existe publicado. É a pergunta 1 do campo e o principal buraco deste documento.</li>
+      <li><strong>Frequência exigida de análise</strong> varia conforme volume e tipo de sistema. Antes de montar plano e preço, leve a portaria a um responsável técnico e defina a frequência por perfil de cliente.</li>
+      <li><strong>Acreditação do laboratório local</strong> não foi verificada. Laudo de laboratório não acreditado pode não ser aceito pela vigilância — confirme antes de prometer conformidade a qualquer cliente.</li>
+      <li><strong>A cobrança da concessionária sobre usuários de poço</strong> está em disputa jurídica. Não construa argumento de venda sobre algo que pode ser derrubado.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <span class="eyebrow">Fontes</span>
+  <ol>
+    <li id="f1">Censo 2022 do IBGE e painel municipal: 50,4% da população de Santarém abastecida por rede geral, 42,2% por poço profundo ou artesiano, 13.357 habitantes sem água encanada; 140.652 pessoas (42,6%) em fossa rudimentar ou buraco. <a href="https://www.aguaesaneamento.org.br/municipios-e-saneamento/pa/santarem">Instituto Água e Saneamento</a> · <a href="https://infosanbas.org.br/municipio/santarem-pa/">Infosanbas</a></li>
+    <li id="f2">Situação dos poços e do abastecimento em Santarém: irregularidade dos poços perfurados, profundidade típica e risco de coliformes, cobrança da concessionária a usuários de poços artesianos e interrupções de abastecimento desde abril. <a href="https://www.tapajosnoticias.com.br/2026/08/quase-90-dos-pocos-artesianos-em.html">Tapajós Notícias</a> · <a href="https://www.romanews.com.br/cidades/cobranca-da-aguas-do-para-a-usuarios-de-pocos-artesianos-gera-denuncia-e-debate-juridico-0826">Roma News</a> · <a href="https://www.tapajosnoticias.com.br/2026/07/diversos-bairros-de-santarem-comecam.html">Tapajós Notícias</a> · <a href="https://www.aguasdopara.com.br/aguas-do-para-inicia-perfuracao-de-um-dos-tres-novos-pocos-programados-para-santarem/">Águas do Pará</a></li>
+    <li id="f3">Campanha de regularização de usuários de água da SEMAS-PA: mutirão em Belém e região metropolitana em janeiro, Marabá em maio, com previsão de levar ao interior; dispensa de outorga gratuita e sem necessidade de contratar profissional para pequenos usuários (até 5 mil litros/dia residencial e 40 mil litros/dia multifamiliar). <a href="https://www.agenciapara.com.br/noticia/74115/semas-inicia-mutirao-de-regularizacao-do-uso-da-agua-em-belem-e-regiao-metropolitana">Agência Pará</a> · <a href="https://www.semas.pa.gov.br/2026/05/27/semas-leva-campanha-de-regularizacao-hidrica-a-maraba-e-participa-de-forum-sobre-sociobiodiversidade/">SEMAS</a></li>
+    <li id="f4">Portaria GM/MS nº 888, de 4 de maio de 2021 — padrões de potabilidade e responsabilidades, alcançando soluções alternativas de abastecimento como poços artesianos e carros-pipa. <a href="https://bvsms.saude.gov.br/bvs/saudelegis/gm/2021/prt0888_07_05_2021.html">Ministério da Saúde</a> · <a href="https://microambiental.com.br/analises-de-agua/conheca-a-nova-portaria-gm-ms-n-888-de-4-de-maio-de-2021-e-entenda-as-principais-mudancas-ocorridas/">resumo técnico</a></li>
+    <li id="f5">Outorga de direito de uso de recursos hídricos no Pará, documentos e procedimentos; captação sem outorga como infração ambiental sujeita a multa e embargo. <a href="https://www.semas.pa.gov.br/diretorias/recursos-hidricos/outorga/documentos-necessarios/">SEMAS-PA</a> · <a href="https://microambiental.com.br/outorga/procedimentos-para-regularizacao/">guia de regularização</a></li>
+    <li id="f6">Existência de prestador de análise microbiológica e físico-química de água em Santarém. <a href="https://www.lsanalyses.com.br/para/santarem/centro/analises-microbiologica-e-fisicoquimica-para-agua-e-meio-ambiente/">LS Analyses</a>. Acreditação ISO/IEC 17025 não verificada.</li>
+  </ol>
+  <p style="margin-top:16px; color:var(--ink-3); font-size:.8rem;">Documento de trabalho, não parecer técnico ou jurídico. Estimativas de mercado são modelos com premissas declaradas; frequência de análise, exigências de outorga e aceitação de laudo devem ser confirmadas com responsável técnico e com os órgãos competentes antes de qualquer oferta comercial.</p>
+</footer>
+</div>
