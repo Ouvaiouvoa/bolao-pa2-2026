@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<!--
+  ============================================================
+  HYLLANA ARRAIS · PÁGINA OFICIAL — Uma produção Grupo Vértice
+  ============================================================
+  COMO EDITAR (tudo em um só lugar):
+  1) Contatos e fotos: no <script> no fim do arquivo, objeto CONFIG.
+     - whatsapp: só números, com DDI + DDD (ex.: 5511999999999)
+     - instagram: usuário sem @
+     - email: endereço completo
+     - fotos.hero: caminho da foto principal (ex.: assets/hero.jpg)
+     - fotos.stills: até 6 fotos de bastidores (ex.: assets/still-01.jpg)
+     Contato vazio aparece como "em breve" (sem link quebrado).
+  2) Textos: procure por "TEXTO PROVISÓRIO" e troque pela história real.
+  ============================================================
+-->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hyllana Arrais · Página oficial — Grupo Vértice</title>
+<meta name="description" content="Página oficial de Hyllana Arrais: trajetória, projetos, bastidores e contato. Uma produção Grupo Vértice.">
+<meta name="theme-color" content="#080706">
+<meta name="color-scheme" content="dark">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="Hyllana Arrais · Página oficial">
+<meta property="og:description" content="Trajetória, projetos, bastidores e contato. Uma produção Grupo Vértice.">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23080706'/%3E%3Cpath d='M16 7 27 25H5Z' fill='none' stroke='%23d6b06b' stroke-width='2.2' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Mono:wght@400;500&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add('js')</script>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+  :root{
+    --preto:#080706; --preto-2:#0e0c0a; --preto-3:#16130f;
+    --marfim:#efe7d8; --marfim-2:#cfc6b4; --cinza:#9a9182;
+    --ouro:#d6b06b; --ouro-claro:#f1d9a6; --ouro-2:#a7833f; --brasa:#c2643a;
+    --linha:rgba(239,231,216,.12);
+    --serif:'Cormorant Garamond','Times New Roman',serif;
+    --sans:'Manrope',system-ui,-apple-system,'Segoe UI',sans-serif;
+    --mono:'DM Mono',ui-monospace,'SFMono-Regular',monospace;
+    --gutter:clamp(16px,5vw,72px);
+    --suave:cubic-bezier(.2,.7,.15,1);
+    --lb:0px;
+    color-scheme:dark;
+  }
+
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  html.travado,html.travado body{overflow:hidden}
+  body{
+    background:var(--preto);color:var(--marfim);
+    font-family:var(--sans);font-size:17px;line-height:1.7;font-weight:400;
+    -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+    overflow-x:clip;
+  }
+  a{color:inherit}
+  img{display:block;max-width:100%}
+  ::selection{background:var(--ouro);color:var(--preto)}
+  :focus-visible{outline:1px solid var(--ouro);outline-offset:4px}
+
+  .pular-link{position:fixed;left:16px;top:-60px;z-index:200;background:var(--ouro);color:var(--preto);padding:10px 16px;font:500 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;text-decoration:none;transition:top .3s}
+  .pular-link:focus{top:16px}
+
+  /* ---------- Marca Vértice ---------- */
+  .v-mark{width:1em;height:1em;flex:none}
+
+  /* =========================================================
+     INTRO — título de abertura (roda via CSS; JS só pula/remove)
+     ========================================================= */
+  .intro{display:none}
+  .js .intro{
+    display:grid;place-items:center;position:fixed;inset:0;z-index:100;
+    background:#000;padding:0 16px;overflow:hidden;
+    animation:introSai 1.1s ease 5.3s forwards;
+  }
+  .intro.pular{animation:introPula .8s ease forwards}
+  .intro>.intro-cena{grid-area:1/1;text-align:center}
+  .intro-apresenta{opacity:0;animation:apresenta 2.3s ease .35s forwards;display:flex;flex-direction:column;align-items:center;gap:14px}
+  .intro-apresenta .v-mark{font-size:34px;color:var(--ouro)}
+  .intro-grupo{font:500 13px/1 var(--mono);letter-spacing:.5em;text-transform:uppercase;color:var(--marfim);padding-left:.5em}
+  .intro-sub{font:italic 300 22px/1 var(--serif);color:var(--cinza)}
+  .intro-titulo{
+    font:400 clamp(1.5rem,6.4vw,4.6rem)/1 var(--serif);text-transform:uppercase;
+    color:var(--marfim);white-space:nowrap;opacity:0;
+    animation:tituloIntro 2.8s var(--suave) 2.5s forwards;
+  }
+  .intro-fio{display:block;width:min(340px,60vw);height:1px;margin:26px auto 18px;background:linear-gradient(90deg,transparent,var(--ouro),transparent);transform:scaleX(0);animation:fio 1.6s var(--suave) 3.3s forwards}
+  .intro-legenda{font:500 11px/1 var(--mono);letter-spacing:.42em;text-transform:uppercase;color:var(--ouro);opacity:0;animation:aparece 1s ease 3.7s forwards;padding-left:.42em}
+  .intro-pular{
+    position:absolute;right:max(16px,3vw);bottom:max(18px,4vh);
+    background:none;border:1px solid var(--linha);color:var(--marfim-2);cursor:pointer;
+    font:500 11px/1 var(--mono);letter-spacing:.24em;text-transform:uppercase;padding:12px 16px;
+    transition:border-color .3s,color .3s;
+  }
+  .intro-pular:hover{border-color:var(--ouro);color:var(--ouro)}
+  .intro-flicker{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at center,rgba(255,236,200,.05),transparent 60%);animation:flicker .18s steps(2) infinite}
+  @keyframes apresenta{0%{opacity:0;transform:scale(.97);filter:blur(6px)}22%{opacity:1;transform:scale(1);filter:blur(0)}74%{opacity:1}100%{opacity:0;transform:scale(1.02);filter:blur(4px)}}
+  @keyframes tituloIntro{0%{opacity:0;letter-spacing:.55em;filter:blur(12px)}45%{opacity:1;filter:blur(0)}100%{opacity:1;letter-spacing:.12em}}
+  @keyframes fio{to{transform:scaleX(1)}}
+  @keyframes aparece{to{opacity:1}}
+  @keyframes introSai{to{opacity:0;visibility:hidden}}
+  @keyframes introPula{from{opacity:1}to{opacity:0;visibility:hidden}}
+  @keyframes flicker{0%{opacity:.6}100%{opacity:1}}
+
+  /* =========================================================
+     LETTERBOX + HUD
+     ========================================================= */
+  .lb{position:fixed;left:0;right:0;height:var(--lb);background:#000;z-index:40;pointer-events:none;overflow:hidden}
+  .lb-top{top:0}
+  .lb-bot{bottom:0;display:flex;align-items:center}
+  .lb-info{
+    width:100%;display:flex;justify-content:space-between;align-items:center;gap:16px;
+    padding:0 var(--gutter);font:500 10.5px/1 var(--mono);letter-spacing:.24em;text-transform:uppercase;color:var(--cinza);
+    opacity:var(--lb-op,1);
+  }
+  .lb-info .rolar{display:flex;align-items:center;gap:12px;color:var(--marfim-2)}
+  .lb-info .rolar i{display:block;width:44px;height:1px;background:var(--linha);position:relative;overflow:hidden}
+  .lb-info .rolar i::after{content:'';position:absolute;inset:0;background:var(--ouro);transform:translateX(-100%);animation:corre 2.2s var(--suave) infinite}
+  @keyframes corre{60%,100%{transform:translateX(100%)}}
+
+  /* =========================================================
+     TOPO / NAVEGAÇÃO
+     ========================================================= */
+  .topo{
+    position:fixed;top:0;left:0;right:0;z-index:50;
+    display:flex;align-items:center;justify-content:space-between;gap:24px;
+    padding:20px var(--gutter);
+    font:500 11px/1 var(--mono);letter-spacing:.22em;text-transform:uppercase;color:var(--marfim-2);
+    transition:background .5s,border-color .5s,padding .5s;border-bottom:1px solid transparent;
+  }
+  .topo.solido{background:rgba(8,7,6,.78);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom-color:var(--linha);padding-top:14px;padding-bottom:14px}
+  .marca{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--marfim)}
+  .marca .v-mark{font-size:16px;color:var(--ouro)}
+  .nav{display:flex;gap:28px}
+  .nav a{text-decoration:none;position:relative;padding:6px 0;transition:color .3s}
+  .nav a::after{content:'';position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--ouro);transform:scaleX(0);transform-origin:right;transition:transform .5s var(--suave)}
+  .nav a:hover{color:var(--marfim)}
+  .nav a:hover::after{transform:scaleX(1);transform-origin:left}
+  .tc{display:flex;align-items:center;gap:12px;font-variant-numeric:tabular-nums;color:var(--cinza)}
+  .tc .rec{width:7px;height:7px;border-radius:50%;background:#e2483d;box-shadow:0 0 10px #e2483d;animation:pisca 1.6s steps(2) infinite}
+  .tc .tc-num{color:var(--marfim-2)}
+  @keyframes pisca{50%{opacity:.2}}
+  .progresso{position:absolute;left:0;bottom:-1px;height:1px;width:100%;background:var(--ouro);transform-origin:left;transform:scaleX(0)}
+
+  /* =========================================================
+     HERO
+     ========================================================= */
+  .hero{
+    position:relative;min-height:100vh;min-height:100svh;isolation:isolate;overflow:hidden;
+    display:flex;flex-direction:column;justify-content:flex-end;
+    padding:calc(11vh + 90px) var(--gutter) calc(11vh + 36px);
+  }
+  .hero-fundo{position:absolute;inset:0;z-index:-3;
+    background:
+      radial-gradient(ellipse 55% 55% at 80% 6%,rgba(214,176,107,.17),transparent 70%),
+      radial-gradient(ellipse 45% 55% at 6% 100%,rgba(194,100,58,.13),transparent 70%),
+      linear-gradient(180deg,#0c0a08 0%,#080706 100%);
+  }
+  .hero-foto{position:absolute;inset:0 0 0 auto;width:min(62%,1000px);z-index:-2;background:center 22%/cover no-repeat;opacity:0;transition:opacity 1.6s ease;
+    -webkit-mask-image:linear-gradient(to left,#000 35%,transparent 92%),linear-gradient(to top,transparent 0%,#000 30%);
+    mask-image:linear-gradient(to left,#000 35%,transparent 92%);
+    filter:contrast(1.06) saturate(.85);
+  }
+  .hero-foto.tem-foto{opacity:.62}
+  .feixes{position:absolute;top:-18vh;right:14vw;width:0;height:0;z-index:-1;pointer-events:none}
+  .feixes i{
+    position:absolute;top:0;left:0;width:var(--w,24vw);height:170vh;transform-origin:50% 0;
+    filter:blur(var(--b,12px));mix-blend-mode:screen;opacity:var(--o,.9);
+    transform:translateX(-50%) rotate(var(--r,30deg));
+    animation:balanco var(--t,16s) ease-in-out var(--dl,0s) infinite alternate;
+  }
+  .feixes i::before{content:'';position:absolute;inset:0;
+    background:linear-gradient(to bottom,rgba(255,220,165,.55),rgba(214,176,107,.14) 48%,transparent 85%);
+    clip-path:polygon(46% 0,54% 0,100% 100%,0 100%)}
+  .feixes i:nth-child(1){--r:22deg;--w:20vw;--t:17s}
+  .feixes i:nth-child(2){--r:34deg;--w:30vw;--t:21s;--dl:-6s;--o:.6;--b:18px}
+  .feixes i:nth-child(3){--r:46deg;--w:16vw;--t:14s;--dl:-3s;--o:.5}
+  .feixes i:nth-child(4){--r:58deg;--w:26vw;--t:23s;--dl:-9s;--o:.4;--b:22px}
+  @keyframes balanco{from{transform:translateX(-50%) rotate(calc(var(--r) - 4deg))}to{transform:translateX(-50%) rotate(calc(var(--r) + 4deg))}}
+  .vazamento{position:absolute;inset:-25%;z-index:-1;pointer-events:none;mix-blend-mode:screen;opacity:.55;filter:blur(50px);
+    background:radial-gradient(closest-side at 18% 70%,rgba(194,100,58,.32),transparent),radial-gradient(closest-side at 86% 18%,rgba(255,200,120,.22),transparent);
+    animation:vazar 19s ease-in-out infinite alternate}
+  @keyframes vazar{from{transform:translate3d(-4%,0,0) scale(1)}to{transform:translate3d(5%,3%,0) scale(1.12)}}
+  #poeira{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
+  .hero::after{content:'';position:absolute;left:0;right:0;bottom:0;height:28vh;z-index:-1;background:linear-gradient(to bottom,transparent,var(--preto))}
+
+  .hero-conteudo{position:relative;max-width:1400px;will-change:transform,opacity}
+  .sobretitulo{display:flex;align-items:center;gap:12px;font:500 11px/1 var(--mono);letter-spacing:.34em;text-transform:uppercase;color:var(--marfim-2)}
+  .sobretitulo .v-mark{font-size:15px;color:var(--ouro)}
+  .titulo{font-family:var(--serif);font-weight:300;font-size:clamp(3.7rem,14vw,13.5rem);line-height:.84;letter-spacing:-.015em;margin:.2em 0 .3em}
+  .titulo .l1,.titulo .l2{display:block}
+  .titulo .l2{padding-left:.85em;font-style:italic;font-weight:300;color:var(--ouro);text-shadow:0 0 60px rgba(214,176,107,.25)}
+  .hero-linha{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:28px 48px;border-top:1px solid var(--linha);padding-top:26px}
+  .tagline{font:italic 300 clamp(1.45rem,2.6vw,2.1rem)/1.2 var(--serif);color:var(--marfim)}
+  .tagline small{display:block;margin-top:10px;font:500 11px/1.4 var(--mono);font-style:normal;letter-spacing:.26em;text-transform:uppercase;color:var(--cinza)}
+  .ctas{display:flex;flex-wrap:wrap;gap:12px}
+  .btn{
+    display:inline-flex;align-items:center;gap:12px;min-height:50px;padding:0 24px;
+    font:500 11.5px/1 var(--mono);letter-spacing:.2em;text-transform:uppercase;text-decoration:none;
+    border:1px solid var(--linha);transition:background .4s,color .4s,border-color .4s,transform .4s var(--suave);
+  }
+  .btn:hover{transform:translateY(-2px)}
+  .btn-ouro{background:var(--ouro);color:var(--preto);border-color:var(--ouro)}
+  .btn-ouro:hover{background:var(--ouro-claro)}
+  .btn-fantasma{color:var(--marfim)}
+  .btn-fantasma:hover{border-color:var(--ouro);color:var(--ouro)}
+  .btn .play{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;border:1px solid currentColor;font-size:8px;padding-left:2px}
+
+  /* entrada do hero (só com JS ok) */
+  .ok .titulo .ch{display:inline-block;opacity:0;transform:translateY(.32em);filter:blur(14px)}
+  .ok.pronto .titulo .ch{animation:letra 1.5s var(--suave) forwards;animation-delay:calc(var(--i) * 60ms + 120ms)}
+  @keyframes letra{to{opacity:1;transform:none;filter:blur(0)}}
+  .ok .hero .entra{opacity:0;transform:translateY(20px)}
+  .ok.pronto .hero .entra{opacity:1;transform:none;transition:opacity 1.3s ease,transform 1.3s var(--suave);transition-delay:var(--d,0s)}
+
+  /* =========================================================
+     CENAS — estrutura comum
+     ========================================================= */
+  .cena{position:relative;padding:clamp(96px,15vh,170px) var(--gutter)}
+  .claquete{display:flex;flex-wrap:wrap;align-items:center;gap:10px 20px;margin-bottom:30px;font:500 11px/1 var(--mono);letter-spacing:.26em;text-transform:uppercase;color:var(--cinza)}
+  .claquete::before{content:'';width:44px;height:1px;background:var(--ouro)}
+  .claquete .n{color:var(--ouro)}
+  .claquete .sep{width:4px;height:4px;border-radius:50%;background:var(--linha)}
+  .h2{font:300 clamp(2.5rem,6.4vw,5.8rem)/1 var(--serif);letter-spacing:-.01em;max-width:16ch}
+  .h2 em{font-style:italic;color:var(--ouro)}
+  .lead{max-width:56ch;margin-top:26px;color:var(--marfim-2);font-size:clamp(1rem,1.2vw,1.12rem)}
+
+  .ok .revela{opacity:0;translate:0 30px;filter:blur(6px);transition:opacity 1.2s var(--suave),translate 1.2s var(--suave),filter 1.2s var(--suave),transform .6s var(--suave),border-color .5s;transition-delay:var(--d,0s),var(--d,0s),var(--d,0s),0s,0s}
+  .ok .revela.visivel{opacity:1;translate:none;filter:none}
+
+  /* ---------- MANIFESTO ---------- */
+  .manifesto{padding:0}
+  .ok .manifesto{height:250vh}
+  .manifesto-pin{position:sticky;top:0;min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:14vh var(--gutter)}
+  .manifesto-texto{font:300 clamp(1.9rem,4.5vw,4.3rem)/1.14 var(--serif);max-width:23ch;letter-spacing:-.005em}
+  .manifesto-texto em{font-style:italic;color:var(--ouro)}
+  .ok .manifesto-texto .w{opacity:.13;transition:opacity .5s ease,filter .5s ease;filter:blur(1.5px)}
+  .ok .manifesto-texto .w.on{opacity:1;filter:none}
+  .assinatura{margin-top:44px;display:flex;align-items:center;gap:14px;font:500 11px/1 var(--mono);letter-spacing:.26em;text-transform:uppercase;color:var(--cinza)}
+  .assinatura::before{content:'';width:28px;height:1px;background:var(--cinza)}
+
+  /* ---------- TRAJETÓRIA (3 atos) ---------- */
+  .atos{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:6vw;margin-top:9vh}
+  .atos-num{position:sticky;top:20vh;height:62vh;align-self:start}
+  .atos-num span{
+    position:absolute;left:0;top:0;font:italic 300 clamp(8rem,21vw,21rem)/.8 var(--serif);
+    color:transparent;-webkit-text-stroke:1px rgba(214,176,107,.55);
+    opacity:0;transform:translateY(30px);filter:blur(8px);transition:opacity .9s var(--suave),transform .9s var(--suave),filter .9s;
+  }
+  .atos-num span.on{opacity:1;transform:none;filter:none}
+  .atos-num small{position:absolute;left:4px;bottom:0;font:500 11px/1 var(--mono);letter-spacing:.26em;text-transform:uppercase;color:var(--cinza)}
+  .ato{min-height:74vh;display:flex;flex-direction:column;justify-content:center;border-top:1px solid var(--linha);padding:7vh 0}
+  .ato-cab{font:500 11px/1 var(--mono);letter-spacing:.26em;text-transform:uppercase;color:var(--ouro);margin-bottom:22px}
+  .ato h3{font:300 clamp(2rem,3.8vw,3.4rem)/1.04 var(--serif);margin-bottom:22px}
+  .ato h3 em{font-style:italic}
+  .ato p{max-width:48ch;color:var(--marfim-2)}
+  .ato .ato-n{display:none}
+
+  /* ---------- EM CARTAZ ---------- */
+  .cartazes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(16px,2vw,28px);margin-top:9vh;perspective:1200px}
+  .cartaz{
+    --rx:0deg;--ry:0deg;--gx:50%;--gy:30%;
+    position:relative;display:flex;flex-direction:column;aspect-ratio:3/4.3;overflow:hidden;
+    border:1px solid var(--linha);background:var(--arte);isolation:isolate;
+    transform:rotateX(var(--rx)) rotateY(var(--ry));transition:transform .6s var(--suave),border-color .5s;
+  }
+  .cartaz:hover{border-color:rgba(214,176,107,.45)}
+  .cartaz::after{content:'';position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(circle at var(--gx) var(--gy),rgba(255,236,200,.13),transparent 45%);opacity:0;transition:opacity .5s}
+  .cartaz:hover::after{opacity:1}
+  .c1{--arte:radial-gradient(90% 70% at 70% 20%,rgba(214,176,107,.28),transparent 60%),linear-gradient(170deg,#1b140d,#0a0807 70%)}
+  .c2{--arte:radial-gradient(90% 70% at 25% 25%,rgba(194,100,58,.32),transparent 60%),linear-gradient(190deg,#1a0f0b,#090706 70%)}
+  .c3{--arte:radial-gradient(80% 60% at 50% 15%,rgba(140,170,170,.16),transparent 60%),linear-gradient(175deg,#0f1414,#080807 70%)}
+  .cartaz-arte{position:relative;flex:1;overflow:hidden}
+  .cartaz-arte .tri{position:absolute;left:50%;top:16%;width:62%;aspect-ratio:1/0.9;transform:translateX(-50%);
+    background:linear-gradient(180deg,rgba(214,176,107,.38),rgba(214,176,107,0) 85%);clip-path:polygon(50% 0,100% 100%,0 100%);
+    transition:transform 1.2s var(--suave)}
+  .cartaz:hover .tri{transform:translateX(-50%) translateY(-6%) scale(1.04)}
+  .cartaz-arte .tri::after{content:'';position:absolute;inset:1.5px;background:inherit;clip-path:inherit;filter:brightness(.25)}
+  .cartaz-n{position:absolute;right:18px;top:12px;font:italic 300 clamp(3.5rem,6vw,6rem)/1 var(--serif);color:transparent;-webkit-text-stroke:1px rgba(239,231,216,.35)}
+  .selo{position:absolute;left:18px;top:20px;font:500 10px/1 var(--mono);letter-spacing:.24em;text-transform:uppercase;color:var(--preto);background:var(--ouro);padding:7px 10px}
+  .cartaz-info{position:relative;padding:22px 22px 18px;background:linear-gradient(to top,rgba(8,7,6,.94),rgba(8,7,6,.55) 70%,transparent)}
+  .cartaz-info h3{font:400 clamp(1.7rem,2.4vw,2.3rem)/1.05 var(--serif);margin-bottom:10px}
+  .cartaz-info p{font-size:.95rem;color:var(--marfim-2);line-height:1.6}
+  .cartaz-info .cartaz-creditos{margin-top:18px;padding-top:12px;border-top:1px solid var(--linha);font:500 9px/1.5 var(--mono);letter-spacing:.24em;text-transform:uppercase;color:var(--cinza)}
+
+  /* ---------- BASTIDORES (rolo de filme) ---------- */
+  .bastidores{padding:0}
+  .bastidores-pin{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;display:flex;flex-direction:column;justify-content:center;gap:5vh;padding:12vh 0 8vh}
+  .bastidores-cab{padding:0 var(--gutter);display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:20px}
+  .bastidores-cab .claquete{margin-bottom:18px}
+  .dica{font:500 11px/1 var(--mono);letter-spacing:.24em;text-transform:uppercase;color:var(--cinza);display:flex;align-items:center;gap:12px}
+  .dica b{font-weight:500;color:var(--ouro);font-variant-numeric:tabular-nums}
+  .rolo{position:relative;width:max-content;display:flex;gap:18px;padding:34px var(--gutter);background:#040303;will-change:transform}
+  .rolo::before,.rolo::after{content:'';position:absolute;left:0;right:0;height:14px;
+    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='14'%3E%3Crect x='10' y='1' width='14' height='12' rx='3' fill='%23efe7d8' fill-opacity='.14'/%3E%3C/svg%3E") repeat-x}
+  .rolo::before{top:10px}
+  .rolo::after{bottom:10px}
+  .quadro{position:relative;flex:none;width:clamp(300px,42vw,700px);aspect-ratio:16/9;overflow:hidden;background:var(--arte);border-radius:2px}
+  .quadro img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:contrast(1.05) saturate(.9)}
+  .quadro::before{content:'';position:absolute;left:50%;top:50%;width:13%;aspect-ratio:1/.88;transform:translate(-50%,-56%);clip-path:polygon(50% 0,100% 100%,0 100%);background:rgba(239,231,216,.07)}
+  .quadro.tem-foto::before{display:none}
+  .quadro::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.55),transparent 45%);pointer-events:none}
+  .quadro figcaption{position:absolute;left:18px;bottom:14px;z-index:1;display:flex;gap:14px;font:500 10.5px/1 var(--mono);letter-spacing:.24em;text-transform:uppercase;color:var(--marfim-2)}
+  .quadro figcaption span:first-child{color:var(--ouro)}
+  .s1{--arte:radial-gradient(110% 90% at 18% 30%,rgba(194,100,58,.36),transparent 60%),linear-gradient(135deg,#1c1510,#0a0806)}
+  .s2{--arte:radial-gradient(80% 70% at 76% 40%,rgba(214,176,107,.3),transparent 60%),linear-gradient(200deg,#0d1a1c,#090807)}
+  .s3{--arte:radial-gradient(60% 70% at 50% 60%,rgba(239,231,216,.12),transparent 70%),linear-gradient(#141210,#070605)}
+  .s4{--arte:linear-gradient(100deg,#0a0807 28%,#3a2716 50%,#0a0807 72%)}
+  .s5{--arte:radial-gradient(90% 80% at 30% 70%,rgba(138,63,34,.36),transparent 60%),radial-gradient(70% 60% at 82% 20%,rgba(214,176,107,.22),transparent 60%),#0a0908}
+  .s6{--arte:conic-gradient(from 210deg at 62% 48%,#0b0a08,#3a2a18 25%,#0b0a08 50%)}
+  .bastidores.nativo .bastidores-pin{position:relative;height:auto;padding:clamp(96px,15vh,170px) 0}
+  .bastidores.nativo .rolo{width:auto;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;transform:none!important}
+  .bastidores.nativo .rolo::-webkit-scrollbar{display:none}
+  .bastidores.nativo .rolo::before,.bastidores.nativo .rolo::after{width:var(--rolo-w,100%)}
+  .bastidores.nativo .quadro{scroll-snap-align:center;width:min(84vw,560px)}
+
+  /* ---------- INTERLÚDIO ---------- */
+  .interludio{text-align:center;padding-top:clamp(120px,22vh,240px);padding-bottom:clamp(120px,22vh,240px);
+    background:radial-gradient(ellipse 50% 60% at 50% 50%,rgba(214,176,107,.08),transparent 70%)}
+  .interludio blockquote{max-width:1100px;margin:0 auto}
+  .interludio p{font:300 clamp(2.6rem,8vw,7.5rem)/.98 var(--serif);letter-spacing:-.015em}
+  .interludio em{font-style:italic;color:var(--ouro)}
+  .interludio .fios{display:flex;align-items:center;justify-content:center;gap:18px;margin-bottom:40px;font:500 11px/1 var(--mono);letter-spacing:.3em;text-transform:uppercase;color:var(--cinza)}
+  .interludio .fios::before,.interludio .fios::after{content:'';width:min(120px,16vw);height:1px;background:linear-gradient(90deg,transparent,var(--ouro))}
+  .interludio .fios::after{transform:scaleX(-1)}
+
+  /* ---------- CONTATO ---------- */
+  .contato{border-top:1px solid var(--linha)}
+  .contatos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;margin-top:8vh;background:var(--linha);border:1px solid var(--linha)}
+  .contato-card{
+    position:relative;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:6px 18px;
+    padding:clamp(24px,3vw,38px);background:var(--preto);text-decoration:none;overflow:hidden;cursor:pointer;
+    transition:background .5s;
+  }
+  .contato-card::before{content:'';position:absolute;inset:0;background:linear-gradient(120deg,rgba(214,176,107,.14),transparent 60%);transform:translateX(-101%);transition:transform .8s var(--suave)}
+  .contato-card:hover::before{transform:none}
+  .contato-card .ic{grid-column:1;grid-row:1/span 2;width:48px;height:48px;display:grid;place-items:center;border:1px solid var(--linha);border-radius:50%;color:var(--ouro);position:relative}
+  .contato-card .ic svg{width:20px;height:20px}
+  .contato-card .ct-t{grid-column:2;grid-row:1;align-self:end;font:400 clamp(1.5rem,2.1vw,2rem)/1 var(--serif);position:relative}
+  .contato-card .ct-s{grid-column:2;grid-row:2;align-self:start;font:500 10.5px/1 var(--mono);letter-spacing:.24em;text-transform:uppercase;color:var(--cinza);position:relative}
+  .contato-card .seta{grid-column:3;grid-row:1/span 2;font-size:20px;color:var(--ouro);transition:transform .5s var(--suave);position:relative}
+  .contato-card:hover .seta{transform:translateX(6px)}
+  .contato-card.em-breve{cursor:default}
+  .contato-card.em-breve::before{display:none}
+  .contato-card.em-breve .ic,.contato-card.em-breve .seta{color:var(--cinza)}
+  .contato-card.em-breve .ct-t{color:var(--marfim-2)}
+  .contato-nota{margin-top:28px;font:500 11px/1.6 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--cinza)}
+  .contato-nota strong{color:var(--marfim);font-weight:500}
+
+  /* ---------- CRÉDITOS ---------- */
+  .creditos{height:88vh;overflow:hidden;padding:0 var(--gutter);
+    -webkit-mask-image:linear-gradient(transparent,#000 18%,#000 82%,transparent);mask-image:linear-gradient(transparent,#000 18%,#000 82%,transparent)}
+  .creditos-rolo{text-align:center;padding:46vh 0 0;animation:creditos 22s linear forwards;animation-play-state:paused}
+  .creditos.rodando .creditos-rolo{animation-play-state:running}
+  @keyframes creditos{from{transform:translateY(0)}to{transform:translateY(calc(-100% + 56vh))}}
+  .cr-pre{font:italic 300 1.4rem/1 var(--serif);color:var(--cinza)}
+  .cr-grande{font:300 clamp(2.4rem,5vw,4.2rem)/1.05 var(--serif);margin:12px 0 70px}
+  .cr-grande .v-mark{font-size:.6em;color:var(--ouro);vertical-align:.05em;margin-right:.2em}
+  .creditos dl{display:grid;gap:34px;margin-bottom:80px}
+  .creditos dt{font:500 10.5px/1 var(--mono);letter-spacing:.3em;text-transform:uppercase;color:var(--ouro);margin-bottom:10px}
+  .creditos dd{font:400 clamp(1.4rem,2.2vw,1.9rem)/1.2 var(--serif)}
+  .cr-fim{font:italic 300 clamp(2rem,4vw,3.2rem)/1.1 var(--serif)}
+  .cr-fim small{display:block;margin-top:14px;font:500 11px/1 var(--mono);font-style:normal;letter-spacing:.3em;text-transform:uppercase;color:var(--cinza)}
+
+  /* ---------- RODAPÉ ---------- */
+  .rodape{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px 28px;padding:28px var(--gutter) calc(28px + env(safe-area-inset-bottom));border-top:1px solid var(--linha);font:500 10.5px/1.6 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--cinza)}
+  .rodape .marca{color:var(--marfim-2)}
+  .rodape a{text-decoration:none;transition:color .3s}
+  .rodape a:hover{color:var(--ouro)}
+
+  /* ---------- CAMADAS DE PELÍCULA ---------- */
+  .vinheta{position:fixed;inset:0;z-index:89;pointer-events:none;background:radial-gradient(ellipse at center,transparent 58%,rgba(0,0,0,.42) 100%)}
+  .grao{position:fixed;inset:-50%;z-index:110;pointer-events:none;background-image:var(--grao);opacity:.055;animation:grao .8s steps(5) infinite}
+  @keyframes grao{0%{transform:translate(0,0)}20%{transform:translate(-6%,4%)}40%{transform:translate(5%,-7%)}60%{transform:translate(-3%,8%)}80%{transform:translate(7%,2%)}100%{transform:translate(0,0)}}
+  .holofote{position:fixed;inset:0;z-index:88;pointer-events:none;mix-blend-mode:screen;opacity:0;transition:opacity .6s;
+    background:radial-gradient(520px circle at var(--mx,50%) var(--my,50%),rgba(214,176,107,.07),transparent 60%)}
+  .holofote.ativo{opacity:1}
+
+  /* =========================================================
+     RESPONSIVO
+     ========================================================= */
+  @media (max-width:1080px){
+    .nav{display:none}
+  }
+  @media (max-width:760px){
+    body{font-size:16px}
+    .hero{padding:calc(6vh + 84px) var(--gutter) calc(6vh + 30px)}
+    .titulo{font-size:clamp(3.7rem,25vw,7.5rem)}
+    .titulo .l2{padding-left:.45em}
+    .hero-linha{flex-direction:column;align-items:flex-start}
+    .ctas{width:100%}
+    .ctas .btn{justify-content:center;padding:0 14px;letter-spacing:.16em;gap:10px}
+    .ctas .btn-ouro{flex:2 1 auto}
+    .ctas .btn-fantasma{flex:1 1 auto}
+    .feixes{right:6vw}
+    .feixes i{--w:46vw}
+    .hero-foto{width:100%;-webkit-mask-image:linear-gradient(to top,transparent 25%,#000 70%);mask-image:linear-gradient(to top,transparent 25%,#000 70%)}
+    .lb-info{font-size:9.5px;letter-spacing:.18em}
+    .lb-info .lb-extra{display:none}
+    .tc .tc-cena{display:none}
+    .ok .manifesto{height:210vh}
+    .atos{grid-template-columns:1fr;margin-top:6vh}
+    .atos-num{display:none}
+    .ato{min-height:auto;padding:48px 0}
+    .ato .ato-n{display:block;font:italic 300 4.4rem/.9 var(--serif);color:transparent;-webkit-text-stroke:1px rgba(214,176,107,.6);margin-bottom:18px}
+    .cartazes{grid-auto-flow:column;grid-template-columns:none;grid-auto-columns:80%;overflow-x:auto;scroll-snap-type:x mandatory;margin-left:calc(var(--gutter) * -1);margin-right:calc(var(--gutter) * -1);padding:0 var(--gutter) 8px;scrollbar-width:none;perspective:none}
+    .cartazes::-webkit-scrollbar{display:none}
+    .cartaz{scroll-snap-align:center}
+    .contatos{grid-template-columns:1fr}
+    .rodape{flex-direction:column;align-items:flex-start}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    .grao,.feixes i,.vazamento,.intro-flicker,.lb-info .rolar i::after,.tc .rec{animation:none!important}
+    .creditos{height:auto;-webkit-mask-image:none;mask-image:none}
+    .creditos-rolo{animation:none;padding:clamp(96px,15vh,170px) 0 0}
+    .cr-fim{padding-bottom:clamp(60px,10vh,120px)}
+    .creditos-rolo{transform:none!important}
+    .ok .manifesto{height:auto}
+    .ok .manifesto-texto .w{opacity:1;filter:none}
+    .ok .revela,.ok .titulo .ch,.ok .hero .entra{opacity:1!important;translate:none!important;transform:none!important;filter:none!important;animation:none!important;transition:none!important}
+  }
+</style>
+</head>
+<body>
+<a class="pular-link" href="#manifesto">Pular para o conteúdo</a>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="vertice" viewBox="0 0 24 24"><path d="M12 2.8 22 20.2H2Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="14.6" r="1.6" fill="currentColor"/></symbol>
+</svg>
+
+<!-- ========== INTRO ========== -->
+<div id="intro" class="intro">
+  <div class="intro-flicker" aria-hidden="true"></div>
+  <div class="intro-cena intro-apresenta" aria-hidden="true">
+    <svg class="v-mark"><use href="#vertice"/></svg>
+    <p class="intro-grupo">Grupo Vértice</p>
+    <p class="intro-sub">apresenta</p>
+  </div>
+  <div class="intro-cena" aria-hidden="true">
+    <p class="intro-titulo">Hyllana Arrais</p>
+    <span class="intro-fio"></span>
+    <p class="intro-legenda">Página oficial</p>
+  </div>
+  <button class="intro-pular" type="button">Pular intro ›</button>
+</div>
+
+<!-- ========== LETTERBOX ========== -->
+<div class="lb lb-top" aria-hidden="true"></div>
+<div class="lb lb-bot" aria-hidden="true">
+  <div class="lb-info">
+    <span>Cena 01 · Tomada 01</span>
+    <span class="rolar"><i></i>Role para começar</span>
+    <span class="lb-extra">35 mm · 2.39 : 1</span>
+  </div>
+</div>
+
+<!-- ========== TOPO ========== -->
+<header class="topo" id="topoBarra">
+  <a class="marca" href="#topo" aria-label="Grupo Vértice — voltar ao início"><svg class="v-mark"><use href="#vertice"/></svg><span>Grupo Vértice</span></a>
+  <nav class="nav" aria-label="Seções">
+    <a href="#manifesto">Manifesto</a>
+    <a href="#trajetoria">Trajetória</a>
+    <a href="#atuacao">Em cartaz</a>
+    <a href="#bastidores">Bastidores</a>
+    <a href="#contato">Contato</a>
+  </nav>
+  <div class="tc" aria-hidden="true"><span class="rec"></span><span class="tc-cena" id="tcCena">Cena 01 · Abertura</span><span class="tc-num" id="tcNum">00:00:00:00</span></div>
+  <span class="progresso" id="progresso" aria-hidden="true"></span>
+</header>
+
+<main>
+  <!-- ========== CENA 01 · ABERTURA ========== -->
+  <section class="hero" id="topo" data-cena="01" data-titulo="Abertura">
+    <div class="hero-fundo" aria-hidden="true"></div>
+    <div class="hero-foto" id="heroFoto" aria-hidden="true"></div>
+    <div class="vazamento" aria-hidden="true"></div>
+    <div class="feixes" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+    <canvas id="poeira" aria-hidden="true"></canvas>
+
+    <div class="hero-conteudo" id="heroConteudo">
+      <p class="sobretitulo entra" style="--d:.05s"><svg class="v-mark"><use href="#vertice"/></svg>Grupo Vértice apresenta</p>
+      <h1 class="titulo" aria-label="Hyllana Arrais">
+        <span class="l1" data-letras>Hyllana</span>
+        <span class="l2" data-letras>Arrais</span>
+      </h1>
+      <div class="hero-linha entra" style="--d:.9s">
+        <p class="tagline">Presença que vira história.<small>Página oficial · Uma produção Grupo Vértice</small></p>
+        <div class="ctas">
+          <a class="btn btn-ouro" href="#manifesto"><span class="play" aria-hidden="true">▶</span>Assistir à história</a>
+          <a class="btn btn-fantasma" href="#contato">Contato</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CENA 02 · MANIFESTO ========== -->
+  <section class="manifesto" id="manifesto" data-cena="02" data-titulo="Manifesto">
+    <div class="manifesto-pin">
+      <div class="claquete"><span class="n">Cena 02</span><span class="sep"></span><span>Manifesto</span><span class="sep"></span><span>Int. · Dia</span></div>
+      <!-- TEXTO PROVISÓRIO: troque pelo manifesto real -->
+      <p class="manifesto-texto" id="manifestoTexto">Toda grande história começa com uma <em>escolha.</em> A escolha de mostrar quem se é, com verdade, intenção e sem pressa. Esta é a página oficial de <em>Hyllana Arrais:</em> o lugar para conhecer a trajetória, o trabalho e os próximos capítulos.</p>
+      <p class="assinatura">Hyllana Arrais · Página oficial</p>
+    </div>
+  </section>
+
+  <!-- ========== CENA 03 · TRAJETÓRIA ========== -->
+  <section class="cena trajetoria" id="trajetoria" data-cena="03" data-titulo="Trajetória">
+    <div class="claquete revela"><span class="n">Cena 03</span><span class="sep"></span><span>Trajetória</span></div>
+    <h2 class="h2 revela" style="--d:.1s">Uma história em <em>três atos.</em></h2>
+
+    <div class="atos">
+      <div class="atos-num" aria-hidden="true">
+        <span class="on">I</span><span>II</span><span>III</span>
+        <small id="atoLegenda">Ato I · Origem</small>
+      </div>
+      <div class="atos-lista">
+        <!-- TEXTO PROVISÓRIO: troque pelos fatos reais de cada ato -->
+        <article class="ato revela" data-ato="0" data-legenda="Ato I · Origem">
+          <span class="ato-n" aria-hidden="true">I</span>
+          <p class="ato-cab">Int. Origem — Dia</p>
+          <h3>De onde <em>tudo vem.</em></h3>
+          <p>Toda trajetória tem um primeiro quadro. As raízes, as referências e as primeiras escolhas que deram forma ao caminho de Hyllana Arrais — e que ainda aparecem em cada trabalho.</p>
+        </article>
+        <article class="ato revela" data-ato="1" data-legenda="Ato II · Virada">
+          <span class="ato-n" aria-hidden="true">II</span>
+          <p class="ato-cab">Ext. Virada — Noite</p>
+          <h3>A cena em que <em>o roteiro muda.</em></h3>
+          <p>Uma decisão, um encontro, um projeto. O momento em que a identidade do trabalho ficou clara e a história passou a ser contada em primeira pessoa.</p>
+        </article>
+        <article class="ato revela" data-ato="2" data-legenda="Ato III · Agora">
+          <span class="ato-n" aria-hidden="true">III</span>
+          <p class="ato-cab">Int./Ext. Agora — Contínuo</p>
+          <h3>O capítulo <em>em cartaz.</em></h3>
+          <p>Novos projetos, novas parcerias e uma estrutura ao lado do Grupo Vértice para levar essa história mais longe, com estratégia, cuidado e presença.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CENA 04 · EM CARTAZ ========== -->
+  <section class="cena atuacao" id="atuacao" data-cena="04" data-titulo="Em cartaz">
+    <div class="claquete revela"><span class="n">Cena 04</span><span class="sep"></span><span>Em cartaz</span></div>
+    <h2 class="h2 revela" style="--d:.1s">Em <em>cartaz.</em></h2>
+    <p class="lead revela" style="--d:.2s">As frentes de atuação de Hyllana Arrais, com produção e estratégia do Grupo Vértice.</p>
+
+    <div class="cartazes">
+      <article class="cartaz c1 revela">
+        <div class="cartaz-arte" aria-hidden="true"><span class="selo">Em cartaz</span><span class="tri"></span><span class="cartaz-n">01</span></div>
+        <div class="cartaz-info">
+          <h3>Projetos</h3>
+          <p>Trabalhos autorais e produções em andamento: cada um, um novo capítulo da história.</p>
+          <p class="cartaz-creditos">Grupo Vértice apresenta · Hyllana Arrais</p>
+        </div>
+      </article>
+      <article class="cartaz c2 revela" style="--d:.12s">
+        <div class="cartaz-arte" aria-hidden="true"><span class="selo">Em cartaz</span><span class="tri"></span><span class="cartaz-n">02</span></div>
+        <div class="cartaz-info">
+          <h3>Parcerias &amp; marcas</h3>
+          <p>Colaborações com marcas e projetos que conversam com essa trajetória e seus valores.</p>
+          <p class="cartaz-creditos">Grupo Vértice apresenta · Hyllana Arrais</p>
+        </div>
+      </article>
+      <article class="cartaz c3 revela" style="--d:.24s">
+        <div class="cartaz-arte" aria-hidden="true"><span class="selo">Em cartaz</span><span class="tri"></span><span class="cartaz-n">03</span></div>
+        <div class="cartaz-info">
+          <h3>Agenda &amp; eventos</h3>
+          <p>Participações, apresentações e encontros. Consulte a disponibilidade com a equipe oficial.</p>
+          <p class="cartaz-creditos">Grupo Vértice apresenta · Hyllana Arrais</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ========== CENA 05 · BASTIDORES ========== -->
+  <section class="bastidores" id="bastidores" data-cena="05" data-titulo="Bastidores">
+    <div class="bastidores-pin">
+      <div class="bastidores-cab">
+        <div>
+          <div class="claquete"><span class="n">Cena 05</span><span class="sep"></span><span>Bastidores</span></div>
+          <h2 class="h2">Por trás <em>da câmera.</em></h2>
+        </div>
+        <p class="dica"><b id="stillAtual">01</b> / 06 · <span id="dicaTexto">Role para rodar o filme</span></p>
+      </div>
+      <div class="rolo" id="rolo">
+        <figure class="quadro s1"><figcaption><span>Still 01</span><span>Bastidores</span></figcaption></figure>
+        <figure class="quadro s2"><figcaption><span>Still 02</span><span>Bastidores</span></figcaption></figure>
+        <figure class="quadro s3"><figcaption><span>Still 03</span><span>Bastidores</span></figcaption></figure>
+        <figure class="quadro s4"><figcaption><span>Still 04</span><span>Bastidores</span></figcaption></figure>
+        <figure class="quadro s5"><figcaption><span>Still 05</span><span>Bastidores</span></figcaption></figure>
+        <figure class="quadro s6"><figcaption><span>Still 06</span><span>Bastidores</span></figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CENA 06 · INTERLÚDIO ========== -->
+  <section class="cena interludio" data-cena="06" data-titulo="Interlúdio">
+    <blockquote class="revela">
+      <p class="fios">Continua</p>
+      <p>O próximo capítulo<br><em>começa agora.</em></p>
+    </blockquote>
+  </section>
+
+  <!-- ========== CENA 07 · CONTATO ========== -->
+  <section class="cena contato" id="contato" data-cena="07" data-titulo="Contato">
+    <div class="claquete revela"><span class="n">Cena 07</span><span class="sep"></span><span>Contato</span></div>
+    <h2 class="h2 revela" style="--d:.1s">Vamos rodar a <em>próxima cena?</em></h2>
+    <p class="lead revela" style="--d:.2s">Imprensa, parcerias, agenda e projetos: fale diretamente com a equipe oficial.</p>
+
+    <div class="contatos revela" style="--d:.3s">
+      <a class="contato-card" data-contato="whatsapp">
+        <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11.5a8 8 0 0 1-11.8 7L4 20l1.5-4.1A8 8 0 1 1 20 11.5Z"/><path d="M9 9.5c.3 2.3 2.2 4.2 4.5 4.5l1-1.3 1.8.8"/></svg></span>
+        <span class="ct-t">WhatsApp</span>
+        <span class="ct-s" data-rotulo="Falar agora">Falar agora</span>
+        <span class="seta" aria-hidden="true">→</span>
+      </a>
+      <a class="contato-card" data-contato="instagram">
+        <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".6" fill="currentColor"/></svg></span>
+        <span class="ct-t">Instagram</span>
+        <span class="ct-s" data-rotulo="Acompanhar">Acompanhar</span>
+        <span class="seta" aria-hidden="true">→</span>
+      </a>
+      <a class="contato-card" data-contato="email">
+        <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 6 8.5 7 8.5-7"/></svg></span>
+        <span class="ct-t">E-mail</span>
+        <span class="ct-s" data-rotulo="Escrever">Escrever</span>
+        <span class="seta" aria-hidden="true">→</span>
+      </a>
+    </div>
+    <p class="contato-nota revela" style="--d:.4s">Atendimento oficial: <strong>equipe Grupo Vértice</strong></p>
+  </section>
+
+  <!-- ========== CENA 08 · CRÉDITOS ========== -->
+  <section class="creditos" id="creditos" data-cena="08" data-titulo="Créditos" aria-label="Créditos finais">
+    <div class="creditos-rolo">
+      <p class="cr-pre">Uma produção</p>
+      <p class="cr-grande"><svg class="v-mark" aria-hidden="true"><use href="#vertice"/></svg>Grupo Vértice</p>
+      <dl>
+        <div><dt>Estrelando</dt><dd>Hyllana Arrais</dd></div>
+        <div><dt>Produção &amp; estratégia</dt><dd>Grupo Vértice</dd></div>
+        <div><dt>Roteiro</dt><dd>Escrito a cada capítulo</dd></div>
+        <div><dt>Agradecimentos especiais</dt><dd>A você, que assistiu até o fim</dd></div>
+      </dl>
+      <p class="cr-fim">Fim.<br><em>Ou melhor: continua.</em><small>© <span class="ano">2026</span> Hyllana Arrais</small></p>
+    </div>
+  </section>
+</main>
+
+<footer class="rodape">
+  <span>© <span class="ano">2026</span> Hyllana Arrais · Todos os direitos reservados</span>
+  <a class="marca" href="#topo"><svg class="v-mark" aria-hidden="true"><use href="#vertice"/></svg><span>Uma produção Grupo Vértice</span></a>
+  <a href="#topo">Voltar ao início ↑</a>
+</footer>
+
+<div class="holofote" id="holofote" aria-hidden="true"></div>
+<div class="vinheta" aria-hidden="true"></div>
+<div class="grao" aria-hidden="true"></div>
+
+<script>
+(() => {
+  /* ============================================================
+     CONFIG — edite aqui contatos e fotos
+     ============================================================ */
+  const CONFIG = {
+    whatsapp: '',     // ex.: '5511999999999'
+    instagram: '',    // ex.: 'usuario' (sem @)
+    email: '',        // ex.: 'contato@dominio.com.br'
+    mensagemWhatsapp: 'Olá! Vim pela página oficial de Hyllana Arrais.',
+    fotos: {
+      hero: '',       // ex.: 'assets/hero.jpg'
+      stills: []      // ex.: ['assets/still-01.jpg', 'assets/still-02.jpg']
+    }
+  };
+
+  const root = document.documentElement;
+  root.classList.add('ok');
+
+  const $ = (s, c = document) => c.querySelector(s);
+  const $$ = (s, c = document) => Array.from(c.querySelectorAll(s));
+  const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+  const reduz = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const mqMobile = matchMedia('(max-width: 760px)');
+  if (reduz) root.classList.add('reduz');
+
+  $$('.ano').forEach(el => { el.textContent = new Date().getFullYear(); });
+
+  /* ---------- Contatos ---------- */
+  const so = s => String(s || '').trim();
+  const urls = {
+    whatsapp: so(CONFIG.whatsapp) && `https://wa.me/${so(CONFIG.whatsapp).replace(/\D/g, '')}?text=${encodeURIComponent(CONFIG.mensagemWhatsapp)}`,
+    instagram: so(CONFIG.instagram) && `https://instagram.com/${so(CONFIG.instagram).replace(/^@/, '')}`,
+    email: so(CONFIG.email) && `mailto:${so(CONFIG.email)}`
+  };
+  $$('[data-contato]').forEach(a => {
+    const url = urls[a.dataset.contato];
+    const sub = $('.ct-s', a);
+    if (url) {
+      a.href = url;
+      if (!url.startsWith('mailto:')) { a.target = '_blank'; a.rel = 'noopener'; }
+    } else {
+      a.classList.add('em-breve');
+      a.removeAttribute('href');
+      a.setAttribute('aria-disabled', 'true');
+      if (sub) sub.textContent = 'Em breve';
+    }
+  });
+
+  /* ---------- Fotos ---------- */
+  if (so(CONFIG.fotos.hero)) {
+    const hf = $('#heroFoto');
+    const img = new Image();
+    img.onload = () => { hf.style.backgroundImage = `url("${CONFIG.fotos.hero}")`; hf.classList.add('tem-foto'); };
+    img.src = CONFIG.fotos.hero;
+  }
+  $$('.quadro').forEach((q, i) => {
+    const src = so(CONFIG.fotos.stills[i]);
+    if (!src) return;
+    const img = document.createElement('img');
+    img.src = src; img.alt = `Bastidores — still ${String(i + 1).padStart(2, '0')}`; img.loading = 'lazy'; img.decoding = 'async';
+    img.onload = () => q.classList.add('tem-foto');
+    img.onerror = () => img.remove();
+    q.prepend(img);
+  });
+
+  /* ---------- Grão de película ---------- */
+  try {
+    const g = document.createElement('canvas'); g.width = g.height = 150;
+    const gx = g.getContext('2d'); const d = gx.createImageData(150, 150);
+    for (let i = 0; i < d.data.length; i += 4) { const v = Math.random() * 255 | 0; d.data[i] = d.data[i + 1] = d.data[i + 2] = v; d.data[i + 3] = 255; }
+    gx.putImageData(d, 0, 0);
+    root.style.setProperty('--grao', `url(${g.toDataURL()})`);
+  } catch (e) {}
+
+  /* ---------- Letras do título ---------- */
+  let idx = 0;
+  $$('[data-letras]').forEach(el => {
+    const txt = el.textContent.trim(); el.textContent = '';
+    el.setAttribute('aria-hidden', 'true');
+    [...txt].forEach(c => { const s = document.createElement('span'); s.className = 'ch'; s.textContent = c; s.style.setProperty('--i', idx++); el.append(s); });
+  });
+
+  /* ---------- Intro ---------- */
+  const intro = $('#intro');
+  const pronto = () => root.classList.add('pronto');
+  if (intro) {
+    let visto = false;
+    try { visto = sessionStorage.getItem('hyllana-intro') === '1'; } catch (e) {}
+    if (reduz || visto) { intro.remove(); pronto(); }
+    else {
+      root.classList.add('travado');
+      let fim = false;
+      const encerrar = () => {
+        if (fim) return; fim = true;
+        intro.classList.add('pular'); root.classList.remove('travado'); pronto();
+        try { sessionStorage.setItem('hyllana-intro', '1'); } catch (e) {}
+        setTimeout(() => intro.remove(), 900);
+        removeEventListener('keydown', teclas);
+      };
+      const teclas = e => { if (['Escape', 'Enter', ' ', 'ArrowDown', 'PageDown'].includes(e.key)) { e.preventDefault(); encerrar(); } };
+      setTimeout(encerrar, 5300);
+      intro.addEventListener('click', encerrar);
+      intro.addEventListener('wheel', encerrar, { passive: true });
+      intro.addEventListener('touchstart', encerrar, { passive: true });
+      addEventListener('keydown', teclas);
+    }
+  } else pronto();
+
+  /* ---------- Manifesto: palavra por palavra ---------- */
+  const manifesto = $('#manifesto');
+  const manTexto = $('#manifestoTexto');
+  const palavras = [];
+  if (manTexto) {
+    const quebra = (txt, alvo) => txt.split(/(\s+)/).forEach(t => {
+      if (!t) return;
+      if (/^\s+$/.test(t)) { alvo.append(t); return; }
+      const s = document.createElement('span'); s.className = 'w'; s.textContent = t; alvo.append(s); palavras.push(s);
+    });
+    const frag = document.createDocumentFragment();
+    Array.from(manTexto.childNodes).forEach(n => {
+      if (n.nodeType === 3) quebra(n.textContent, frag);
+      else if (n.nodeType === 1) { const c = n.cloneNode(false); quebra(n.textContent, c); frag.append(c); }
+    });
+    manTexto.textContent = ''; manTexto.append(frag);
+    if (reduz) palavras.forEach(w => w.classList.add('on'));
+  }
+  let acesas = -1;
+
+  /* ---------- Bastidores: rolo horizontal ---------- */
+  const bast = $('#bastidores'), rolo = $('#rolo'), stillAtual = $('#stillAtual'), dicaTexto = $('#dicaTexto');
+  const quadros = $$('.quadro', rolo);
+  let nativo = false, distRolo = 0;
+  function medirRolo() {
+    nativo = reduz || mqMobile.matches;
+    bast.classList.toggle('nativo', nativo);
+    dicaTexto.textContent = nativo ? 'Deslize para o lado' : 'Role para rodar o filme';
+    if (nativo) { bast.style.height = ''; rolo.style.transform = ''; rolo.style.setProperty('--rolo-w', rolo.scrollWidth + 'px'); return; }
+    distRolo = Math.max(0, rolo.scrollWidth - innerWidth);
+    bast.style.height = (innerHeight + distRolo) + 'px';
+  }
+  if (bast) {
+    rolo.addEventListener('scroll', () => {
+      if (!nativo) return;
+      const meio = rolo.scrollLeft + rolo.clientWidth / 2;
+      let melhor = 0, dist = Infinity;
+      quadros.forEach((q, i) => { const c = q.offsetLeft + q.offsetWidth / 2; const dd = Math.abs(c - meio); if (dd < dist) { dist = dd; melhor = i; } });
+      stillAtual.textContent = String(melhor + 1).padStart(2, '0');
+    }, { passive: true });
+  }
+
+  /* ---------- Scroll: letterbox, timecode, progresso, parallax ---------- */
+  const topo = $('#topoBarra'), progresso = $('#progresso'), tcNum = $('#tcNum');
+  const heroConteudo = $('#heroConteudo'), lbInfo = $('.lb-info');
+  let lbBase = 0;
+  const medirLb = () => { lbBase = innerHeight * (mqMobile.matches ? 0.06 : 0.11); };
+  const FPS = 24, DURACAO = 150; // "filme" de 2min30s mapeado no scroll
+  const tc = f => { const ff = f % FPS, s = Math.floor(f / FPS) % 60, m = Math.floor(f / (FPS * 60)) % 60, h = Math.floor(f / (FPS * 3600)); return [h, m, s, ff].map(n => String(n).padStart(2, '0')).join(':'); };
+
+  let pedido = false;
+  function atualizar() {
+    pedido = false;
+    const y = scrollY, vh = innerHeight;
+    const max = Math.max(1, document.documentElement.scrollHeight - vh);
+    const p = clamp(y / max, 0, 1);
+
+    const k = 1 - clamp(y / (vh * 0.6), 0, 1);
+    root.style.setProperty('--lb', (lbBase * k).toFixed(1) + 'px');
+    if (lbInfo) lbInfo.style.setProperty('--lb-op', clamp(k * 1.6 - 0.6, 0, 1).toFixed(2));
+    topo.classList.toggle('solido', y > vh * 0.55);
+    progresso.style.transform = `scaleX(${p.toFixed(4)})`;
+    tcNum.textContent = tc(Math.round(p * DURACAO * FPS));
+
+    if (!reduz && y < vh * 1.2 && heroConteudo) {
+      heroConteudo.style.transform = `translate3d(0,${(y * 0.28).toFixed(1)}px,0)`;
+      heroConteudo.style.opacity = clamp(1 - y / (vh * 0.85), 0, 1).toFixed(3);
+    }
+
+    if (!reduz && manifesto && palavras.length) {
+      const r = manifesto.getBoundingClientRect();
+      const tot = Math.max(1, manifesto.offsetHeight - vh);
+      const pm = clamp((-r.top + vh * 0.25) / tot, 0, 1);
+      const n = Math.floor(pm * 1.3 * palavras.length);
+      if (n !== acesas) { acesas = n; palavras.forEach((w, i) => w.classList.toggle('on', i < n)); }
+    }
+
+    if (bast && !nativo) {
+      const r = bast.getBoundingClientRect();
+      const tot = Math.max(1, bast.offsetHeight - vh);
+      const pb = clamp(-r.top / tot, 0, 1);
+      rolo.style.transform = `translate3d(${(-pb * distRolo).toFixed(1)}px,0,0)`;
+      stillAtual.textContent = String(Math.min(quadros.length, Math.floor(pb * quadros.length) + 1)).padStart(2, '0');
+    }
+  }
+  const pedir = () => { if (!pedido) { pedido = true; requestAnimationFrame(atualizar); } };
+  addEventListener('scroll', pedir, { passive: true });
+
+  function medirTudo() { medirLb(); if (bast) medirRolo(); atualizar(); }
+  let rz; addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(medirTudo, 120); });
+  medirTudo();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(medirTudo);
+  addEventListener('load', medirTudo);
+
+  /* ---------- Cena atual no HUD ---------- */
+  const tcCena = $('#tcCena');
+  const ioCena = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) tcCena.textContent = `Cena ${e.target.dataset.cena} · ${e.target.dataset.titulo}`;
+  }), { rootMargin: '-45% 0px -45% 0px' });
+  $$('[data-cena]').forEach(s => ioCena.observe(s));
+
+  /* ---------- Revelações ---------- */
+  const ioRev = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visivel'); ioRev.unobserve(e.target); }
+  }), { threshold: 0.15, rootMargin: '0px 0px -6% 0px' });
+  $$('.revela').forEach(el => ioRev.observe(el));
+
+  /* ---------- Atos: numeral fixo ---------- */
+  const nums = $$('.atos-num span'), atoLegenda = $('#atoLegenda');
+  const ioAto = new IntersectionObserver(es => es.forEach(e => {
+    if (!e.isIntersecting) return;
+    const i = +e.target.dataset.ato;
+    nums.forEach((n, j) => n.classList.toggle('on', i === j));
+    if (atoLegenda) atoLegenda.textContent = e.target.dataset.legenda;
+  }), { rootMargin: '-48% 0px -48% 0px' });
+  $$('.ato').forEach(a => ioAto.observe(a));
+
+  /* ---------- Créditos rolando ---------- */
+  const cred = $('#creditos');
+  if (cred && !reduz) new IntersectionObserver(es => es.forEach(e => cred.classList.toggle('rodando', e.isIntersecting)), { threshold: 0.1 }).observe(cred);
+
+  /* ---------- Poeira de luz (hero) ---------- */
+  const cv = $('#poeira');
+  if (cv && cv.getContext) {
+    const ctx = cv.getContext('2d');
+    let W = 0, H = 0, parts = [], rodando = true, raf = 0;
+    const nova = () => ({ x: Math.random() * W, y: Math.random() * H, z: Math.random() * 0.8 + 0.2, vx: (Math.random() - 0.5) * 0.18, vy: -(Math.random() * 0.28 + 0.05), a: Math.random() * 6.28 });
+    function dimensionar() {
+      const dpr = Math.min(devicePixelRatio || 1, 1.5);
+      W = cv.clientWidth; H = cv.clientHeight;
+      cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      parts = Array.from({ length: Math.min(160, Math.round(W * H / 11000)) }, nova);
+    }
+    function quadro(t) {
+      ctx.clearRect(0, 0, W, H);
+      for (const p of parts) {
+        if (!reduz) {
+          p.x += p.vx * p.z + Math.sin(t * 0.0004 + p.a) * 0.06;
+          p.y += p.vy * p.z;
+          if (p.y < -6) { p.y = H + 6; p.x = Math.random() * W; }
+          if (p.x < -6) p.x = W + 6; else if (p.x > W + 6) p.x = -6;
+        }
+        // mais brilho perto da fonte de luz (canto superior direito)
+        const luz = clamp(1 - Math.hypot(p.x - W * 0.82, p.y) / (Math.max(W, H) * 0.95), 0.12, 1);
+        const pisca = 0.55 + 0.45 * Math.sin(t * 0.0018 + p.a * 3);
+        ctx.globalAlpha = (0.12 + 0.6 * pisca * luz) * p.z;
+        ctx.fillStyle = '#ffe3b4';
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.z * 1.7, 0, 6.283); ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+      if (rodando && !reduz) raf = requestAnimationFrame(quadro);
+    }
+    dimensionar(); quadro(0);
+    addEventListener('resize', () => { dimensionar(); if (reduz) quadro(0); });
+    if (!reduz) {
+      const iniciar = () => { cancelAnimationFrame(raf); rodando = true; raf = requestAnimationFrame(quadro); };
+      const parar = () => { rodando = false; cancelAnimationFrame(raf); };
+      new IntersectionObserver(es => es.forEach(e => (e.isIntersecting && !document.hidden) ? iniciar() : parar())).observe(cv);
+      document.addEventListener('visibilitychange', () => { if (document.hidden) parar(); else if (scrollY < innerHeight) iniciar(); });
+    }
+  }
+
+  /* ---------- Holofote do cursor + inclinação dos cartazes ---------- */
+  if (!reduz && matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    const hol = $('#holofote');
+    let mx = 0, my = 0, agendado = false;
+    addEventListener('pointermove', e => {
+      mx = e.clientX; my = e.clientY;
+      if (!agendado) { agendado = true; requestAnimationFrame(() => { agendado = false; hol.style.setProperty('--mx', mx + 'px'); hol.style.setProperty('--my', my + 'px'); hol.classList.add('ativo'); }); }
+    }, { passive: true });
+    document.addEventListener('pointerleave', () => hol.classList.remove('ativo'));
+
+    $$('.cartaz').forEach(c => {
+      c.addEventListener('pointermove', e => {
+        const r = c.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+        c.style.setProperty('--ry', ((x - 0.5) * 9).toFixed(2) + 'deg');
+        c.style.setProperty('--rx', ((0.5 - y) * 9).toFixed(2) + 'deg');
+        c.style.setProperty('--gx', (x * 100).toFixed(1) + '%');
+        c.style.setProperty('--gy', (y * 100).toFixed(1) + '%');
+      });
+      c.addEventListener('pointerleave', () => { c.style.setProperty('--rx', '0deg'); c.style.setProperty('--ry', '0deg'); });
+    });
+  }
+})();
+</script>
+</body>
+</html>
