@@ -792,7 +792,7 @@
           <div class="claquete"><span class="n">Cena 05</span><span class="sep"></span><span>Bastidores</span></div>
           <h2 class="h2">Por trás <em>da câmera.</em></h2>
         </div>
-        <p class="dica"><b id="stillAtual">01</b> / 06 · <span id="dicaTexto">Role para rodar o filme</span></p>
+        <p class="dica"><b id="stillAtual">01</b> / <span id="stillTotal">06</span> ·<span id="dicaTexto">Role para rodar o filme</span></p>
       </div>
       <div class="rolo" id="rolo">
         <figure class="quadro s1"><figcaption><span>Still 01</span><span>Bastidores</span></figcaption></figure>
@@ -884,9 +884,9 @@
     email: 'educ.consultoriaacademica@gmail.com',
     mensagemWhatsapp: 'Olá! Vim pela página oficial de Hyllana Arrais.',
     fotos: {
-      hero: '',       // foto principal do topo, ex.: 'assets/hero.jpg'
-      atos: [],       // até 3 fotos, uma por ato da trajetória
-      stills: []      // até 6 fotos de bastidores, ex.: ['assets/still-01.jpg']
+      hero: 'assets/hero.jpg',                                          // foto principal do topo
+      atos: ['assets/ato-1.jpg', 'assets/ato-2.jpg', 'assets/ato-3.jpg'], // uma foto por ato
+      stills: ['assets/still-01.jpg', 'assets/still-02.jpg', 'assets/still-03.jpg', 'assets/still-04.jpg', 'assets/still-05.jpg'] // até 6 (quadros sem foto somem)
     },
     // Empresas do Grupo Vértice. A seção "Universo Vértice" aparece quando houver itens.
     // FONTE: dossiê do grupo e sessões da Educ, AmparA e HAXIS. Confira antes de publicar.
@@ -939,8 +939,13 @@
     img.onload = () => { hf.style.backgroundImage = `url("${CONFIG.fotos.hero}")`; hf.classList.add('tem-foto'); };
     img.src = CONFIG.fotos.hero;
   }
+  // com fotos de bastidores, os quadros vazios saem do rolo
+  const stillsCfg = (CONFIG.fotos.stills || []).map(so).filter(Boolean);
+  if (stillsCfg.length) $$('.quadro').forEach((q, i) => { if (i >= stillsCfg.length) q.remove(); });
+  const totalStills = document.getElementById('stillTotal');
+  if (totalStills) totalStills.textContent = String(document.querySelectorAll('.quadro').length).padStart(2, '0');
   $$('.quadro').forEach((q, i) => {
-    const src = so(CONFIG.fotos.stills[i]);
+    const src = stillsCfg[i];
     if (!src) return;
     const img = document.createElement('img');
     img.src = src; img.alt = `Bastidores — still ${String(i + 1).padStart(2, '0')}`; img.loading = 'lazy'; img.decoding = 'async';
