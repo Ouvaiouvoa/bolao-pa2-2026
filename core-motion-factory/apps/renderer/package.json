@@ -1,0 +1,24 @@
+{
+  "name": "@cmf/renderer",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "studio": "remotion studio ../../packages/remotion/src/entry.ts --public-dir ../../packages/remotion/public"
+  },
+  "dependencies": {
+    "@cmf/schemas": "*",
+    "@cmf/remotion": "*",
+    "@cmf/observability": "*",
+    "@remotion/bundler": "4.0.541",
+    "@remotion/renderer": "4.0.541",
+    "@remotion/cli": "4.0.541",
+    "remotion": "4.0.541",
+    "react": "19.2.9",
+    "react-dom": "19.2.9"
+  }
+}

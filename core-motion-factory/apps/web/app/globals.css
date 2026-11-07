@@ -1,0 +1,100 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink-950: #07090c;
+  --color-ink-900: #0b0e12;
+  --color-ink-850: #0f1318;
+  --color-ink-800: #141920;
+  --color-ink-700: #1c232c;
+  --color-ink-600: #2a333f;
+  --color-ink-500: #3c4756;
+  --color-ink-400: #6b7787;
+  --color-ink-300: #9aa5b4;
+  --color-ink-200: #c9d1db;
+  --color-ink-100: #e8ecf1;
+  --color-haxis-500: #ff5a1f;
+  --color-haxis-400: #ff7a47;
+  --color-haxis-600: #e04a12;
+  --color-ok-500: #19c37d;
+  --color-warn-500: #f5a524;
+  --color-bad-500: #e53935;
+  --color-info-500: #4ea1ff;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/inter-latin-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/inter-latin-600-normal.woff2") format("woff2");
+  font-weight: 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/inter-latin-800-normal.woff2") format("woff2");
+  font-weight: 800;
+  font-display: swap;
+}
+
+html,
+body {
+  background: var(--color-ink-900);
+  color: var(--color-ink-100);
+}
+
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: color-mix(in oklab, var(--color-haxis-500) 45%, transparent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-haxis-500);
+  outline-offset: 2px;
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: var(--color-ink-600);
+  border-radius: 8px;
+}
+
+/* Live office avatar animations (each driven by a persisted event state) */
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+@keyframes type {
+  0%, 100% { transform: translateY(0) rotate(0); }
+  25% { transform: translateY(-1px) rotate(-3deg); }
+  75% { transform: translateY(1px) rotate(3deg); }
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes pulse-ring {
+  0% { opacity: 0.9; transform: scale(0.9); }
+  100% { opacity: 0; transform: scale(1.6); }
+}
+@keyframes read {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(3px); }
+}
+.anim-bob { animation: bob 2.4s ease-in-out infinite; }
+.anim-type { animation: type 0.45s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+.anim-spin { animation: spin 1.6s linear infinite; transform-box: fill-box; transform-origin: center; }
+.anim-pulse { animation: pulse-ring 1.4s ease-out infinite; transform-box: fill-box; transform-origin: center; }
+.anim-read { animation: read 1.2s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+@media (prefers-reduced-motion: reduce) {
+  .anim-bob, .anim-type, .anim-spin, .anim-pulse, .anim-read { animation: none; }
+}

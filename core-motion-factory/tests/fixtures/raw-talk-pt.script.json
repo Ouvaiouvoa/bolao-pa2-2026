@@ -1,0 +1,52 @@
+{
+  "note": "Texto de referência APENAS para medir precisão da transcrição em testes. Nunca é lido pelo pipeline.",
+  "voice": "piper pt_BR faber-medium",
+  "durationSec": 40.81115646258503,
+  "sentences": [
+    {
+      "text": "Hum, deixa eu começar de novo.",
+      "startMs": 600,
+      "endMs": 2249
+    },
+    {
+      "text": "Você sabia que três em cada quatro pessoas abandonam um vídeo nos primeiros três segundos?",
+      "startMs": 3149,
+      "endMs": 7595
+    },
+    {
+      "text": "Você sabia que três em cada quatro pessoas abandonam um vídeo nos primeiros três segundos?",
+      "startMs": 8695,
+      "endMs": 13200
+    },
+    {
+      "text": "O primeiro erro é começar sem um gancho claro.",
+      "startMs": 14000,
+      "endMs": 16392
+    },
+    {
+      "text": "O segundo erro é falar com todo mundo ao mesmo tempo, sem definir o público.",
+      "startMs": 17092,
+      "endMs": 20888
+    },
+    {
+      "text": "E o terceiro erro é esquecer de dizer o que a pessoa deve fazer depois de assistir.",
+      "startMs": 21638,
+      "endMs": 26038
+    },
+    {
+      "text": "Com um roteiro simples, a sua marca ganha atenção, confiança e mais clientes.",
+      "startMs": 27238,
+      "endMs": 31789
+    },
+    {
+      "text": "Resultado garantido, cem por cento, sem nenhum risco.",
+      "startMs": 32439,
+      "endMs": 35524
+    },
+    {
+      "text": "Então comente a palavra roteiro aqui embaixo, que eu te mando o modelo.",
+      "startMs": 36424,
+      "endMs": 39811
+    }
+  ]
+}

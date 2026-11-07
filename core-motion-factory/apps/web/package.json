@@ -1,0 +1,36 @@
+{
+  "name": "@cmf/web",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev -p 3000",
+    "build": "next build",
+    "start": "next start -p 3000",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@cmf/schemas": "*",
+    "@cmf/db": "*",
+    "@cmf/storage": "*",
+    "@cmf/observability": "*",
+    "@cmf/orchestration": "*",
+    "@cmf/brand-engine": "*",
+    "@cmf/templates": "*",
+    "@cmf/remotion": "*",
+    "@remotion/player": "4.0.541",
+    "remotion": "4.0.541",
+    "next": "16.4.5",
+    "react": "19.2.9",
+    "react-dom": "19.2.9",
+    "zustand": "5.0.16",
+    "drizzle-orm": "0.44.7",
+    "server-only": "0.0.1",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "tailwindcss": "4.1.18",
+    "@tailwindcss/postcss": "4.1.18",
+    "postcss": "8.5.6"
+  }
+}

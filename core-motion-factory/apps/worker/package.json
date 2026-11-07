@@ -1,0 +1,28 @@
+{
+  "name": "@cmf/worker",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "dev": "tsx watch --env-file-if-exists=../../.env src/main.ts",
+    "start": "tsx --env-file-if-exists=../../.env src/main.ts"
+  },
+  "dependencies": {
+    "@cmf/schemas": "*",
+    "@cmf/db": "*",
+    "@cmf/storage": "*",
+    "@cmf/observability": "*",
+    "@cmf/orchestration": "*",
+    "@cmf/agents": "*",
+    "@cmf/media": "*",
+    "@cmf/renderer": "*",
+    "@cmf/brand-engine": "*",
+    "@cmf/templates": "*",
+    "bullmq": "5.81.5",
+    "drizzle-orm": "0.44.7"
+  }
+}

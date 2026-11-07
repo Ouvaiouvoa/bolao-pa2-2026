@@ -1,0 +1,24 @@
+{
+  "name": "@cmf/agents",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@cmf/schemas": "*",
+    "@cmf/brand-engine": "*",
+    "@cmf/templates": "*",
+    "@cmf/media": "*",
+    "@cmf/observability": "*",
+    "@anthropic-ai/sdk": "1.6.0",
+    "zod": "4.6.7",
+    "archiver": "7.0.1"
+  },
+  "devDependencies": {
+    "@types/archiver": "6.0.4"
+  }
+}
