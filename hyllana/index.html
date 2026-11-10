@@ -3,7 +3,7 @@
 <head>
 <!--
   ============================================================
-  HYLLANA ARRAIS · PÁGINA OFICIAL — Uma produção Grupo Vértice
+  HYLLANA ARRAIS · PÁGINA OFICIAL · Uma produção Grupo Vértice
   ============================================================
   COMO EDITAR (tudo em um só lugar):
   1) Contatos e fotos: no <script> no fim do arquivo, objeto CONFIG.
@@ -23,7 +23,7 @@
 -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Hyllana Arrais · Página oficial — Grupo Vértice</title>
+<title>Hyllana Arrais · Página oficial · Grupo Vértice</title>
 <meta name="description" content="Página oficial de Hyllana Arrais, fundadora da Educ Consultoria Acadêmica. Trajetória, empresas, bastidores e contato. Uma produção Grupo Vértice.">
 <meta name="theme-color" content="#080706">
 <meta name="color-scheme" content="dark">
@@ -32,9 +32,9 @@
 <meta property="og:title" content="Hyllana Arrais · Página oficial">
 <meta property="og:description" content="Fundadora da Educ Consultoria Acadêmica. Trajetória, empresas, bastidores e contato. Uma produção Grupo Vértice.">
 <!-- Endereço oficial (subdomínio do Grupo Vértice). Troque aqui se o domínio mudar. -->
-<link rel="canonical" href="https://hyllana.grupoverticee.com.br/">
-<meta property="og:url" content="https://hyllana.grupoverticee.com.br/">
-<meta property="og:image" content="https://hyllana.grupoverticee.com.br/assets/og-hyllana.jpg">
+<link rel="canonical" href="https://harrais.grupoverticee.com.br/">
+<meta property="og:url" content="https://harrais.grupoverticee.com.br/">
+<meta property="og:image" content="https://harrais.grupoverticee.com.br/assets/og-hyllana.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Hyllana Arrais, fundadora da Educ Consultoria Acadêmica">
@@ -81,7 +81,7 @@
   .v-mark{width:1em;height:1em;flex:none}
 
   /* =========================================================
-     INTRO — título de abertura (roda via CSS; JS só pula/remove)
+     INTRO · título de abertura (roda via CSS; JS só pula/remove)
      ========================================================= */
   .intro{display:none}
   .js .intro{
@@ -269,7 +269,7 @@
   .ok.pronto .hero .entra{opacity:1;transform:none;transition:opacity 1.3s ease,transform 1.3s var(--suave);transition-delay:var(--d,0s)}
 
   /* =========================================================
-     CENAS — estrutura comum
+     CENAS · estrutura comum
      ========================================================= */
   .cena{position:relative;padding:clamp(96px,15vh,170px) var(--gutter)}
   .claquete{display:flex;flex-wrap:wrap;align-items:center;gap:10px 20px;margin-bottom:30px;font:500 11px/1 var(--mono);letter-spacing:.26em;text-transform:uppercase;color:var(--cinza)}
@@ -628,7 +628,7 @@
 
 <!-- ========== TOPO ========== -->
 <header class="topo" id="topoBarra">
-  <a class="marca" href="#topo" aria-label="Grupo Vértice — voltar ao início"><svg class="v-mark"><use href="#vertice"/></svg><span>Grupo Vértice</span></a>
+  <a class="marca" href="#topo" aria-label="Grupo Vértice · voltar ao início"><svg class="v-mark"><use href="#vertice"/></svg><span>Grupo Vértice</span></a>
   <nav class="nav" aria-label="Seções">
     <a href="#manifesto">Manifesto</a>
     <a href="#trajetoria">Trajetória</a>
@@ -695,19 +695,19 @@
         <!-- FONTE: DNA da Educ e sessões do grupo (Educ, AmparA, HAXIS Core) -->
         <article class="ato revela" data-ato="0" data-legenda="Ato I · Origem">
           <span class="ato-n" aria-hidden="true">I</span>
-          <p class="ato-cab">Int. Belém — Dia</p>
+          <p class="ato-cab">Int. Belém · Dia</p>
           <h3>De onde <em>tudo vem.</em></h3>
           <p>Há nove anos, Hyllana Arrais fundou a Educ Consultoria Acadêmica, em Belém, para acompanhar estudantes de graduação e pós-graduação na reta mais exigente da vida acadêmica: TCC, artigo, dissertação e tese.</p>
         </article>
         <article class="ato revela" data-ato="1" data-legenda="Ato II · Método">
           <span class="ato-n" aria-hidden="true">II</span>
-          <p class="ato-cab">Int. Escritório — Dia</p>
+          <p class="ato-cab">Int. Escritório · Dia</p>
           <h3>Clareza <em>como método.</em></h3>
           <p>Mais de 1.200 clientes depois, a Educ se firmou por um jeito próprio de trabalhar: orientar, organizar e só entregar quando tudo está claro. A experiência da fundadora é o centro da marca.</p>
         </article>
         <article class="ato revela" data-ato="2" data-legenda="Ato III · Agora">
           <span class="ato-n" aria-hidden="true">III</span>
-          <p class="ato-cab">Int./Ext. Agora — Contínuo</p>
+          <p class="ato-cab">Int./Ext. Agora · Contínuo</p>
           <h3>O capítulo <em>em cartaz.</em></h3>
           <p>Hoje, Hyllana está à frente da Educ e da AmparA e é cofundadora da HAXIS Core. Ao lado do Grupo Vértice, essa história ganha estrutura para ir mais longe.</p>
         </article>
@@ -882,7 +882,7 @@
 <script>
 (() => {
   /* ============================================================
-     CONFIG — edite aqui contatos e fotos
+     CONFIG · edite aqui contatos e fotos
      ============================================================ */
   const CONFIG = {
     // Canais públicos da Educ Consultoria Acadêmica (aprovados para esta página)
@@ -955,7 +955,7 @@
     const src = stillsCfg[i];
     if (!src) return;
     const img = document.createElement('img');
-    img.src = src; img.alt = `Bastidores — still ${String(i + 1).padStart(2, '0')}`; img.loading = 'lazy'; img.decoding = 'async';
+    img.src = src; img.alt = `Bastidores · still ${String(i + 1).padStart(2, '0')}`; img.loading = 'lazy'; img.decoding = 'async';
     img.onload = () => q.classList.add('tem-foto');
     img.onerror = () => img.remove();
     q.prepend(img);
@@ -968,7 +968,7 @@
     $$('.ato').forEach((ato, i) => {
       const src = fotosAtos[i];
       if (!src) return;
-      const alt = `Hyllana Arrais — ${ato.dataset.legenda}`;
+      const alt = `Hyllana Arrais · ${ato.dataset.legenda}`;
       const a = new Image(); a.src = src; a.alt = alt; a.decoding = 'async'; a.dataset.ato = i;
       if (i === 0) a.classList.add('on');
       a.onerror = () => a.remove();
