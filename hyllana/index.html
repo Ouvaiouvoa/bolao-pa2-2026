@@ -362,8 +362,10 @@
   .l-b .estrela{font-size:.9em}
 
   /* ---------- títulos com máscara ---------- */
-  .ok .h2.revela{opacity:1;filter:none;translate:none;clip-path:inset(100% 0 -25% 0);transform:translateY(.4em);transition:clip-path 1.4s var(--suave),transform 1.4s var(--suave);transition-delay:var(--d,0s)}
-  .ok .h2.revela.visivel{clip-path:inset(-30% -10% -30% -10%);transform:none}
+  /* a máscara fica numa camada interna: o título continua visível para o observador de rolagem */
+  .ok .h2.revela{opacity:1;filter:none;translate:none}
+  .ok .h2.revela>.h2-in{display:block;clip-path:inset(100% 0 -25% 0);transform:translateY(.4em);transition:clip-path 1.4s var(--suave),transform 1.4s var(--suave);transition-delay:var(--d,0s)}
+  .ok .h2.revela.visivel>.h2-in{clip-path:inset(-30% -10% -30% -10%);transform:none}
   .tc-cena.troca{animation:troca .7s steps(4)}
   @keyframes troca{0%{opacity:.15;color:var(--ouro)}35%{opacity:1}55%{opacity:.4}100%{opacity:1}}
 
@@ -575,7 +577,7 @@
   @media (prefers-reduced-motion:reduce){
     html{scroll-behavior:auto}
     .grao,.feixes i,.vazamento,.intro-flicker,.lb-info .rolar i::after,.tc .rec,.nucleo .anel-texto,.titulo .flare{animation:none!important}
-    .ok .h2.revela{clip-path:none!important;transform:none!important;transition:none!important}
+    .ok .h2.revela>.h2-in{clip-path:none!important;transform:none!important;transition:none!important}
     .ok .interludio{height:auto}
     .ok .interludio-pin{position:relative;height:auto;padding:clamp(110px,20vh,220px) var(--gutter)}
     .ok #foco{opacity:1;filter:none;transform:none}
@@ -1368,6 +1370,12 @@
   $$('[data-cena], [data-hud]').forEach(s => ioCena.observe(s));
 
   /* ---------- Revelações ---------- */
+  // títulos de seção: o conteúdo vai para uma camada interna, que recebe a máscara
+  $$('.h2.revela').forEach(h => {
+    const dentro = document.createElement('span'); dentro.className = 'h2-in';
+    while (h.firstChild) dentro.append(h.firstChild);
+    h.append(dentro);
+  });
   const ioRev = new IntersectionObserver(es => es.forEach(e => {
     if (e.isIntersecting) { e.target.classList.add('visivel'); ioRev.unobserve(e.target); }
   }), { threshold: 0.15, rootMargin: '0px 0px -6% 0px' });
