@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<!--
+  ============================================================
+  AMPARA · LINK DA BIO DO INSTAGRAM (atualização de /instagram.html)
+  ============================================================
+  O que mudou em relação à página anterior: abertura e movimento de
+  cinema, fotos do site, espaço para a foto da equipe e WhatsApp em
+  destaque (botão no topo, barra fixa no celular e um botão por caso).
+  Os textos são os da página anterior e da página inicial do site.
+
+  Arquivos: esta página fica em /instagram.html e usa a pasta
+  /instagram-assets (logo ampara.svg e fontes que já existem lá, mais as
+  fotos novas foto-*.jpg).
+
+  COMO EDITAR (objeto CONFIG, no fim do arquivo):
+  - whatsapp e mensagem: número e texto que já vem escrito no WhatsApp.
+  - equipe.foto: caminho da foto da equipe. Enquanto estiver vazio, a
+    seção "Sobre" mostra uma foto do site.
+  - beneficios: cada item vira um botão com foto e mensagem própria.
+  Regras da casa: zero travessão, sem promessa de resultado, sem
+  juridiquês, ouro só como destaque.
+  ============================================================
+-->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AmparA · Seu direito, nosso cuidado</title>
+<meta name="description" content="Aposentadorias e benefícios previdenciários e assistenciais. Converse com a AmparA no WhatsApp ou conheça nossos serviços.">
+<meta name="theme-color" content="#09090b">
+<meta name="color-scheme" content="dark">
+<link rel="canonical" href="https://amparabeneficios.com.br/instagram.html">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="AmparA · Seu direito, nosso cuidado">
+<meta property="og:description" content="Cada história merece amparo. Análise inicial gratuita pelo WhatsApp.">
+<meta property="og:url" content="https://amparabeneficios.com.br/instagram.html">
+<meta property="og:image" content="https://amparabeneficios.com.br/instagram-assets/og-ampara-instagram.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="AmparA: cada história merece amparo">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preload" as="image" href="./instagram-assets/foto-topo.jpg" fetchpriority="high">
+<script>document.documentElement.classList.add('js')</script>
+<style>
+  /* fontes que já estão na pasta do site */
+  @font-face{font-family:'Gloock';src:url('./instagram-assets/gloock.woff2') format('woff2');font-weight:400;font-display:swap}
+  @font-face{font-family:'Instrument Sans';src:url('./instagram-assets/instrument-sans.woff2') format('woff2');font-weight:400 700;font-display:swap}
+
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    /* DNA AmparA */
+    --onyx:#09090b; --carbon:#111009; --surf:#18160d; --borda:#252015;
+    --ouro:#eab308; --ouro-claro:#f5cc30; --ouro-escuro:#ca9b07; --ouro-fundo:#3a2f05;
+    --branco:#f5f0e8; --areia:#8a7f6a; --texto:#d6cdbd; --suave-txt:#b8ae9b;
+    /* WhatsApp */
+    --wa:#25d366; --wa-claro:#5df08f; --wa-texto:#082b16;
+    --linha:rgba(234,179,8,.19);
+    --display:'Gloock',Georgia,'Times New Roman',serif;
+    --sans:'Instrument Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+    --gutter:clamp(18px,5vw,72px);
+    --suave:cubic-bezier(.2,.7,.15,1);
+    --lb:0px;
+    color-scheme:dark;
+  }
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  html.travado,html.travado body{overflow:hidden}
+  body{background:var(--onyx);color:var(--branco);font:400 17px/1.7 var(--sans);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;overflow-x:clip}
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%}
+  em{font-style:normal;color:var(--ouro)}
+  ::selection{background:var(--ouro);color:var(--onyx)}
+  :focus-visible{outline:3px solid var(--branco);outline-offset:5px;border-radius:6px}
+  .pular{position:fixed;left:16px;top:-70px;z-index:200;background:var(--ouro);color:var(--onyx);padding:12px 16px;font:600 13px/1 var(--sans);border-radius:8px;transition:top .3s}
+  .pular:focus{top:16px}
+  .etiqueta{font:600 11px/1.5 var(--sans);letter-spacing:.2em;text-transform:uppercase}
+
+  /* ---------- botão WhatsApp ---------- */
+  .wa{
+    position:relative;display:inline-flex;align-items:center;justify-content:center;gap:14px;
+    min-height:64px;padding:0 28px;border-radius:999px;border:0;cursor:pointer;
+    background:var(--wa);color:var(--wa-texto);font:600 1.08rem/1.15 var(--sans);text-align:center;white-space:nowrap;
+    box-shadow:0 14px 40px -12px rgba(37,211,102,.6),inset 0 1px 0 rgba(255,255,255,.35);
+    transition:transform .35s var(--suave),background .3s;isolation:isolate;
+  }
+  .wa svg{width:26px;height:26px;flex:none}
+  .wa:hover{background:var(--wa-claro);transform:translateY(-2px)}
+  .wa:active{transform:scale(.98)}
+  .wa::before,.wa::after{content:'';position:absolute;inset:0;border-radius:inherit;border:2px solid var(--wa);opacity:0;z-index:-1;animation:onda 2.8s ease-out infinite}
+  .wa::after{animation-delay:1.4s}
+  @keyframes onda{0%{opacity:.5;transform:scale(1)}100%{opacity:0;transform:scale(1.2,1.5)}}
+  .wa.sem-onda::before,.wa.sem-onda::after{display:none}
+  .wa.indisponivel{background:var(--surf);color:var(--areia);box-shadow:none;cursor:default;border:1px solid var(--borda)}
+  .wa.indisponivel::before,.wa.indisponivel::after{display:none}
+  .wa.indisponivel:hover{transform:none;background:var(--surf)}
+  .elo{display:inline-flex;align-items:center;gap:10px;color:var(--branco);font:500 .98rem/1.3 var(--sans);border-bottom:1px solid var(--linha);padding-bottom:4px;transition:color .3s,border-color .3s}
+  .elo:hover{color:var(--ouro);border-color:var(--ouro)}
+  .elo span{color:var(--ouro);transition:transform .4s var(--suave)}
+  .elo:hover span{transform:translateX(4px)}
+
+  /* =========================================================
+     ABERTURA (curta: o arco da marca se desenha e o nome aparece)
+     ========================================================= */
+  .intro{display:none}
+  .js .intro{display:grid;place-items:center;position:fixed;inset:0;z-index:100;background:#000;overflow:hidden;animation:introSai .9s ease 2.7s forwards}
+  .intro.pular-ja{animation:introPula .6s ease forwards}
+  .intro-cena{text-align:center;padding:0 20px}
+  .intro-arco{width:74px;height:74px;margin:0 auto 22px;display:block;overflow:visible;filter:drop-shadow(0 0 18px rgba(234,179,8,.45))}
+  .intro-arco path{stroke-dasharray:1;stroke-dashoffset:1;animation:desenha 1.4s var(--suave) .15s forwards}
+  .intro-arco line{stroke-dasharray:1;stroke-dashoffset:1;animation:desenha .6s var(--suave) 1.15s forwards}
+  .intro-marca{font:400 clamp(2.8rem,12vw,5.4rem)/1 var(--display);opacity:0;animation:sobe 1.1s var(--suave) .8s forwards}
+  .intro-marca b{font-weight:400;color:var(--ouro);text-shadow:0 0 50px rgba(234,179,8,.5)}
+  .intro-sub{margin-top:18px;color:var(--suave-txt);opacity:0;animation:sobe 1s var(--suave) 1.3s forwards;padding-left:.2em}
+  @keyframes desenha{to{stroke-dashoffset:0}}
+  @keyframes sobe{from{opacity:0;transform:translateY(18px);filter:blur(8px)}to{opacity:1;transform:none;filter:none}}
+  @keyframes introSai{to{opacity:0;visibility:hidden}}
+  @keyframes introPula{from{opacity:1}to{opacity:0;visibility:hidden}}
+
+  /* =========================================================
+     TOPO
+     ========================================================= */
+  .topo{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px var(--gutter);transition:background .5s,padding .5s,border-color .5s;border-bottom:1px solid transparent}
+  .topo.solido{background:rgba(9,9,11,.86);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom-color:var(--borda);padding-top:10px;padding-bottom:10px}
+  .logo{display:block;width:142px;height:auto}
+  .topo-local{display:flex;align-items:center;gap:10px;color:var(--suave-txt);font-size:10.5px}
+  .topo-local::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--ouro)}
+  .topo-wa{display:none}
+  .progresso{position:absolute;left:0;bottom:-1px;height:1px;width:100%;background:var(--ouro);transform-origin:left;transform:scaleX(0)}
+  .lb{position:fixed;left:0;right:0;height:var(--lb);background:#000;z-index:40;pointer-events:none}
+  .lb-top{top:0}.lb-bot{bottom:0}
+
+  /* =========================================================
+     HERO · a foto aparece pela "janela" de luz do arco
+     ========================================================= */
+  .hero{--hz:35%;position:relative;min-height:100vh;min-height:100svh;isolation:isolate;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:120px var(--gutter) calc(36px + env(safe-area-inset-bottom))}
+  .ceu{position:absolute;inset:0;z-index:-5;background:
+      radial-gradient(90% 44% at 50% var(--hz),rgba(234,179,8,.22),rgba(58,47,5,.5) 44%,transparent 72%),
+      linear-gradient(180deg,#050506 0%,#0c0b08 30%,var(--onyx) 100%)}
+  .hero-foto{position:absolute;left:0;right:0;top:0;height:calc(var(--hz) + 8vmax);z-index:-4;overflow:hidden}
+  .hero-foto img{display:block;width:100%;height:100%;object-fit:cover;object-position:var(--pos,58% 62%);filter:saturate(.92) contrast(1.05) brightness(.92);transform:scale(1.14);transform-origin:60% 70%}
+  .pronto .hero-foto img{transform:scale(1);transition:transform 14s ease-out}
+  .hero-foto::after{content:'';position:absolute;inset:0;background:
+      linear-gradient(to bottom,rgba(9,9,11,.78) 0,rgba(9,9,11,.3) 34%,rgba(9,9,11,.08) 68%,rgba(9,9,11,.3) 100%),
+      radial-gradient(60% 50% at 50% 100%,rgba(234,179,8,.2),transparent 70%)}
+  /* a "terra": um disco escuro enorme; o brilho da borda é pintado no gradiente */
+  .horizonte{position:absolute;left:50%;top:calc(var(--hz) - 15.6vmax);width:260vmax;height:260vmax;z-index:-2;border-radius:50%;
+    background:radial-gradient(closest-side,var(--onyx) 0,var(--onyx) 87.9%,#fff6d0 88%,rgba(245,204,48,.85) 88.12%,rgba(234,179,8,.4) 88.7%,rgba(234,179,8,.18) 90.4%,rgba(202,155,7,.08) 94%,transparent 100%);
+    transform:translateX(-50%) translateY(3.5vmax);opacity:.25;animation:amanhece 3.4s var(--suave) .2s forwards}
+  .js .horizonte{animation-play-state:paused}
+  .js.pronto .horizonte{animation-play-state:running}
+  @keyframes amanhece{to{transform:translateX(-50%) translateY(0);opacity:1}}
+  .sol{position:absolute;left:50%;top:var(--hz);width:14px;height:14px;margin:-7px 0 0 -7px;z-index:-1;border-radius:50%;background:#fff8dc;box-shadow:0 0 22px 8px rgba(255,240,190,.9),0 0 90px 34px rgba(234,179,8,.5);opacity:0;animation:sol 3.2s ease 1.2s forwards}
+  .js .sol{animation-play-state:paused}
+  .js.pronto .sol{animation-play-state:running}
+  @keyframes sol{0%{opacity:0;transform:scale(.3)}60%{opacity:1;transform:scale(1.25)}100%{opacity:.9;transform:scale(1)}}
+  #poeira{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
+
+  .hero-conteudo{position:relative;max-width:940px;will-change:transform,opacity}
+  .sobre{display:flex;align-items:center;gap:12px;color:var(--ouro)}
+  .sobre::before{content:'';flex:none;width:30px;height:1px;background:var(--ouro)}
+  h1{font:400 clamp(2.7rem,12.4vw,5.2rem)/1.04 var(--display);letter-spacing:-.03em;margin:.42em 0 .42em}
+  h1 .ln{display:block;overflow:hidden;padding-bottom:.12em}
+  h1 .ln>span{display:block;text-shadow:0 2px 34px rgba(9,9,11,.75)}
+  h1 em{text-shadow:0 0 46px rgba(234,179,8,.28)}
+  .hero-texto{max-width:36ch;font-size:clamp(1rem,1.5vw,1.16rem);color:var(--texto)}
+  .hero-acao{display:flex;flex-direction:column;align-items:flex-start;gap:12px;margin-top:24px}
+  .hero-acao .wa{width:100%;max-width:440px;min-height:68px;font-size:1.12rem}
+  .nota{font-size:.9rem;line-height:1.5;color:var(--suave-txt);max-width:38ch}
+  .hero .elo{margin-top:6px}
+
+  /* entrada do hero */
+  .ok h1 .ln>span{transform:translateY(115%)}
+  .ok.pronto h1 .ln>span{transform:none;transition:transform 1.3s var(--suave);transition-delay:calc(var(--i) * 130ms + 500ms)}
+  .ok .hero .entra{opacity:0;transform:translateY(18px)}
+  .ok.pronto .hero .entra{opacity:1;transform:none;transition:opacity 1.2s ease,transform 1.2s var(--suave);transition-delay:var(--d,0s)}
+
+  /* ---------- faixa de valores ---------- */
+  .faixa{display:grid;gap:1px;background:var(--borda);border-top:1px solid var(--borda);border-bottom:1px solid var(--borda)}
+  .faixa p{display:flex;align-items:center;gap:12px;padding:17px var(--gutter);background:var(--carbon);font:500 1rem/1.3 var(--sans);color:var(--branco)}
+  .faixa svg{flex:none;width:20px;height:20px;color:var(--ouro)}
+
+  /* =========================================================
+     SEÇÕES
+     ========================================================= */
+  .cena{position:relative;padding:clamp(78px,12vh,140px) var(--gutter)}
+  .rotulo{display:flex;align-items:center;gap:14px;margin-bottom:20px;color:var(--ouro)}
+  .rotulo::after{content:'';flex:0 0 46px;height:1px;background:var(--linha)}
+  h2{font:400 clamp(2rem,6.2vw,4rem)/1.1 var(--display);letter-spacing:-.025em;max-width:17ch}
+  .lead{max-width:50ch;margin-top:18px;color:var(--texto)}
+  .ok .revela{opacity:0;translate:0 28px;filter:blur(6px);transition:opacity 1.1s var(--suave),translate 1.1s var(--suave),filter 1.1s var(--suave);transition-delay:var(--d,0s)}
+  .ok .revela.visivel{opacity:1;translate:none;filter:none}
+
+  /* ---------- casos: um botão por momento da vida ---------- */
+  .casos{display:grid;gap:14px;margin-top:38px}
+  .caso{--mx:50%;position:relative;display:grid;grid-template-columns:1fr auto;align-items:center;gap:10px 16px;padding:20px 20px 22px;border:1px solid var(--borda);border-radius:18px;background:linear-gradient(180deg,var(--surf),var(--carbon));overflow:hidden;transition:border-color .4s,transform .35s var(--suave)}
+  .caso::before{content:'';position:absolute;inset:0;background:radial-gradient(260px circle at var(--mx) 70%,rgba(234,179,8,.14),transparent 70%);opacity:0;transition:opacity .4s}
+  .caso:hover{border-color:rgba(234,179,8,.5)}
+  .caso:hover::before{opacity:1}
+  .caso:active{transform:scale(.985)}
+  .caso .foto{grid-column:1 / -1;position:relative;margin:-20px -20px 4px;aspect-ratio:2/1;overflow:hidden;background:var(--surf)}
+  .caso .foto img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:var(--pos,center);filter:saturate(.92) contrast(1.04);scale:1.12;transition:scale 7s ease-out}
+  .caso.visivel .foto img{scale:1}
+  .caso .foto::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,var(--surf) 1%,rgba(9,9,11,.38) 46%,rgba(9,9,11,.1))}
+  .caso .foto i{position:absolute;left:16px;bottom:10px;z-index:1;font:400 1.5rem/1 var(--display);font-style:normal;color:var(--ouro);text-shadow:0 2px 14px rgba(9,9,11,.8)}
+  .caso h3{position:relative;font:400 1.5rem/1.15 var(--display);letter-spacing:-.015em}
+  .caso p{position:relative;grid-column:1 / -1;font-size:.97rem;line-height:1.55;color:var(--texto)}
+  .caso .ir{position:relative;display:grid;place-items:center;width:48px;height:48px;border-radius:50%;background:rgba(37,211,102,.14);color:var(--wa);transition:background .3s,color .3s,transform .4s var(--suave)}
+  .caso .ir svg{width:21px;height:21px}
+  .caso:hover .ir{background:var(--wa);color:var(--wa-texto);transform:scale(1.08)}
+  .caso.outro{border-style:dashed;border-color:rgba(234,179,8,.35)}
+  .casos-nota{margin-top:18px;font-size:.88rem;color:var(--areia);max-width:60ch}
+
+  /* ---------- frase ---------- */
+  .frase{padding:0}
+  .ok .frase{height:190vh}
+  .frase-pin{position:sticky;top:0;min-height:100vh;min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:12vh var(--gutter);background:radial-gradient(60% 50% at 80% 40%,rgba(156,111,6,.13),transparent 70%)}
+  .frase-texto{font:400 clamp(2rem,min(6.4vw,6.4vh),4.2rem)/1.14 var(--display);letter-spacing:-.025em;max-width:16ch}
+  .ok .frase-texto .w{opacity:.14;filter:blur(1.5px);transition:opacity .5s ease,filter .5s ease}
+  .ok .frase-texto .w.on{opacity:1;filter:none}
+  .assina{margin-top:34px;display:flex;align-items:center;gap:14px;color:var(--suave-txt)}
+  .assina::before{content:'';width:34px;height:1px;background:var(--ouro)}
+
+  /* ---------- sobre e equipe ---------- */
+  .sobre-grade{display:grid;gap:26px}
+  .retrato{position:relative;border-radius:18px;overflow:hidden;border:1px solid var(--borda);background:var(--surf)}
+  .retrato[hidden]{display:none}
+  .retrato img{display:block;width:100%;height:auto;filter:saturate(.92) contrast(1.04);scale:1.06;transition:scale 8s ease-out}
+  .retrato.visivel img{scale:1}
+  .retrato::after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(to top,rgba(9,9,11,.78),rgba(9,9,11,0) 40%),linear-gradient(to bottom,rgba(9,9,11,.3),rgba(9,9,11,0) 24%)}
+  .retrato figcaption{position:absolute;left:18px;right:18px;bottom:16px;z-index:1;font:500 .95rem/1.4 var(--sans);color:var(--branco)}
+  .retrato figcaption:empty{display:none}
+  .retrato .canto{position:absolute;z-index:1;width:22px;height:22px;border:0 solid var(--ouro);pointer-events:none}
+  .retrato .canto:nth-of-type(1){top:12px;left:12px;border-top-width:1px;border-left-width:1px}
+  .retrato .canto:nth-of-type(2){top:12px;right:12px;border-top-width:1px;border-right-width:1px}
+  .sobre-txt p{color:var(--texto);max-width:54ch}
+  .sobre-txt p+p{margin-top:14px}
+  .sobre-txt p:first-child{color:var(--branco);font-size:1.08rem}
+  .sobre-acao{margin-top:26px}
+  .sobre-acao .wa{width:100%;max-width:440px}
+
+  /* ---------- nosso jeito de atender ---------- */
+  .passos{position:relative;margin-top:44px;display:grid;gap:40px;padding-left:44px;--p:0}
+  .passos::before{content:'';position:absolute;left:13px;top:8px;bottom:8px;width:1px;background:var(--borda)}
+  .passos::after{content:'';position:absolute;left:13px;top:8px;bottom:8px;width:1px;background:linear-gradient(180deg,var(--ouro-claro),var(--ouro));transform-origin:top;transform:scaleY(var(--p));box-shadow:0 0 14px rgba(234,179,8,.65)}
+  .passo{position:relative}
+  .passo::before{content:'';position:absolute;left:-38px;top:.45em;width:15px;height:15px;border-radius:50%;border:1px solid var(--ouro);background:var(--onyx);transition:background .5s,box-shadow .5s;z-index:1}
+  .passo.aceso::before{background:var(--ouro);box-shadow:0 0 0 6px rgba(234,179,8,.14),0 0 24px rgba(234,179,8,.75)}
+  .passo small{display:block;color:var(--ouro);margin-bottom:8px}
+  .passo h3{font:400 clamp(1.6rem,3.4vw,2.2rem)/1.14 var(--display);letter-spacing:-.015em;margin-bottom:10px}
+  .passo p{max-width:46ch;color:var(--texto)}
+
+  /* ---------- convite final ---------- */
+  .final{text-align:center;overflow:hidden;padding-top:clamp(100px,17vh,190px);padding-bottom:clamp(110px,19vh,210px);background:radial-gradient(70% 55% at 50% 100%,rgba(234,179,8,.14),rgba(58,47,5,.35) 45%,transparent 75%)}
+  .final .rotulo{justify-content:center}
+  .final .rotulo::before{content:'';flex:0 0 46px;height:1px;background:var(--linha)}
+  .final h2{max-width:none;font-size:clamp(2.3rem,8.6vw,5.6rem);line-height:1.04}
+  .final .lead{margin:20px auto 0}
+  .final .wa{margin-top:34px;min-height:72px;padding:0 34px;font-size:1.16rem}
+  .numero{display:block;margin-top:24px;font:400 clamp(1.6rem,4.6vw,2.3rem)/1.1 var(--display);letter-spacing:.01em;color:var(--branco)}
+  .numero[hidden]{display:none}
+  .canais{display:flex;flex-wrap:wrap;justify-content:center;gap:14px 30px;margin-top:22px}
+  .canais [hidden]{display:none}
+
+  /* ---------- rodapé ---------- */
+  .rodape{padding:32px var(--gutter) calc(118px + env(safe-area-inset-bottom));border-top:1px solid var(--linha);display:grid;gap:10px;font-size:.86rem;line-height:1.6;color:var(--areia)}
+  .rodape .logo{width:150px;margin-bottom:6px}
+  .rodape p{max-width:70ch}
+  .rodape a{color:var(--suave-txt);border-bottom:1px solid var(--borda)}
+  .rodape a:hover{color:var(--ouro)}
+
+  /* ---------- barra fixa do WhatsApp (celular) ---------- */
+  .barra{position:fixed;left:0;right:0;bottom:0;z-index:60;padding:12px 14px calc(12px + env(safe-area-inset-bottom));background:linear-gradient(to top,rgba(9,9,11,.97) 62%,rgba(9,9,11,0));transform:translateY(110%);transition:transform .6s var(--suave)}
+  .barra.visivel{transform:none}
+  .barra .wa{width:100%;min-height:58px}
+  .flutua{display:none}
+
+  /* ---------- película ---------- */
+  .vinheta{position:fixed;inset:0;z-index:89;pointer-events:none;background:radial-gradient(ellipse at center,transparent 58%,rgba(0,0,0,.4) 100%)}
+  .grao{position:fixed;inset:-50%;z-index:110;pointer-events:none;background-image:var(--grao);opacity:.045;animation:grao .8s steps(5) infinite}
+  @keyframes grao{0%{transform:translate(0,0)}20%{transform:translate(-6%,4%)}40%{transform:translate(5%,-7%)}60%{transform:translate(-3%,8%)}80%{transform:translate(7%,2%)}100%{transform:translate(0,0)}}
+
+  @media (max-width:759px){
+    .hero-acao .wa,.final .wa,.barra .wa,.sobre-acao .wa{font-size:clamp(.98rem,4.5vw,1.14rem);padding:0 18px;gap:10px}
+    .final .wa{width:100%;max-width:440px}
+  }
+  @media (max-height:700px){
+    .hero{--hz:30%;padding-top:96px}
+    .hero-texto{display:none}
+    h1{font-size:clamp(2.4rem,11vw,3.4rem)}
+  }
+
+  /* =========================================================
+     TELAS MAIORES
+     ========================================================= */
+  @media (min-width:760px){
+    body{font-size:18px}
+    .logo{width:190px}
+    .topo-wa{display:inline-flex;min-height:44px;padding:0 20px;font-size:.92rem;gap:10px}
+    .topo-wa svg{width:19px;height:19px}
+    .topo-local{display:none}
+    .hero{padding-bottom:11vh}
+    .hero-acao{flex-direction:row;flex-wrap:wrap;align-items:center;gap:14px 24px}
+    .hero-acao .wa{width:auto}
+    .hero .elo{margin-top:0}
+    .faixa{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .faixa p{justify-content:center;padding:22px 20px}
+    .casos{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+    .caso{padding:26px 26px 28px}
+    .caso .foto{margin:-26px -26px 6px}
+    .caso h3{font-size:1.7rem}
+    .sobre-grade{grid-template-columns:minmax(0,6fr) minmax(0,5fr);grid-template-areas:"cab foto" "txt foto";column-gap:6vw;row-gap:26px}
+    .sobre-cab{grid-area:cab;align-self:end}
+    .sobre-txt{grid-area:txt;align-self:start}
+    .retrato{grid-area:foto;align-self:center}
+    .sobre-acao .wa{width:auto}
+    .passos{grid-template-columns:repeat(3,minmax(0,1fr));gap:40px;padding-left:0;padding-top:46px}
+    .passos::before,.passos::after{left:0;right:0;top:13px;bottom:auto;width:auto;height:1px}
+    .passos::after{transform-origin:left;transform:scaleX(var(--p));background:linear-gradient(90deg,var(--ouro-claro),var(--ouro))}
+    .passo::before{left:0;top:-40px}
+    .barra{display:none}
+    .rodape{padding-bottom:40px}
+    .flutua{display:grid;place-items:center;position:fixed;right:26px;bottom:26px;z-index:60;width:64px;height:64px;border-radius:50%;background:var(--wa);color:var(--wa-texto);box-shadow:0 14px 40px -10px rgba(37,211,102,.7);transform:scale(0);transition:transform .5s var(--suave),background .3s}
+    .flutua svg{width:30px;height:30px}
+    .flutua.visivel{transform:scale(1)}
+    .flutua:hover{background:var(--wa-claro)}
+    .flutua.indisponivel{display:none}
+  }
+  @media (min-width:1100px){
+    .hero{--hz:36%}
+    .hero-conteudo{max-width:1200px}
+    h1{font-size:clamp(3.4rem,5vw,4.8rem)}
+    h1 .ln{display:inline-block;vertical-align:top}
+    .casos{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .caso.outro{grid-column:1 / -1}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    .grao,.wa::before,.wa::after{animation:none!important}
+    .horizonte{animation:none;opacity:1;transform:translateX(-50%)}
+    .sol{animation:none;opacity:.9}
+    .hero-foto img{transform:none!important;transition:none!important}
+    .ok .frase{height:auto}
+    .ok .frase-texto .w{opacity:1;filter:none}
+    .caso .foto img,.retrato img{scale:1;transition:none}
+    .ok .revela,.ok h1 .ln>span,.ok .hero .entra{opacity:1!important;translate:none!important;transform:none!important;filter:none!important;transition:none!important}
+    .barra{transition:none}
+  }
+</style>
+</head>
+<body>
+<a class="pular" href="#casos">Pular para o conteúdo</a>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="wa" viewBox="0 0 24 24"><path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></symbol>
+  <symbol id="ok" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+</svg>
+
+<!-- ========== ABERTURA ========== -->
+<div id="intro" class="intro" aria-hidden="true">
+  <div class="intro-cena">
+    <!-- símbolo da marca: o arco -->
+    <svg class="intro-arco" viewBox="83 103 234 234"><path pathLength="1" d="M124.4 305V193C124.4 116 275.6 116 275.6 193V305" fill="none" stroke="#EAB308" stroke-width="19.6" stroke-linecap="round" stroke-linejoin="round"/><line pathLength="1" x1="155.2" y1="244.8" x2="244.8" y2="244.8" stroke="#EAB308" stroke-width="15.4" stroke-linecap="round"/></svg>
+    <p class="intro-marca">Ampar<b>A</b></p>
+    <p class="intro-sub etiqueta">Seu direito, nosso cuidado</p>
+  </div>
+</div>
+
+<div class="lb lb-top" aria-hidden="true"></div>
+<div class="lb lb-bot" aria-hidden="true"></div>
+
+<!-- ========== TOPO ========== -->
+<header class="topo" id="topoBarra">
+  <a href="/" aria-label="AmparA, página inicial"><img class="logo" src="./instagram-assets/ampara.svg" alt="AmparA" width="1316" height="274"></a>
+  <span class="topo-local etiqueta">Belém, Pará</span>
+  <a class="wa sem-onda topo-wa" data-wa><svg aria-hidden="true"><use href="#wa"/></svg><span data-wa-rotulo>Conversar pelo WhatsApp</span></a>
+  <span class="progresso" id="progresso" aria-hidden="true"></span>
+</header>
+
+<main>
+  <!-- ========== HERO ========== -->
+  <section class="hero" id="topo" aria-labelledby="titulo">
+    <div class="ceu" aria-hidden="true"></div>
+    <div class="hero-foto" aria-hidden="true"><img id="heroImg" src="./instagram-assets/foto-topo.jpg" alt="" width="1600" height="795" decoding="async" fetchpriority="high"></div>
+    <div class="horizonte" aria-hidden="true"></div>
+    <div class="sol" aria-hidden="true"></div>
+    <canvas id="poeira" aria-hidden="true"></canvas>
+
+    <div class="hero-conteudo" id="heroConteudo">
+      <p class="sobre etiqueta entra" style="--d:.3s">Seu direito, nosso cuidado</p>
+      <h1 id="titulo" aria-label="Cada história merece amparo.">
+        <span class="ln" style="--i:0"><span>Cada história</span></span>
+        <span class="ln" style="--i:1"><span>merece</span></span>
+        <span class="ln" style="--i:2"><span><em>amparo.</em></span></span>
+      </h1>
+      <p class="hero-texto entra" style="--d:1.15s">Aposentadorias e benefícios previdenciários e assistenciais, com orientação para cada etapa da sua vida.</p>
+      <div class="hero-acao entra" style="--d:1.4s">
+        <a class="wa" id="waHero" data-wa><svg aria-hidden="true"><use href="#wa"/></svg><span data-wa-rotulo>Conversar pelo WhatsApp</span></a>
+        <p class="nota">Análise inicial gratuita. Conte sua situação para a AMPARA.</p>
+        <a class="elo" data-site>Conheça nosso site <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- valores -->
+  <div class="faixa">
+    <p class="revela"><svg aria-hidden="true"><use href="#ok"/></svg>Escuta atenta</p>
+    <p class="revela" style="--d:.08s"><svg aria-hidden="true"><use href="#ok"/></svg>Orientação clara</p>
+    <p class="revela" style="--d:.16s"><svg aria-hidden="true"><use href="#ok"/></svg>Acompanhamento próximo</p>
+  </div>
+
+  <!-- ========== CASOS ========== -->
+  <section class="cena" id="casos" aria-labelledby="tCasos">
+    <p class="rotulo etiqueta revela">Como podemos ajudar você?</p>
+    <h2 class="revela" id="tCasos" style="--d:.08s">Amparo em diferentes <em>momentos da vida.</em></h2>
+    <p class="lead revela" style="--d:.16s">Toque no seu caso. O WhatsApp abre com a mensagem já escrita, é só enviar.</p>
+    <div class="casos" id="listaCasos"></div>
+    <p class="casos-nota revela">Cada caso é analisado de forma independente, sem promessa de resultado.</p>
+  </section>
+
+  <!-- ========== FRASE ========== -->
+  <section class="frase" id="frase">
+    <div class="frase-pin">
+      <p class="frase-texto" id="fraseTexto">Você conta sua história. <em>A gente orienta o caminho.</em></p>
+      <p class="assina etiqueta">AmparA · Belém, Pará</p>
+    </div>
+  </section>
+
+  <!-- ========== SOBRE E EQUIPE ========== -->
+  <section class="cena" id="sobre" aria-labelledby="tSobre">
+    <div class="sobre-grade">
+      <div class="sobre-cab">
+        <p class="rotulo etiqueta revela">Sobre a AMPARA</p>
+        <h2 class="revela" id="tSobre" style="--d:.08s">Por trás de cada pedido, <em>existe uma vida.</em></h2>
+      </div>
+      <!-- foto da equipe (CONFIG.equipe.foto); enquanto não houver, entra uma foto do site -->
+      <figure class="retrato revela" id="retrato" style="--d:.12s">
+        <img id="retratoImg" alt="" decoding="async" loading="lazy">
+        <span class="canto" aria-hidden="true"></span><span class="canto" aria-hidden="true"></span>
+        <figcaption id="retratoLegenda"></figcaption>
+      </figure>
+      <div class="sobre-txt">
+        <p class="revela">Somos a AMPARA, um escritório de benefícios previdenciários e assistenciais em Belém, Pará.</p>
+        <p class="revela" style="--d:.06s">Nosso trabalho começa ouvindo você. Entendemos sua situação, analisamos os documentos e explicamos os próximos passos com uma linguagem que faz sentido no seu dia a dia.</p>
+        <p class="revela" style="--d:.12s">Da organização dos documentos ao acompanhamento do pedido no INSS, nosso cuidado é tornar cada etapa mais clara. Você não precisa conhecer todos os termos ou saber por onde começar para conversar com a gente.</p>
+        <div class="sobre-acao revela" style="--d:.18s">
+          <a class="wa sem-onda" data-wa><svg aria-hidden="true"><use href="#wa"/></svg><span data-wa-rotulo>Falar com a AMPARA</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== NOSSO JEITO DE ATENDER ========== -->
+  <section class="cena" id="como" aria-labelledby="tComo">
+    <p class="rotulo etiqueta revela">Nosso jeito de atender</p>
+    <h2 class="revela" id="tComo" style="--d:.08s">O primeiro passo <em>é uma conversa.</em></h2>
+    <p class="lead revela" style="--d:.16s">Um atendimento que parte da sua história e ajuda você a entender o caminho do seu pedido.</p>
+    <div class="passos" id="passos">
+      <article class="passo revela">
+        <small class="etiqueta">01</small>
+        <h3>Ouvimos sua história</h3>
+        <p>Você conta o que está vivendo e quais são suas dúvidas. A análise inicial é gratuita e ajuda a identificar o que precisa ser avaliado.</p>
+      </article>
+      <article class="passo revela" style="--d:.12s">
+        <small class="etiqueta">02</small>
+        <h3>Organizamos o caminho</h3>
+        <p>Explicamos quais informações e documentos são necessários, para que você entenda as etapas antes de seguir com o atendimento.</p>
+      </article>
+      <article class="passo revela" style="--d:.24s">
+        <small class="etiqueta">03</small>
+        <h3>Acompanhamos o pedido</h3>
+        <p>Ao contratar o serviço, você conta com orientação na preparação e no acompanhamento do processo, inclusive diante de exigências do INSS.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ========== CONVITE FINAL ========== -->
+  <section class="cena final" id="contato" aria-labelledby="tFinal">
+    <p class="rotulo etiqueta revela">Vamos conversar?</p>
+    <h2 class="revela" id="tFinal" style="--d:.08s">Você não precisa ter <em>todas as respostas.</em></h2>
+    <p class="lead revela" style="--d:.16s">Conte sua história à AMPARA. Vamos ajudar você a entender o próximo passo.</p>
+    <div class="revela" style="--d:.24s">
+      <a class="wa" id="waFinal" data-wa><svg aria-hidden="true"><use href="#wa"/></svg><span data-wa-rotulo>Falar com a AMPARA</span></a>
+      <a class="numero" id="numero" data-wa data-simples hidden></a>
+      <p class="canais">
+        <a class="elo" data-site>Conheça nosso site <span aria-hidden="true">→</span></a>
+        <a class="elo" id="insta" target="_blank" rel="noopener" hidden></a>
+      </p>
+    </div>
+  </section>
+</main>
+
+<footer class="rodape">
+  <img class="logo" src="./instagram-assets/ampara.svg" alt="AmparA" width="1316" height="274" loading="lazy">
+  <p>AmparA · Benefícios Previdenciários e Assistenciais. Belém, Pará.</p>
+  <p>Cada caso é analisado de forma independente, sem promessa de resultado.</p>
+  <p>© <span id="ano">2026</span> AmparA. Todos os direitos reservados. <a href="/privacidade">Política de privacidade</a></p>
+</footer>
+
+<!-- WhatsApp sempre à mão -->
+<div class="barra" id="barra"><a class="wa sem-onda" data-wa><svg aria-hidden="true"><use href="#wa"/></svg><span data-wa-rotulo>Conversar pelo WhatsApp</span></a></div>
+<a class="flutua" id="flutua" data-wa data-simples aria-label="Conversar com a AmparA pelo WhatsApp"><svg aria-hidden="true"><use href="#wa"/></svg></a>
+
+<div class="vinheta" aria-hidden="true"></div>
+<div class="grao" aria-hidden="true"></div>
+
+<script>
+(() => {
+  /* ============================================================
+     CONFIG · edite aqui
+     ============================================================ */
+  const A = './instagram-assets/';
+  const CONFIG = {
+    // Número e mensagem iguais aos da página anterior e do site.
+    whatsapp: '5591993401301',   // (91) 99340-1301
+    mensagem: 'Olá! Vim pelo Instagram da AMPARA e gostaria de orientação sobre aposentadorias e benefícios.',
+    instagram: 'amparabeneficios.pa',
+    site: '/?utm_source=instagram&utm_medium=bio&utm_campaign=perfil_ampara',
+    // Foto da equipe. Enquanto "foto" estiver vazio, a seção Sobre usa "reserva".
+    equipe: {
+      foto: '',                  // ex.: A + 'equipe.jpg'
+      alt: 'Equipe da AmparA',
+      legenda: '',               // ex.: nomes de quem aparece na foto
+      reserva: A + 'foto-sobre.jpg'
+    },
+    beneficios: [
+      { titulo: 'Aposentadorias', foto: A + 'foto-aposentadorias.jpg', pos: '60% 60%', resumo: 'Analisamos contribuições, idade, tempo de trabalho e vínculos para encontrar o caminho previdenciário mais seguro para você e sua família.', tema: 'aposentadoria' },
+      { titulo: 'BPC/LOAS', foto: A + 'foto-bpc-loas.jpg', resumo: 'Um salário mínimo mensal para idosos com 65 anos ou mais e pessoas com deficiência em situação de baixa renda, mesmo sem contribuição ao INSS.', tema: 'BPC/LOAS' },
+      { titulo: 'Salário-maternidade', foto: A + 'foto-salario-maternidade.jpg', pos: '70% 30%', resumo: 'Um benefício para proteger sua renda no nascimento, adoção ou guarda. Atendemos gestantes, recém-mães, MEI, autônomas, rurais, empregadas e até quem está sem trabalho.', tema: 'salário-maternidade' },
+      { titulo: 'Auxílio por incapacidade', foto: A + 'foto-auxilio.jpg', resumo: 'Para quem está temporariamente sem conseguir trabalhar por doença ou acidente.', tema: 'auxílio por incapacidade' },
+      { titulo: 'Pensões', foto: A + 'foto-pensoes.jpg', resumo: 'Para famílias que buscam apoio diante de uma mudança na vida.', tema: 'pensão' },
+      { titulo: 'Aposentadoria rural', foto: A + 'foto-aposentadoria-rural.jpg', resumo: 'Para quem construiu a vida no campo, na pesca ou na agricultura familiar.', tema: 'aposentadoria rural' }
+    ],
+    outroCaso: { titulo: 'Meu caso é outro', resumo: 'Você não precisa conhecer todos os termos ou saber por onde começar para conversar com a gente.' }
+  };
+
+  const root = document.documentElement;
+  root.classList.add('ok');
+  const $ = (s, c = document) => c.querySelector(s);
+  const $$ = (s, c = document) => Array.from(c.querySelectorAll(s));
+  const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+  const so = s => String(s || '').trim();
+  const reduz = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const el = (tag, cls, txt) => { const e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; };
+  $('#ano').textContent = new Date().getFullYear();
+
+  /* ---------- WhatsApp ---------- */
+  const fone = so(CONFIG.whatsapp).replace(/\D/g, '');
+  const linkWa = msg => `https://wa.me/${fone}?text=${encodeURIComponent(so(msg) || CONFIG.mensagem)}`;
+  const foneBonito = f => { const m = f.match(/^55(\d{2})(\d{4,5})(\d{4})$/); return m ? `(${m[1]}) ${m[2]}-${m[3]}` : '+' + f; };
+  const ligar = (a, msg) => {
+    if (fone) { a.href = linkWa(msg); a.target = '_blank'; a.rel = 'noopener'; return; }
+    a.removeAttribute('href'); a.setAttribute('aria-disabled', 'true'); a.classList.add('indisponivel');
+    const r = $('[data-wa-rotulo]', a); if (r) r.textContent = 'WhatsApp em breve';
+  };
+
+  /* ---------- casos ---------- */
+  const lista = $('#listaCasos');
+  const itens = [...(CONFIG.beneficios || []), CONFIG.outroCaso].filter(b => b && so(b.titulo));
+  itens.forEach((b, i) => {
+    const outro = b === CONFIG.outroCaso;
+    const a = el('a', 'caso revela' + (outro ? ' outro' : ''));
+    a.style.setProperty('--d', ((i % 3) * 0.08).toFixed(2) + 's');
+    a.dataset.wa = ''; a.dataset.simples = '';
+    a.dataset.msg = so(b.mensagem) || (so(b.tema) ? `Olá! Vim pelo Instagram da AMPARA e gostaria de orientação sobre ${b.tema}.` : '');
+    a.setAttribute('aria-label', `${b.titulo}: conversar com a AmparA pelo WhatsApp`);
+    if (so(b.foto)) {
+      const f = el('span', 'foto'); f.setAttribute('aria-hidden', 'true');
+      const img = new Image(); img.alt = ''; img.loading = 'lazy'; img.decoding = 'async';
+      if (so(b.pos)) f.style.setProperty('--pos', so(b.pos));
+      img.onerror = () => f.remove();
+      img.src = so(b.foto);
+      f.append(img, el('i', '', String(i + 1).padStart(2, '0')));
+      a.append(f);
+    }
+    const ir = el('span', 'ir'); ir.setAttribute('aria-hidden', 'true');
+    ir.innerHTML = '<svg><use href="#wa"/></svg>';
+    a.append(el('h3', '', b.titulo), ir, el('p', '', so(b.resumo)));
+    a.addEventListener('pointermove', e => { const r = a.getBoundingClientRect(); a.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100).toFixed(1) + '%'); });
+    lista.append(a);
+  });
+  $$('[data-wa]').forEach(a => ligar(a, a.dataset.msg));
+  if (!fone) $$('.caso').forEach(a => { a.style.cursor = 'default'; });
+
+  /* ---------- site, Instagram e número ---------- */
+  $$('[data-site]').forEach(a => { if (so(CONFIG.site)) a.href = so(CONFIG.site); else a.hidden = true; });
+  if (so(CONFIG.instagram)) { const i = $('#insta'), u = so(CONFIG.instagram).replace(/^@/, ''); i.href = `https://www.instagram.com/${u}/`; i.textContent = '@' + u; i.hidden = false; }
+  const numero = $('#numero');
+  if (fone) { numero.textContent = foneBonito(fone); numero.hidden = false; }
+
+  /* ---------- foto da equipe (ou foto do site, enquanto ela não chega) ---------- */
+  const eq = CONFIG.equipe || {}, retrato = $('#retrato'), rImg = $('#retratoImg');
+  const temEquipe = !!so(eq.foto);
+  rImg.alt = temEquipe ? (so(eq.alt) || 'Equipe da AmparA') : '';
+  if (temEquipe) $('#retratoLegenda').textContent = so(eq.legenda);
+  rImg.onerror = () => {
+    if (temEquipe && so(eq.reserva) && !rImg.dataset.reserva) { rImg.dataset.reserva = '1'; rImg.alt = ''; $('#retratoLegenda').textContent = ''; rImg.src = so(eq.reserva); }
+    else retrato.hidden = true;
+  };
+  rImg.src = temEquipe ? so(eq.foto) : so(eq.reserva);
+  if (!rImg.getAttribute('src')) retrato.hidden = true;
+  const hImg = $('#heroImg'); if (hImg) hImg.onerror = () => hImg.parentElement.remove();
+
+  /* ---------- grão de película ---------- */
+  try {
+    const g = el('canvas'); g.width = g.height = 150;
+    const x = g.getContext('2d'), d = x.createImageData(150, 150);
+    for (let i = 0; i < d.data.length; i += 4) { const v = Math.random() * 255 | 0; d.data[i] = d.data[i + 1] = d.data[i + 2] = v; d.data[i + 3] = 255; }
+    x.putImageData(d, 0, 0);
+    root.style.setProperty('--grao', `url(${g.toDataURL()})`);
+  } catch (e) {}
+
+  /* ---------- abertura ---------- */
+  const intro = $('#intro');
+  const pronto = () => root.classList.add('pronto');
+  if (intro) {
+    let visto = false;
+    try { visto = sessionStorage.getItem('ampara-intro') === '1'; } catch (e) {}
+    if (reduz || visto) { intro.remove(); pronto(); }
+    else {
+      root.classList.add('travado');
+      let fim = false;
+      const encerrar = () => {
+        if (fim) return; fim = true;
+        intro.classList.add('pular-ja'); root.classList.remove('travado'); pronto();
+        try { sessionStorage.setItem('ampara-intro', '1'); } catch (e) {}
+        setTimeout(() => intro.remove(), 700);
+      };
+      setTimeout(encerrar, 2700);
+      ['click', 'touchstart', 'wheel', 'keydown'].forEach(ev => addEventListener(ev, encerrar, { once: true, passive: true }));
+    }
+  } else pronto();
+
+  /* ---------- frase: palavra por palavra ---------- */
+  const frase = $('#frase'), fraseTexto = $('#fraseTexto'), palavras = [];
+  if (fraseTexto) {
+    const quebra = (txt, alvo) => txt.split(/(\s+)/).forEach(t => {
+      if (!t) return;
+      if (/^\s+$/.test(t)) { alvo.append(t); return; }
+      const s = el('span', 'w', t); alvo.append(s); palavras.push(s);
+    });
+    const frag = document.createDocumentFragment();
+    Array.from(fraseTexto.childNodes).forEach(n => {
+      if (n.nodeType === 3) quebra(n.textContent, frag);
+      else if (n.nodeType === 1) { const c = n.cloneNode(false); quebra(n.textContent, c); frag.append(c); }
+    });
+    fraseTexto.textContent = ''; fraseTexto.append(frag);
+    if (reduz) palavras.forEach(w => w.classList.add('on'));
+  }
+  let acesas = -1;
+
+  /* ---------- rolagem ---------- */
+  const topo = $('#topoBarra'), progresso = $('#progresso'), heroConteudo = $('#heroConteudo');
+  const passos = $('#passos'), listaPassos = $$('.passo');
+  const mqCel = matchMedia('(max-width: 759px)');
+  let pedido = false;
+  function atualizar() {
+    pedido = false;
+    const y = scrollY, vh = innerHeight;
+    const max = Math.max(1, root.scrollHeight - vh);
+    progresso.style.transform = `scaleX(${clamp(y / max, 0, 1).toFixed(4)})`;
+    topo.classList.toggle('solido', y > vh * 0.3);
+    const k = 1 - clamp(y / (vh * 0.6), 0, 1);
+    root.style.setProperty('--lb', (vh * (mqCel.matches ? 0 : 0.05) * k).toFixed(1) + 'px');
+    if (!reduz && y < vh * 1.2 && heroConteudo) {
+      heroConteudo.style.transform = `translate3d(0,${(y * 0.16).toFixed(1)}px,0)`;
+      heroConteudo.style.opacity = clamp(1 - y / (vh * 0.9), 0, 1).toFixed(3);
+    }
+    if (passos) {
+      const r = passos.getBoundingClientRect();
+      const p = reduz ? 1 : clamp((vh * 0.72 - r.top) / Math.max(1, r.height * (mqCel.matches ? 1 : 0.45)), 0, 1);
+      passos.style.setProperty('--p', p.toFixed(3));
+      listaPassos.forEach((n, i) => n.classList.toggle('aceso', p >= (mqCel.matches ? (i + 0.08) / listaPassos.length : i / listaPassos.length * 0.98) && p > 0.02));
+    }
+    if (!reduz && frase && palavras.length) {
+      const r = frase.getBoundingClientRect();
+      const tot = Math.max(1, frase.offsetHeight - vh);
+      const n = Math.floor(clamp((-r.top + vh * 0.3) / tot, 0, 1) * 1.25 * palavras.length);
+      if (n !== acesas) { acesas = n; palavras.forEach((w, i) => w.classList.toggle('on', i < n)); }
+    }
+  }
+  const pedir = () => { if (!pedido) { pedido = true; requestAnimationFrame(atualizar); } };
+  addEventListener('scroll', pedir, { passive: true });
+  addEventListener('resize', pedir);
+  atualizar();
+
+  /* ---------- revelações ---------- */
+  const ioRev = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visivel'); ioRev.unobserve(e.target); }
+  }), { threshold: 0.12, rootMargin: '0px 0px -5% 0px' });
+  $$('.revela').forEach(n => ioRev.observe(n));
+
+  /* ---------- barra e botão fixos: somem quando há um botão grande na tela ---------- */
+  const barra = $('#barra'), flutua = $('#flutua');
+  const grandes = new Set();
+  const ioWa = new IntersectionObserver(es => {
+    es.forEach(e => e.isIntersecting ? grandes.add(e.target) : grandes.delete(e.target));
+    const mostrar = grandes.size === 0 && scrollY > 120;
+    barra.classList.toggle('visivel', mostrar);
+    flutua.classList.toggle('visivel', mostrar);
+  }, { threshold: 0.4 });
+  [$('#waHero'), $('#waFinal')].forEach(b => b && ioWa.observe(b));
+
+  /* ---------- poeira de luz ---------- */
+  const cv = $('#poeira');
+  if (cv && cv.getContext) {
+    const ctx = cv.getContext('2d');
+    let W = 0, H = 0, parts = [], raf = 0;
+    const nova = () => ({ x: Math.random() * W, y: Math.random() * H, z: Math.random() * 0.8 + 0.2, vx: (Math.random() - 0.5) * 0.16, vy: -(Math.random() * 0.24 + 0.04), a: Math.random() * 6.28 });
+    function dimensionar() {
+      const dpr = Math.min(devicePixelRatio || 1, 1.5);
+      W = cv.clientWidth; H = cv.clientHeight; cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      parts = Array.from({ length: Math.min(90, Math.round(W * H / 16000)) }, nova);
+    }
+    function quadro(t) {
+      ctx.clearRect(0, 0, W, H);
+      for (const p of parts) {
+        if (!reduz) {
+          p.x += p.vx * p.z + Math.sin(t * 0.0004 + p.a) * 0.05; p.y += p.vy * p.z;
+          if (p.y < -6) { p.y = H + 6; p.x = Math.random() * W; }
+          if (p.x < -6) p.x = W + 6; else if (p.x > W + 6) p.x = -6;
+        }
+        const luz = clamp(1 - Math.hypot(p.x - W * 0.5, p.y - H * 0.35) / (Math.max(W, H) * 0.75), 0.1, 1);
+        ctx.globalAlpha = (0.1 + 0.6 * (0.55 + 0.45 * Math.sin(t * 0.0018 + p.a * 3)) * luz) * p.z;
+        ctx.fillStyle = '#ffeaa8';
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.z * 1.6, 0, 6.283); ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+      if (!reduz) raf = requestAnimationFrame(quadro);
+    }
+    dimensionar(); quadro(0);
+    addEventListener('resize', () => { dimensionar(); if (reduz) quadro(0); });
+    if (!reduz) {
+      new IntersectionObserver(es => es.forEach(e => { cancelAnimationFrame(raf); if (e.isIntersecting && !document.hidden) raf = requestAnimationFrame(quadro); })).observe(cv);
+      document.addEventListener('visibilitychange', () => { cancelAnimationFrame(raf); if (!document.hidden && scrollY < innerHeight) raf = requestAnimationFrame(quadro); });
+    }
+  }
+})();
+</script>
+</body>
+</html>

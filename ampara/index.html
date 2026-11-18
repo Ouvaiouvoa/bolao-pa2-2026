@@ -200,6 +200,27 @@
   .caso.outro{border-style:dashed}
   .caso.outro .n{-webkit-text-stroke:0;color:var(--ouro)}
   .casos-nota{margin-top:18px;font-size:.88rem;color:var(--areia);max-width:60ch}
+  /* foto do site no topo de cada cartão */
+  .caso .foto{grid-column:1 / -1;position:relative;margin:-20px -20px 2px;aspect-ratio:16/8;overflow:hidden;background:var(--surf)}
+  .caso .foto img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:var(--pos,center);filter:saturate(.9) contrast(1.05);scale:1.12;transition:scale 7s ease-out}
+  .caso.visivel .foto img{scale:1}
+  .caso .foto::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,var(--surf) 1%,rgba(9,9,11,.45) 48%,rgba(9,9,11,.16))}
+
+  /* ---------- equipe ---------- */
+  .equipe[hidden]{display:none}
+  .equipe-grade{display:grid;gap:26px}
+  .equipe-txt .lead{margin-top:0}
+  .equipe-foto{position:relative;border-radius:18px;overflow:hidden;border:1px solid var(--borda);background:var(--surf)}
+  .equipe-foto img{display:block;width:100%;height:auto;filter:saturate(.92) contrast(1.04);scale:1.06;transition:scale 8s ease-out}
+  .equipe-foto.visivel img{scale:1}
+  .equipe-foto::after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(to top,rgba(9,9,11,.8),rgba(9,9,11,0) 42%),linear-gradient(to bottom,rgba(9,9,11,.28),rgba(9,9,11,0) 26%)}
+  .equipe-foto figcaption{position:absolute;left:18px;right:18px;bottom:16px;z-index:1;font:500 .95rem/1.4 var(--sans);color:var(--branco)}
+  .equipe-foto figcaption:empty{display:none}
+  .equipe-foto .canto{position:absolute;z-index:1;width:22px;height:22px;border:0 solid var(--ouro);pointer-events:none}
+  .equipe-foto .canto:nth-of-type(1){top:12px;left:12px;border-top-width:1px;border-left-width:1px}
+  .equipe-foto .canto:nth-of-type(2){top:12px;right:12px;border-top-width:1px;border-right-width:1px}
+  .equipe-acao{display:grid;gap:14px;margin-top:26px}
+  .equipe-acao .wa{width:100%;max-width:440px}
 
   /* ---------- 02 · simples assim ---------- */
   .passos{position:relative;margin-top:46px;display:grid;gap:42px;padding-left:44px;--p:0}
@@ -262,7 +283,7 @@
   @keyframes grao{0%{transform:translate(0,0)}20%{transform:translate(-6%,4%)}40%{transform:translate(5%,-7%)}60%{transform:translate(-3%,8%)}80%{transform:translate(7%,2%)}100%{transform:translate(0,0)}}
 
   @media (max-width:759px){
-    .hero-acao .wa,.final .wa,.barra .wa{font-size:clamp(.95rem,4.35vw,1.14rem);padding:0 18px;gap:10px}
+    .hero-acao .wa,.final .wa,.barra .wa,.equipe-acao .wa{font-size:clamp(.95rem,4.35vw,1.14rem);padding:0 18px;gap:10px}
     .final .wa{width:100%;max-width:440px}
   }
   @media (max-height:700px){
@@ -286,6 +307,12 @@
     .caso{padding:26px 26px 28px}
     .caso h3{font-size:1.65rem}
     .caso.outro{grid-column:1 / -1}
+    .caso .foto{margin:-26px -26px 2px}
+    .equipe-grade{grid-template-columns:minmax(0,5fr) minmax(0,6fr);grid-template-areas:"cab foto" "txt foto";column-gap:6vw;row-gap:26px}
+    .equipe-cab{grid-area:cab;align-self:end}
+    .equipe-txt{grid-area:txt;align-self:start}
+    .equipe-foto{grid-area:foto;align-self:center}
+    .equipe-acao .wa{width:auto;justify-self:start}
     .passos{grid-template-columns:repeat(3,minmax(0,1fr));gap:40px;padding-left:0;padding-top:46px}
     .passos::before,.passos::after{left:0;right:0;top:13px;bottom:auto;width:auto;height:1px}
     .passos::after{transform-origin:left;transform:scaleX(var(--p));background:linear-gradient(90deg,var(--ouro-claro),var(--ouro))}
@@ -314,6 +341,7 @@
     .sol{animation:none;opacity:.9}
     .ok .frase{height:auto}
     .ok .frase-texto .w{opacity:1;filter:none}
+    .caso .foto img,.equipe-foto img{scale:1;transition:none}
     .ok .revela,.ok h1 .ln>span,.ok .hero .entra{opacity:1!important;translate:none!important;transform:none!important;filter:none!important;transition:none!important}
     .barra{transition:none}
   }
@@ -410,6 +438,27 @@
     </div>
   </section>
 
+  <!-- ========== EQUIPE (aparece quando CONFIG.equipe.foto está preenchido) ========== -->
+  <section class="cena equipe" id="equipe" hidden>
+    <div class="equipe-grade">
+      <div class="equipe-cab">
+        <p class="rotulo etiqueta revela"><b>AmparA</b>Quem cuida de você</p>
+        <h2 class="revela" style="--d:.08s">Gente de verdade, <em>do seu lado.</em></h2>
+      </div>
+      <figure class="equipe-foto revela" style="--d:.12s">
+        <img id="equipeImg" alt="" decoding="async">
+        <span class="canto" aria-hidden="true"></span><span class="canto" aria-hidden="true"></span>
+        <figcaption id="equipeLegenda"></figcaption>
+      </figure>
+      <div class="equipe-txt">
+        <p class="lead revela" id="equipeTexto">É a equipe da AmparA, em Belém, que escuta a sua história e acompanha o seu caso de perto.</p>
+        <div class="equipe-acao revela" style="--d:.1s">
+          <a class="wa sem-onda" data-wa data-msg="Olá! Vim pelo Instagram da AmparA e quero falar com a equipe."><svg aria-hidden="true"><use href="#wa"/></svg><span data-wa-rotulo>Falar com a equipe no WhatsApp</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ========== FRASE (voz da marca: proteção antes de processo) ========== -->
   <section class="frase" id="frase">
     <div class="frase-pin">
@@ -471,12 +520,19 @@
     site: 'https://amparabeneficios.com.br',   // link para o site principal
     horario: '',                 // ex.: 'Segunda a sexta, 8h às 18h'
     rodapeExtra: '',             // linha opcional no rodapé
+    // Foto da equipe. A seção só aparece quando "foto" está preenchido.
+    equipe: {
+      foto: '',            // ex.: 'equipe-ampara.jpg' (arquivo ao lado desta página) ou '/fotos/equipe.jpg'
+      alt: 'Equipe da AmparA',
+      legenda: ''          // ex.: 'Vanessa, Hyllana e Cristianne'
+    },
+    // "foto" usa as imagens que já estão no site da AmparA (pasta /fotos).
     beneficios: [
-      { titulo: 'Salário-maternidade', principal: true, resumo: 'Para gestantes e recém-mães, inclusive autônomas, MEI, rurais e mulheres sem emprego no momento.', mensagem: 'Olá! Vim pelo Instagram da AmparA. Quero saber se tenho direito ao salário-maternidade.' },
-      { titulo: 'BPC / LOAS', resumo: 'Um salário mínimo por mês para idosos a partir de 65 anos e pessoas com deficiência de baixa renda. Não exige contribuição ao INSS.', mensagem: 'Olá! Vim pelo Instagram da AmparA. Quero saber se tenho direito ao BPC/LOAS.' },
-      { titulo: 'Auxílio por incapacidade', resumo: 'Para quem precisou se afastar do trabalho por doença ou acidente.', mensagem: 'Olá! Vim pelo Instagram da AmparA. Quero saber se tenho direito ao auxílio por incapacidade.' },
-      { titulo: 'Aposentadoria rural', resumo: 'Para quem viveu do trabalho no campo, na pesca artesanal ou no extrativismo, mesmo sem carteira assinada.', mensagem: 'Olá! Vim pelo Instagram da AmparA. Quero saber se tenho direito à aposentadoria rural.' },
-      { titulo: 'Pensões e aposentadorias', resumo: 'Pensão por morte e aposentadorias por idade ou por tempo de contribuição.', mensagem: 'Olá! Vim pelo Instagram da AmparA. Quero saber sobre pensão ou aposentadoria.' }
+      { titulo: 'Salário-maternidade', foto: '/fotos/hero-gestante-ampara.png', principal: true, resumo: 'Para gestantes e recém-mães, inclusive autônomas, MEI, rurais e mulheres sem emprego no momento.', mensagem: 'Olá! Vim pelo Instagram da AmparA. Quero saber se tenho direito ao salário-maternidade.' },
+      { titulo: 'BPC / LOAS', foto: '/fotos/bpc-loas.jpg', resumo: 'Um salário mínimo por mês para idosos a partir de 65 anos e pessoas com deficiência de baixa renda. Não exige contribuição ao INSS.', mensagem: 'Olá! Vim pelo Instagram da AmparA. Quero saber se tenho direito ao BPC/LOAS.' },
+      { titulo: 'Auxílio por incapacidade', foto: '/fotos/auxilio-doenca.jpg', resumo: 'Para quem precisou se afastar do trabalho por doença ou acidente.', mensagem: 'Olá! Vim pelo Instagram da AmparA. Quero saber se tenho direito ao auxílio por incapacidade.' },
+      { titulo: 'Aposentadoria rural', foto: '/fotos/aposentadoria-rural.jpg', resumo: 'Para quem viveu do trabalho no campo, na pesca artesanal ou no extrativismo, mesmo sem carteira assinada.', mensagem: 'Olá! Vim pelo Instagram da AmparA. Quero saber se tenho direito à aposentadoria rural.' },
+      { titulo: 'Pensões e aposentadorias', foto: '/fotos/pensao-por-morte.jpg', resumo: 'Pensão por morte e aposentadorias por idade ou por tempo de contribuição.', mensagem: 'Olá! Vim pelo Instagram da AmparA. Quero saber sobre pensão ou aposentadoria.' }
     ],
     outroCaso: { titulo: 'Meu caso é outro', resumo: 'Não sabe qual é o seu benefício? Conte sua história e a gente descobre com você.', mensagem: 'Olá! Vim pelo Instagram da AmparA. Quero contar minha história e saber se tenho algum direito.' },
     duvidas: [
@@ -515,12 +571,30 @@
     a.setAttribute('aria-label', `${b.titulo}: falar com a AmparA no WhatsApp`);
     const ir = el('span', 'ir'); ir.setAttribute('aria-hidden', 'true');
     ir.innerHTML = '<svg><use href="#wa"/></svg>';
+    if (so(b.foto)) {
+      const f = el('span', 'foto'); f.setAttribute('aria-hidden', 'true');
+      const img = new Image(); img.alt = ''; img.loading = 'lazy'; img.decoding = 'async';
+      if (so(b.pos)) f.style.setProperty('--pos', so(b.pos));
+      img.onerror = () => f.remove();
+      img.src = so(b.foto); f.append(img); a.append(f);
+    }
     a.append(el('span', 'n', outro ? '?' : String(i + 1).padStart(2, '0')), el('h3', '', b.titulo), ir, el('p', '', so(b.resumo)));
     a.addEventListener('pointermove', e => { const r = a.getBoundingClientRect(); a.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100).toFixed(1) + '%'); });
     lista.append(a);
   });
   $$('[data-wa]').forEach(a => ligar(a, a.dataset.msg));
   if (!fone) $$('.caso').forEach(a => { a.style.cursor = 'default'; });
+
+  /* ---------- equipe ---------- */
+  const eq = CONFIG.equipe || {};
+  if (so(eq.foto)) {
+    const sec = $('#equipe'), img = $('#equipeImg');
+    img.alt = so(eq.alt) || 'Equipe da AmparA';
+    img.onload = () => { sec.hidden = false; pedir(); };
+    img.onerror = () => { sec.hidden = true; };
+    $('#equipeLegenda').textContent = so(eq.legenda);
+    img.src = so(eq.foto);
+  }
 
   /* ---------- contato, dúvidas, rodapé ---------- */
   const numero = $('#numero');
