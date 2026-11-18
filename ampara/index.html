@@ -29,6 +29,13 @@
 <meta property="og:locale" content="pt_BR">
 <meta property="og:title" content="AmparA · Seu direito, nosso cuidado">
 <meta property="og:description" content="Você não precisa entender de INSS. Só precisa contar sua história. Análise gratuita pelo WhatsApp.">
+<!-- Endereço oficial da página. Troque aqui se o caminho mudar. -->
+<link rel="canonical" href="https://amparabeneficios.com.br/instagram">
+<meta property="og:url" content="https://amparabeneficios.com.br/instagram">
+<meta property="og:image" content="https://amparabeneficios.com.br/og-ampara-instagram.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="AmparA: você não precisa entender de INSS, só precisa contar sua história">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2309090B'/%3E%3Cpath d='M9 25V15a7 7 0 0 1 14 0v10' fill='none' stroke='%23EAB308' stroke-width='2.6' stroke-linecap='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -430,6 +437,7 @@
       <p class="canais etiqueta">
         <span id="horario" hidden></span>
         <a id="insta" target="_blank" rel="noopener" hidden></a>
+        <a id="site" hidden></a>
       </p>
     </div>
   </section>
@@ -460,6 +468,7 @@
     whatsapp: '5591933009161',   // (91) 93300-9161
     mensagem: 'Olá! Vim pelo Instagram da AmparA e quero fazer minha análise gratuita.',
     instagram: 'amparabeneficios.pa',
+    site: 'https://amparabeneficios.com.br',   // link para o site principal
     horario: '',                 // ex.: 'Segunda a sexta, 8h às 18h'
     rodapeExtra: '',             // linha opcional no rodapé
     beneficios: [
@@ -518,6 +527,7 @@
   if (fone) { numero.textContent = foneBonito(fone); numero.hidden = false; }
   if (so(CONFIG.horario)) { const h = $('#horario'); h.textContent = so(CONFIG.horario); h.hidden = false; }
   if (so(CONFIG.instagram)) { const i = $('#insta'), u = so(CONFIG.instagram).replace(/^@/, ''); i.href = `https://instagram.com/${u}`; i.textContent = '@' + u; i.hidden = false; }
+  if (/^https?:\/\//i.test(so(CONFIG.site))) { const st = $('#site'); st.href = so(CONFIG.site); st.textContent = so(CONFIG.site).replace(/^https?:\/\//i, '').replace(/\/$/, ''); st.hidden = false; }
   if (so(CONFIG.rodapeExtra)) { const r = $('#rodapeExtra'); r.textContent = so(CONFIG.rodapeExtra); r.hidden = false; }
   const duvidas = (CONFIG.duvidas || []).filter(d => d && so(d.pergunta) && so(d.resposta));
   if (duvidas.length) {
