@@ -19,18 +19,18 @@ O endereço não muda. Nenhuma configuração do site precisa ser alterada.
 
 ## Equipe
 
-A parte "Conheça a nossa equipe" fica antes do convite final. As pessoas estão no fim de `instagram.html`, em `CONFIG.equipe`:
+A parte "Conheça a nossa equipe" fica antes do convite final. Tudo vem de `CONFIG.equipe`, no fim de `instagram.html`:
 
-- A primeira da lista aparece em destaque, com a foto grande dentro do arco.
-- Cada pessoa tem `nome`, `cargo`, `foto` e `descricao`.
-- Sem `foto`, a página mostra a inicial do nome no lugar. Sem `descricao`, mostra só o cargo e o nome.
-- Fotos novas vão em `instagram-assets/` com o nome `equipe-nome.jpg`, em pé, na proporção 4 por 5 (900 x 1125 px).
+- `foto` e `fundadoras`: a foto das fundadoras e o nome e o cargo de cada uma, na ordem em que aparecem na foto, da esquerda para a direita.
+- `texto` e `lema`: as frases do post "Quem somos".
+- `pessoas`: quem tem cartão próprio, com `rotulo`, `nome`, `cargo`, `foto`, `descricao` e `temas`. Sem `foto`, a página mostra a inicial do nome.
+- Fotos novas vão em `instagram-assets/` com o nome `equipe-nome.jpg`. Para os cartões, foto em pé na proporção 4 por 5.
 
-Hoje: Hyllana Arrais (Fundadora e CEO, com foto) e Vanessa (Cofundadora, ainda sem foto e sem descrição).
+Hoje: Hyllana Arrais (Fundadora e CEO) e Vanessa (Cofundadora) na foto principal, e Cristianne Arrais no cartão de parceria.
 
 ## De onde vieram os textos e as fotos
 
 - Textos: página `/instagram.html` anterior e página inicial do site, sem alteração de sentido.
 - Fotos: recortes das imagens que já estão em `/fotos/` no site.
-- Foto da Hyllana: uma das fotos profissionais que a Andrea enviou para a página da Hyllana.
+- Fotos e textos da equipe: posts "Quem somos" e "Parceria que faz a diferença" do Instagram da AmparA, enviados pela Andrea. As fotos foram recortadas sem os textos do post.
 - WhatsApp: `5591993401301`, com a mesma mensagem da página anterior. Cada cartão de benefício troca só o tema da mensagem.
