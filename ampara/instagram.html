@@ -6,7 +6,7 @@
   AMPARA · LINK DA BIO DO INSTAGRAM (atualização de /instagram.html)
   ============================================================
   O que mudou em relação à página anterior: abertura e movimento de
-  cinema, fotos do site, espaço para a foto da equipe e WhatsApp em
+  cinema, fotos do site, a parte "Conheça a nossa equipe" e WhatsApp em
   destaque (botão no topo, barra fixa no celular e um botão por caso).
   Os textos são os da página anterior e da página inicial do site.
 
@@ -16,8 +16,8 @@
 
   COMO EDITAR (objeto CONFIG, no fim do arquivo):
   - whatsapp e mensagem: número e texto que já vem escrito no WhatsApp.
-  - equipe.foto: caminho da foto da equipe. Enquanto estiver vazio, a
-    seção "Sobre" mostra uma foto do site.
+  - equipe: lista de pessoas. A primeira aparece em destaque. Cada uma
+    tem nome, cargo, foto e descricao. Sem foto, entra a inicial do nome.
   - beneficios: cada item vira um botão com foto e mensagem própria.
   Regras da casa: zero travessão, sem promessa de resultado, sem
   juridiquês, ouro só como destaque.
@@ -222,15 +222,13 @@
   .assina{margin-top:34px;display:flex;align-items:center;gap:14px;color:var(--suave-txt)}
   .assina::before{content:'';width:34px;height:1px;background:var(--ouro)}
 
-  /* ---------- sobre e equipe ---------- */
+  /* ---------- sobre ---------- */
   .sobre-grade{display:grid;gap:26px}
   .retrato{position:relative;border-radius:18px;overflow:hidden;border:1px solid var(--borda);background:var(--surf)}
   .retrato[hidden]{display:none}
   .retrato img{display:block;width:100%;height:auto;filter:saturate(.92) contrast(1.04);scale:1.06;transition:scale 8s ease-out}
   .retrato.visivel img{scale:1}
   .retrato::after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(to top,rgba(9,9,11,.78),rgba(9,9,11,0) 40%),linear-gradient(to bottom,rgba(9,9,11,.3),rgba(9,9,11,0) 24%)}
-  .retrato figcaption{position:absolute;left:18px;right:18px;bottom:16px;z-index:1;font:500 .95rem/1.4 var(--sans);color:var(--branco)}
-  .retrato figcaption:empty{display:none}
   .retrato .canto{position:absolute;z-index:1;width:22px;height:22px;border:0 solid var(--ouro);pointer-events:none}
   .retrato .canto:nth-of-type(1){top:12px;left:12px;border-top-width:1px;border-left-width:1px}
   .retrato .canto:nth-of-type(2){top:12px;right:12px;border-top-width:1px;border-right-width:1px}
@@ -250,6 +248,32 @@
   .passo small{display:block;color:var(--ouro);margin-bottom:8px}
   .passo h3{font:400 clamp(1.6rem,3.4vw,2.2rem)/1.14 var(--display);letter-spacing:-.015em;margin-bottom:10px}
   .passo p{max-width:46ch;color:var(--texto)}
+
+  /* ---------- equipe ---------- */
+  .equipe[hidden]{display:none}
+  .equipe{background:radial-gradient(70% 34% at 50% 44%,rgba(156,111,6,.14),transparent 72%)}
+  .equipe-grade{display:grid;gap:26px}
+  .moldura{position:relative;aspect-ratio:4/5;border-radius:50% 50% 16px 16px / 40% 40% 16px 16px;overflow:hidden;background:linear-gradient(180deg,var(--surf),var(--carbon))}
+  .moldura img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.92) contrast(1.06) brightness(.95);scale:1.1;transition:scale 7s ease-out}
+  .moldura.visivel img,.visivel .moldura img{scale:1}
+  .moldura::after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(to top,rgba(9,9,11,.6),rgba(9,9,11,0) 36%),radial-gradient(120% 60% at 50% 0%,rgba(234,179,8,.06),transparent 62%)}
+  .moldura .arco{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
+  .moldura .arco path{fill:none;stroke:var(--ouro);stroke-width:.55;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 2.4s var(--suave) .3s}
+  .moldura.visivel .arco path,.visivel .moldura .arco path{stroke-dashoffset:0}
+  .moldura.sem-foto{display:grid;place-items:center;background:radial-gradient(90% 56% at 50% 34%,rgba(234,179,8,.17),transparent 72%),linear-gradient(180deg,var(--surf),var(--carbon))}
+  .moldura.sem-foto::after{display:none}
+  .moldura .inicial{font:400 2.6rem/1 var(--display);color:var(--ouro);translate:0 6%}
+  .moldura.principal{width:100%;max-width:440px;margin-top:12px}
+  .cargo{color:var(--ouro);margin-bottom:6px}
+  .eq-principal h3{font:400 clamp(2.1rem,7.4vw,3rem)/1.08 var(--display);letter-spacing:-.02em}
+  .bio{margin-top:12px;color:var(--texto);max-width:48ch}
+  .bio:empty{display:none}
+  .eq-outros{display:grid;gap:20px;padding-top:26px;border-top:1px solid var(--linha)}
+  .eq-outros:empty{display:none}
+  .membro{display:grid;grid-template-columns:92px minmax(0,1fr);align-items:center;gap:20px}
+  .membro .moldura .arco path{stroke-width:1.1}
+  .membro h3{font:400 1.6rem/1.14 var(--display);letter-spacing:-.015em}
+  .membro .bio{margin-top:8px;font-size:.97rem;line-height:1.55}
 
   /* ---------- convite final ---------- */
   .final{text-align:center;overflow:hidden;padding-top:clamp(100px,17vh,190px);padding-bottom:clamp(110px,19vh,210px);background:radial-gradient(70% 55% at 50% 100%,rgba(234,179,8,.14),rgba(58,47,5,.35) 45%,transparent 75%)}
@@ -315,6 +339,12 @@
     .sobre-txt{grid-area:txt;align-self:start}
     .retrato{grid-area:foto;align-self:center}
     .sobre-acao .wa{width:auto}
+    .equipe-grade{grid-template-columns:minmax(0,5fr) minmax(0,6fr);grid-template-areas:"foto cab" "foto txt" "foto outros";grid-template-rows:auto auto 1fr;column-gap:6vw;row-gap:30px;align-items:start}
+    .equipe-cab{grid-area:cab;padding-top:2vh}
+    .moldura.principal{grid-area:foto;align-self:center;justify-self:center;margin-top:0}
+    .eq-principal{grid-area:txt}
+    .eq-outros{grid-area:outros}
+    .membro{grid-template-columns:112px minmax(0,1fr);gap:24px}
     .passos{grid-template-columns:repeat(3,minmax(0,1fr));gap:40px;padding-left:0;padding-top:46px}
     .passos::before,.passos::after{left:0;right:0;top:13px;bottom:auto;width:auto;height:1px}
     .passos::after{transform-origin:left;transform:scaleX(var(--p));background:linear-gradient(90deg,var(--ouro-claro),var(--ouro))}
@@ -344,7 +374,8 @@
     .hero-foto img{transform:none!important;transition:none!important}
     .ok .frase{height:auto}
     .ok .frase-texto .w{opacity:1;filter:none}
-    .caso .foto img,.retrato img{scale:1;transition:none}
+    .caso .foto img,.retrato img,.moldura img{scale:1;transition:none}
+    .moldura .arco path{stroke-dashoffset:0;transition:none}
     .ok .revela,.ok h1 .ln>span,.ok .hero .entra{opacity:1!important;translate:none!important;transform:none!important;filter:none!important;transition:none!important}
     .barra{transition:none}
   }
@@ -428,18 +459,16 @@
     </div>
   </section>
 
-  <!-- ========== SOBRE E EQUIPE ========== -->
+  <!-- ========== SOBRE ========== -->
   <section class="cena" id="sobre" aria-labelledby="tSobre">
     <div class="sobre-grade">
       <div class="sobre-cab">
         <p class="rotulo etiqueta revela">Sobre a AMPARA</p>
         <h2 class="revela" id="tSobre" style="--d:.08s">Por trás de cada pedido, <em>existe uma vida.</em></h2>
       </div>
-      <!-- foto da equipe (CONFIG.equipe.foto); enquanto não houver, entra uma foto do site -->
       <figure class="retrato revela" id="retrato" style="--d:.12s">
         <img id="retratoImg" alt="" decoding="async" loading="lazy">
         <span class="canto" aria-hidden="true"></span><span class="canto" aria-hidden="true"></span>
-        <figcaption id="retratoLegenda"></figcaption>
       </figure>
       <div class="sobre-txt">
         <p class="revela">Somos a AMPARA, um escritório de benefícios previdenciários e assistenciais em Belém, Pará.</p>
@@ -473,6 +502,20 @@
         <h3>Acompanhamos o pedido</h3>
         <p>Ao contratar o serviço, você conta com orientação na preparação e no acompanhamento do processo, inclusive diante de exigências do INSS.</p>
       </article>
+    </div>
+  </section>
+
+  <!-- ========== EQUIPE (CONFIG.equipe; a primeira pessoa aparece em destaque) ========== -->
+  <section class="cena equipe" id="equipe" aria-labelledby="tEquipe" hidden>
+    <div class="equipe-grade">
+      <div class="equipe-cab">
+        <p class="rotulo etiqueta revela">Nossa equipe</p>
+        <h2 class="revela" id="tEquipe" style="--d:.08s">Conheça a nossa <em>equipe.</em></h2>
+        <p class="lead revela" style="--d:.16s">Quem está por trás do cuidado com cada história.</p>
+      </div>
+      <figure class="moldura principal revela" id="eqFoto"></figure>
+      <div class="eq-principal revela" id="eqPrincipal" style="--d:.1s"></div>
+      <div class="eq-outros" id="eqOutros"></div>
     </div>
   </section>
 
@@ -518,13 +561,13 @@
     mensagem: 'Olá! Vim pelo Instagram da AMPARA e gostaria de orientação sobre aposentadorias e benefícios.',
     instagram: 'amparabeneficios.pa',
     site: '/?utm_source=instagram&utm_medium=bio&utm_campaign=perfil_ampara',
-    // Foto da equipe. Enquanto "foto" estiver vazio, a seção Sobre usa "reserva".
-    equipe: {
-      foto: '',                  // ex.: A + 'equipe.jpg'
-      alt: 'Equipe da AmparA',
-      legenda: '',               // ex.: nomes de quem aparece na foto
-      reserva: A + 'foto-sobre.jpg'
-    },
+    fotoSobre: A + 'foto-sobre.jpg',
+    // Equipe. A primeira pessoa aparece em destaque. Sem "foto", entra a inicial do nome.
+    // "descricao" é o texto curto de cada pessoa (pode ficar vazio).
+    equipe: [
+      { nome: 'Hyllana Arrais', cargo: 'Fundadora e CEO', foto: A + 'equipe-hyllana.jpg', descricao: '' },
+      { nome: 'Vanessa', cargo: 'Cofundadora', foto: '', descricao: '' }
+    ],
     beneficios: [
       { titulo: 'Aposentadorias', foto: A + 'foto-aposentadorias.jpg', pos: '60% 60%', resumo: 'Analisamos contribuições, idade, tempo de trabalho e vínculos para encontrar o caminho previdenciário mais seguro para você e sua família.', tema: 'aposentadoria' },
       { titulo: 'BPC/LOAS', foto: A + 'foto-bpc-loas.jpg', resumo: 'Um salário mínimo mensal para idosos com 65 anos ou mais e pessoas com deficiência em situação de baixa renda, mesmo sem contribuição ao INSS.', tema: 'BPC/LOAS' },
@@ -590,17 +633,42 @@
   const numero = $('#numero');
   if (fone) { numero.textContent = foneBonito(fone); numero.hidden = false; }
 
-  /* ---------- foto da equipe (ou foto do site, enquanto ela não chega) ---------- */
-  const eq = CONFIG.equipe || {}, retrato = $('#retrato'), rImg = $('#retratoImg');
-  const temEquipe = !!so(eq.foto);
-  rImg.alt = temEquipe ? (so(eq.alt) || 'Equipe da AmparA') : '';
-  if (temEquipe) $('#retratoLegenda').textContent = so(eq.legenda);
-  rImg.onerror = () => {
-    if (temEquipe && so(eq.reserva) && !rImg.dataset.reserva) { rImg.dataset.reserva = '1'; rImg.alt = ''; $('#retratoLegenda').textContent = ''; rImg.src = so(eq.reserva); }
-    else retrato.hidden = true;
+  /* ---------- foto da seção Sobre ---------- */
+  const retrato = $('#retrato'), rImg = $('#retratoImg');
+  rImg.onerror = () => { retrato.hidden = true; };
+  if (so(CONFIG.fotoSobre)) rImg.src = so(CONFIG.fotoSobre); else retrato.hidden = true;
+
+  /* ---------- equipe ---------- */
+  const ARCO = '<svg class="arco" viewBox="0 0 100 125" aria-hidden="true"><path pathLength="1" d="M.7 125V50a49.3 49.3 0 0 1 98.6 0v75"/></svg>';
+  const pessoas = (Array.isArray(CONFIG.equipe) ? CONFIG.equipe : []).filter(p => p && so(p.nome));
+  const retratar = (moldura, p) => {
+    const inicial = () => { moldura.classList.add('sem-foto'); const i = el('span', 'inicial', so(p.nome).charAt(0).toUpperCase()); i.setAttribute('aria-hidden', 'true'); moldura.prepend(i); };
+    if (so(p.foto)) {
+      const img = new Image(); img.alt = so(p.cargo) ? `${so(p.nome)}, ${so(p.cargo).toLowerCase()} da AmparA` : so(p.nome);
+      img.loading = 'lazy'; img.decoding = 'async';
+      if (so(p.pos)) img.style.objectPosition = so(p.pos);
+      img.onerror = () => { img.remove(); inicial(); };
+      img.src = so(p.foto);
+      moldura.append(img);
+    } else inicial();
+    moldura.insertAdjacentHTML('beforeend', ARCO);
   };
-  rImg.src = temEquipe ? so(eq.foto) : so(eq.reserva);
-  if (!rImg.getAttribute('src')) retrato.hidden = true;
+  const apresentar = (caixa, p) => {
+    if (so(p.cargo)) caixa.append(el('p', 'cargo etiqueta', so(p.cargo)));
+    caixa.append(el('h3', '', so(p.nome)), el('p', 'bio', so(p.descricao)));
+  };
+  if (pessoas.length) {
+    retratar($('#eqFoto'), pessoas[0]);
+    apresentar($('#eqPrincipal'), pessoas[0]);
+    const outros = $('#eqOutros');
+    pessoas.slice(1).forEach((p, i) => {
+      const cartao = el('article', 'membro revela'), moldura = el('div', 'moldura'), txt = el('div');
+      cartao.style.setProperty('--d', (Math.min(i, 4) * 0.1).toFixed(2) + 's');
+      retratar(moldura, p); apresentar(txt, p);
+      cartao.append(moldura, txt); outros.append(cartao);
+    });
+    $('#equipe').hidden = false;
+  }
   const hImg = $('#heroImg'); if (hImg) hImg.onerror = () => hImg.parentElement.remove();
 
   /* ---------- grão de película ---------- */
