@@ -5,44 +5,48 @@
   ============================================================
   AMPARA · PÁGINA DO INSTAGRAM (link da bio) · WhatsApp em destaque
   ============================================================
+  Identidade: DNA da AmparA (onyx, ouro, warm-white; Gloock e
+  Instrument Sans; "AmparA" com o A final em ouro).
+  Textos: frases do site amparabeneficios.com.br e da voz da marca.
+
   COMO EDITAR (tudo no objeto CONFIG, no fim do arquivo):
-  - whatsapp: só números, com 55 + DDD (ex.: 5591999999999).
-    Enquanto estiver vazio, os botões aparecem como "WhatsApp em breve".
+  - whatsapp: só números, com 55 + DDD. Sem número, os botões aparecem
+    como "WhatsApp em breve".
   - mensagem: texto que já vem escrito quando a pessoa abre o WhatsApp.
-  - beneficios: cada item vira um botão que abre o WhatsApp com a
-    mensagem daquele benefício.
+  - beneficios: cada item vira um botão com a mensagem daquele caso.
   - duvidas: perguntas e respostas (a seção some se a lista ficar vazia).
-  - responsavel: identificação profissional do rodapé (nome e OAB).
-  Regras da casa: zero travessão e nada de promessa de resultado.
+  Regras da casa: zero travessão, sem promessa de resultado, sem
+  juridiquês, ouro só como destaque (nunca como fundo inteiro).
   ============================================================
 -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>AmparA · Benefícios do INSS em Belém (PA) · Fale pelo WhatsApp</title>
-<meta name="description" content="AmparA: análise e pedido de benefícios do INSS em Belém (PA). Conte o seu caso pelo WhatsApp.">
-<meta name="theme-color" content="#0b0907">
+<title>AmparA · Benefícios do INSS em Belém (PA) | Análise gratuita</title>
+<meta name="description" content="Você não precisa entender de INSS. Só precisa contar sua história. Análise gratuita pelo WhatsApp da AmparA, em Belém, Pará.">
+<meta name="theme-color" content="#09090B">
 <meta name="color-scheme" content="dark">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="pt_BR">
-<meta property="og:title" content="AmparA · Benefícios do INSS em Belém (PA)">
-<meta property="og:description" content="Conte o seu caso pelo WhatsApp. A equipe da AmparA analisa e orienta o seu pedido no INSS.">
+<meta property="og:title" content="AmparA · Seu direito, nosso cuidado">
+<meta property="og:description" content="Você não precisa entender de INSS. Só precisa contar sua história. Análise gratuita pelo WhatsApp.">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230b0907'/%3E%3Cpath d='M5 23a11 11 0 0 1 22 0' fill='none' stroke='%23E8B04B' stroke-width='2.4' stroke-linecap='round'/%3E%3Ccircle cx='16' cy='20.5' r='2.6' fill='%23E8B04B'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2309090B'/%3E%3Cpath d='M9 25V15a7 7 0 0 1 14 0v10' fill='none' stroke='%23EAB308' stroke-width='2.6' stroke-linecap='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Gloock&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <script>document.documentElement.classList.add('js')</script>
 <style>
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
   :root{
-    --noite:#0b0907; --noite-2:#15110c; --noite-3:#1f1911;
-    --branco:#f6efe2; --areia:#d8c9ab; --cinza:#a39780;
-    --ambar:#E8B04B; --ambar-claro:#f7d896; --ambar-escuro:#b9822a; --brasa:#c9642f;
+    /* DNA AmparA */
+    --onyx:#09090B; --carbon:#111009; --surf:#18160D; --borda:#252015;
+    --ouro:#EAB308; --ouro-claro:#F5CC30; --ouro-escuro:#CA9B07; --ouro-fundo:#3A2F05;
+    --branco:#F5F0E8; --areia:#8A7F6A; --texto:rgba(245,240,232,.8);
+    /* WhatsApp */
     --wa:#25D366; --wa-claro:#5df08f; --wa-texto:#04210f;
-    --linha:rgba(246,239,226,.13);
-    --serif:'Fraunces',Georgia,'Times New Roman',serif;
-    --sans:'Manrope',system-ui,-apple-system,'Segoe UI',sans-serif;
-    --mono:'DM Mono',ui-monospace,'SFMono-Regular',monospace;
+    --linha:rgba(245,240,232,.12);
+    --display:'Gloock',Georgia,'Times New Roman',serif;
+    --sans:'Instrument Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
     --gutter:clamp(18px,5vw,72px);
     --suave:cubic-bezier(.2,.7,.15,1);
     --lb:0px;
@@ -50,35 +54,37 @@
   }
   html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
   html.travado,html.travado body{overflow:hidden}
-  body{background:var(--noite);color:var(--branco);font:400 17px/1.65 var(--sans);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;overflow-x:clip}
+  body{background:var(--onyx);color:var(--branco);font:400 17px/1.65 var(--sans);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;overflow-x:clip}
   a{color:inherit;text-decoration:none}
-  ::selection{background:var(--ambar);color:var(--noite)}
-  :focus-visible{outline:2px solid var(--ambar);outline-offset:4px;border-radius:6px}
-  .pular{position:fixed;left:16px;top:-70px;z-index:200;background:var(--ambar);color:var(--noite);padding:12px 16px;font:600 13px/1 var(--sans);border-radius:8px;transition:top .3s}
+  em{font-style:normal;color:var(--ouro)}
+  ::selection{background:var(--ouro);color:var(--onyx)}
+  :focus-visible{outline:2px solid var(--ouro);outline-offset:4px;border-radius:6px}
+  .pular{position:fixed;left:16px;top:-70px;z-index:200;background:var(--ouro);color:var(--onyx);padding:12px 16px;font:600 13px/1 var(--sans);border-radius:8px;transition:top .3s}
   .pular:focus{top:16px}
+  .etiqueta{font:600 11px/1.4 var(--sans);letter-spacing:.2em;text-transform:uppercase}
 
-  /* ---------- marca ---------- */
-  .marca{font:400 1.45rem/1 var(--serif);letter-spacing:.01em;color:var(--branco)}
-  .marca b{font-weight:500;color:var(--ambar)}
+  /* ---------- marca: "AmparA", A final sempre maiúsculo e em ouro ---------- */
+  .marca{font:400 1.5rem/1 var(--display);letter-spacing:.01em;color:var(--branco)}
+  .marca b{font-weight:400;color:var(--ouro)}
 
   /* ---------- botão WhatsApp ---------- */
   .wa{
     position:relative;display:inline-flex;align-items:center;justify-content:center;gap:14px;
-    min-height:64px;padding:0 30px;border-radius:999px;border:0;cursor:pointer;
-    background:var(--wa);color:var(--wa-texto);font:700 1.08rem/1.1 var(--sans);letter-spacing:.005em;
-    box-shadow:0 14px 40px -12px rgba(37,211,102,.65),inset 0 1px 0 rgba(255,255,255,.35);
-    transition:transform .35s var(--suave),background .3s,box-shadow .3s;isolation:isolate;
+    min-height:64px;padding:0 28px;border-radius:999px;border:0;cursor:pointer;
+    background:var(--wa);color:var(--wa-texto);font:600 1.08rem/1.15 var(--sans);text-align:center;white-space:nowrap;
+    box-shadow:0 14px 40px -12px rgba(37,211,102,.6),inset 0 1px 0 rgba(255,255,255,.35);
+    transition:transform .35s var(--suave),background .3s;isolation:isolate;
   }
   .wa svg{width:26px;height:26px;flex:none}
   .wa:hover{background:var(--wa-claro);transform:translateY(-2px)}
   .wa:active{transform:scale(.98)}
   .wa::before,.wa::after{content:'';position:absolute;inset:0;border-radius:inherit;border:2px solid var(--wa);opacity:0;z-index:-1;animation:onda 2.8s ease-out infinite}
   .wa::after{animation-delay:1.4s}
-  @keyframes onda{0%{opacity:.55;transform:scale(1)}100%{opacity:0;transform:scale(1.22,1.55)}}
+  @keyframes onda{0%{opacity:.5;transform:scale(1)}100%{opacity:0;transform:scale(1.2,1.5)}}
   .wa.sem-onda::before,.wa.sem-onda::after{display:none}
-  .wa.indisponivel{background:var(--noite-3);color:var(--cinza);box-shadow:none;cursor:default;border:1px solid var(--linha)}
+  .wa.indisponivel{background:var(--surf);color:var(--areia);box-shadow:none;cursor:default;border:1px solid var(--borda)}
   .wa.indisponivel::before,.wa.indisponivel::after{display:none}
-  .wa.indisponivel:hover{transform:none;background:var(--noite-3)}
+  .wa.indisponivel:hover{transform:none;background:var(--surf)}
 
   /* =========================================================
      ABERTURA (curta: o horizonte acende e a marca aparece)
@@ -87,10 +93,10 @@
   .js .intro{display:grid;place-items:center;position:fixed;inset:0;z-index:100;background:#000;overflow:hidden;animation:introSai .9s ease 2.5s forwards}
   .intro.pular-ja{animation:introPula .6s ease forwards}
   .intro-cena{text-align:center;padding:0 20px}
-  .intro-fio{display:block;width:min(420px,70vw);height:1px;margin:0 auto 26px;background:linear-gradient(90deg,transparent,var(--ambar-claro),transparent);box-shadow:0 0 24px 2px rgba(232,176,75,.6);transform:scaleX(0);animation:fio 1.3s var(--suave) .15s forwards}
-  .intro-marca{font:300 clamp(3rem,13vw,6rem)/1 var(--serif);opacity:0;animation:sobe 1.2s var(--suave) .55s forwards}
-  .intro-marca b{font-weight:400;color:var(--ambar);text-shadow:0 0 50px rgba(232,176,75,.55)}
-  .intro-sub{margin-top:16px;font:500 11px/1 var(--mono);letter-spacing:.34em;text-transform:uppercase;color:var(--areia);opacity:0;animation:sobe 1s var(--suave) 1.05s forwards;padding-left:.34em}
+  .intro-fio{display:block;width:min(420px,70vw);height:1px;margin:0 auto 28px;background:linear-gradient(90deg,transparent,var(--ouro-claro),transparent);box-shadow:0 0 24px 2px rgba(234,179,8,.55);transform:scaleX(0);animation:fio 1.3s var(--suave) .15s forwards}
+  .intro-marca{font:400 clamp(3rem,13vw,6rem)/1 var(--display);opacity:0;animation:sobe 1.2s var(--suave) .55s forwards}
+  .intro-marca b{font-weight:400;color:var(--ouro);text-shadow:0 0 50px rgba(234,179,8,.5)}
+  .intro-sub{margin-top:18px;color:var(--areia);opacity:0;animation:sobe 1s var(--suave) 1.05s forwards;padding-left:.2em}
   @keyframes fio{to{transform:scaleX(1)}}
   @keyframes sobe{from{opacity:0;transform:translateY(18px);filter:blur(8px)}to{opacity:1;transform:none;filter:none}}
   @keyframes introSai{to{opacity:0;visibility:hidden}}
@@ -100,154 +106,161 @@
      TOPO
      ========================================================= */
   .topo{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px var(--gutter);transition:background .5s,padding .5s,border-color .5s;border-bottom:1px solid transparent}
-  .topo.solido{background:rgba(11,9,7,.82);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom-color:var(--linha);padding-top:12px;padding-bottom:12px}
-  .topo-local{font:500 10.5px/1 var(--mono);letter-spacing:.24em;text-transform:uppercase;color:var(--areia)}
+  .topo.solido{background:rgba(9,9,11,.84);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom-color:var(--borda);padding-top:12px;padding-bottom:12px}
+  .topo-local{color:var(--areia);font-size:10.5px}
   .topo-wa{display:none}
-  .progresso{position:absolute;left:0;bottom:-1px;height:1px;width:100%;background:var(--ambar);transform-origin:left;transform:scaleX(0)}
+  .progresso{position:absolute;left:0;bottom:-1px;height:1px;width:100%;background:var(--ouro);transform-origin:left;transform:scaleX(0)}
   .lb{position:fixed;left:0;right:0;height:var(--lb);background:#000;z-index:40;pointer-events:none}
   .lb-top{top:0}.lb-bot{bottom:0}
 
   /* =========================================================
-     HERO · o amanhecer
+     HERO · o amanhecer (o arco de luz lembra o arco da marca)
      ========================================================= */
-  .hero{position:relative;min-height:100vh;min-height:100svh;isolation:isolate;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:120px var(--gutter) calc(46px + env(safe-area-inset-bottom))}
+  .hero{--hz:29%;position:relative;min-height:100vh;min-height:100svh;isolation:isolate;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:120px var(--gutter) calc(40px + env(safe-area-inset-bottom))}
   .ceu{position:absolute;inset:0;z-index:-4;background:
-      radial-gradient(90% 46% at 50% 31%,rgba(232,176,75,.34),rgba(201,100,47,.12) 46%,transparent 72%),
-      linear-gradient(180deg,#070605 0%,#0e0a07 30%,#0b0907 100%)}
-  .raios{position:absolute;left:50%;top:31%;width:150vmax;height:150vmax;z-index:-3;transform:translate(-50%,-50%);opacity:.5;mix-blend-mode:screen;pointer-events:none;
-    background:repeating-conic-gradient(from 0deg at 50% 50%,rgba(247,216,150,.0) 0deg,rgba(247,216,150,.10) 4deg,rgba(247,216,150,0) 9deg,rgba(247,216,150,0) 20deg);
+      radial-gradient(90% 44% at 50% var(--hz),rgba(234,179,8,.22),rgba(58,47,5,.5) 44%,transparent 72%),
+      linear-gradient(180deg,#050506 0%,#0c0b08 30%,var(--onyx) 100%)}
+  .raios{position:absolute;left:50%;top:var(--hz);width:150vmax;height:150vmax;z-index:-3;transform:translate(-50%,-50%);opacity:.5;mix-blend-mode:screen;pointer-events:none;
+    background:repeating-conic-gradient(from 0deg at 50% 50%,rgba(245,204,48,0) 0deg,rgba(245,204,48,.09) 4deg,rgba(245,204,48,0) 9deg,rgba(245,204,48,0) 20deg);
     -webkit-mask-image:radial-gradient(closest-side,#000 0,rgba(0,0,0,.5) 22%,transparent 46%);mask-image:radial-gradient(closest-side,#000 0,rgba(0,0,0,.5) 22%,transparent 46%);
     animation:gira 90s linear infinite}
   @keyframes gira{to{transform:translate(-50%,-50%) rotate(360deg)}}
-  /* a "terra": um disco escuro enorme cuja borda vira o horizonte iluminado */
-  /* o brilho da borda é pintado no próprio gradiente (sem sombras gigantes, que pesam no celular) */
-  .horizonte{position:absolute;left:50%;top:calc(31% - 15.6vmax);width:260vmax;height:260vmax;z-index:-2;border-radius:50%;
-    background:radial-gradient(closest-side,var(--noite) 0,var(--noite) 87.9%,#fff1cf 88%,rgba(247,216,150,.85) 88.12%,rgba(232,176,75,.42) 88.7%,rgba(232,176,75,.2) 90.4%,rgba(201,100,47,.09) 94%,transparent 100%);
+  /* a "terra": um disco escuro enorme; o brilho da borda é pintado no gradiente */
+  .horizonte{position:absolute;left:50%;top:calc(var(--hz) - 15.6vmax);width:260vmax;height:260vmax;z-index:-2;border-radius:50%;
+    background:radial-gradient(closest-side,var(--onyx) 0,var(--onyx) 87.9%,#fff6d0 88%,rgba(245,204,48,.85) 88.12%,rgba(234,179,8,.4) 88.7%,rgba(234,179,8,.18) 90.4%,rgba(202,155,7,.08) 94%,transparent 100%);
     transform:translateX(-50%) translateY(3.5vmax);opacity:.25;animation:amanhece 3.4s var(--suave) .2s forwards}
   .js .horizonte{animation-play-state:paused}
   .js.pronto .horizonte{animation-play-state:running}
   @keyframes amanhece{to{transform:translateX(-50%) translateY(0);opacity:1}}
-  .sol{position:absolute;left:50%;top:31%;width:14px;height:14px;margin:-7px 0 0 -7px;z-index:-1;border-radius:50%;background:#fff6dc;box-shadow:0 0 22px 8px rgba(255,236,190,.9),0 0 90px 34px rgba(232,176,75,.55);opacity:0;animation:sol 3.2s ease 1.2s forwards}
+  .sol{position:absolute;left:50%;top:var(--hz);width:14px;height:14px;margin:-7px 0 0 -7px;z-index:-1;border-radius:50%;background:#fff8dc;box-shadow:0 0 22px 8px rgba(255,240,190,.9),0 0 90px 34px rgba(234,179,8,.5);opacity:0;animation:sol 3.2s ease 1.2s forwards}
   .js .sol{animation-play-state:paused}
   .js.pronto .sol{animation-play-state:running}
   @keyframes sol{0%{opacity:0;transform:scale(.3)}60%{opacity:1;transform:scale(1.25)}100%{opacity:.9;transform:scale(1)}}
   #poeira{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
 
-  .hero-conteudo{position:relative;max-width:900px;will-change:transform,opacity}
-  .sobre{display:flex;align-items:center;gap:12px;font:500 11px/1.4 var(--mono);letter-spacing:.28em;text-transform:uppercase;color:var(--ambar)}
-  .sobre::before{content:'';width:34px;height:1px;background:var(--ambar)}
-  h1{font:300 clamp(2.7rem,11.6vw,6.4rem)/.98 var(--serif);letter-spacing:-.02em;margin:.34em 0 .42em}
-  h1 .ln{display:block;overflow:hidden;padding-bottom:.08em}
-  h1 .ln>span{display:block;text-shadow:0 2px 34px rgba(11,9,7,.7)}
-  h1 em{font-style:italic;font-weight:300;color:var(--ambar);text-shadow:0 0 50px rgba(232,176,75,.3)}
-  .hero-texto{max-width:36ch;font-size:clamp(1.02rem,1.5vw,1.2rem);color:var(--areia)}
-  .hero-acao{display:flex;flex-direction:column;align-items:flex-start;gap:14px;margin-top:30px}
-  .hero-acao .wa{width:100%;max-width:420px;min-height:68px;font-size:1.14rem}
-  .nota{display:flex;align-items:center;gap:10px;font:500 11px/1.5 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--cinza)}
-  .nota i{width:8px;height:8px;border-radius:50%;background:var(--wa);box-shadow:0 0 12px var(--wa);animation:pisca 2s ease-in-out infinite}
+  .hero-conteudo{position:relative;max-width:940px;will-change:transform,opacity}
+  .sobre{display:flex;align-items:center;gap:12px;color:var(--ouro)}
+  .sobre::before{content:'';flex:none;width:30px;height:1px;background:var(--ouro)}
+  h1{font:400 clamp(2rem,8.9vw,5rem)/1.06 var(--display);letter-spacing:-.01em;margin:.5em 0 .55em}
+  h1 .par{display:block}
+  h1 .ln{display:block;overflow:hidden;padding-bottom:.1em}
+  h1 .ln>span{display:block;text-shadow:0 2px 34px rgba(9,9,11,.75)}
+  h1 em{text-shadow:0 0 46px rgba(234,179,8,.28)}
+  .hero-texto{max-width:36ch;font-size:clamp(1.02rem,1.5vw,1.2rem);color:var(--texto)}
+  .hero-acao{display:flex;flex-direction:column;align-items:flex-start;gap:14px;margin-top:26px}
+  .hero-acao .wa{width:100%;max-width:440px;min-height:68px;font-size:1.12rem}
+  .nota{display:flex;align-items:center;gap:10px;color:var(--areia)}
+  .nota i{flex:none;width:8px;height:8px;border-radius:50%;background:var(--wa);box-shadow:0 0 12px var(--wa);animation:pisca 2s ease-in-out infinite}
   @keyframes pisca{50%{opacity:.35}}
-  .role{position:absolute;left:50%;bottom:calc(14px + env(safe-area-inset-bottom));transform:translateX(-50%);width:1px;height:26px;background:var(--linha);overflow:hidden;display:none}
-  .role::after{content:'';position:absolute;inset:0;background:var(--ambar);transform:translateY(-100%);animation:desce 2.2s var(--suave) infinite}
-  @keyframes desce{60%,100%{transform:translateY(100%)}}
 
   /* entrada do hero */
-  .ok h1 .ln>span{transform:translateY(110%)}
-  .ok.pronto h1 .ln>span{transform:none;transition:transform 1.3s var(--suave);transition-delay:calc(var(--i) * 130ms + 500ms)}
+  .ok h1 .ln>span{transform:translateY(115%)}
+  .ok.pronto h1 .ln>span{transform:none;transition:transform 1.3s var(--suave);transition-delay:calc(var(--i) * 120ms + 500ms)}
   .ok .hero .entra{opacity:0;transform:translateY(18px)}
   .ok.pronto .hero .entra{opacity:1;transform:none;transition:opacity 1.2s ease,transform 1.2s var(--suave);transition-delay:var(--d,0s)}
+
+  /* ---------- faixa de compromissos ---------- */
+  .faixa{display:grid;gap:1px;background:var(--borda);border-top:1px solid var(--borda);border-bottom:1px solid var(--borda)}
+  .faixa p{display:flex;align-items:center;gap:12px;padding:18px var(--gutter);background:var(--carbon);font:500 1rem/1.3 var(--sans);color:var(--branco)}
+  .faixa svg{flex:none;width:20px;height:20px;color:var(--ouro)}
 
   /* =========================================================
      SEÇÕES
      ========================================================= */
-  .cena{position:relative;padding:clamp(84px,13vh,150px) var(--gutter)}
-  .rotulo{display:flex;align-items:center;gap:14px;margin-bottom:22px;font:500 11px/1 var(--mono);letter-spacing:.26em;text-transform:uppercase;color:var(--cinza)}
-  .rotulo b{font-weight:500;color:var(--ambar)}
+  .cena{position:relative;padding:clamp(80px,13vh,150px) var(--gutter)}
+  .rotulo{display:flex;align-items:center;gap:14px;margin-bottom:22px;color:var(--areia)}
+  .rotulo b{font-weight:600;color:var(--ouro)}
   .rotulo::after{content:'';flex:0 0 46px;height:1px;background:var(--linha)}
-  h2{font:300 clamp(2.2rem,6.6vw,4.6rem)/1.02 var(--serif);letter-spacing:-.015em;max-width:16ch}
-  h2 em{font-style:italic;color:var(--ambar)}
-  .lead{max-width:50ch;margin-top:20px;color:var(--areia)}
+  h2{font:400 clamp(2rem,6.2vw,4.2rem)/1.08 var(--display);letter-spacing:-.01em;max-width:17ch}
+  .lead{max-width:50ch;margin-top:20px;color:var(--texto)}
   .ok .revela{opacity:0;translate:0 28px;filter:blur(6px);transition:opacity 1.1s var(--suave),translate 1.1s var(--suave),filter 1.1s var(--suave);transition-delay:var(--d,0s)}
   .ok .revela.visivel{opacity:1;translate:none;filter:none}
 
-  /* ---------- 01 · qual é o seu caso ---------- */
-  .casos{display:grid;gap:12px;margin-top:44px}
-  .caso{--mx:50%;position:relative;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px 16px;padding:20px 20px 22px;border:1px solid var(--linha);border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.008));overflow:hidden;transition:border-color .4s,transform .35s var(--suave)}
-  .caso::before{content:'';position:absolute;inset:0;background:radial-gradient(260px circle at var(--mx) 50%,rgba(232,176,75,.16),transparent 70%);opacity:0;transition:opacity .4s}
-  .caso:hover{border-color:rgba(232,176,75,.5)}
+  /* ---------- 01 · cada fase da vida ---------- */
+  .casos{display:grid;gap:12px;margin-top:40px}
+  .caso{--mx:50%;position:relative;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px 16px;padding:20px 20px 22px;border:1px solid var(--borda);border-radius:18px;background:linear-gradient(180deg,var(--surf),var(--carbon));overflow:hidden;transition:border-color .4s,transform .35s var(--suave)}
+  .caso::before{content:'';position:absolute;inset:0;background:radial-gradient(260px circle at var(--mx) 50%,rgba(234,179,8,.16),transparent 70%);opacity:0;transition:opacity .4s}
+  .caso:hover{border-color:rgba(234,179,8,.5)}
   .caso:hover::before{opacity:1}
   .caso:active{transform:scale(.985)}
-  .caso .n{position:relative;font:italic 300 2rem/1 var(--serif);color:transparent;-webkit-text-stroke:1px rgba(232,176,75,.75);min-width:1.5ch}
-  .caso h3{position:relative;font:400 1.5rem/1.12 var(--serif)}
-  .caso p{position:relative;grid-column:1 / -1;font-size:.97rem;line-height:1.5;color:var(--areia)}
+  .caso .n{position:relative;font:400 1.9rem/1 var(--display);color:transparent;-webkit-text-stroke:1px rgba(234,179,8,.8);min-width:1.5ch}
+  .caso h3{position:relative;font:400 1.45rem/1.15 var(--display)}
+  .caso p{position:relative;grid-column:1 / -1;font-size:.98rem;line-height:1.5;color:var(--texto)}
   .caso .ir{position:relative;display:grid;place-items:center;width:48px;height:48px;border-radius:50%;background:rgba(37,211,102,.14);color:var(--wa);transition:background .3s,color .3s,transform .4s var(--suave)}
   .caso .ir svg{width:21px;height:21px}
   .caso:hover .ir{background:var(--wa);color:var(--wa-texto);transform:scale(1.08)}
+  .caso.principal{border-color:rgba(234,179,8,.45)}
   .caso.outro{border-style:dashed}
-  .caso.outro .n{-webkit-text-stroke:0;color:var(--ambar)}
-  .casos-nota{margin-top:18px;font-size:.88rem;color:var(--cinza);max-width:60ch}
+  .caso.outro .n{-webkit-text-stroke:0;color:var(--ouro)}
+  .casos-nota{margin-top:18px;font-size:.88rem;color:var(--areia);max-width:60ch}
 
-  /* ---------- 02 · como funciona ---------- */
-  .passos{position:relative;margin-top:50px;display:grid;gap:44px;padding-left:44px;--p:0}
+  /* ---------- 02 · simples assim ---------- */
+  .passos{position:relative;margin-top:46px;display:grid;gap:42px;padding-left:44px;--p:0}
   .passos::before{content:'';position:absolute;left:13px;top:8px;bottom:8px;width:1px;background:var(--linha)}
-  .passos::after{content:'';position:absolute;left:13px;top:8px;bottom:8px;width:1px;background:linear-gradient(180deg,var(--ambar-claro),var(--ambar));transform-origin:top;transform:scaleY(var(--p));box-shadow:0 0 14px rgba(232,176,75,.7)}
+  .passos::after{content:'';position:absolute;left:13px;top:8px;bottom:8px;width:1px;background:linear-gradient(180deg,var(--ouro-claro),var(--ouro));transform-origin:top;transform:scaleY(var(--p));box-shadow:0 0 14px rgba(234,179,8,.65)}
   .passo{position:relative}
-  .passo::before{content:'';position:absolute;left:-38px;top:.5em;width:15px;height:15px;border-radius:50%;border:1px solid var(--ambar);background:var(--noite);transition:background .5s,box-shadow .5s;z-index:1}
-  .passo.aceso::before{background:var(--ambar);box-shadow:0 0 0 6px rgba(232,176,75,.14),0 0 24px rgba(232,176,75,.8)}
-  .passo small{display:block;font:500 11px/1 var(--mono);letter-spacing:.26em;text-transform:uppercase;color:var(--ambar);margin-bottom:10px}
-  .passo h3{font:300 clamp(1.7rem,4vw,2.6rem)/1.08 var(--serif);margin-bottom:10px}
-  .passo h3 em{font-style:italic}
-  .passo p{max-width:46ch;color:var(--areia)}
+  .passo::before{content:'';position:absolute;left:-38px;top:.45em;width:15px;height:15px;border-radius:50%;border:1px solid var(--ouro);background:var(--onyx);transition:background .5s,box-shadow .5s;z-index:1}
+  .passo.aceso::before{background:var(--ouro);box-shadow:0 0 0 6px rgba(234,179,8,.14),0 0 24px rgba(234,179,8,.75)}
+  .passo small{display:block;color:var(--ouro);margin-bottom:10px}
+  .passo h3{font:400 clamp(1.6rem,3.6vw,2.3rem)/1.12 var(--display);margin-bottom:10px}
+  .passo p{max-width:46ch;color:var(--texto)}
 
   /* ---------- frase ---------- */
   .frase{padding:0}
-  .ok .frase{height:210vh}
-  .frase-pin{position:sticky;top:0;min-height:100vh;min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:12vh var(--gutter);background:radial-gradient(60% 50% at 80% 40%,rgba(232,176,75,.07),transparent 70%)}
-  .frase-texto{font:300 clamp(1.9rem,min(5.6vw,6vh),4rem)/1.14 var(--serif);max-width:22ch;letter-spacing:-.005em}
-  .frase-texto em{font-style:italic;color:var(--ambar)}
+  .ok .frase{height:200vh}
+  .frase-pin{position:sticky;top:0;min-height:100vh;min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:12vh var(--gutter);background:radial-gradient(60% 50% at 80% 40%,rgba(234,179,8,.06),transparent 70%)}
+  .frase-texto{font:400 clamp(1.8rem,min(5.2vw,5.6vh),3.6rem)/1.18 var(--display);max-width:22ch}
   .ok .frase-texto .w{opacity:.14;filter:blur(1.5px);transition:opacity .5s ease,filter .5s ease}
   .ok .frase-texto .w.on{opacity:1;filter:none}
-  .assina{margin-top:34px;display:flex;align-items:center;gap:14px;font:500 11px/1 var(--mono);letter-spacing:.26em;text-transform:uppercase;color:var(--cinza)}
-  .assina::before{content:'';width:28px;height:1px;background:var(--cinza)}
+  .assina{margin-top:34px;display:flex;align-items:center;gap:14px;color:var(--areia)}
+  .assina::before{content:'';width:28px;height:1px;background:var(--areia)}
 
   /* ---------- dúvidas ---------- */
   .duvidas[hidden]{display:none}
-  .lista-duvidas{margin-top:38px;border-top:1px solid var(--linha);max-width:820px}
-  .lista-duvidas details{border-bottom:1px solid var(--linha)}
-  .lista-duvidas summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:22px 0;cursor:pointer;font:400 1.3rem/1.2 var(--serif)}
+  .lista-duvidas{margin-top:38px;border-top:1px solid var(--borda);max-width:820px}
+  .lista-duvidas details{border-bottom:1px solid var(--borda)}
+  .lista-duvidas summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:22px 0;cursor:pointer;font:400 1.3rem/1.2 var(--display)}
   .lista-duvidas summary::-webkit-details-marker{display:none}
-  .lista-duvidas summary::after{content:'+';flex:none;font:300 1.7rem/1 var(--serif);color:var(--ambar);transition:transform .4s var(--suave)}
+  .lista-duvidas summary::after{content:'+';flex:none;font:400 1.7rem/1 var(--sans);color:var(--ouro);transition:transform .4s var(--suave)}
   .lista-duvidas details[open] summary::after{transform:rotate(45deg)}
-  .lista-duvidas details p{padding:0 0 24px;max-width:60ch;color:var(--areia)}
+  .lista-duvidas details p{padding:0 0 24px;max-width:60ch;color:var(--texto)}
 
   /* ---------- chamada final ---------- */
-  .final{text-align:center;overflow:hidden;padding-top:clamp(110px,18vh,200px);padding-bottom:clamp(120px,20vh,220px);background:radial-gradient(70% 60% at 50% 100%,rgba(232,176,75,.2),rgba(201,100,47,.06) 50%,transparent 75%)}
-  .final h2{max-width:none;font-size:clamp(2.8rem,10vw,7rem);line-height:.98}
+  .final{text-align:center;overflow:hidden;padding-top:clamp(110px,18vh,200px);padding-bottom:clamp(120px,20vh,220px);background:radial-gradient(70% 55% at 50% 100%,rgba(234,179,8,.14),rgba(58,47,5,.35) 45%,transparent 75%)}
+  .final h2{max-width:none;font-size:clamp(2.5rem,9.4vw,6.2rem);line-height:1.02}
   .final .lead{margin:22px auto 0}
-  .final .wa{margin-top:38px;min-height:72px;padding:0 38px;font-size:1.2rem}
-  .numero{display:block;margin-top:26px;font:400 clamp(1.5rem,4.4vw,2.2rem)/1.1 var(--serif);letter-spacing:.02em;color:var(--branco)}
+  .final .wa{margin-top:36px;min-height:72px;padding:0 34px;font-size:1.16rem}
+  .numero{display:block;margin-top:26px;font:400 clamp(1.6rem,4.6vw,2.3rem)/1.1 var(--display);letter-spacing:.02em;color:var(--branco)}
   .numero[hidden]{display:none}
-  .canais{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 26px;margin-top:20px;font:500 11px/1.6 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--cinza)}
-  .canais a{color:var(--areia);border-bottom:1px solid var(--linha);padding-bottom:2px;transition:color .3s,border-color .3s}
-  .canais a:hover{color:var(--ambar);border-color:var(--ambar)}
+  .canais{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 26px;margin-top:18px;color:var(--areia)}
+  .canais a{color:var(--branco);border-bottom:1px solid var(--borda);padding-bottom:3px;transition:color .3s,border-color .3s}
+  .canais a:hover{color:var(--ouro);border-color:var(--ouro)}
   .canais [hidden]{display:none}
 
   /* ---------- rodapé ---------- */
-  .rodape{padding:34px var(--gutter) calc(120px + env(safe-area-inset-bottom));border-top:1px solid var(--linha);display:grid;gap:14px;font-size:.84rem;line-height:1.6;color:var(--cinza)}
-  .rodape .marca{font-size:1.3rem}
+  .rodape{padding:34px var(--gutter) calc(120px + env(safe-area-inset-bottom));border-top:1px solid var(--borda);display:grid;gap:12px;font-size:.86rem;line-height:1.6;color:var(--areia)}
+  .rodape .marca{font-size:1.35rem}
   .rodape p{max-width:70ch}
-  .rodape .mono{font:500 10.5px/1.7 var(--mono);letter-spacing:.2em;text-transform:uppercase}
   .rodape [hidden]{display:none}
 
   /* ---------- barra fixa do WhatsApp (celular) ---------- */
-  .barra{position:fixed;left:0;right:0;bottom:0;z-index:60;padding:12px 14px calc(12px + env(safe-area-inset-bottom));background:linear-gradient(to top,rgba(11,9,7,.96) 62%,rgba(11,9,7,0));transform:translateY(110%);transition:transform .6s var(--suave)}
+  .barra{position:fixed;left:0;right:0;bottom:0;z-index:60;padding:12px 14px calc(12px + env(safe-area-inset-bottom));background:linear-gradient(to top,rgba(9,9,11,.97) 62%,rgba(9,9,11,0));transform:translateY(110%);transition:transform .6s var(--suave)}
   .barra.visivel{transform:none}
   .barra .wa{width:100%;min-height:58px}
   .flutua{display:none}
 
   /* ---------- película ---------- */
   .vinheta{position:fixed;inset:0;z-index:89;pointer-events:none;background:radial-gradient(ellipse at center,transparent 58%,rgba(0,0,0,.4) 100%)}
-  .grao{position:fixed;inset:-50%;z-index:110;pointer-events:none;background-image:var(--grao);opacity:.05;animation:grao .8s steps(5) infinite}
+  .grao{position:fixed;inset:-50%;z-index:110;pointer-events:none;background-image:var(--grao);opacity:.045;animation:grao .8s steps(5) infinite}
   @keyframes grao{0%{transform:translate(0,0)}20%{transform:translate(-6%,4%)}40%{transform:translate(5%,-7%)}60%{transform:translate(-3%,8%)}80%{transform:translate(7%,2%)}100%{transform:translate(0,0)}}
+
+  @media (max-width:759px){
+    .hero-acao .wa,.final .wa,.barra .wa{font-size:clamp(.95rem,4.35vw,1.14rem);padding:0 18px;gap:10px}
+    .final .wa{width:100%;max-width:440px}
+  }
+  @media (max-height:700px){
+    .hero{--hz:21%;padding-top:96px}
+  }
 
   /* =========================================================
      TELAS MAIORES
@@ -257,17 +270,18 @@
     .topo-wa{display:inline-flex;min-height:44px;padding:0 20px;font-size:.92rem;gap:10px}
     .topo-wa svg{width:19px;height:19px}
     .topo-local{display:none}
-    .hero{padding-bottom:13vh}
+    .hero{padding-bottom:12vh}
     .hero-acao{flex-direction:row;align-items:center;gap:24px}
     .hero-acao .wa{width:auto}
-    .role{display:block}
+    .faixa{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .faixa p{justify-content:center;padding:22px 20px}
     .casos{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
     .caso{padding:26px 26px 28px}
-    .caso h3{font-size:1.7rem}
+    .caso h3{font-size:1.65rem}
     .caso.outro{grid-column:1 / -1}
     .passos{grid-template-columns:repeat(3,minmax(0,1fr));gap:40px;padding-left:0;padding-top:46px}
     .passos::before,.passos::after{left:0;right:0;top:13px;bottom:auto;width:auto;height:1px}
-    .passos::after{transform-origin:left;transform:scaleX(var(--p));background:linear-gradient(90deg,var(--ambar-claro),var(--ambar))}
+    .passos::after{transform-origin:left;transform:scaleX(var(--p));background:linear-gradient(90deg,var(--ouro-claro),var(--ouro))}
     .passo::before{left:0;top:-40px}
     .barra{display:none}
     .rodape{padding-bottom:40px}
@@ -278,9 +292,16 @@
     .flutua.indisponivel{display:none}
   }
 
+  @media (min-width:1100px){
+    .hero{--hz:22%}
+    .hero-conteudo{max-width:1200px}
+    h1{font-size:clamp(3.2rem,4.5vw,4.4rem)}
+    h1 .ln{display:inline-block;vertical-align:top}
+  }
+
   @media (prefers-reduced-motion:reduce){
     html{scroll-behavior:auto}
-    .grao,.raios,.wa::before,.wa::after,.nota i,.role::after{animation:none!important}
+    .grao,.raios,.wa::before,.wa::after,.nota i{animation:none!important}
     .horizonte{animation:none;opacity:1;transform:translateX(-50%)}
     .raios{opacity:.35}
     .sol{animation:none;opacity:.9}
@@ -296,14 +317,15 @@
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="wa" viewBox="0 0 24 24"><path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></symbol>
+  <symbol id="ok" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
 </svg>
 
 <!-- ========== ABERTURA ========== -->
 <div id="intro" class="intro" aria-hidden="true">
   <div class="intro-cena">
     <span class="intro-fio"></span>
-    <p class="intro-marca"><b>A</b>mpar<b>A</b></p>
-    <p class="intro-sub">Benefícios do INSS</p>
+    <p class="intro-marca">Ampar<b>A</b></p>
+    <p class="intro-sub etiqueta">Seu direito, nosso cuidado</p>
   </div>
 </div>
 
@@ -312,8 +334,8 @@
 
 <!-- ========== TOPO ========== -->
 <header class="topo" id="topoBarra">
-  <a class="marca" href="#topo" aria-label="AmparA, voltar ao início"><b>A</b>mpar<b>A</b></a>
-  <span class="topo-local">Belém · PA</span>
+  <a class="marca" href="#topo" aria-label="AmparA, voltar ao início">Ampar<b>A</b></a>
+  <span class="topo-local etiqueta">Belém · Pará</span>
   <a class="wa sem-onda topo-wa" data-wa><svg aria-hidden="true"><use href="#wa"/></svg><span data-wa-rotulo>Chamar no WhatsApp</span></a>
   <span class="progresso" id="progresso" aria-hidden="true"></span>
 </header>
@@ -328,78 +350,84 @@
     <canvas id="poeira" aria-hidden="true"></canvas>
 
     <div class="hero-conteudo" id="heroConteudo">
-      <p class="sobre entra" style="--d:.3s">Benefícios do INSS · Belém, PA</p>
-      <h1 aria-label="Seu direito começa com uma conversa.">
-        <span class="ln" style="--i:0"><span>Seu direito</span></span>
-        <span class="ln" style="--i:1"><span>começa com</span></span>
-        <span class="ln" style="--i:2"><span><em>uma conversa.</em></span></span>
+      <p class="sobre etiqueta entra" style="--d:.3s">Seu direito, nosso cuidado</p>
+      <!-- frase do site da AmparA -->
+      <h1 aria-label="Você não precisa entender de INSS. Só precisa contar sua história.">
+        <span class="par"><span class="ln" style="--i:0"><span>Você não precisa</span></span> <span class="ln" style="--i:1"><span>entender de INSS.</span></span></span>
+        <span class="par"><span class="ln" style="--i:2"><span><em>Só precisa contar</em></span></span> <span class="ln" style="--i:3"><span><em>sua história.</em></span></span></span>
       </h1>
-      <p class="hero-texto entra" style="--d:1.15s">A AmparA analisa o seu caso e cuida do seu pedido no INSS. Conte o que aconteceu pelo WhatsApp.</p>
-      <div class="hero-acao entra" style="--d:1.4s">
-        <a class="wa" id="waHero" data-wa><svg aria-hidden="true"><use href="#wa"/></svg><span data-wa-rotulo>Chamar no WhatsApp</span></a>
-        <p class="nota"><i aria-hidden="true"></i>WhatsApp oficial da AmparA</p>
+      <p class="hero-texto entra" style="--d:1.25s">A gente cuida do seu pedido de benefício do início ao fim. Chame no WhatsApp e conte o que aconteceu.</p>
+      <div class="hero-acao entra" style="--d:1.5s">
+        <a class="wa" id="waHero" data-wa><svg aria-hidden="true"><use href="#wa"/></svg><span data-wa-rotulo>Análise gratuita no WhatsApp</span></a>
+        <p class="nota etiqueta"><i aria-hidden="true"></i>Sem compromisso</p>
       </div>
     </div>
-    <span class="role" aria-hidden="true"></span>
   </section>
 
-  <!-- ========== 01 · QUAL É O SEU CASO ========== -->
+  <!-- compromissos (do site da AmparA) -->
+  <div class="faixa">
+    <p class="revela"><svg aria-hidden="true"><use href="#ok"/></svg>Análise gratuita</p>
+    <p class="revela" style="--d:.08s"><svg aria-hidden="true"><use href="#ok"/></svg>Atendimento humanizado</p>
+    <p class="revela" style="--d:.16s"><svg aria-hidden="true"><use href="#ok"/></svg>Do pedido ao recebimento</p>
+  </div>
+
+  <!-- ========== 01 · CADA FASE DA VIDA ========== -->
   <section class="cena" id="casos">
-    <p class="rotulo revela"><b>01</b>Qual é o seu caso</p>
-    <h2 class="revela" style="--d:.08s">Toque no seu caso e <em>fale com a gente.</em></h2>
-    <p class="lead revela" style="--d:.16s">Cada botão abre o WhatsApp da AmparA com a mensagem já escrita. É só enviar.</p>
+    <p class="rotulo etiqueta revela"><b>01</b>Qual é o seu caso</p>
+    <h2 class="revela" style="--d:.08s">Cada fase da vida pode guardar <em>um direito.</em></h2>
+    <p class="lead revela" style="--d:.16s">Toque no seu caso. O WhatsApp abre com a mensagem já escrita, é só enviar.</p>
     <div class="casos" id="listaCasos"></div>
-    <p class="casos-nota revela">As informações desta página são gerais. Cada situação é analisada individualmente pela equipe.</p>
+    <p class="casos-nota revela">Cada caso é analisado de forma individual, sem promessa de resultado.</p>
   </section>
 
-  <!-- ========== 02 · COMO FUNCIONA ========== -->
+  <!-- ========== 02 · SIMPLES ASSIM ========== -->
   <section class="cena" id="como">
-    <p class="rotulo revela"><b>02</b>Como funciona</p>
-    <h2 class="revela" style="--d:.08s">Do primeiro oi <em>à resposta do INSS.</em></h2>
+    <p class="rotulo etiqueta revela"><b>02</b>Como funciona</p>
+    <h2 class="revela" style="--d:.08s">Simples <em>assim.</em></h2>
     <div class="passos" id="passos">
       <article class="passo revela">
-        <small>Passo 1</small>
-        <h3>Você chama <em>no WhatsApp.</em></h3>
-        <p>Conte o que aconteceu do seu jeito, por texto ou por áudio. Não precisa saber o nome do benefício.</p>
+        <small class="etiqueta">Passo 1</small>
+        <h3>Você fala com a gente</h3>
+        <p>Chame no WhatsApp e conte sua história do seu jeito, por texto ou por áudio. Não precisa saber o nome do benefício.</p>
       </article>
       <article class="passo revela" style="--d:.12s">
-        <small>Passo 2</small>
-        <h3>A equipe <em>analisa o seu caso.</em></h3>
-        <p>Olhamos a sua história e os seus documentos para entender qual benefício se aplica e o que ainda falta.</p>
+        <small class="etiqueta">Passo 2</small>
+        <h3>Reunimos a documentação</h3>
+        <p>A gente diz quais documentos servem para o seu caso e ajuda você a juntar o que falta.</p>
       </article>
       <article class="passo revela" style="--d:.24s">
-        <small>Passo 3</small>
-        <h3>Você acompanha <em>cada etapa.</em></h3>
-        <p>Do pedido à resposta do INSS, a gente explica em palavras simples o que está acontecendo.</p>
+        <small class="etiqueta">Passo 3</small>
+        <h3>Protocolamos e acompanhamos</h3>
+        <p>Fazemos o pedido e acompanhamos cada etapa com você, explicando tudo sem juridiquês.</p>
       </article>
     </div>
   </section>
 
-  <!-- ========== FRASE ========== -->
+  <!-- ========== FRASE (voz da marca: proteção antes de processo) ========== -->
   <section class="frase" id="frase">
     <div class="frase-pin">
-      <p class="rotulo"><b>AmparA</b>Por que existimos</p>
-      <p class="frase-texto" id="fraseTexto">Amparar é não deixar ninguém sozinho diante de uma fila, de um formulário ou de uma carta do INSS. <em>É estar do lado.</em></p>
-      <p class="assina">AmparA · Belém, PA</p>
+      <p class="rotulo etiqueta"><b>AmparA</b>Nosso jeito</p>
+      <p class="frase-texto" id="fraseTexto"><em>Proteção antes de processo.</em> Antes de qualquer papel, a gente escuta a sua história e cuida de você.</p>
+      <p class="assina etiqueta">AmparA · Belém, Pará</p>
     </div>
   </section>
 
   <!-- ========== 03 · DÚVIDAS (aparece quando CONFIG.duvidas tem itens) ========== -->
   <section class="cena duvidas" id="duvidas" hidden>
-    <p class="rotulo revela"><b>03</b>Dúvidas comuns</p>
+    <p class="rotulo etiqueta revela"><b>03</b>Dúvidas comuns</p>
     <h2 class="revela" style="--d:.08s">Antes de <em>chamar.</em></h2>
     <div class="lista-duvidas revela" id="listaDuvidas" style="--d:.16s"></div>
   </section>
 
   <!-- ========== CHAMADA FINAL ========== -->
   <section class="cena final" id="contato">
-    <p class="rotulo revela" style="justify-content:center"><b>WhatsApp</b>AmparA</p>
-    <h2 class="revela" style="--d:.08s">Conte o <em>seu caso.</em></h2>
-    <p class="lead revela" style="--d:.16s">A primeira conversa é pelo WhatsApp. Chame agora e a equipe continua com você.</p>
+    <p class="rotulo etiqueta revela" style="justify-content:center"><b>WhatsApp</b>AmparA</p>
+    <h2 class="revela" style="--d:.08s">Conte a <em>sua história.</em></h2>
+    <p class="lead revela" style="--d:.16s">Análise gratuita, sem compromisso. A primeira conversa é pelo WhatsApp.</p>
     <div class="revela" style="--d:.24s">
-      <a class="wa" id="waFinal" data-wa><svg aria-hidden="true"><use href="#wa"/></svg><span data-wa-rotulo>Chamar no WhatsApp</span></a>
+      <a class="wa" id="waFinal" data-wa><svg aria-hidden="true"><use href="#wa"/></svg><span data-wa-rotulo>Análise gratuita no WhatsApp</span></a>
       <a class="numero" id="numero" data-wa data-simples hidden></a>
-      <p class="canais">
+      <p class="canais etiqueta">
         <span id="horario" hidden></span>
         <a id="insta" target="_blank" rel="noopener" hidden></a>
       </p>
@@ -408,15 +436,15 @@
 </main>
 
 <footer class="rodape">
-  <span class="marca"><b>A</b>mpar<b>A</b></span>
-  <p class="mono">Benefícios do INSS · Belém, PA</p>
-  <p id="responsavel" hidden></p>
-  <p>Esta página tem caráter informativo. O resultado de cada pedido depende da análise do caso e da decisão do INSS ou da Justiça.</p>
-  <p class="mono">© <span id="ano">2026</span> AmparA · Uma empresa Grupo Vértice</p>
+  <span class="marca">Ampar<b>A</b></span>
+  <p>Aposentadoria · Benefícios Previdenciários e Assistenciais. Belém, Pará.</p>
+  <p id="rodapeExtra" hidden></p>
+  <p>Cada caso é analisado de forma independente, sem promessa de resultado.</p>
+  <p>© <span id="ano">2026</span> AmparA. Todos os direitos reservados.</p>
 </footer>
 
 <!-- WhatsApp sempre à mão -->
-<div class="barra" id="barra"><a class="wa sem-onda" data-wa><svg aria-hidden="true"><use href="#wa"/></svg><span data-wa-rotulo>Chamar no WhatsApp</span></a></div>
+<div class="barra" id="barra"><a class="wa sem-onda" data-wa><svg aria-hidden="true"><use href="#wa"/></svg><span data-wa-rotulo>Análise gratuita no WhatsApp</span></a></div>
 <a class="flutua" id="flutua" data-wa data-simples aria-label="Chamar a AmparA no WhatsApp"><svg aria-hidden="true"><use href="#wa"/></svg></a>
 
 <div class="vinheta" aria-hidden="true"></div>
@@ -428,18 +456,20 @@
      CONFIG · edite aqui
      ============================================================ */
   const CONFIG = {
-    whatsapp: '',        // só números com 55 + DDD, ex.: '5591999999999'
-    mensagem: 'Olá! Vim pelo Instagram da AmparA e quero falar sobre o meu caso.',
-    instagram: '',       // usuário sem @
-    horario: '',         // ex.: 'Segunda a sexta, 8h às 18h'
-    responsavel: '',     // identificação profissional do rodapé, ex.: 'Responsável: Dra. Nome Sobrenome · OAB/PA 00.000'
+    // Número público usado hoje no site amparabeneficios.com.br. Confirmar antes de divulgar.
+    whatsapp: '5591933009161',   // (91) 93300-9161
+    mensagem: 'Olá! Vim pelo Instagram da AmparA e quero fazer minha análise gratuita.',
+    instagram: 'amparabeneficios.pa',
+    horario: '',                 // ex.: 'Segunda a sexta, 8h às 18h'
+    rodapeExtra: '',             // linha opcional no rodapé
     beneficios: [
-      { titulo: 'Salário-maternidade', resumo: 'Para quem teve filho ou adotou. Vale também para autônomas, MEIs, desempregadas e trabalhadoras rurais que cumprem os requisitos.', mensagem: 'Olá! Vim pelo Instagram da AmparA e quero saber sobre salário-maternidade.' },
-      { titulo: 'BPC / LOAS', resumo: 'Um salário mínimo por mês para idosos a partir de 65 anos e pessoas com deficiência de baixa renda. Não exige contribuição ao INSS.', mensagem: 'Olá! Vim pelo Instagram da AmparA e quero saber sobre o BPC/LOAS.' },
-      { titulo: 'Aposentadoria rural', resumo: 'Para quem viveu do trabalho no campo, na pesca artesanal ou no extrativismo, mesmo sem carteira assinada.', mensagem: 'Olá! Vim pelo Instagram da AmparA e quero saber sobre aposentadoria rural.' },
-      { titulo: 'Auxílio-doença', resumo: 'Para quem precisou se afastar do trabalho por doença ou acidente.', mensagem: 'Olá! Vim pelo Instagram da AmparA e quero saber sobre auxílio-doença.' }
+      { titulo: 'Salário-maternidade', principal: true, resumo: 'Para gestantes e recém-mães, inclusive autônomas, MEI, rurais e mulheres sem emprego no momento.', mensagem: 'Olá! Vim pelo Instagram da AmparA. Quero saber se tenho direito ao salário-maternidade.' },
+      { titulo: 'BPC / LOAS', resumo: 'Um salário mínimo por mês para idosos a partir de 65 anos e pessoas com deficiência de baixa renda. Não exige contribuição ao INSS.', mensagem: 'Olá! Vim pelo Instagram da AmparA. Quero saber se tenho direito ao BPC/LOAS.' },
+      { titulo: 'Auxílio por incapacidade', resumo: 'Para quem precisou se afastar do trabalho por doença ou acidente.', mensagem: 'Olá! Vim pelo Instagram da AmparA. Quero saber se tenho direito ao auxílio por incapacidade.' },
+      { titulo: 'Aposentadoria rural', resumo: 'Para quem viveu do trabalho no campo, na pesca artesanal ou no extrativismo, mesmo sem carteira assinada.', mensagem: 'Olá! Vim pelo Instagram da AmparA. Quero saber se tenho direito à aposentadoria rural.' },
+      { titulo: 'Pensões e aposentadorias', resumo: 'Pensão por morte e aposentadorias por idade ou por tempo de contribuição.', mensagem: 'Olá! Vim pelo Instagram da AmparA. Quero saber sobre pensão ou aposentadoria.' }
     ],
-    outroCaso: { titulo: 'Meu caso é outro', resumo: 'Benefício negado, cortado ou parado? Não sabe qual é o seu? Conte para a gente.', mensagem: 'Olá! Vim pelo Instagram da AmparA. Meu caso é outro e quero explicar.' },
+    outroCaso: { titulo: 'Meu caso é outro', resumo: 'Não sabe qual é o seu benefício? Conte sua história e a gente descobre com você.', mensagem: 'Olá! Vim pelo Instagram da AmparA. Quero contar minha história e saber se tenho algum direito.' },
     duvidas: [
       // { pergunta: 'Pergunta?', resposta: 'Resposta.' },
     ]
@@ -470,7 +500,7 @@
   const itens = [...(CONFIG.beneficios || []), CONFIG.outroCaso].filter(b => b && so(b.titulo));
   itens.forEach((b, i) => {
     const outro = b === CONFIG.outroCaso;
-    const a = el('a', 'caso revela' + (outro ? ' outro' : ''));
+    const a = el('a', 'caso revela' + (outro ? ' outro' : '') + (b.principal ? ' principal' : ''));
     a.style.setProperty('--d', (i * 0.07).toFixed(2) + 's');
     a.dataset.wa = ''; a.dataset.msg = so(b.mensagem); a.dataset.simples = '';
     a.setAttribute('aria-label', `${b.titulo}: falar com a AmparA no WhatsApp`);
@@ -488,7 +518,7 @@
   if (fone) { numero.textContent = foneBonito(fone); numero.hidden = false; }
   if (so(CONFIG.horario)) { const h = $('#horario'); h.textContent = so(CONFIG.horario); h.hidden = false; }
   if (so(CONFIG.instagram)) { const i = $('#insta'), u = so(CONFIG.instagram).replace(/^@/, ''); i.href = `https://instagram.com/${u}`; i.textContent = '@' + u; i.hidden = false; }
-  if (so(CONFIG.responsavel)) { const r = $('#responsavel'); r.textContent = so(CONFIG.responsavel); r.hidden = false; }
+  if (so(CONFIG.rodapeExtra)) { const r = $('#rodapeExtra'); r.textContent = so(CONFIG.rodapeExtra); r.hidden = false; }
   const duvidas = (CONFIG.duvidas || []).filter(d => d && so(d.pergunta) && so(d.resposta));
   if (duvidas.length) {
     $('#duvidas').hidden = false;
@@ -564,7 +594,7 @@
       const r = passos.getBoundingClientRect();
       const p = reduz ? 1 : clamp((vh * 0.72 - r.top) / Math.max(1, r.height * (mqCel.matches ? 1 : 0.45)), 0, 1);
       passos.style.setProperty('--p', p.toFixed(3));
-      listaPassos.forEach((el, i) => el.classList.toggle('aceso', p >= (mqCel.matches ? (i + 0.08) / listaPassos.length : i / listaPassos.length * 0.98) && p > 0.02));
+      listaPassos.forEach((n, i) => n.classList.toggle('aceso', p >= (mqCel.matches ? (i + 0.08) / listaPassos.length : i / listaPassos.length * 0.98) && p > 0.02));
     }
     if (!reduz && frase && palavras.length) {
       const r = frase.getBoundingClientRect();
@@ -614,9 +644,9 @@
           if (p.y < -6) { p.y = H + 6; p.x = Math.random() * W; }
           if (p.x < -6) p.x = W + 6; else if (p.x > W + 6) p.x = -6;
         }
-        const luz = clamp(1 - Math.hypot(p.x - W * 0.5, p.y - H * 0.31) / (Math.max(W, H) * 0.75), 0.1, 1);
+        const luz = clamp(1 - Math.hypot(p.x - W * 0.5, p.y - H * 0.29) / (Math.max(W, H) * 0.75), 0.1, 1);
         ctx.globalAlpha = (0.1 + 0.6 * (0.55 + 0.45 * Math.sin(t * 0.0018 + p.a * 3)) * luz) * p.z;
-        ctx.fillStyle = '#ffe3b4';
+        ctx.fillStyle = '#ffeaa8';
         ctx.beginPath(); ctx.arc(p.x, p.y, p.z * 1.6, 0, 6.283); ctx.fill();
       }
       ctx.globalAlpha = 1;
