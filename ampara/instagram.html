@@ -262,11 +262,15 @@
   .quadro img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.92) contrast(1.05) brightness(.96);scale:1.08;transition:scale 8s ease-out}
   .visivel .quadro img{scale:1}
   .quadro::after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(to top,rgba(9,9,11,.66),rgba(9,9,11,0) 36%)}
-  .nomes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 16px;margin-top:18px}
+  .marcas{position:absolute;left:0;right:0;bottom:12px;z-index:1;pointer-events:none}
+  .marcas span{position:absolute;bottom:0;left:var(--x,50%);translate:-50% 0;white-space:nowrap;font:600 12px/1.2 var(--sans);letter-spacing:.04em;color:var(--branco);text-shadow:0 1px 10px rgba(9,9,11,.95)}
+  .marcas span::before{content:'';display:block;width:1px;height:14px;margin:0 auto 6px;background:var(--ouro)}
+  .nomes{display:grid;gap:22px 28px;margin-top:20px}
   .pessoa{position:relative;padding-top:14px;border-top:1px solid var(--linha)}
   .pessoa::before{content:'';position:absolute;left:0;top:-1px;width:34px;height:1px;background:var(--ouro)}
   .cargo{color:var(--ouro);margin-bottom:4px}
-  .pessoa h3{font:400 clamp(1.3rem,5.7vw,2rem)/1.12 var(--display);letter-spacing:-.015em}
+  .pessoa h3{font:400 clamp(1.6rem,6.4vw,2rem)/1.12 var(--display);letter-spacing:-.015em}
+  .pessoa .bio{margin-top:10px;max-width:48ch;font-size:.97rem;line-height:1.6;color:var(--texto)}
   /* retrato em arco, o mesmo arco da marca */
   .moldura{position:relative;aspect-ratio:4/5;border-radius:50% 50% 14px 14px / 40% 40% 14px 14px;overflow:hidden;background:linear-gradient(180deg,var(--surf),var(--carbon))}
   .moldura img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.92) contrast(1.06) brightness(.95);scale:1.1;transition:scale 7s ease-out}
@@ -354,6 +358,9 @@
     .equipe-grade{grid-template-columns:minmax(0,6fr) minmax(0,5fr);grid-template-areas:"foto cab" "foto outros";grid-template-rows:auto 1fr;column-gap:5vw;row-gap:34px;align-items:start}
     .equipe-cab{grid-area:cab}
     .fundadoras{grid-area:foto;align-self:center}
+    .nomes{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .marcas{bottom:16px}
+    .marcas span{font-size:13px}
     .eq-outros{grid-area:outros}
     .parceira{grid-template-columns:128px minmax(0,1fr);gap:20px 24px;padding:24px}
     .passos{grid-template-columns:repeat(3,minmax(0,1fr));gap:40px;padding-left:0;padding-top:46px}
@@ -529,6 +536,7 @@
         <div class="quadro" id="eqQuadro">
           <img id="eqImg" alt="" width="900" height="680" decoding="async" loading="lazy">
           <span class="canto" aria-hidden="true"></span><span class="canto" aria-hidden="true"></span>
+          <div class="marcas" id="eqMarcas" aria-hidden="true"></div>
         </div>
         <figcaption class="nomes" id="eqNomes"></figcaption>
       </figure>
@@ -580,14 +588,15 @@
     site: '/?utm_source=instagram&utm_medium=bio&utm_campaign=perfil_ampara',
     fotoSobre: A + 'foto-sobre.jpg',
     // Equipe. "fundadoras" segue a ordem da foto, da esquerda para a direita.
+    // "x" é a posição da pessoa na foto (0 a 100), para o nome aparecer embaixo dela.
     // "pessoas" são os demais, cada um com foto (4 por 5, em pé) e descrição próprias.
     equipe: {
       texto: 'Oferecemos orientação e acompanhamento administrativo junto ao INSS, com atendimento humanizado em benefícios previdenciários e assistenciais.',
       lema: 'Escuta, clareza e responsabilidade em cada etapa.',
       foto: A + 'equipe-fundadoras.jpg',
       fundadoras: [
-        { nome: 'Hyllana Arrais', cargo: 'Fundadora e CEO' },
-        { nome: 'Vanessa Garcia', cargo: 'Cofundadora' }
+        { nome: 'Hyllana Arrais', cargo: 'Fundadora e CEO', x: 28, descricao: '' },
+        { nome: 'Vanessa Garcia', cargo: 'Cofundadora · Gestão administrativa', x: 72, descricao: 'Contadora do Tribunal de Contas do Estado do Pará e especialista em cálculos previdenciários. Compartilha com Hyllana Arrais a gestão administrativa da AmparA e as responsabilidades dessa área na empresa.' }
       ],
       pessoas: [
         {
@@ -689,12 +698,17 @@
   if (fundadoras.length || pessoas.length) {
     $('#eqTexto').textContent = so(eq.texto);
     $('#eqLema').textContent = so(eq.lema);
-    const quadro = $('#eqQuadro'), eImg = $('#eqImg'), nomes = $('#eqNomes');
+    const quadro = $('#eqQuadro'), eImg = $('#eqImg'), nomes = $('#eqNomes'), marcas = $('#eqMarcas');
     if (fundadoras.length) {
-      fundadoras.forEach(p => {
+      fundadoras.forEach((p, i) => {
         const d = el('div', 'pessoa');
         if (so(p.cargo)) d.append(el('p', 'cargo etiqueta', so(p.cargo)));
-        d.append(el('h3', '', so(p.nome))); nomes.append(d);
+        d.append(el('h3', '', so(p.nome)));
+        if (so(p.descricao)) d.append(el('p', 'bio', so(p.descricao)));
+        nomes.append(d);
+        const m = el('span', '', so(p.nome));
+        m.style.setProperty('--x', (Number.isFinite(+p.x) && p.x !== '' && p.x != null ? clamp(+p.x, 8, 92) : (i + 0.5) / fundadoras.length * 100).toFixed(1) + '%');
+        marcas.append(m);
       });
       eImg.alt = fundadoras.map(p => so(p.nome)).join(' e ') + ', da AmparA';
       eImg.onerror = () => { quadro.hidden = true; };

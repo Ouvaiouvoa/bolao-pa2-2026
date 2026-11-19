@@ -21,12 +21,12 @@ O endereço não muda. Nenhuma configuração do site precisa ser alterada.
 
 A parte "Conheça a nossa equipe" fica antes do convite final. Tudo vem de `CONFIG.equipe`, no fim de `instagram.html`:
 
-- `foto` e `fundadoras`: a foto das fundadoras e o nome e o cargo de cada uma, na ordem em que aparecem na foto, da esquerda para a direita.
+- `foto` e `fundadoras`: a foto das fundadoras e, para cada uma, `nome`, `cargo`, `descricao` e `x` (posição dela na foto, de 0 a 100, para o nome aparecer embaixo). A ordem é a da foto, da esquerda para a direita.
 - `texto` e `lema`: as frases do post "Quem somos".
 - `pessoas`: quem tem cartão próprio, com `rotulo`, `nome`, `cargo`, `foto`, `descricao` e `temas`. Sem `foto`, a página mostra a inicial do nome.
 - Fotos novas vão em `instagram-assets/` com o nome `equipe-nome.jpg`. Para os cartões, foto em pé na proporção 4 por 5.
 
-Hoje: Hyllana Arrais (Fundadora e CEO) e Vanessa Garcia (Cofundadora) na foto principal, e Cristianne Arrais no cartão de parceria.
+Hoje: Hyllana Arrais (Fundadora e CEO, ainda sem descrição) e Vanessa Garcia (Cofundadora, gestão administrativa) na foto principal, e Cristianne Arrais no cartão de parceria.
 
 ## De onde vieram os textos e as fotos
 
